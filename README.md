@@ -14,7 +14,7 @@
 
 | 날짜 | 주제 | 정리 링크 |
 |------|------|------------|
-| 2025-02-23 | C++ 코딩테스트 준비 | [정리보기](./2025-02-23.md) |
+| 2025-02-23 | C++ 코딩테스트 준비 | [정리보기](https://www.notion.so/lupang/2-23-c-1-1-3-310f77b24d2f808eb2e8d2eb022c22af?source=copy_link) |
 
 ※ 매일 학습 후 md 파일로 정리하여 추가합니다.
 
@@ -43,7 +43,7 @@
 
 상세 정리는 아래 링크에서 확인 가능합니다.
 
-[Notion 학습 정리 보기](https://www.notion.so/lupang/2f4f77b24d2f805a85caf91a41101059?v=2f4f77b24d2f80b29d30000cf1567c14&source=copy_link)
+[Notion 학습 정리 보기](https://www.notion.so/lupang/Unreal-TIL-2f4f77b24d2f80bf9ef1df1b539d5e13?source=copy_link)
 
 ---
 
@@ -51,5 +51,3 @@
 
 10월까지 꾸준한 기록을 통해  
 언리얼 개발자로서 실무에 바로 투입 가능한 수준에 도달하는 것.
-
-[정리보기]: https://www.notion.so/lupang/2-23-c-1-1-3-310f77b24d2f808eb2e8d2eb022c22af?source=copy_link
