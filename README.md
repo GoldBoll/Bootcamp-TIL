@@ -1,5 +1,55 @@
-# Welcome to GitHub Desktop!
+# Unreal Bootcamp - 내일배움캠프 학습 기록
 
-This is your README. READMEs are where you can communicate what your project is and how to use it.
+## 📌 소개
+이 저장소는 **언리얼 부트캠프 내일배움캠프 과정**에서  
+10월까지 매일 학습한 내용을 정리하여 기록하는 공간입니다.
 
-Write your name on line 6, save it, and then head back to GitHub Desktop.
+- 학습 기간: ~ 2025년 10월
+- 목표: Unreal Engine 핵심 개념 이해 및 프로젝트 구현 능력 향상
+- 업로드 주기: 매일 1회 이상 정리 후 업로드
+
+---
+
+## 📅 학습 기록
+
+| 날짜 | 주제 | 정리 링크 |
+|------|------|------------|
+| 2025-02-23 | C++ 코딩테스트 준비 | [정리보기](./2025-02-23.md) |
+
+※ 매일 학습 후 md 파일로 정리하여 추가합니다.
+
+---
+
+## 🎯 학습 목표
+
+- Unreal Engine 아키텍처 복기
+- 코딩 테스트 준비
+- 실전 프로젝트 제작
+- 포트폴리오 완성
+
+---
+
+## 📂 정리 방식
+
+- 하루 1 md 파일 생성 (YYYY-MM-DD.md 형식)
+- 주요 개념 요약
+- 코드 예제 정리
+- 배운 점 / 느낀 점 기록
+- 필요 시 Notion 링크 첨부
+
+---
+
+## 🔗 Notion 정리본 (선택)
+
+상세 정리는 아래 링크에서 확인 가능합니다.
+
+[Notion 학습 정리 보기](https://www.notion.so/lupang/2f4f77b24d2f805a85caf91a41101059?v=2f4f77b24d2f80b29d30000cf1567c14&source=copy_link)
+
+---
+
+## 🚀 최종 목표
+
+10월까지 꾸준한 기록을 통해  
+언리얼 개발자로서 실무에 바로 투입 가능한 수준에 도달하는 것.
+
+[정리보기]: https://www.notion.so/lupang/2-23-c-1-1-3-310f77b24d2f808eb2e8d2eb022c22af?source=copy_link
