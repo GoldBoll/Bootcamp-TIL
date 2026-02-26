@@ -46,7 +46,7 @@
 
 상세 정리는 아래 링크에서 확인 가능합니다.
 
-[Notion 학습 정리 보기](https://www.notion.so/lupang/Unreal-TIL-2f4f77b24d2f80bf9ef1df1b539d5e13?source=copy_link)
+[Notion 학습 정리 보기](https://lupang.notion.site/Unreal-TIL-2f4f77b24d2f80bf9ef1df1b539d5e13?source=copy_link)
 
 ---
 
