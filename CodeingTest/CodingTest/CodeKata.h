@@ -22,3 +22,17 @@ int solution(int num1, int num2) {
 }
 
 #endif
+
+#ifdef RUN_PROGRAMMERS_CodeKata_03
+
+int solution(int num1, int num2) {
+    
+    return num1 / num2;
+}
+
+#endif
+
+#ifdef RUN_PROGRAMMERS_CodeKata_04
+
+
+#endif
