@@ -12,7 +12,7 @@
 
 ## 📅 학습 기록
 
-## BootCamp_CodeKata | [정리보기](3월\CodeKata.md) |
+## BootCamp_CodeKata | [정리보기](3월/CodeKata.md) |
 
 | 날짜 | 주제 | 정리 링크 |
 |------|------|------------|
