@@ -128,9 +128,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Programmers.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CodeKata.h" />
     <ClInclude Include="Programmers.h" />
     <ClInclude Include="week01.h" />
   </ItemGroup>
