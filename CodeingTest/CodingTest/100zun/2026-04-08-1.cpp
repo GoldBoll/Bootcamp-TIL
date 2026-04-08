@@ -1,0 +1,62 @@
+// 백준 9012 - 괄호 (Silver IV)
+// https://www.acmicpc.net/problem/9012
+
+// 문제 설명
+// 괄호 문자열(PS)이 주어질 때, 올바른 괄호 문자열(VPS)인지 판단
+// '(' 와 ')' 만으로 구성된 문자열에서 짝이 맞으면 YES, 아니면 NO 출력
+
+// 입력
+// 첫째 줄: 테스트 케이스 수 T (1 ≤ T ≤ 50)
+// 각 줄: 괄호 문자열 (길이 2 이상 50 이하)
+
+// 출력
+// 각 줄마다 VPS이면 YES, 아니면 NO
+
+// 입출력 예
+// 입력:            출력:
+// (())())          NO
+// (((()())()       NO
+// (()())((()))     YES
+// ((()()(()))...   NO
+// ()()()()(()...)  YES
+// (()((())()(      NOwjqwjq
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+string solution(string s)
+{
+    // 풀이 작성
+    if(s.size() % 2 != 0) return "NO"; // 홀수 길이는 무조건 NO
+    if(s.front() != '(' || s.back() != ')') return "NO";
+    //"(" 와 ")" 갯수동일체크"
+    int balance = 0;
+
+    for(char c : s)
+    {
+        if(c == '(') balance++;
+        else balance--;
+
+        if(balance < 0) return "NO";
+    }
+    return (balance == 0) ? "YES" : "NO";
+}
+
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int T;
+    cin >> T;
+
+    while (T--)
+    {
+        string s;
+        cin >> s;
+        cout << solution(s) << "\n";
+    }
+
+    return 0;
+}
