@@ -1,0 +1,80 @@
+// 백준 4949 - 균형잡힌 세상 (Silver IV)
+// https://www.acmicpc.net/problem/4949
+
+// 문제 설명
+// 문자열에서 소괄호 "()" 와 대괄호 "[]" 의 균형이 맞는지 판단
+// 균형 조건:
+//   1. "(" 는 ")" 와만 짝
+//   2. "[" 는 "]" 와만 짝
+//   3. 모든 닫는 괄호는 대응하는 여는 괄호가 존재
+//   4. 짝은 1:1 매칭
+//   5. 짝 사이의 문자열도 균형이어야 함
+
+// 입력
+// 각 줄: 영문 알파벳, 공백, "()", "[]" 로 구성되며 "." 으로 끝남 (길이 ≤ 100)
+// 종료 조건: "." 한 글자만 있는 줄
+
+// 출력
+// 균형이면 "yes", 아니면 "no"
+
+// 입출력 예
+// 입력:                                                출력:
+// So when I die (the [first] I will see in (heaven) is a score list).   yes
+// [ first in ] ( first out ).                                            yes
+// Half Moon tonight (At least it is better than no Moon at all].        no
+// A rope may form )( a trail in a maze.                                  no
+// Help( I[m being held prisoner in a fortune cookie factory)].           no
+// ([ (([( [ ] ) ( ) (( ))] )) ]).                                        yes
+//  .                                                                      yes
+// .                                                                  (종료)
+
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+string solution(const string& s)
+{
+    stack<char> st;
+
+    for (char c : s)
+    {
+        if (c == '(' || c == '[')
+        {
+            st.push(c);
+        }
+        else if (c == ')')
+        {
+            if(!st.empty() && st.top() == '(')
+                st.pop();
+            else
+                return "no";
+        }
+        else if (c == ']')
+        {
+            if(!st.empty() && st.top() == '[')
+                st.pop();
+            else
+                return "no";
+        }
+    }
+    return st.empty() ? "yes" : "no";
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string line;
+    while (getline(cin, line))
+    {
+        if (line == ".")  break;  // 종료 조건
+
+        // '.' 제거 후 풀이 함수 호출
+        string s = line.substr(0, line.size() - 1);
+        cout << solution(s) << "\n";
+    }
+
+    return 0;
+}
