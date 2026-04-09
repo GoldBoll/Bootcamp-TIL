@@ -83,11 +83,26 @@ int main()
         }
         else if (cmd == "front")
         {
-            cout << q.front() << endl;
+            if(!q.empty() )
+            {                
+                cout << q.front() << endl;
+            }
+            else
+            {
+                cout << -1 << endl;
+            }
         }
         else if (cmd == "back")
         {
+            if(!q.empty() )
+            {
+                
             cout << q.back() << endl;
+            }
+            else
+            {
+                cout << -1 << endl;
+            }
         }
     }
 
