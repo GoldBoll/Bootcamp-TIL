@@ -1,0 +1,88 @@
+// 백준 1157 - 단어 공부 (Silver V)
+// https://www.acmicpc.net/problem/1157
+
+// 문제 설명
+// 알파벳 대소문자로 이루어진 단어가 주어졌을 때,
+// 가장 많이 사용된 알파벳을 대문자로 출력.
+// 단, 대문자와 소문자는 구분하지 않음.
+// 가장 많이 사용된 알파벳이 여러 개이면 '?' 출력.
+
+// 입력
+// 첫째 줄에 알파벳 대소문자로 이루어진 단어 (길이 ≤ 1,000,000)
+
+// 출력
+// 가장 많이 사용된 알파벳을 대문자로 출력. 여러 개면 '?' 출력.
+
+// 입출력 예
+// 입력:        출력:
+// Mississipi   ?
+// zZa          Z
+// z            Z
+// baaa         A
+
+
+//시간복잡도를 줄인 코드
+// #include <iostream>
+// #include <string>
+// using namespace std;
+
+// int main()
+// {
+//     ios_base::sync_with_stdio(false);
+//     cin.tie(nullptr);
+
+//     string str;
+//     cin >> str;
+
+//     int cnt[26] = {};
+//     for (char c : str)
+//         cnt[toupper(c) - 'A']++;   
+
+//     int maxVal = 0, maxIdx = -1;
+//     bool dup = false;
+//     for (int i = 0; i < 26; i++)
+//     {
+//         if (cnt[i] > maxVal)        { maxVal = cnt[i]; maxIdx = i; dup = false; }
+//         else if (cnt[i] == maxVal)  { dup = true; }
+//     }
+
+//     cout << (dup ? "?" : string(1, 'A' + maxIdx)) << "\n";
+//     return 0;
+// }
+
+
+
+#include <iostream>
+#include <string>
+#include <map>
+using namespace std;
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string str;
+    cin >> str;
+
+    map<char, int> m;
+    for (char c : str)
+    {
+        if (c >= 'a' && c <= 'z')
+            c = c - 'a' + 'A';
+        m[c]++;
+    }
+
+    int maxVal = 0;
+    char maxChar = '?';
+    bool dup = false;
+
+    for (auto& [key, val] : m)
+    {
+        if (val > maxVal)        { maxVal = val; maxChar = key; dup = false; }
+        else if (val == maxVal)  { dup = true; }
+    }
+
+    cout << (dup ? '?' : maxChar) << "\n";
+    return 0;
+}

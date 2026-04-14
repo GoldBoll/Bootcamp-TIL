@@ -132,7 +132,33 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="100zun\2026-03-11-1.cpp" />
+    <ClCompile Include="100zun\2026-03-11-2.cpp" />
+    <ClCompile Include="100zun\2026-03-20-1.cpp" />
+    <ClCompile Include="100zun\2026-03-20-2.cpp" />
+    <ClCompile Include="100zun\2026-03-20-3.cpp" />
+    <ClCompile Include="100zun\2026-04-08-1.cpp" />
+    <ClCompile Include="100zun\2026-04-08-2.cpp" />
+    <ClCompile Include="100zun\2026-04-09-1.cpp" />
+    <ClCompile Include="100zun\2026-04-09-2.cpp" />
+    <ClCompile Include="100zun\2026-04-09-3.cpp" />
+    <ClCompile Include="100zun\2026-04-13-1.cpp" />
+    <ClCompile Include="100zun\2026-04-14-1.cpp" />
+    <ClCompile Include="100zun\2026-04-14-2.cpp" />
+    <ClCompile Include="CodeKata\CodeKata_01.cpp" />
+    <ClCompile Include="CodeKata\CodeKata_02.cpp" />
+    <ClCompile Include="CodeKata\CodeKata_03.cpp" />
+    <ClCompile Include="CodeKata\CodeKata_04.cpp" />
+    <ClCompile Include="CodeKata\CodeKata_05.cpp" />
+    <ClCompile Include="CodeKata\CodeKata_06.cpp" />
+    <ClCompile Include="CodeKata\CodeKata_07.cpp" />
+    <ClCompile Include="CodeKata\CodeKata_08.cpp" />
+    <ClCompile Include="CodeKata\CodeKata_09.cpp" />
+    <ClCompile Include="CodeKata\CodeKata_10.cpp" />
+    <ClCompile Include="CodeKata\CodeKata_11.cpp" />
     <ClCompile Include="CodeKata\CodeKata_12.cpp" />
+    <ClCompile Include="CodeKata\CodeKata_13.cpp" />
+    <ClCompile Include="CodeKata\CodeKata_14.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeKata.h" />

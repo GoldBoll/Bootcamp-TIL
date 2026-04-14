@@ -1,0 +1,60 @@
+// 백준 5622 - 다이얼 (Bronze I)
+// https://www.acmicpc.net/problem/5622
+
+// 문제 설명
+// 옛날 전화기 다이얼로 단어를 입력할 때 걸리는 시간을 구하시오.
+// 다이얼을 숫자 n으로 돌리면 n+1초가 걸림 (원위치 복귀 포함)
+// 알파벳-숫자 매핑:
+// ABC=2, DEF=3, GHI=4, JKL=5, MNO=6, PQRS=7, TUV=8, WXYZ=9
+
+// 입력
+// 알파벳 대문자로 이루어진 단어 (길이 ≤ 15)
+
+// 출력
+// 다이얼을 돌리는 데 걸리는 시간
+
+// 입출력 예
+// 입력:      출력:
+// WA          13
+//
+// 입력:      출력:
+// UNUCIC      36
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int dialNum[] = {
+    2,2,2,      // ABC
+    3,3,3,      // DEF
+    4,4,4,      // GHI
+    5,5,5,      // JKL
+    6,6,6,      // MNO
+    7,7,7,7,    // PQRS
+    8,8,8,      // TUV
+    9,9,9,9     // WXYZ
+};
+
+int solution(string word)
+{
+    int answer = 0;
+
+    for (char c : word)
+    {
+        answer += dialNum[c -'A'] + 1;
+    }
+
+    return answer;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string word;
+    cin >> word;
+
+    cout << solution(word) << "\n";
+    return 0;
+}
