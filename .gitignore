@@ -27,7 +27,13 @@ x86/
 *.VC.opendb
 ipch/
 
+# 스크럼
+scrum/
+
 # 기타
 .vscode/tasks.json
 .claude/settings.local.json
 *.zip
+.vscode/settings.json
+.clangd
+compile_commands.json
