@@ -32,8 +32,18 @@ scrum/
 
 # 기타
 .vscode/tasks.json
-.claude/settings.local.json
 *.zip
 .vscode/settings.json
 .clangd
 compile_commands.json
+
+# Claude Code 설정·메모리
+.claude/
+CLAUDE.md
+
+# graphify 지식 그래프 산출물
+graphify-out/
+.cache/
+
+# CS 면접 원본 노트 덤프 (Notion 원본이 마스터)
+raw/cs-notion/
