@@ -47,3 +47,16 @@ graphify-out/
 
 # CS 면접 원본 노트 덤프 (Notion 원본이 마스터)
 raw/cs-notion/
+
+# ----- Jekyll / chirpy 빌드 -----
+.bundle/
+vendor/
+Gemfile.lock
+.jekyll-cache/
+.jekyll-metadata
+_site/
+*.gem
+node_modules/
+package-lock.json
+_sass/vendors/
+assets/js/dist/
