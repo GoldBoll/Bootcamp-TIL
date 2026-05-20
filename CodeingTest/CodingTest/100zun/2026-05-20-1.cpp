@@ -1,0 +1,61 @@
+// LeetCode 46 - Permutations (Medium)
+// https://leetcode.com/problems/permutations/
+
+// 문제 설명
+// distinct 정수로 이루어진 배열 nums가 주어진다.
+// nums의 모든 가능한 순열(permutation)을 반환하라.
+// 어떤 순서로 반환해도 무방하다.
+
+// 제약 조건
+// 1 <= nums.length <= 6
+// -10 <= nums[i] <= 10
+// nums의 모든 원소는 unique
+
+// Example 1
+// Input : nums = [1,2,3]
+// Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]   (총 3! = 6개)
+//
+// Example 2
+// Input : nums = [0,1]
+// Output: [[0,1],[1,0]]
+//
+// Example 3
+// Input : nums = [1]
+// Output: [[1]]
+
+
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums)
+    {
+        vector<vector<int>> answer;
+        vector<int> path;
+        vector<bool> used(nums.size(), false);
+        backtrack(nums, used, path, answer);
+        return answer;
+    }
+
+private:
+    void backtrack(const vector<int>& nums, vector<bool>& used,
+                   vector<int>& path, vector<vector<int>>& out)
+    {
+        if (path.size() == nums.size())
+        {
+            out.push_back(path);
+            return;
+        }
+        for (int i = 0; i < (int)nums.size(); ++i)
+        {
+            if (used[i]) continue;
+            used[i] = true;
+            path.push_back(nums[i]);
+            backtrack(nums, used, path, out);
+            path.pop_back();
+            used[i] = false;
+        }
+    }
+};
