@@ -1,5 +1,5 @@
 ---
-title: "4.나이출력"
+title: "프로그래머스 — CodeKata 04"
 date: 2026-02-26 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]

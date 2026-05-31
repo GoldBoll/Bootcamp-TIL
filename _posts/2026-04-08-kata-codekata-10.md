@@ -1,5 +1,5 @@
 ---
-title: "코드카타 25. 나누어 떨어지는 숫자 배열 (Lv.1)"
+title: "프로그래머스 — CodeKata 10"
 date: 2026-04-08 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]

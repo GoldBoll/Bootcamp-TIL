@@ -1,5 +1,5 @@
 ---
-title: "8. 연속된 수의 합"
+title: "프로그래머스 — CodeKata 08"
 date: 2026-03-05 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]

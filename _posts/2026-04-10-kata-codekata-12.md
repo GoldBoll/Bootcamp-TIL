@@ -1,5 +1,5 @@
 ---
-title: "코드카타 12. 핸드폰 번호 가리기 (Lv.1)"
+title: "프로그래머스 — CodeKata 12"
 date: 2026-04-10 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]

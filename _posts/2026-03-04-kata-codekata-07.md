@@ -1,5 +1,5 @@
 ---
-title: "7.옹알이 (1)"
+title: "프로그래머스 — CodeKata 07"
 date: 2026-03-04 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]

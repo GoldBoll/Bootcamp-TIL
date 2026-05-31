@@ -1,5 +1,5 @@
 ---
-title: "코드카타 24. 서울에서 김서방 찾기 (Lv.1)"
+title: "프로그래머스 — CodeKata 09"
 date: 2026-04-08 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]

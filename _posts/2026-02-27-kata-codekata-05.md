@@ -1,5 +1,5 @@
 ---
-title: "5.숫자 비교하기"
+title: "프로그래머스 — CodeKata 05"
 date: 2026-02-27 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]

@@ -177,25 +177,31 @@ function Get-GitAddDate {
   return ([string]$d).Trim()
 }
 
-# 코드 시작(#include) 전, URL이 아닌 첫 주석 줄을 제목으로
+# 코드 시작 전, 의미 있는 첫 주석 줄을 제목으로.
+# 빈 주석(//)·URL·주석 처리된 코드(#include, using 등)는 건너뛴다.
 function Get-CodeTitle {
   param([string]$Body, [string]$Fallback)
   foreach ($line in ($Body -split "`n")) {
-    if ($line -match '^\s*#include') { break }
-    $m = [regex]::Match($line, '^\s*//\s*(.+)$')
+    $l = $line.TrimEnd("`r")
+    if ($l -match '^\s*#include') { break }                 # 실제 코드 시작
+    $m = [regex]::Match($l, '^\s*//\s*(.+)$')
     if ($m.Success) {
       $t = $m.Groups[1].Value.Trim()
-      if ($t -notmatch '^https?://') { return $t }
+      if ($t -eq '') { continue }                           # 빈 주석
+      if ($t -match '^https?://') { continue }              # URL
+      if ($t -match '^(#|using\s|/\*)') { continue }        # 주석 처리된 코드
+      return $t
     }
+    elseif ($l.Trim() -ne '') { break }                     # 주석 아닌 코드 줄 → 중단
   }
   return $Fallback
 }
 
 function Write-CodePost {
-  param([System.IO.FileInfo]$File, [string[]]$Cats, [string]$DateOverride, [string]$SlugPrefix, [string]$Fallback)
+  param([System.IO.FileInfo]$File, [string[]]$Cats, [string]$DateOverride, [string]$SlugPrefix, [string]$Fallback, [string]$TitleOverride)
   $raw = Get-Content $File.FullName -Raw -Encoding UTF8
   $date = if ($DateOverride) { $DateOverride } else { Get-GitAddDate $File.FullName }
-  $title = Get-CodeTitle $raw $Fallback
+  $title = if ($TitleOverride) { $TitleOverride } else { Get-CodeTitle $raw $Fallback }
   $slug = "$SlugPrefix-" + (New-Slug $File.BaseName)
   $url = ([regex]::Match($raw, 'https?://\S+')).Value
   $post = ""
@@ -214,10 +220,12 @@ $kataDates = @{
 }
 Get-ChildItem "$Root\CodeingTest\CodingTest\CodeKata" -Filter "*.cpp" -ErrorAction SilentlyContinue |
   ForEach-Object {
+    # CodeKata 파일은 주석에 문제 설명을 통째로 담아 제목 추출이 부적합 →
+    # 항상 "프로그래머스 — CodeKata NN"으로 고정
     $num = ([regex]::Match($_.BaseName, '(\d+)')).Groups[1].Value
     $dov = $kataDates[$num]
-    $fallback = "프로그래머스 — " + ($_.BaseName -replace "_"," ")
-    Write-CodePost -File $_ -Cats @("알고리즘","프로그래머스") -DateOverride $dov -SlugPrefix "kata" -Fallback $fallback
+    $title = "프로그래머스 — " + ($_.BaseName -replace "_"," ")
+    Write-CodePost -File $_ -Cats @("알고리즘","프로그래머스") -DateOverride $dov -SlugPrefix "kata" -TitleOverride $title
   }
 
 # 100zun은 날짜명 cpp. 카테고리는 첫 주석 제목의 플랫폼 키워드로 자동 판별

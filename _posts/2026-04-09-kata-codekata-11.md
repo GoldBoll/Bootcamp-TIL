@@ -1,5 +1,5 @@
 ---
-title: "코드카타 11. 절댓값 더하기 (Lv.1)"
+title: "프로그래머스 — CodeKata 11"
 date: 2026-04-09 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
