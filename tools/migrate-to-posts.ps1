@@ -220,11 +220,17 @@ Get-ChildItem "$Root\CodeingTest\CodingTest\CodeKata" -Filter "*.cpp" -ErrorActi
     Write-CodePost -File $_ -Cats @("알고리즘","프로그래머스") -DateOverride $dov -SlugPrefix "kata" -Fallback $fallback
   }
 
+# 100zun은 날짜명 cpp. 카테고리는 첫 주석 제목의 플랫폼 키워드로 자동 판별
+# (프로그래머스/백준/LeetCode). 키워드 없으면 LeetCode로 간주.
 Get-ChildItem "$Root\CodeingTest\CodingTest\100zun" -Filter "*.cpp" -ErrorAction SilentlyContinue |
   ForEach-Object {
     $dm = [regex]::Match($_.Name, '^(\d{4}-\d{2}-\d{2})')
     $d = if ($dm.Success) { $dm.Groups[1].Value } else { $null }
-    Write-CodePost -File $_ -Cats @("알고리즘","LeetCode") -DateOverride $d -SlugPrefix "algo" -Fallback $_.BaseName
+    $title = Get-CodeTitle (Get-Content $_.FullName -Raw -Encoding UTF8) $_.BaseName
+    $plat = if ($title -match '프로그래머스|programmers') { '프로그래머스' }
+            elseif ($title -match '백준|BOJ|baekjoon') { '백준' }
+            else { 'LeetCode' }
+    Write-CodePost -File $_ -Cats @("알고리즘",$plat) -DateOverride $d -SlugPrefix "algo" -Fallback $_.BaseName
   }
 
 Write-Host ""

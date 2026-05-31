@@ -1,0 +1,20 @@
+// 프로그래머스 Lv.1 - 가운데 글자 가져오기
+// https://school.programmers.co.kr/learn/courses/30/lessons/12903
+//
+// [문제]  단어 s의 가운데 글자를 반환. 길이가 짝수면 가운데 두 글자를 반환
+// [제약]  s 길이 1~100
+// [입출력]  "abcde" → "c" / "qwer" → "we"
+//
+// 풀이: 홀수면 가운데 1글자, 짝수면 가운데 2글자를 substr로 추출 — O(1)
+
+#include <string>
+
+using namespace std;
+
+string solution(string s) {
+    int n = (int)s.size();
+    if (n % 2 == 1) {
+        return s.substr(n / 2, 1);
+    }
+    return s.substr(n / 2 - 1, 2);
+}

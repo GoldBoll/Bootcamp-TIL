@@ -1,0 +1,25 @@
+// 프로그래머스 Lv.1 - 문자열 내 마음대로 정렬하기
+// https://school.programmers.co.kr/learn/courses/30/lessons/12915
+//
+// [문제]  각 문자열의 인덱스 n번째 글자 기준 오름차순 정렬
+// [제약]  strings 길이 1~50 / 원소는 소문자, 길이 1~100, 모두 n보다 김
+//         n번째 글자가 같으면 사전순으로 앞선 문자열이 앞에
+// [입출력]  ["sun","bed","car"],1 → ["car","bed","sun"]
+//
+// 풀이: n번째 글자 1차 키, 같으면 문자열 전체 사전순 2차 키로 정렬 — O(m log m)
+
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<string> solution(vector<string> strings, int n) {
+    sort(strings.begin(), strings.end(), [n](const string& a, const string& b) {
+        if (a[n] != b[n]) {
+            return a[n] < b[n];
+        }
+        return a < b;
+    });
+    return strings;
+}
