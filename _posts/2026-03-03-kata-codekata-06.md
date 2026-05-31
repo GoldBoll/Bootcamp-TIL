@@ -1,6 +1,6 @@
 ---
 title: "6.다음에 올 숫자"
-date: 2026-03-05 13:00:00 +0900
+date: 2026-03-03 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false

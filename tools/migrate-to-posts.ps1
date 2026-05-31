@@ -205,10 +205,19 @@ function Write-CodePost {
     -Categories $Cats -Tags @("algorithm") -BodyOverride $post
 }
 
+# CodeKata 01~08은 2026-03-05에 일괄 커밋되어 git 날짜가 한 날에 몰린다.
+# 푸시일(03-05)을 기준으로 직전 빈 활동 평일에 하루 1개씩 분배. 09~20은 git 날짜가
+# 날짜별로 분산돼 있어 그대로 둔다(매핑 없으면 Get-GitAddDate 사용).
+$kataDates = @{
+  "01"="2026-02-23"; "02"="2026-02-24"; "03"="2026-02-25"; "04"="2026-02-26"
+  "05"="2026-02-27"; "06"="2026-03-03"; "07"="2026-03-04"; "08"="2026-03-05"
+}
 Get-ChildItem "$Root\CodeingTest\CodingTest\CodeKata" -Filter "*.cpp" -ErrorAction SilentlyContinue |
   ForEach-Object {
+    $num = ([regex]::Match($_.BaseName, '(\d+)')).Groups[1].Value
+    $dov = $kataDates[$num]
     $fallback = "프로그래머스 — " + ($_.BaseName -replace "_"," ")
-    Write-CodePost -File $_ -Cats @("알고리즘","프로그래머스") -SlugPrefix "kata" -Fallback $fallback
+    Write-CodePost -File $_ -Cats @("알고리즘","프로그래머스") -DateOverride $dov -SlugPrefix "kata" -Fallback $fallback
   }
 
 Get-ChildItem "$Root\CodeingTest\CodingTest\100zun" -Filter "*.cpp" -ErrorAction SilentlyContinue |
