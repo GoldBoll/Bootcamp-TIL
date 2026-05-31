@@ -18,17 +18,36 @@
 
   <style>
     /* 사이드바 카테고리 트리 */
+    #sidebar .cat-tree,
+    #sidebar .cat-sub { list-style: none; width: 100%; padding-left: 0; }
+    #sidebar .cat-tree .nav-item { width: 100%; }
+
+    /* 한 줄 = 전체 너비, [아이콘+이름][숫자][화살표] 고정 배치 */
+    #sidebar .cat-row { display: flex; align-items: center; width: 100%; }
+    #sidebar .cat-row > .nav-link {
+      flex: 1 1 auto; min-width: 0;
+      display: flex; align-items: center;
+      padding-top: 0.28rem; padding-bottom: 0.28rem;
+    }
+    #sidebar .cat-row .cat-name {
+      font-size: 0.86rem; line-height: 1.25; overflow-wrap: anywhere;
+    }
+    #sidebar .cat-sub .cat-row .cat-name { font-size: 0.8rem; opacity: 0.9; }
+    #sidebar .cat-row .cat-count {
+      flex: 0 0 auto; font-size: 0.72rem; opacity: 0.5; margin: 0 0.2rem; white-space: nowrap;
+    }
+
+    /* 펼침/접힘 화살표 버튼 */
     #sidebar .cat-side-toggle {
-      background: none; border: 0; padding: 0 1rem 0 0;
-      color: inherit; opacity: 0.7; cursor: pointer;
+      flex: 0 0 auto;
+      background: none; border: 0; color: inherit;
+      opacity: 0.6; cursor: pointer; padding: 0.15rem 0.5rem;
     }
     #sidebar .cat-side-toggle:hover { opacity: 1; }
     #sidebar .cat-side-toggle .side-arrow { transition: transform 0.2s ease; }
     #sidebar .cat-side-toggle.collapsed .side-arrow { transform: rotate(-90deg); }
-    #sidebar .cat-tree { list-style: none; }
-    #sidebar .cat-tree .nav-link { padding-top: 0.25rem; padding-bottom: 0.25rem; font-size: 0.86rem; }
-    #sidebar .cat-tree .cat-sub .nav-link { font-size: 0.8rem; opacity: 0.85; }
-    #sidebar .cat-tree .cat-count { font-size: 0.72rem; opacity: 0.55; margin-left: 0.25rem; }
+    /* 토글 없는 항목(하위 없음) 자리 맞춤용 */
+    #sidebar .cat-row .toggle-spacer { flex: 0 0 auto; width: 2rem; }
   </style>
 
   <nav class="flex-column flex-grow-1 w-100 ps-0">
@@ -45,19 +64,19 @@
         {% capture tab_name %}{{ tab.url | split: '/' }}{% endcapture %}
 
         {% if tab_name == 'categories' %}
-          <!-- 카테고리: 접이식 트리 -->
+          <!-- 카테고리: 접이식 트리 (기본 펼침) -->
           <li class="nav-item{% if tab.url == page.url %}{{ " active" }}{% endif %}">
-            <div class="d-flex align-items-center w-100">
-              <a href="{{ tab.url | relative_url }}" class="nav-link flex-grow-1">
+            <div class="cat-row">
+              <a href="{{ tab.url | relative_url }}" class="nav-link">
                 <i class="fa-fw {{ tab.icon }}"></i>
-                <span>{{ site.data.locales[include.lang].tabs.[tab_name] | default: tab.title | upcase }}</span>
+                <span class="cat-name">{{ site.data.locales[include.lang].tabs.[tab_name] | default: tab.title | upcase }}</span>
               </a>
               <button
                 type="button"
-                class="cat-side-toggle collapsed"
+                class="cat-side-toggle"
                 data-bs-toggle="collapse"
                 data-bs-target="#side-cat-tree"
-                aria-expanded="false"
+                aria-expanded="true"
                 aria-controls="side-cat-tree"
                 aria-label="toggle categories"
               >
@@ -65,7 +84,7 @@
               </button>
             </div>
 
-            <ul class="nav flex-column cat-tree collapse ms-3" id="side-cat-tree">
+            <ul class="nav flex-column cat-tree collapse show ms-2" id="side-cat-tree">
               {% assign sort_categories = site.categories | sort %}
               {% assign side_index = 0 %}
               {% for category in sort_categories %}
@@ -87,38 +106,43 @@
                   {% assign top_size = site.categories[category_name] | size %}
 
                   <li class="nav-item">
-                    <div class="d-flex align-items-center w-100">
+                    <div class="cat-row">
                       {% capture _ctg_url %}/categories/{{ category_name | slugify | url_encode }}/{% endcapture %}
-                      <a href="{{ _ctg_url | relative_url }}" class="nav-link flex-grow-1">
+                      <a href="{{ _ctg_url | relative_url }}" class="nav-link">
                         <i class="fa-fw far fa-folder{% if sub_size > 0 %}-open{% endif %}"></i>
-                        <span>{{ category_name }}</span>
-                        <span class="cat-count">{{ top_size }}</span>
+                        <span class="cat-name">{{ category_name }}</span>
                       </a>
+                      <span class="cat-count">{{ top_size }}</span>
                       {% if sub_size > 0 %}
                         <button
                           type="button"
-                          class="cat-side-toggle collapsed"
+                          class="cat-side-toggle"
                           data-bs-toggle="collapse"
                           data-bs-target="#side-cat-{{ side_index }}"
-                          aria-expanded="false"
+                          aria-expanded="true"
                           aria-controls="side-cat-{{ side_index }}"
                           aria-label="toggle {{ category_name }}"
                         >
                           <i class="fas fa-angle-down side-arrow"></i>
                         </button>
+                      {% else %}
+                        <span class="toggle-spacer"></span>
                       {% endif %}
                     </div>
 
                     {% if sub_size > 0 %}
-                      <ul class="nav flex-column cat-sub collapse ms-3" id="side-cat-{{ side_index }}">
+                      <ul class="nav flex-column cat-sub collapse show ms-3" id="side-cat-{{ side_index }}">
                         {% for sub_category in sub_categories %}
                           <li class="nav-item">
-                            {% capture _sub_url %}/categories/{{ sub_category | slugify | url_encode }}/{% endcapture %}
-                            <a href="{{ _sub_url | relative_url }}" class="nav-link">
-                              <i class="fa-fw far fa-folder"></i>
-                              <span>{{ sub_category }}</span>
+                            <div class="cat-row">
+                              {% capture _sub_url %}/categories/{{ sub_category | slugify | url_encode }}/{% endcapture %}
+                              <a href="{{ _sub_url | relative_url }}" class="nav-link">
+                                <i class="fa-fw far fa-folder"></i>
+                                <span class="cat-name">{{ sub_category }}</span>
+                              </a>
                               <span class="cat-count">{{ site.categories[sub_category] | size }}</span>
-                            </a>
+                              <span class="toggle-spacer"></span>
+                            </div>
                           </li>
                         {% endfor %}
                       </ul>

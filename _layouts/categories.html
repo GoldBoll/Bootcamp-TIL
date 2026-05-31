@@ -55,12 +55,12 @@ layout: page
       <!-- top-category : 행 전체가 토글 버튼 -->
       <div
         id="{{ HEAD_PREFIX }}{{ group_index }}"
-        class="card-header d-flex justify-content-between hide-border-bottom{% if sub_categories_size > 0 %} cat-toggle collapsed{% endif %}"
+        class="card-header d-flex justify-content-between hide-border-bottom{% if sub_categories_size > 0 %} cat-toggle{% endif %}"
         {% if sub_categories_size > 0 %}
           data-bs-toggle="collapse"
           data-bs-target="#{{ LIST_PREFIX }}{{ group_index }}"
           role="button"
-          aria-expanded="false"
+          aria-expanded="true"
           aria-controls="{{ LIST_PREFIX }}{{ group_index }}"
         {% endif %}
       >
@@ -121,7 +121,7 @@ layout: page
 
       <!-- Sub-categories : 기본 접힘 -->
       {% if sub_categories_size > 0 %}
-        <div id="{{ LIST_PREFIX }}{{ group_index }}" class="collapse">
+        <div id="{{ LIST_PREFIX }}{{ group_index }}" class="collapse show">
           <ul class="list-group">
             {% for sub_category in sub_categories %}
               <li class="list-group-item">
