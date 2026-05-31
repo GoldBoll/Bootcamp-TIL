@@ -1,0 +1,159 @@
+---
+layout: page
+# 카테고리 페이지 — 기본 접힘 + 행 전체 토글(버튼식). Chirpy 기본 레이아웃 오버라이드.
+---
+
+{% include lang.html %}
+
+{% assign HEAD_PREFIX = 'h_' %}
+{% assign LIST_PREFIX = 'l_' %}
+
+{% assign group_index = 0 %}
+
+{% assign sort_categories = site.categories | sort %}
+
+<style>
+  /* 행 전체를 버튼처럼 */
+  .card.categories .card-header.cat-toggle {
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.15s ease;
+  }
+  .card.categories .card-header.cat-toggle:hover {
+    background-color: var(--btn-side-hover-bg, rgba(128, 128, 128, 0.12));
+  }
+  /* 접힘/펼침에 따라 화살표 회전 */
+  .card.categories .card-header .cat-arrow {
+    transition: transform 0.2s ease;
+  }
+  .card.categories .card-header.collapsed .cat-arrow {
+    transform: rotate(-90deg);
+  }
+</style>
+
+{% for category in sort_categories %}
+  {% assign category_name = category | first %}
+  {% assign posts_of_category = category | last %}
+  {% assign first_post = posts_of_category | first %}
+
+  {% if category_name == first_post.categories[0] %}
+    {% assign sub_categories = '' | split: '' %}
+
+    {% for post in posts_of_category %}
+      {% assign second_category = post.categories[1] %}
+      {% if second_category %}
+        {% unless sub_categories contains second_category %}
+          {% assign sub_categories = sub_categories | push: second_category %}
+        {% endunless %}
+      {% endif %}
+    {% endfor %}
+
+    {% assign sub_categories = sub_categories | sort %}
+    {% assign sub_categories_size = sub_categories | size %}
+
+    <div class="card categories">
+      <!-- top-category : 행 전체가 토글 버튼 -->
+      <div
+        id="{{ HEAD_PREFIX }}{{ group_index }}"
+        class="card-header d-flex justify-content-between hide-border-bottom{% if sub_categories_size > 0 %} cat-toggle collapsed{% endif %}"
+        {% if sub_categories_size > 0 %}
+          data-bs-toggle="collapse"
+          data-bs-target="#{{ LIST_PREFIX }}{{ group_index }}"
+          role="button"
+          aria-expanded="false"
+          aria-controls="{{ LIST_PREFIX }}{{ group_index }}"
+        {% endif %}
+      >
+        <span class="ms-2">
+          <i class="far fa-folder{% if sub_categories_size > 0 %}-open{% endif %} fa-fw"></i>
+
+          {% capture _category_url %}/categories/{{ category_name | slugify | url_encode }}/{% endcapture %}
+          <!-- 이름 클릭은 카테고리 페이지로 이동(토글 전파 차단) -->
+          <a href="{{ _category_url | relative_url }}" class="mx-2" onclick="event.stopPropagation()">{{ category_name }}</a>
+
+          <!-- content count -->
+          {% assign top_posts_size = site.categories[category_name] | size %}
+          <span class="text-muted small font-weight-light">
+            {% if sub_categories_size > 0 %}
+              {{ sub_categories_size }}
+              {% if sub_categories_size > 1 %}
+                {{
+                  site.data.locales[lang].categories.category_measure.plural
+                  | default: site.data.locales[lang].categories.category_measure
+                }}
+              {% else %}
+                {{
+                  site.data.locales[lang].categories.category_measure.singular
+                  | default: site.data.locales[lang].categories.category_measure
+                }}
+              {% endif -%}
+              ,
+            {% endif %}
+
+            {{ top_posts_size }}
+
+            {% if top_posts_size > 1 %}
+              {{
+                site.data.locales[lang].categories.post_measure.plural
+                | default: site.data.locales[lang].categories.post_measure
+              }}
+            {% else %}
+              {{
+                site.data.locales[lang].categories.post_measure.singular
+                | default: site.data.locales[lang].categories.post_measure
+              }}
+            {% endif %}
+          </span>
+        </span>
+
+        <!-- arrow (상태 표시용) -->
+        {% if sub_categories_size > 0 %}
+          <span class="category-trigger">
+            <i class="fas fa-fw fa-angle-down cat-arrow"></i>
+          </span>
+        {% else %}
+          <span class="category-trigger disabled">
+            <i class="fas fa-fw fa-angle-right"></i>
+          </span>
+        {% endif %}
+      </div>
+      <!-- .card-header -->
+
+      <!-- Sub-categories : 기본 접힘 -->
+      {% if sub_categories_size > 0 %}
+        <div id="{{ LIST_PREFIX }}{{ group_index }}" class="collapse">
+          <ul class="list-group">
+            {% for sub_category in sub_categories %}
+              <li class="list-group-item">
+                <i class="far fa-folder fa-fw"></i>
+
+                {% capture _sub_ctg_url %}/categories/{{ sub_category | slugify | url_encode }}/{% endcapture %}
+                <a href="{{ _sub_ctg_url | relative_url }}" class="mx-2">{{ sub_category }}</a>
+
+                {% assign posts_size = site.categories[sub_category] | size %}
+                <span class="text-muted small font-weight-light">
+                  {{ posts_size }}
+
+                  {% if posts_size > 1 %}
+                    {{
+                      site.data.locales[lang].categories.post_measure.plural
+                      | default: site.data.locales[lang].categories.post_measure
+                    }}
+                  {% else %}
+                    {{
+                      site.data.locales[lang].categories.post_measure.singular
+                      | default: site.data.locales[lang].categories.post_measure
+                    }}
+                  {% endif %}
+                </span>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+    <!-- .card -->
+
+    {% assign group_index = group_index | plus: 1 %}
+  {% endif %}
+{% endfor %}
