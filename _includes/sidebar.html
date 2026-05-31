@@ -1,0 +1,207 @@
+<!-- The Side Bar (오버라이드: 카테고리 항목에 노션식 접이식 트리 추가) -->
+
+<aside aria-label="Sidebar" id="sidebar" class="d-flex flex-column align-items-end">
+  <header class="profile-wrapper">
+    <a href="{{ '/' | relative_url }}" id="avatar" class="rounded-circle">
+      {%- if site.avatar != empty and site.avatar -%}
+        {%- capture avatar_url -%}
+          {% include media-url.html src=site.avatar %}
+        {%- endcapture -%}
+        <img src="{{- avatar_url -}}" width="112" height="112" alt="avatar" onerror="this.style.display='none'">
+      {%- endif -%}
+    </a>
+
+    <a class="site-title d-block" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    <p class="site-subtitle fst-italic mb-0">{{ site.tagline }}</p>
+  </header>
+  <!-- .profile-wrapper -->
+
+  <style>
+    /* 사이드바 카테고리 트리 */
+    #sidebar .cat-side-toggle {
+      background: none; border: 0; padding: 0 1rem 0 0;
+      color: inherit; opacity: 0.7; cursor: pointer;
+    }
+    #sidebar .cat-side-toggle:hover { opacity: 1; }
+    #sidebar .cat-side-toggle .side-arrow { transition: transform 0.2s ease; }
+    #sidebar .cat-side-toggle.collapsed .side-arrow { transform: rotate(-90deg); }
+    #sidebar .cat-tree { list-style: none; }
+    #sidebar .cat-tree .nav-link { padding-top: 0.25rem; padding-bottom: 0.25rem; font-size: 0.86rem; }
+    #sidebar .cat-tree .cat-sub .nav-link { font-size: 0.8rem; opacity: 0.85; }
+    #sidebar .cat-tree .cat-count { font-size: 0.72rem; opacity: 0.55; margin-left: 0.25rem; }
+  </style>
+
+  <nav class="flex-column flex-grow-1 w-100 ps-0">
+    <ul class="nav">
+      <!-- home -->
+      <li class="nav-item{% if page.layout == 'home' %}{{ " active" }}{% endif %}">
+        <a href="{{ '/' | relative_url }}" class="nav-link">
+          <i class="fa-fw fas fa-home"></i>
+          <span>{{ site.data.locales[include.lang].tabs.home | upcase }}</span>
+        </a>
+      </li>
+      <!-- the real tabs -->
+      {% for tab in site.tabs %}
+        {% capture tab_name %}{{ tab.url | split: '/' }}{% endcapture %}
+
+        {% if tab_name == 'categories' %}
+          <!-- 카테고리: 접이식 트리 -->
+          <li class="nav-item{% if tab.url == page.url %}{{ " active" }}{% endif %}">
+            <div class="d-flex align-items-center w-100">
+              <a href="{{ tab.url | relative_url }}" class="nav-link flex-grow-1">
+                <i class="fa-fw {{ tab.icon }}"></i>
+                <span>{{ site.data.locales[include.lang].tabs.[tab_name] | default: tab.title | upcase }}</span>
+              </a>
+              <button
+                type="button"
+                class="cat-side-toggle collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#side-cat-tree"
+                aria-expanded="false"
+                aria-controls="side-cat-tree"
+                aria-label="toggle categories"
+              >
+                <i class="fas fa-angle-down side-arrow"></i>
+              </button>
+            </div>
+
+            <ul class="nav flex-column cat-tree collapse ms-3" id="side-cat-tree">
+              {% assign sort_categories = site.categories | sort %}
+              {% assign side_index = 0 %}
+              {% for category in sort_categories %}
+                {% assign category_name = category | first %}
+                {% assign posts_of_category = category | last %}
+                {% assign first_post = posts_of_category | first %}
+                {% if category_name == first_post.categories[0] %}
+                  {% assign sub_categories = '' | split: '' %}
+                  {% for post in posts_of_category %}
+                    {% assign second_category = post.categories[1] %}
+                    {% if second_category %}
+                      {% unless sub_categories contains second_category %}
+                        {% assign sub_categories = sub_categories | push: second_category %}
+                      {% endunless %}
+                    {% endif %}
+                  {% endfor %}
+                  {% assign sub_categories = sub_categories | sort %}
+                  {% assign sub_size = sub_categories | size %}
+                  {% assign top_size = site.categories[category_name] | size %}
+
+                  <li class="nav-item">
+                    <div class="d-flex align-items-center w-100">
+                      {% capture _ctg_url %}/categories/{{ category_name | slugify | url_encode }}/{% endcapture %}
+                      <a href="{{ _ctg_url | relative_url }}" class="nav-link flex-grow-1">
+                        <i class="fa-fw far fa-folder{% if sub_size > 0 %}-open{% endif %}"></i>
+                        <span>{{ category_name }}</span>
+                        <span class="cat-count">{{ top_size }}</span>
+                      </a>
+                      {% if sub_size > 0 %}
+                        <button
+                          type="button"
+                          class="cat-side-toggle collapsed"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#side-cat-{{ side_index }}"
+                          aria-expanded="false"
+                          aria-controls="side-cat-{{ side_index }}"
+                          aria-label="toggle {{ category_name }}"
+                        >
+                          <i class="fas fa-angle-down side-arrow"></i>
+                        </button>
+                      {% endif %}
+                    </div>
+
+                    {% if sub_size > 0 %}
+                      <ul class="nav flex-column cat-sub collapse ms-3" id="side-cat-{{ side_index }}">
+                        {% for sub_category in sub_categories %}
+                          <li class="nav-item">
+                            {% capture _sub_url %}/categories/{{ sub_category | slugify | url_encode }}/{% endcapture %}
+                            <a href="{{ _sub_url | relative_url }}" class="nav-link">
+                              <i class="fa-fw far fa-folder"></i>
+                              <span>{{ sub_category }}</span>
+                              <span class="cat-count">{{ site.categories[sub_category] | size }}</span>
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </li>
+                  {% assign side_index = side_index | plus: 1 %}
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </li>
+        {% else %}
+          <li class="nav-item{% if tab.url == page.url %}{{ " active" }}{% endif %}">
+            <a href="{{ tab.url | relative_url }}" class="nav-link">
+              <i class="fa-fw {{ tab.icon }}"></i>
+              <span>{{ site.data.locales[include.lang].tabs.[tab_name] | default: tab.title | upcase }}</span>
+            </a>
+          </li>
+        {% endif %}
+        <!-- .nav-item -->
+      {% endfor %}
+    </ul>
+  </nav>
+
+  <div class="sidebar-bottom d-flex flex-wrap  align-items-center w-100">
+    {% unless site.theme_mode %}
+      <button type="button" class="btn btn-link nav-link" aria-label="Switch Mode" id="mode-toggle">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      {% if site.data.contact.size > 0 %}
+        <span class="icon-border"></span>
+      {% endif %}
+    {% endunless %}
+
+    {% for entry in site.data.contact %}
+      {%- assign url = null -%}
+
+      {% case entry.type %}
+        {% when 'github', 'twitter' %}
+          {%- unless site[entry.type].username -%}
+            {%- continue -%}
+          {%- endunless -%}
+          {%- capture url -%}
+            https://{{ entry.type }}.com/{{ site[entry.type].username }}
+          {%- endcapture -%}
+        {% when 'email' %}
+          {%- unless site.social.email -%}
+            {%- continue -%}
+          {%- endunless -%}
+          {%- assign email = site.social.email | split: '@' -%}
+          {%- capture url -%}
+            javascript:location.href = 'mailto:' + ['{{ email[0] }}','{{ email[1] }}'].join('@')
+          {%- endcapture -%}
+        {% when 'rss' %}
+          {% assign url = '/feed.xml' | relative_url %}
+        {% else %}
+          {% assign url = entry.url %}
+      {% endcase %}
+
+      {% if url %}
+        <a
+          href="{{ url }}"
+          aria-label="{{ entry.type }}"
+          {% assign link_types = '' %}
+
+          {% unless entry.noblank %}
+            target="_blank"
+            {% assign link_types = 'noopener noreferrer' %}
+          {% endunless %}
+
+          {% if entry.type == 'mastodon' %}
+            {% assign link_types = link_types | append: ' me' | strip %}
+          {% endif %}
+
+          {% unless link_types == empty %}
+            rel="{{ link_types }}"
+          {% endunless %}
+        >
+          <i class="{{ entry.icon }}"></i>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <!-- .sidebar-bottom -->
+</aside>
+<!-- #sidebar -->
