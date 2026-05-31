@@ -79,7 +79,7 @@ function Get-PartMarkers {
 }
 
 # === 1. 월별 TIL (2월/, 3월/, 4월/, 5월/) — 인라인 마커가 있으면 주제별 분할 ===
-Write-Host "[1/4] 월별 TIL..."
+Write-Host "[1/3] 월별 TIL..."
 Get-ChildItem -Path "$Root\2월","$Root\3월","$Root\4월","$Root\5월" -Filter "*.md" -ErrorAction SilentlyContinue |
   ForEach-Object {
     $m = [regex]::Match($_.Name, "^(\d{4}-\d{2}-\d{2})")
@@ -114,7 +114,7 @@ Get-ChildItem -Path "$Root\2월","$Root\3월","$Root\4월","$Root\5월" -Filter 
   }
 
 # === 2. CS 면접 준비 (raw/cs-notion/) ===
-Write-Host "[2/4] CS 면접 준비..."
+Write-Host "[2/3] CS 면접 준비..."
 $csMap = @{
   "01" = @{cat="C++"; tags=@("runtime")}
   "02" = @{cat="C++"; tags=@("class","struct")}
@@ -163,37 +163,60 @@ Get-ChildItem "$Root\raw\cs-notion" -Filter "*.md" -ErrorAction SilentlyContinue
       -Categories @("CS 면접 준비", $info.cat) -Tags $info.tags
   }
 
-# === 3. 언리얼 마스터 노트 ===
-Write-Host "[3/4] Unreal 마스터..."
-Get-ChildItem "$Root\scrum\unrealc++\언리얼-마스터" -Filter "*.md" -ErrorAction SilentlyContinue |
-  Where-Object { $_.Name -ne "README.md" } |
+# 강의 노트(언리얼 마스터)·스크럼 구현계획은 블로그 카테고리에서 제외한다.
+# 발행 카테고리는 TIL·CS 면접 준비, 알고리즘 작업물, 그리고 TIL에서 마커로
+# 떼어내는 팀프로젝트/개인 R&D 글로 한정한다. (2026-05-31 결정)
+
+# === 3. 알고리즘 작업물 (CodeKata=프로그래머스, 100zun=LeetCode) ===
+Write-Host "[3/3] 알고리즘 작업물..."
+
+function Get-GitAddDate {
+  param([string]$FilePath)
+  $d = (& git -C $Root log --diff-filter=A --format="%ad" --date=short -- "$FilePath" 2>$null | Select-Object -Last 1)
+  if (-not $d) { $d = (Get-Item $FilePath).LastWriteTime.ToString("yyyy-MM-dd") }
+  return ([string]$d).Trim()
+}
+
+# 코드 시작(#include) 전, URL이 아닌 첫 주석 줄을 제목으로
+function Get-CodeTitle {
+  param([string]$Body, [string]$Fallback)
+  foreach ($line in ($Body -split "`n")) {
+    if ($line -match '^\s*#include') { break }
+    $m = [regex]::Match($line, '^\s*//\s*(.+)$')
+    if ($m.Success) {
+      $t = $m.Groups[1].Value.Trim()
+      if ($t -notmatch '^https?://') { return $t }
+    }
+  }
+  return $Fallback
+}
+
+function Write-CodePost {
+  param([System.IO.FileInfo]$File, [string[]]$Cats, [string]$DateOverride, [string]$SlugPrefix, [string]$Fallback)
+  $raw = Get-Content $File.FullName -Raw -Encoding UTF8
+  $date = if ($DateOverride) { $DateOverride } else { Get-GitAddDate $File.FullName }
+  $title = Get-CodeTitle $raw $Fallback
+  $slug = "$SlugPrefix-" + (New-Slug $File.BaseName)
+  $url = ([regex]::Match($raw, 'https?://\S+')).Value
+  $post = ""
+  if ($url) { $post += "> 출처: <$url>`n`n" }
+  $post += "``````cpp`n" + $raw.TrimEnd() + "`n```````n"
+  Write-Post -DateTime "$date 13:00:00" -Title $title -Slug $slug `
+    -Categories $Cats -Tags @("algorithm") -BodyOverride $post
+}
+
+Get-ChildItem "$Root\CodeingTest\CodingTest\CodeKata" -Filter "*.cpp" -ErrorAction SilentlyContinue |
   ForEach-Object {
-    $m = [regex]::Match($_.Name, "^(\d+)")
-    if (-not $m.Success) { return }
-    $num = [int]$m.Groups[1].Value
-    $date = "2026-05-{0:D2}" -f $num
-    $titleRaw = ($_.BaseName -replace "^\d+_","" -replace "_"," ")
-    $title = "Unreal Master — $titleRaw"
-    $slug = "ue-master-" + (New-Slug $_.BaseName)
-    Write-Post -Src $_.FullName -DateTime "$date 11:00:00" -Title $title -Slug $slug `
-      -Categories @("Unreal C++","강의 노트") -Tags @("ue5","cpp")
+    $fallback = "프로그래머스 — " + ($_.BaseName -replace "_"," ")
+    Write-CodePost -File $_ -Cats @("알고리즘","프로그래머스") -SlugPrefix "kata" -Fallback $fallback
   }
 
-# === 4. 스크럼 구현계획 ===
-Write-Host "[4/4] 구현계획..."
-Get-ChildItem "$Root\scrum" -Filter "*구현계획.md" -ErrorAction SilentlyContinue | ForEach-Object {
-  # 파일 작성일 — 본문 안의 "작성일: YYYY-MM-DD" 추출, 없으면 파일 LastWriteTime
-  $body = Get-Content $_.FullName -Raw -Encoding UTF8
-  if ($body -match "작성일:\s*(\d{4}-\d{2}-\d{2})") {
-    $date = $matches[1]
-  } else {
-    $date = $_.LastWriteTime.ToString("yyyy-MM-dd")
+Get-ChildItem "$Root\CodeingTest\CodingTest\100zun" -Filter "*.cpp" -ErrorAction SilentlyContinue |
+  ForEach-Object {
+    $dm = [regex]::Match($_.Name, '^(\d{4}-\d{2}-\d{2})')
+    $d = if ($dm.Success) { $dm.Groups[1].Value } else { $null }
+    Write-CodePost -File $_ -Cats @("알고리즘","LeetCode") -DateOverride $d -SlugPrefix "algo" -Fallback $_.BaseName
   }
-  $title = "구현계획 — " + ($_.BaseName -replace "_?구현계획","")
-  $slug = "plan-" + (New-Slug ($_.BaseName -replace "_?구현계획",""))
-  Write-Post -Src $_.FullName -DateTime "$date 12:00:00" -Title $title -Slug $slug `
-    -Categories @("스크럼 회고","구현계획") -Tags @("scrum","plan")
-}
 
 Write-Host ""
 Write-Host "============================="
