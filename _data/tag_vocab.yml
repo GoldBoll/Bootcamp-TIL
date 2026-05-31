@@ -1,0 +1,70 @@
+# 통제 태그 어휘 (controlled vocabulary)
+# - canonical: 발행에 허용되는 정규 태그. key=정규 태그, value=흡수할 별칭(소문자 비교)
+# - tools/normalize-tags.ps1 이 이 파일을 읽어 _posts 태그를 정규화하고,
+#   별칭/canonical 어디에도 없는 태그는 경고로 리포트한다.
+# - 카테고리(상위 주제)는 여기서 다루지 않는다. 태그 = 세부 키워드 전용.
+
+canonical:
+  # --- Unreal ---
+  ue5:        ["unreal", "unreal engine 5", "ue 5.5", "ue5.5", "언리얼", "unrealengine"]
+  cpp:        ["c++", "씨쁠쁠", "cplusplus"]
+  gas:        ["gameplay ability system", "ability system"]
+  fps:        ["project shooter", "shooter"]
+  umg:        ["ui", "slate"]
+
+  # --- Unity / 게임개발 ---
+  unity:      ["유니티"]
+  unity2d:    ["unity 2d", "2d platformer", "2d 종스크롤 슈팅"]
+  unity3d:    ["unity 3d", "3d action rpg", "3d quarter view action"]
+  gamedev:    ["게임 개발", "게임개발", "visual scripting", "비주얼 스크립팅"]
+
+  # --- CS ---
+  os:         ["운영체제", "operating system"]
+  process:    ["프로세스"]
+  thread:     ["스레드", "쓰레드"]
+  memory:     ["메모리", "memory-fragmentation"]
+  ipc:        []
+  concurrency: ["동시성", "race-condition"]
+  vtable:     ["가상함수테이블"]
+
+  # --- 자료구조 ---
+  vector:     ["배열", "array"]
+  list:       ["연결리스트", "linked-list"]
+  map:        ["해시맵", "hashmap"]
+  hash:       ["해시"]
+  stl:        []
+
+  # --- 알고리즘 / 코딩테스트 ---
+  algorithm:  ["알고리즘"]
+  backtracking: ["백트래킹", "재귀", "recursion"]
+  binary-search: ["이분 탐색", "이분탐색", "이진탐색"]
+  divide-conquer: ["분할 정복", "분할정복"]
+  dp:         ["동적계획법", "dynamic-programming"]
+  string:     ["문자열"]
+  bitmask:    ["비트마스크"]
+
+  # --- 메타 / 워크플로우 ---
+  til:        ["내일배움캠프"]
+  daily:      []
+  scrum:      []
+  plan:       ["구현계획"]
+
+  # --- C++ 세부 (기존 _posts 태그 보존) ---
+  pointer:    ["포인터"]
+  reference:  ["참조"]
+  smart-pointer: ["스마트포인터"]
+  oop:        ["객체지향"]
+  raii:       []
+  rtti:       []
+  runtime:    []
+  virtual:    ["가상함수"]
+  destructor: ["소멸자"]
+  class:      ["클래스"]
+  struct:     ["구조체"]
+  copy:       ["복사"]
+  new:        []
+  malloc:     []
+  find:       []
+  sort:       ["정렬"]
+  context-switching: ["컨텍스트스위칭", "문맥교환"]
+  stack-overflow: []

@@ -3,6 +3,7 @@ title: "CS — process vs thread"
 date: 2026-04-20 10:00:00 +0900
 categories: ["CS 면접 준비", "OS"]
 tags: ["process", "thread"]
+render_with_liquid: false
 ---
 
 # 📕 05/07 — 프로세스와 스레드의 차이점

@@ -3,6 +3,7 @@ title: "CS — find vs binary search"
 date: 2026-04-18 10:00:00 +0900
 categories: ["CS 면접 준비", "알고리즘"]
 tags: ["find", "binary-search"]
+render_with_liquid: false
 ---
 
 # 📕 05/05 — std::find vs std::binary_search (선형 탐색 vs 이분 탐색)

@@ -3,6 +3,7 @@ title: "Unreal Master — containers smart pointers"
 date: 2026-05-02 11:00:00 +0900
 categories: ["Unreal C++", "강의 노트"]
 tags: ["ue5", "cpp"]
+render_with_liquid: false
 ---
 
 # 언리얼엔진 컨테이너와 래핑 포인터

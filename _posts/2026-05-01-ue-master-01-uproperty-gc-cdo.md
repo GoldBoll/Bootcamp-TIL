@@ -3,6 +3,7 @@ title: "Unreal Master — uproperty gc cdo"
 date: 2026-05-01 11:00:00 +0900
 categories: ["Unreal C++", "강의 노트"]
 tags: ["ue5", "cpp"]
+render_with_liquid: false
 ---
 
 # 언리얼엔진 프로퍼티 지정자와 GC

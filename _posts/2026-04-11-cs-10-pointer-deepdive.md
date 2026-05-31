@@ -3,6 +3,7 @@ title: "CS — pointer deepdive"
 date: 2026-04-11 10:00:00 +0900
 categories: ["CS 면접 준비", "C++"]
 tags: ["pointer"]
+render_with_liquid: false
 ---
 
 # 📕 포인터·레퍼런스 심층 분석 — 댕글링·메모리 크기·런타임 오류

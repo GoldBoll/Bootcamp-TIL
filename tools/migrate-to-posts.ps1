@@ -10,6 +10,10 @@ $ErrorActionPreference = "Stop"
 $PostsDir = Join-Path $Root "_posts"
 if (-not (Test-Path $PostsDir)) { New-Item -ItemType Directory $PostsDir | Out-Null }
 
+. "$PSScriptRoot\tag-vocab.ps1"
+$script:Vocab = Get-TagVocab (Join-Path $Root "_data\tag_vocab.yml")
+$script:UnknownTags = [System.Collections.Generic.List[string]]::new()
+
 $script:Total = 0
 $script:DoDry = $DryRun.IsPresent
 
@@ -26,15 +30,22 @@ function Write-Post {
     [string]$Title,
     [string]$Slug,
     [string[]]$Categories,
-    [string[]]$Tags
+    [string[]]$Tags,
+    [string]$BodyOverride   # 분할 모드: 본문을 직접 전달 (지정 시 $Src 무시)
   )
   $datePart = $DateTime.Substring(0,10)
   $dst = Join-Path $PostsDir "$datePart-$Slug.md"
-  $body = Get-Content $Src -Raw -Encoding UTF8
+  if ($PSBoundParameters.ContainsKey('BodyOverride')) {
+    $body = $BodyOverride
+  } else {
+    $body = Get-Content $Src -Raw -Encoding UTF8
+  }
   # 기존 frontmatter 제거
   if ($body -match "^---") {
     $body = [Regex]::Replace($body, "^---\r?\n.*?\r?\n---\r?\n","", "Singleline")
   }
+  # 태그 정규화 (통제 어휘)
+  $Tags = ConvertTo-CanonicalTags -Tags $Tags -Vocab $script:Vocab -Unknown ([ref]$script:UnknownTags)
   $cats = ($Categories | ForEach-Object { "`"$_`"" }) -join ", "
   $tagsStr = ($Tags | ForEach-Object { "`"$_`"" }) -join ", "
   $fm = "---`ntitle: `"$Title`"`ndate: $DateTime +0900`ncategories: [$cats]`ntags: [$tagsStr]`nrender_with_liquid: false`n---`n`n"
@@ -46,18 +57,60 @@ function Write-Post {
   $script:Total++
 }
 
-# === 1. 월별 TIL (2월/, 3월/, 4월/, 5월/) ===
+# 인라인 part 마커 파싱: <!--part cat="상위,하위" tags="t1,t2" slug="..."-->
+function Get-PartMarkers {
+  param([string]$Body)
+  $rx = [regex]'<!--\s*part\s+([^>]*?)-->'
+  $parts = [System.Collections.Generic.List[object]]::new()
+  foreach ($m in $rx.Matches($Body)) {
+    $attrs = $m.Groups[1].Value
+    $cat  = ([regex]::Match($attrs, 'cat\s*=\s*"([^"]*)"')).Groups[1].Value
+    $tags = ([regex]::Match($attrs, 'tags\s*=\s*"([^"]*)"')).Groups[1].Value
+    $slug = ([regex]::Match($attrs, 'slug\s*=\s*"([^"]*)"')).Groups[1].Value
+    $parts.Add([pscustomobject]@{
+      Start    = $m.Index
+      BodyFrom = $m.Index + $m.Length
+      Cat      = @($cat  -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+      Tags     = @($tags -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+      Slug     = $slug.Trim()
+    })
+  }
+  return $parts
+}
+
+# === 1. 월별 TIL (2월/, 3월/, 4월/, 5월/) — 인라인 마커가 있으면 주제별 분할 ===
 Write-Host "[1/4] 월별 TIL..."
 Get-ChildItem -Path "$Root\2월","$Root\3월","$Root\4월","$Root\5월" -Filter "*.md" -ErrorAction SilentlyContinue |
   ForEach-Object {
     $m = [regex]::Match($_.Name, "^(\d{4}-\d{2}-\d{2})")
     if (-not $m.Success) { return }
     $date = $m.Groups[1].Value
-    $ym = $date.Substring(0,7)
-    $title = "TIL $date"
-    $slug = "til-$date"
-    Write-Post -Src $_.FullName -DateTime "$date 09:00:00" -Title $title -Slug $slug `
-      -Categories @("TIL", $ym) -Tags @("daily","til")
+    $raw  = Get-Content $_.FullName -Raw -Encoding UTF8
+    $parts = Get-PartMarkers $raw
+
+    if ($parts.Count -eq 0) {
+      # fallback: 통합 단일 포스트 (월 카테고리 제거)
+      Write-Post -Src $_.FullName -DateTime "$date 09:00:00" -Title "TIL $date" -Slug "til-$date" `
+        -Categories @("TIL") -Tags @("daily","til")
+      return
+    }
+
+    # 분할 모드: 마커별로 본문 슬라이스 → 포스트 1개
+    for ($i = 0; $i -lt $parts.Count; $i++) {
+      $p = $parts[$i]
+      $end = if ($i + 1 -lt $parts.Count) { $parts[$i+1].Start } else { $raw.Length }
+      $section = $raw.Substring($p.BodyFrom, $end - $p.BodyFrom).Trim()
+      # 첫 H2 헤딩에서 제목/슬러그 보강
+      $h = [regex]::Match($section, '^#{1,3}\s+(.+)$', 'Multiline')
+      $heading = if ($h.Success) { $h.Groups[1].Value.Trim() } else { "TIL $date" }
+      $slugBase = if ($p.Slug) { $p.Slug } else { (New-Slug $heading) }
+      $slug = "til-$slugBase"
+      $hh = "{0:D2}:00:00" -f (9 + $i)
+      $cats = if ($p.Cat.Count) { $p.Cat } else { @("TIL") }
+      $tags = if ($p.Tags.Count) { $p.Tags } else { @("til") }
+      Write-Post -DateTime "$date $hh" -Title $heading -Slug $slug `
+        -Categories $cats -Tags $tags -BodyOverride $section
+    }
   }
 
 # === 2. CS 면접 준비 (raw/cs-notion/) ===
@@ -145,4 +198,9 @@ Get-ChildItem "$Root\scrum" -Filter "*구현계획.md" -ErrorAction SilentlyCont
 Write-Host ""
 Write-Host "============================="
 Write-Host ("✓ 마이그레이션 완료: {0}개 포스트" -f $script:Total)
+if ($script:UnknownTags.Count) {
+  $uniq = $script:UnknownTags | Sort-Object -Unique
+  Write-Warning ("통제 어휘 미등록 태그 {0}종: {1}" -f $uniq.Count, ($uniq -join ", "))
+  Write-Host "  → _data/tag_vocab.yml 에 canonical 또는 별칭으로 추가하세요."
+}
 Write-Host "============================="

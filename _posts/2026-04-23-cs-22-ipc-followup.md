@@ -3,6 +3,7 @@ title: "CS — ipc followup"
 date: 2026-04-23 10:00:00 +0900
 categories: ["CS 면접 준비", "OS"]
 tags: ["ipc"]
+render_with_liquid: false
 ---
 
 # 📕 05/13 — IPC 모의면접 꼬리질문 정리

@@ -2,7 +2,8 @@
 title: "CS — race condition"
 date: 2026-04-24 10:00:00 +0900
 categories: ["CS 면접 준비", "OS"]
-tags: ["race-condition", "concurrency"]
+tags: ["concurrency"]
+render_with_liquid: false
 ---
 
 # 📕 05/13 — Race Condition에 대해서 이야기 해주세요
@@ -42,9 +43,9 @@ Race Condition은 **둘 이상의 실행 단위(스레드·프로세스)가 공�
 
 **Race를 막는 핵심 개념이 Critical Section(임계 영역)입니다.** "한 번에 한 스레드만 실행되어야 하는 코드 구간"을 가리키는 추상적 개념이고, 그 구간을 보호하는 도구가 **동기화 객체(synchronization primitive)** 입니다. 동기화 객체는 비용에 따라 세 층으로 나뉩니다.
 
-- **사용자 모드 우선(user-mode first)** — `Critical Section`(Windows)·`SRWLock`·`std::mutex`(MSVC). 경합이 없으면 사용자 모드에서 atomic 명령으로 끝나고, 경합 시에만 커널로 진입합니다. 경합 없을 때 수십 ns, 경합 시 1~3 μs.
-- **항상 커널 객체** — `Mutex`(Windows의 커널 mutex)·`Semaphore`·`Event`. 매번 시스템 콜 → 컨텍스트 스위칭(21)의 모드 스위치. 1~3 μs. 대신 프로세스 간 공유(이름 부여)가 가능합니다.
-- **Lock-free / atomic** — `std::atomic`·`InterlockedExchange`·CAS(Compare-And-Swap). CPU의 LOCK 접두사 명령(`LOCK CMPXCHG`)으로 컨텍스트 스위칭 없이 동기화. 수 ns. 단 자료구조 설계가 매우 어렵습니다.
+- **① 사용자 모드 우선(user-mode first) — 같은 프로세스 안에서만 동작하는 가벼운 락** — Windows `CRITICAL_SECTION` · Windows `SRWLOCK` · C++ 표준 `std::mutex`. 경합이 없으면 사용자 모드에서 atomic 명령으로 끝나고, 경합이 생긴 순간에만 커널로 진입합니다. 경합 없을 때 수십 ns, 경합 시 1~3 μs. ※ 이름에 "mutex"가 들어 있어도 `std::mutex`는 **이 그룹(사용자 모드)** 이고, 아래 ②의 Windows 커널 `Mutex`(`CreateMutex`)와는 별개 객체입니다.
+- **② 항상 커널 객체 — 프로세스 간 공유까지 가능한 무거운 락** — Windows 커널 `Mutex`(이름 부여 시 프로세스 간 공유) · Windows `Semaphore` · Windows `Event`. 매번 시스템 콜 → 컨텍스트 스위칭(21)의 모드 스위치. 1~3 μs.
+- **③ Lock-free / atomic — 락 자체를 쓰지 않는 동기화** — `std::atomic` · `InterlockedExchange` · CAS(Compare-And-Swap). CPU의 LOCK 접두사 명령(`LOCK CMPXCHG`)으로 컨텍스트 스위칭 없이 동기화. 수 ns. 단 자료구조 설계가 매우 어렵습니다.
 
 **메모리 모델(memory model)이 또 한 층의 문제를 만듭니다.** 현대 CPU는 **명령 재배치(reordering)** 와 **캐시 일관성(cache coherence)** 때문에, 한 스레드가 본 쓰기 순서가 다른 스레드에서는 다르게 보일 수 있습니다. 그래서 단순히 락만 걸어선 부족하고, `std::atomic`의 `memory_order_acquire`/`memory_order_release` 같은 **memory barrier**로 명령 재배치를 막아야 합니다. acquire는 "이 시점 이후의 읽기·쓰기가 이 시점보다 앞으로 재배치되지 않게", release는 "이 시점 이전의 읽기·쓰기가 이 시점보다 뒤로 재배치되지 않게" 막는 펜스(fence)입니다. 락 없이 두 스레드 간 데이터를 안전하게 주고받으려면 이 둘이 한 짝이어야 합니다.
 
@@ -1650,6 +1651,60 @@ MPSC(Multi Producer Single Consumer)도 지원 — 여러 워커 → 메인 스�
 | 공유 컨테이너 | `FCriticalSection` + `FScopeLock` | 드물게 |
 | Producer-Consumer | `TQueue<T, EQueueMode::Spsc/Mpsc>` | lock-free |
 
+### 14.9 언리얼에서도 `CreateMutex`를 직접 쓰는 경우
+
+언리얼이 보통 `FCriticalSection`(내부적으로 Windows `CRITICAL_SECTION` 래핑)을 쓰지만, **IPC가 필요한 일부 시나리오에서는 named Mutex(`CreateMutexW`)를 직접 호출**합니다.
+
+대표 사례:
+
+- **에디터 단일 인스턴스 보장** — 같은 프로젝트를 두 번 열지 못하게 named Mutex로 락. 두 번째 에디터가 `OpenMutexW`로 같은 이름을 열어 이미 존재하면 종료.
+- **에디터 ↔ 외부 도구 협업** — Swarm(라이트맵 빌드)·Unreal Insights·Live Coding 같은 외부 프로세스와 데이터·신호를 주고받을 때, IPC(22)의 "공유 메모리 + named 동기화 객체" 패턴이 등장. 공유 메모리에는 데이터를 두고, 동기화는 named Mutex/Event로.
+- **플랫폼 IPC 일반** — `FPlatformProcess::CreateInterprocessSynchObject` 같은 추상화 계층이 내부적으로 `CreateMutex`/`pthread_mutex`(PROCESS_SHARED 속성) 등으로 갈라집니다.
+
+```cpp
+// 단일 인스턴스 패턴 (개념적 예)
+HANDLE hMutex = CreateMutexW(NULL, FALSE, L"Local\\MyGameEditor_Mutex");
+if (GetLastError() == ERROR_ALREADY_EXISTS)
+{
+    // 이미 실행 중 — 종료
+    return;
+}
+```
+
+같은 프로세스 안에서는 `FCriticalSection`(사용자 모드 우선, 수십 ns)이 압도적으로 빠르므로 `CreateMutex`를 쓸 이유가 없습니다. 그러나 **프로세스 경계를 넘는 동기화가 필요한 순간** named Mutex의 비용(1~3 μs)을 감수합니다. IPC(22)에서 정리한 트레이드오프 — 비용을 내고 프로세스 격리를 깬다 — 가 그대로 적용됩니다.
+
+### 14.10 `FTimerManager` / `SetTimer` — 단일 스레드 타이머의 안전성
+
+```cpp
+// AActor::BeginPlay
+GetWorldTimerManager().SetTimer(
+    TimerHandle,
+    this, &AMyActor::OnTimer,
+    1.0f, /* 1초 후 콜백 */
+    false
+);
+```
+
+`FTimerManager`는 **GameThread tick 안에서 만료된 타이머를 검사·실행**합니다. 그래서 콜백이 GameThread에서 호출되고, 다른 GameThread 코드와 race가 없습니다 — UObject 멤버를 자유롭게 만져도 안전.
+
+**race가 끼어드는 시나리오** — 멀티스레드 작업 결과를 게임 스레드로 가져올 때.
+
+```cpp
+// 백그라운드에서 무거운 계산
+AsyncTask(ENamedThreads::AnyBackgroundThreadNormalTask, [this]() {
+    HeavyResult Result = ComputeOnBackground();
+
+    // 결과를 GameThread로 — race 없이 안전
+    AsyncTask(ENamedThreads::GameThread, [this, Result]() {
+        ApplyResult(Result);   // GameThread에서 실행 — UObject 안전
+    });
+});
+```
+
+`AsyncTask(ENamedThreads::GameThread, ...)` 패턴은 §14.2의 `ENQUEUE_RENDER_COMMAND`와 같은 철학 — **공유 자원에 동시 접근하지 말고, 작업을 적절한 스레드로 보내자**. 결과적으로 race를 회피하는 게 아니라 race가 발생할 여지를 만들지 않습니다.
+
+`FTimerManager`도 같은 원리 — 타이머 콜백이 항상 GameThread에서 실행되므로, 콜백 안에서는 동기화 객체를 생각할 필요가 거의 없습니다. 언리얼이 race를 줄이는 또 하나의 구조적 장치.
+
 ---
 
 ## 15. 꼬리질문 예상 경로
@@ -1819,6 +1874,81 @@ MPSC(Multi Producer Single Consumer)도 지원 — 여러 워커 → 메인 스�
 > 멀티코어에서 짧은 critical section이면 spin이 mutex보다 빠릅니다 — 컨텍스트 스위치 비용(1~3 μs)보다 spin 비용(수십 ns)이 작기 때문.
 >
 > 실무에서는 보통 **Windows `CRITICAL_SECTION`의 spin count 기능**을 씁니다 — 처음에는 spin을 시도하고, 일정 횟수 안에 못 잡으면 커널 진입(mutex 동작). 두 방식의 장점을 결합. `InitializeCriticalSectionAndSpinCount(&cs, 4000)`이 그 API.
+
+### Q11. "레이스 컨디션을 해결하는 방법은 무엇인가요?"
+
+> **세 가지 큰 갈래**가 있습니다 — 뮤텍스(상호 배제), 세마포어(카운터 기반), Lock-free/atomic. 어느 갈래를 쓰느냐는 **공유 자원의 성격과 동시 접근 허용 개수**에 따라 결정됩니다.
+>
+> **첫째, 뮤텍스(Mutex)** — 한 스레드만 락을 보유. **상호 배제(Mutual Exclusion)** 의 줄임말 그대로, "한 번에 한 명만". 가장 직관적이고 가장 많이 쓰입니다. 단일 자원을 보호할 때 기본 선택.
+>
+> **둘째, 세마포어(Semaphore)** — 카운터 기반으로 **N개 동시 접근을 허용**. 리소스 풀(DB 커넥션 10개, 워커 슬롯 4개)을 보호할 때 사용. 카운트가 0이 되면 대기, release되면 카운터 증가.
+>
+> **셋째, Lock-free / atomic** — 락 자체를 안 씁니다. CPU의 LOCK 접두사 명령(`LOCK CMPXCHG`)으로 read-modify-write를 한 명령으로 묶어 race를 회피. 카운터·플래그·단일 포인터 같은 단순한 공유 자원에 적합하고, 비용이 수 ns로 가장 저렴.
+>
+> 그리고 같은 뮤텍스 안에서도 **사용자 모드 vs 커널 모드** 선택지가 있습니다. 같은 프로세스 안에서만 쓰면 `std::mutex` / `CRITICAL_SECTION` 같은 사용자 모드 락이 빠르고, 프로세스 간 공유가 필요하면 `CreateMutex` 같은 Windows 커널 객체가 필요합니다. 비용 차이가 100배(수십 ns vs 1~3 μs)이므로 IPC가 필요 없을 때 커널 Mutex를 쓰면 무의미하게 느려집니다.
+>
+> 정리하면 — **뮤텍스(단일 자원), 세마포어(N개 자원), atomic/lock-free(단순 자원·고성능)** 세 갈래를 자원 성격에 맞춰 선택합니다.
+
+### Q12. "세마포어 카운트에 제한이 있나요?"
+
+> 있습니다. 그리고 **카운트 최대값을 어디에 지정하는지가 binary semaphore와 counting semaphore를 가르는 분기점**입니다.
+>
+> **Binary semaphore**는 카운트가 0 또는 1만 가능 — 사실상 mutex와 동등. **Counting semaphore**는 N개까지 카운트 가능하고, 그 N을 어떻게 정하느냐가 API별로 다릅니다.
+>
+> - **Windows `CreateSemaphore`** — `lInitialCount`(초기값)와 `lMaximumCount`(상한)를 인자로 받습니다. `LONG_MAX`(약 21억, 0x7FFFFFFF)까지 가능하지만 실무에서는 리소스 풀 크기에 맞춰 작게 지정.
+> - **POSIX `sem_init`** — 상한 인자 없이 `SEM_VALUE_MAX`(보통 `INT_MAX` 또는 OS별 상수)가 한계. 초기값만 지정.
+> - **C++20 `std::counting_semaphore<MAX>`** — **컴파일 타임 템플릿 인자로 상한 지정**. 기본 `std::counting_semaphore<>`는 `PTRDIFF_MAX`. `std::binary_semaphore`는 `std::counting_semaphore<1>`의 별칭.
+>
+> **실무에서 카운트 결정 기준**은 보호하려는 리소스의 실제 개수입니다 — DB 커넥션 풀 10개라면 카운트 10, GPU 디코더 슬롯 4개라면 카운트 4. 너무 크게 잡으면 동시 접근이 늘어 캐시 경합·메모리 압박이 생기고, 너무 작게 잡으면 처리량이 떨어집니다.
+>
+> 한 가지 주의 — **세마포어는 "소유자(owner)" 개념이 없습니다**. mutex는 잠근 스레드만 풀 수 있지만, 세마포어는 어떤 스레드든 release 가능. 그래서 카운트 관리 실수가 더 위험합니다 — release를 두 번 하면 카운트가 의도와 달라집니다.
+
+### Q13. "뮤텍스와 임계영역(Critical Section)의 차이는?"
+
+> **혼동을 부르는 가장 큰 이유는 Windows API가 사용자 모드 락의 이름을 `CRITICAL_SECTION`이라고 지어버린 것입니다.** 개념과 API 이름이 같아 보여서, 둘이 같은 차원의 무언가처럼 보입니다. 사실은 그렇지 않습니다.
+>
+> **임계영역(Critical Section)은 추상 개념** — "한 번에 한 스레드만 실행되어야 하는 코드 구간". 자원이 아니라 코드 구간이고, OS·언어·플랫폼과 무관한 동시성 이론의 용어입니다.
+>
+> **뮤텍스(Mutex)는 그 구간을 보호하는 도구** — 동기화 객체. 임계영역을 구현하는 한 가지 방법.
+>
+> 비유하자면 **임계영역이 "보호해야 할 방"이라면, 뮤텍스는 "방문 자물쇠"** 입니다. 자물쇠는 세마포어·SRWLock·Critical Section API 등 여러 종류가 있고, 모두 임계영역이라는 추상 개념을 구현한 도구입니다.
+>
+> 정리:
+>
+> | 구분 | 임계영역(개념) | 뮤텍스(도구) | Critical Section(Windows API) |
+> |---|---|---|---|
+> | 차원 | 추상 개념 | 동기화 객체 | 사용자 모드 락 구현 |
+> | 정의 | 보호받을 코드 구간 | 한 스레드만 보유 | Windows의 사용자 모드 mutex |
+> | 예 | "이 함수 안의 5줄" | `std::mutex`, `CreateMutex` | `EnterCriticalSection` 호출 |
+>
+> 그래서 `CRITICAL_SECTION` API는 **개념(임계영역)이 아니라 도구(사용자 모드 mutex)** 입니다. 이름이 헷갈리게 지어졌을 뿐. 면접에서 "Critical Section이 뭡니까?"는 보통 추상 개념을 묻는 질문이고, "CRITICAL_SECTION API와 Mutex의 차이는?"은 도구 비교 질문입니다.
+
+### Q14. "`CreateMutex`(Windows API)와 `std::mutex`의 차이는?"
+
+> 둘 다 "mutex"라는 이름이지만 **비용과 기능이 완전히 다른 객체**입니다. 이름 함정의 대표 사례.
+>
+> **`CreateMutex`** — Windows 커널 객체. **항상 시스템 콜**을 거치므로 락 1회 1~3 μs. 대신 두 가지 강점이 있습니다.
+>
+> - **프로세스 간 공유 가능** — 이름을 부여하면(`CreateMutexW(NULL, FALSE, L"MyMutex")`) 다른 프로세스가 `OpenMutexW`로 같은 mutex에 접근. IPC(22)의 핵심 패턴.
+> - **다른 커널 객체와 함께 wait 가능** — `WaitForMultipleObjects`로 여러 핸들(이벤트·세마포어·스레드·파이프 등)을 한 번에 대기.
+>
+> **`std::mutex`** — C++ 표준. **사용자 모드 우선**(MSVC는 내부적으로 `SRWLOCK` 또는 자체 atomic 사용). 경합 없으면 atomic CAS만으로 수십 ns에 끝나고, 경합이 생긴 순간에만 커널로 진입. 같은 프로세스 내 한정.
+>
+> 비교 표:
+>
+> | 항목 | `CreateMutex` | `std::mutex` |
+> |---|---|---|
+> | 구현 계층 | Windows 커널 객체 | 사용자 모드 우선 (필요 시 커널) |
+> | 비용 (경합 없음) | 1~3 μs (항상 syscall) | 수십 ns |
+> | 비용 (경합) | 1~3 μs | 1~3 μs |
+> | 프로세스 간 공유 | YES (named) | NO (같은 프로세스만) |
+> | `WaitForMultipleObjects` | YES (커널 핸들) | NO |
+> | 표준 / 이식성 | Windows 전용 | C++ 표준, 크로스플랫폼 |
+> | RAII 가드 | 직접 작성 | `std::lock_guard`, `std::scoped_lock` |
+>
+> **선택 기준** — 같은 프로세스 내 동기화라면 무조건 `std::mutex` (또는 `CRITICAL_SECTION`). 프로세스 간 공유가 필요하면 `CreateMutex`. 굳이 같은 프로세스에 `CreateMutex`를 쓰면 100배 느리고 코드 이식성도 떨어집니다.
+>
+> 면접에서 강조 — **"이름이 같은 mutex라고 같은 객체가 아니다"**. `CreateMutex`는 커널, `std::mutex`는 사용자 모드 우선. 비용·기능·이식성 모두 다릅니다.
 
 ---
 

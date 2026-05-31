@@ -3,6 +3,7 @@ title: "CS — class vs struct"
 date: 2026-04-03 10:00:00 +0900
 categories: ["CS 면접 준비", "C++"]
 tags: ["class", "struct"]
+render_with_liquid: false
 ---
 
 # 📕 class와 struct 의 차이점

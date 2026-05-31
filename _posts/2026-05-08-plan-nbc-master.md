@@ -3,6 +3,7 @@ title: "구현계획 — NBC_Master"
 date: 2026-05-08 12:00:00 +0900
 categories: ["스크럼 회고", "구현계획"]
 tags: ["scrum", "plan"]
+render_with_liquid: false
 ---
 
 # NBC_Master 구현 계획 — Sandbox 패턴 리팩터 + ADS 도전

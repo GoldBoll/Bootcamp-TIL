@@ -1,8 +1,9 @@
 ---
 title: "CS — pushback vs emplaceback"
-date: 2026-04-16 12:00:00 +0900
+date: 2026-04-16 14:00:00 +0900
 categories: ["CS 면접 준비", "자료구조"]
 tags: ["vector", "hash"]
+render_with_liquid: false
 ---
 
 # 📕 04/30 — vector push_back vs emplace_back + 해시 충돌 보강
