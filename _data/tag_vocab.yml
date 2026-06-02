@@ -18,6 +18,12 @@ canonical:
   unity3d:    ["unity 3d", "3d action rpg", "3d quarter view action"]
   gamedev:    ["게임 개발", "게임개발", "visual scripting", "비주얼 스크립팅"]
 
+  # --- Ch4 팀 프로젝트 / 게임 기획 ---
+  game-design:      ["게임기획", "게임 기획", "기획"]
+  social-deduction: ["소셜추리", "사회적 추리", "히든롤", "hidden-role", "마피아"]
+  brainstorm:       ["브레인스토밍", "아이디에이션", "ideation"]
+  trace:            ["트레이스"]
+
   # --- CS ---
   os:         ["운영체제", "operating system"]
   process:    ["프로세스"]
