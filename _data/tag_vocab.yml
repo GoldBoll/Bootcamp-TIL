@@ -11,6 +11,16 @@ canonical:
   gas:        ["gameplay ability system", "ability system"]
   fps:        ["project shooter", "shooter"]
   umg:        ["ui", "slate"]
+  delegate:   ["델리게이트", "multicast-delegate", "dynamic-delegate", "이벤트디스패처", "event-dispatcher"]
+  interface:  ["인터페이스", "uinterface"]
+  component:  ["컴포넌트", "actorcomponent", "actor-component"]
+  subsystem:  ["서브시스템", "gameinstancesubsystem", "game-instance-subsystem"]
+  enhanced-input: ["enhanced input", "인핸스드인풋", "input-action"]
+  uobject:    ["u-object"]
+  uclass:     ["u-class"]
+  ustruct:    ["u-struct"]
+  reflection: ["리플렉션", "uht", "unreal-header-tool", "uproperty", "ufunction"]
+  gc:         ["garbage-collection", "가비지컬렉션", "가비지 컬렉션", "garbage-collector"]
 
   # --- Unity / 게임개발 ---
   unity:      ["유니티"]
@@ -37,6 +47,8 @@ canonical:
   vector:     ["배열", "array"]
   list:       ["연결리스트", "linked-list"]
   map:        ["해시맵", "hashmap"]
+  set:        ["셋", "집합"]
+  stack:      ["스택"]
   hash:       ["해시"]
   stl:        []
 
@@ -48,12 +60,21 @@ canonical:
   dp:         ["동적계획법", "dynamic-programming"]
   string:     ["문자열"]
   bitmask:    ["비트마스크"]
+  simulation: ["시뮬레이션", "구현"]
+  greedy:     ["그리디", "탐욕법"]
+
+  # --- 패턴 / 협업 / 디버깅 ---
+  design-pattern: ["디자인패턴", "디자인 패턴", "template-pattern", "sandbox-pattern", "템플릿패턴", "샌드박스패턴"]
+  debugging:  ["디버깅", "null-check", "crash", "access-violation"]
+  git:        ["깃", "gitignore", "버전관리", "version-control"]
 
   # --- 메타 / 워크플로우 ---
   til:        ["내일배움캠프"]
   daily:      []
   scrum:      []
   plan:       ["구현계획"]
+  mock-interview: ["모의면접", "모의 면접", "면접"]
+  cs:         []
 
   # --- C++ 세부 (기존 _posts 태그 보존) ---
   pointer:    ["포인터"]
