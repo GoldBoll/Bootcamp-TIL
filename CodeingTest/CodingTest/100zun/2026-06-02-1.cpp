@@ -1,0 +1,50 @@
+// LeetCode 198 - House Robber (Medium)
+// https://leetcode.com/problems/house-robber/
+
+// 문제 설명
+// 일렬로 늘어선 집들의 금액 배열 nums가 주어진다.
+// 인접한 두 집을 같은 밤에 털면 경보가 울린다.
+// 인접하지 않게 골라 털 때 얻을 수 있는 최대 금액을 반환하라.
+
+// 제약 조건
+// 1 <= nums.length <= 100
+// 0 <= nums[i] <= 400
+
+// Example 1
+// Input : nums = [1,2,3,1]
+// Output: 4
+//   1번 집(1) + 3번 집(3) = 4.
+//
+// Example 2
+// Input : nums = [2,7,9,3,1]
+// Output: 12
+//   2 + 9 + 1 = 12.
+
+// 접근 — DP + 롤링 변수
+// i번 집까지 봤을 때의 최대 금액을 dp[i]라 하면,
+//   dp[i] = max(dp[i-1],          // i번 집을 안 턴다
+//               dp[i-2] + nums[i]) // i번 집을 털고 i-2까지의 최선과 합친다
+// dp 전체를 들고 있을 필요 없이 직전 두 값만 있으면 되므로 O(1) 공간으로 줄인다.
+//   prev2 = dp[i-2], prev1 = dp[i-1]
+// 시간 O(n), 공간 O(1)
+
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int rob(vector<int>& nums)
+    {
+        int prev2 = 0;  // dp[i-2]
+        int prev1 = 0;  // dp[i-1]
+
+        for (int money : nums)
+        {
+            int cur = max(prev1, prev2 + money);  // 이번 집을 털지 말지 선택
+            prev2 = prev1;
+            prev1 = cur;
+        }
+        return prev1;  // 마지막 집까지의 최선
+    }
+};

@@ -1,0 +1,57 @@
+// LeetCode 64 - Minimum Path Sum (Medium)
+// https://leetcode.com/problems/minimum-path-sum/
+
+// 문제 설명
+// 음수가 아닌 수로 채워진 m x n 격자 grid가 주어진다.
+// 좌상단에서 우하단까지, 오른쪽 또는 아래로만 이동하며
+// 지나온 칸들의 합이 최소가 되는 경로의 합을 반환하라.
+
+// 제약 조건
+// m == grid.length, n == grid[0].length
+// 1 <= m, n <= 200
+// 0 <= grid[i][j] <= 200
+
+// Example 1
+// Input : grid = [[1,3,1],[1,5,1],[4,2,1]]
+// Output: 7
+//   1 → 3 → 1 → 1 → 1 경로의 합이 최소.
+//
+// Example 2
+// Input : grid = [[1,2,3],[4,5,6]]
+// Output: 12
+
+// 접근 — DP (격자 in-place)
+// (i, j)에는 위(i-1, j) 또는 왼쪽(i, j-1)에서만 올 수 있으므로,
+//   grid[i][j] += min(위에서 온 최소합, 왼쪽에서 온 최소합)
+// 첫 행은 왼쪽에서만, 첫 열은 위에서만 누적된다.
+// grid 자체를 dp 테이블로 덮어써서 별도 공간 없이 처리한다.
+// 시간 O(m*n), 공간 O(1) (입력 격자 재사용)
+
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid)
+    {
+        int m = (int)grid.size();
+        int n = (int)grid[0].size();
+
+        for (int i = 0; i < m; ++i)
+        {
+            for (int j = 0; j < n; ++j)
+            {
+                if (i == 0 && j == 0)
+                    continue;                       // 시작점은 그대로
+                else if (i == 0)
+                    grid[i][j] += grid[i][j - 1];   // 첫 행: 왼쪽에서만
+                else if (j == 0)
+                    grid[i][j] += grid[i - 1][j];   // 첫 열: 위에서만
+                else
+                    grid[i][j] += min(grid[i - 1][j], grid[i][j - 1]);
+            }
+        }
+        return grid[m - 1][n - 1];  // 우하단까지의 최소 경로합
+    }
+};
