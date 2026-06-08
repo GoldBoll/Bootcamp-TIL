@@ -1,0 +1,358 @@
+---
+title: "[TIL] 2026-06-08 — 언리얼 멀티플레이 RPC·Property Replication·게임 프로젝트 구조 (강의 챕터 2~4)"
+date: 2026-06-08 19:00:00 +0900
+categories: ["TIL", "Unreal"]
+tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "gameplay-framework", "netmode", "netrole", "enhanced-input", "umg"]
+render_with_liquid: false
+---
+
+> 언리얼 멀티플레이어 게임 개발 강의 **챕터 2~4**를 정리했다. 챕터 1에서 본 "이 로직이 서버에서 도는가 클라에서 도는가"(NetMode·NetRole)를 실제 **통신 수단**으로 옮긴다. 챕터 2는 일시적 효과를 보내는 **RPC**(Server/Client/NetMulticast)와 멀티플레이 채팅, 챕터 3은 액터 속성을 복제하는 **Property Replication**과 숫자 야구 게임, 챕터 4는 이 모든 걸 얹을 **게임 프로젝트 구조**(게임플레이 프레임워크 5클래스·디버그 로깅·시작 이벤트 흐름)다. 관통 주제는 챕터 1과 동일: **중대한 로직은 권한(Authority)을 가진 서버에서만 처리하고, 그 결과를 RPC·Replication으로 클라에 전파한다.**
+
+## 오늘 한 일 요약
+
+1. **챕터 2-1** — RPC(Remote Procedure Call) 기초. Call vs Invoke, Actor Ownership(Client-Owned/Server-Owned), `UFUNCTION` 키워드(Server/Client/NetMulticast)와 실행 위치 판정, `WithValidation`, Reliable vs Unreliable.
+2. **챕터 2-2** — 멀티플레이 채팅 구현. 내 메시지 → Server RPC로 서버 전송 → 서버가 Client RPC로 모든 클라에 재전송. 접속 알림은 `GameState`의 NetMulticast.
+3. **챕터 3-1** — Property Replication. 액터 속성만 골라 복제하는 3단계 설정(`bReplicates`·`UPROPERTY(Replicated)`·`DOREPLIFETIME`).
+4. **챕터 3-2~3-4** — 숫자 야구 게임. 판정 로직(GameMode), 시도 횟수 관리(PlayerState), 승리·무승부·리셋과 공지 위젯(`FText` 바인딩).
+5. **챕터 4-1~4-2** — 게임 프로젝트(DedicatedX) 생성. 게임플레이 프레임워크 5클래스 + 캐릭터(SpringArm·Camera·Enhanced Input), 데디 서버 실행 환경 설정.
+6. **챕터 4-3** — 멀티플레이 디버그 로깅(넷모드별 로그 매크로), 접속 차단(PreLogin), `NetConnection`/`Channel`/`Packet`/`Bunch`, **StartPlay→BeginPlay 흐름**과 **Possess 과정**.
+
+## 1. RPC 기초 (2-1)
+
+**RPC(Remote Procedure Call)** 는 "호출하는 PC와 실행하는 PC가 달라도 되게 해주는 통신 기법"이다. 챕터 1까지는 호출 PC = 실행 PC(전부 로컬)였지만, 멀티플레이에서는 "내 PC에서 함수를 호출했는데 서버 PC에서 실행"되는 상황이 필요하다.
+
+### RPC의 용도 — 코스메틱 한정
+
+언리얼에서 RPC는 **게임에 큰 영향을 주지 않는 일시적 효과**(코스메틱 — 사운드, 파티클)에 쓴다. HP 감소·아이템 스폰처럼 게임에 중대한 영향을 주는 건 RPC가 아니라 **Property Replication**으로 처리한다. RPC는 기본이 Unreliable이라 실행이 보장되지 않기 때문이다.
+
+### Call vs Invoke
+
+| 구분 | 시점 | 결정 대상 | 예 |
+|---|---|---|---|
+| **Call(정적)** | 컴파일타임 | 어떤 함수를·어디서 호출/실행할지 고정 | 일반 함수 호출 |
+| **Invoke(동적)** | 런타임 | 실행 위치가 런타임에 결정 | 함수 포인터, 동적 바인딩, **RPC** |
+
+그래서 "RPC를 **Invoke**한다"고 표현한다. 어느 PC에서 실행될지가 런타임에 정해지기 때문.
+
+### Actor Ownership — 누가 이 액터의 주인인가
+
+멀티플레이를 적용하려면 액터가 **서버에서 스폰**되고 `bReplicates = true`여야 한다. 그다음 서버에서 `SetOwner(PlayerController)`를 호출해야 그 액터가 **Client-Owned**가 된다.
+
+| Ownership | 조건 | 예 |
+|---|---|---|
+| **Client-Owned (내 캐릭터)** | `SetOwner`로 지정한 PlayerController가 **Local** PlayerController와 같음 | 내 캐릭터 |
+| **Client-Owned (남의 캐릭터)** | 지정된 PlayerController가 Local과 **다름** | 친구 캐릭터 |
+| **Server-Owned (= Unowned)** | `SetOwner` 호출 안 함 | 보물상자 |
+
+이 Owner 관계가 "이 RPC가 어느 클라로 가는가"를 결정한다(챕터 1의 Ownership 사슬과 직결).
+
+### UFUNCTION 키워드 — 실행 요청 vs 실제 실행
+
+`UFUNCTION`의 RPC 키워드는 **"해당 원격 PC에서 RPC를 실행해달라는 요청"** 이다. 실제로 실행되는지는 호출 위치·Ownership에 따라 표로 판단한다.
+
+| 키워드 | 실행 PC |
+|---|---|
+| **NetMulticast** | 서버 + 모든 클라 |
+| **Server** | 서버에서 |
+| **Client** | (소유)클라에서 |
+
+자주 쓰는 세 케이스:
+
+1. **클라 호출 → 서버 실행 = `Server`** — Client-Owned 액터에서 호출. `_Validate`로 실행 여부를 결정.
+2. **서버 + 모든 클라 실행 = `NetMulticast`** — 서버에서 호출. 부하가 커서 `Tick` 같은 빈번한 호출에는 비권장.
+3. **서버 호출 → 클라 실행 = `Client`** — 서버에서 호출.
+
+### WithValidation — 위변조 방어막
+
+서버에서 실행되는 RPC에는 `WithValidation`을 권장한다. `_Implementation()`과 `_Validate()`를 분리하고, `_Validate()`가 실행 여부를 먼저 결정한다.
+
+```cpp
+UFUNCTION(Server, Reliable, WithValidation)
+void ServerRPCPrintChatMessageString(const FString& MessageString);
+// 구현부는 둘로 나뉜다
+bool ServerRPCPrintChatMessageString_Validate(const FString& MessageString); // 실행 여부 판정
+void ServerRPCPrintChatMessageString_Implementation(const FString& MessageString); // 실제 로직
+```
+
+서버 로직은 무조건 신뢰되므로, 클라가 보낸 요청이 정상인지 `_Validate`에서 걸러야 조작된 패킷이 서버 로직을 직접 건드리지 못한다.
+
+### Reliable vs Unreliable
+
+- **Unreliable(기본)** — 실행이 보장되지 않는다. 코스메틱(놓쳐도 괜찮은 효과)에 사용.
+- **Reliable** — 무조건 실행을 보장. 충돌·데미지·스폰처럼 빠지면 안 되는 로직에 사용.
+
+## 2. 멀티플레이 채팅 구현 (2-2)
+
+데디케이티드 서버는 **서버-클라 구조**라 클라끼리 직접 통신할 수 없다(챕터 1-2). 채팅 한 줄이 모두에게 도달하려면 반드시 서버를 경유한다.
+
+```
+내 메시지 ──Server RPC──▶ 서버 ──Client RPC(전 클라 순회)──▶ 모든 클라
+```
+
+```cpp
+void ACXPlayerController::SetChatMessageString(const FString& MessageString)
+{
+    if (IsLocalController()) // 내 컨트롤러에서만 서버로 전송
+        ServerRPCPrintChatMessageString(MessageString);
+}
+
+void ACXPlayerController::ServerRPCPrintChatMessageString_Implementation(const FString& MessageString)
+{
+    // 서버에서 전체 PlayerController를 순회하며 각 클라로 재전송
+    for (TActorIterator<APlayerController> It(GetWorld()); It; ++It)
+    {
+        ACXPlayerController* PC = Cast<ACXPlayerController>(*It);
+        if (IsValid(PC))
+            PC->ClientRPCPrintChatMessageString(MessageString);
+    }
+}
+```
+
+### 왜 Client RPC이고 NetMulticast가 아닌가
+
+순회 재전송에 `NetMulticast`를 쓰면 안 된다. `PlayerController`는 **내 PC와 서버에만** 존재한다(챕터 1-4 액터 존재 위치 표). PlayerController에서 Multicast를 호출해도 내 PC와 서버에만 도달할 뿐, 다른 클라에는 가지 않는다. 그래서 "각 PlayerController로 개별 Client RPC"를 보내야 전원에게 닿는다.
+
+### 접속 알림 — GameState의 NetMulticast
+
+플레이어가 들어왔을 때 "OOO가 접속했습니다"를 모두에게 알리는 건 `GameMode::OnPostLogin`에서 처리한다. 단, 알림 RPC는 `GameMode`가 아니라 **`GameState`** 에 정의한다.
+
+```cpp
+void ACXGameModeBase::OnPostLogin(AController* NewPlayer)
+{
+    Super::OnPostLogin(NewPlayer);
+    ACXGameStateBase* GS = GetGameState<ACXGameStateBase>();
+    if (IsValid(GS))
+        GS->MulticastRPCBroadcastLoginMessage(/* ... */);
+}
+
+void ACXGameStateBase::MulticastRPCBroadcastLoginMessage_Implementation(/* ... */)
+{
+    if (HasAuthority()) return; // 서버에서는 출력 안 함, 클라에서만
+    // 화면에 접속 메시지 출력
+}
+```
+
+`GameState`는 모든 클라에 복제되므로, 거기서 호출한 Multicast는 전원에게 전달된다. **어느 액터에서 Multicast를 정의하느냐**가 핵심이다 — PlayerController가 아니라 GameState여야 한다.
+
+## 3. Property Replication (3-1)
+
+**레플리케이션**은 생성된 액터 정보를 네트워크 내 다른 클라에 복제하는 것이다. 기본은 **서버 → 클라 단방향**. 복제에는 두 방법이 있다 — RPC(챕터 2)와 **Property Replication**.
+
+**Property Replication**은 액터의 **원하는 속성만** 골라 복제한다(전체 복제는 비효율). 방향은 항상 **Authority → Proxy**.
+
+### 설정 3단계
+
+```cpp
+// ① 생성자에서 액터 복제 켜기
+ACXPlayerState::ACXPlayerState() { bReplicates = true; }
+
+// ② 복제할 속성에 Replicated 지정
+UPROPERTY(Replicated)
+FString PlayerNameString;
+
+// ③ GetLifetimeReplicatedProps에서 DOREPLIFETIME 등록 (+ #include "Net/UnrealNetwork.h")
+void ACXPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+    DOREPLIFETIME(ACXPlayerState, PlayerNameString);
+}
+```
+
+### 복제 가능 여부 판단
+
+- 서버에 액터가 없으면 불가 (단방향이라 출발점이 없음).
+- 클라에 `bReplicates`로 복제가 안 되어 있으면 불가.
+- **데디 서버 + 클라 양쪽에 액터가 존재**하면 가능.
+
+## 4. 숫자 야구 — 판정·시도 횟수·승패 (3-2~3-4)
+
+### 판정 로직은 서버(GameMode)에서 (3-2)
+
+숫자 야구 판정은 권위를 가진 **서버(GameMode)** 가 수행한다.
+
+- `GenerateSecretNumber()` — 1~9 중 유니크한 3자리 생성.
+- `IsGuessNumberString()` — 3자리·중복 없음·0 없음 검증.
+- `JudgeResult()` — 스트라이크/볼 계산 → `"%dS%dB"` 또는 `"OUT"`.
+
+흐름은 Server RPC 안에서 `UGameplayStatics::GetGameMode`로 GameMode를 가져와 판정을 호출하고, 결과 문자열을 Client RPC로 돌려준다.
+
+```cpp
+void ACXPlayerController::ServerRPCPrintChatMessageString_Implementation(const FString& MessageString)
+{
+    ACXGameModeBase* GM = Cast<ACXGameModeBase>(UGameplayStatics::GetGameMode(this));
+    if (IsValid(GM))
+        GM->PrintChatMessageString(this, MessageString); // 내부에서 판정 → ClientRPC로 결과 전송
+}
+```
+
+### 시도 횟수 관리는 PlayerState에서 (3-3)
+
+플레이어 번호는 개별 지속 상태이므로 **`PlayerState`(CXPlayerState)** 에서 관리한다. `OnPostLogin`에서 접속 순서대로 `"Player" + AllPlayerControllers.Num()`로 이름을 부여한다.
+
+핵심은 **복제를 빠뜨리면 클라에서 값이 안 보인다**는 것. `PlayerNameString`을 `UPROPERTY(Replicated)` + 생성자 `bReplicates = true` + `DOREPLIFETIME`로 등록하지 않으면, PIE에서 클라 화면에 이름이 비는 문제가 발생한다.
+
+`CurrentGuessCount`·`MaxGuessCount`도 `Replicated`로 등록하고, `GetPlayerInfoString()`으로 `"Player1(1/3)"` 형태를 출력한다.
+
+> 생각거리: `MaxGuessCount`는 정말 복제가 필요한가? (게임 내내 고정값이라면 복제 비용을 줄일 여지가 있다.)
+
+### 패배·승리·무승부·게임 리셋 (3-4)
+
+승리·무승부·리셋 판정도 서버(GameMode)가 한다. 공지는 `UserWidget` 위젯 `WBP_NotificationText`로 띄운다.
+
+```cpp
+// PlayerController에 공지 텍스트 (UI 표시·블루프린트 읽기 전용)
+UPROPERTY(Replicated, BlueprintReadOnly)
+FText NotificationText;
+```
+
+UMG의 Text를 **Create Binding**으로 `NotificationText`에 묶고, `FText::FromString`으로 메시지를 설정한다.
+
+`JudgeGame`의 판정:
+
+- **3스트라이크** → 승리. `"<Player> has won the game."` + `ResetGame`.
+- **모든 플레이어가 `MaxGuessCount` 소진** → 무승부. `"Draw..."` + `ResetGame`.
+- `ResetGame` — 새 `SecretNumber` 생성 + 모든 `CurrentGuessCount`를 0으로.
+
+여기서 처음으로 **`FText`** 가 등장한다(UI 표시·`BlueprintReadOnly`). 직전 CS 36(FString/FName/FText)의 "표시·현지화 = FText"가 그대로 적용된 지점 — 채팅·판정 메시지는 가공/전송이라 `FString`, 화면 공지 텍스트는 `FText`다.
+
+## 5. 게임 프로젝트 생성과 게임플레이 프레임워크 (4-1~4-2)
+
+### 프로젝트 생성 (4-1)
+
+`DedicatedX` 프로젝트(C++, Empty, Desktop, Scalable)를 만들고 **ThirdPerson + StarterContent**를 추가한다. 직접 만들 예정이므로 ThirdPerson의 Blueprints·Input 에셋은 삭제하고, Editor Startup Map·Game Default Map을 `ThirdPersonMap`으로 지정한다.
+
+### 게임플레이 프레임워크 (4-2)
+
+`Build.cs`의 `PublicDependencyModuleNames`에 `"EnhancedInput"`을 추가하고, `PublicIncludePaths`에 `"DedicatedX"`(헤더 경로)를 넣는다.
+
+5개(+1) 클래스를 만든다:
+
+| 클래스 | 상속 | 역할 |
+|---|---|---|
+| `DXGameModeBase` | GameModeBase | 규칙·권위 (서버 전용) |
+| `DXGameStateBase` | GameStateBase | 전역 공유 상태 (전 클라 복제) |
+| `DXPlayerState` | PlayerState | 개별 지속 상태 |
+| `DXPlayerController` | PlayerController | 입력·HUD |
+| `DXPlayerCharacter` | **ACharacter** | 몸체(SpringArm+Camera, Enhanced Input) |
+| `DXAnimInstanceBase` | AnimInstance | 애님 |
+
+`DXPlayerCharacter`의 핵심:
+
+```cpp
+ADXPlayerCharacter::ADXPlayerCharacter()
+{
+    GetCharacterMovement()->bOrientRotationToMovement = true;
+    SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+    SpringArm->bUsePawnControlRotation = true; // 컨트롤러 회전으로 카메라 암 회전
+    Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+}
+
+void ADXPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+    UEnhancedInputComponent* EIC = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+    EIC->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ThisClass::Move);
+    // Look / Jump 동일
+}
+
+void ADXPlayerCharacter::BeginPlay()
+{
+    Super::BeginPlay();
+    if (IsLocallyControlled()) // 소유 클라에서만 MappingContext 추가
+    {
+        // EnhancedInputLocalPlayerSubsystem에 MappingContext 추가
+    }
+}
+```
+
+BP 에셋을 만든 뒤 World Settings > GameMode Override에 `BP_GameModeBase`를 지정한다.
+
+데디 서버 실행 환경: **Launch Separate Server**, **Run Under One Process**(체크 시 같은 프로세스라 에셋을 공유 — 확실한 멀티는 아니지만 성능 이점), **Net Mode = Play as Client**, **Number of Players = 2**.
+
+## 6. 멀티플레이 디버그 로깅과 시작 이벤트 흐름 (4-3)
+
+### 디버그 로깅 환경
+
+`Launch Separate Server = false` + `Run Under One Process = true`로 두면 서버·클라 로그를 한 창에서 본다.
+
+로그 매크로(`DedicatedX.h`):
+
+- `DECLARE_LOG_CATEGORY_EXTERN(LogDXNet, ...)` — 전용 로그 카테고리.
+- `NETMODE_TCHAR` — NetMode로 `Client%02d`/`StandAlone`/`Server`를 구분.
+- `DX_LOG_NET` — `[넷모드][함수명]` 형식으로 출력.
+
+> 주의: 에디터를 켜자마자 찍으면 CDO 생성 로그까지 섞인다 → **Clear Log 후** 캡처한다.
+
+### 접속 차단 — PreLogin
+
+접속을 막으려면 로그인 로직이 돌기 **전**에 막아야 하므로 `AGameModeBase::PreLogin`을 쓴다. `ErrorMessage`에 문자열을 넣으면 연결이 거부되고, 거부된 플레이어는 **StandAlone 넷모드**로 동작한다.
+
+### NetConnection 관찰 위치
+
+| 관찰 대상 | 위치 | 이유 |
+|---|---|---|
+| 서버측 `ClientConnection` | `GameMode::PostLogin` | GameMode는 서버에만 존재 → 적합 |
+| 클라측 `ServerConnection` | `PlayerController::PostNetInit` | 네트워크 속성 초기화 후 호출, PlayerController는 서버+Owning Client에만 |
+
+### 네트워크 데이터 단위
+
+| 단위 | 설명 |
+|---|---|
+| **NetConnection** | 데이터가 드나드는 통로. 서버는 클라 수만큼, 클라는 서버용 1개 |
+| **Channel** | NetConnection이 관리. `ActorChannel`(Actor Replication)·`ControlChannel`·`VoiceChannel` |
+| **Packet** | 통상적인 데이터 단위 |
+| **Bunch** | 언리얼의 특수 패킷 단위 |
+
+### StartPlay → BeginPlay 흐름 (핵심)
+
+`GameMode::StartPlay()`에서 `Super`를 호출하지 않으면 **모든 액터의 `BeginPlay()`가 안 불려** 캐릭터가 못 움직인다. 그런데 의문이 생긴다 — **클라에는 GameMode가 복제되지 않는데 클라는 어떻게 게임을 시작하는가?**
+
+답: GameMode가 직접 시작하지 않고 **GameState에 지시**한다. GameState는 클라에 복제되므로 게임 시작을 전파할 수 있다.
+
+```
+GameMode::StartPlay()
+  └─ GameState::HandleBeginPlay()
+       ├─ bReplicatedHasBegunPlay = true   // 클라 BeginPlay 트리거 (복제됨)
+       └─ WorldSettings::NotifyBeginPlay()  // 서버 액터 BeginPlay
+
+[클라] OnRep_ReplicatedHasBegunPlay()
+  └─ NotifyBeginPlay() → 각 액터 DispatchBeginPlay() → BeginPlay()
+```
+
+`bReplicatedHasBegunPlay`는 `UPROPERTY(Transient, ReplicatedUsing = OnRep_ReplicatedHasBegunPlay)`다 — 값이 복제되면 클라에서 `OnRep` 콜백이 돌며 BeginPlay 사슬이 시작된다.
+
+### 시작 이벤트 함수 순서·역할
+
+| 함수 | 시점·역할 |
+|---|---|
+| `PostNetInit` | 서버 속성 세팅·클라 복제 완료 후. **항상 StartPlay보다 먼저** |
+| `PostInitializeComponents` | 컴포넌트가 모두 준비된 후 |
+| `StartPlay` | 게임 시작 지시 |
+| `BeginPlay` | StartPlay로 모든 액터에서 호출 |
+
+### Possess 과정
+
+```
+APawn::PossessedBy(NewController)
+  └─ SetOwner(NewController)  // 이 액터가 어느 클라 NetConnection에 속하는지 결정 (멀티 핵심)
+```
+
+Owner 설정이 "해당 액터가 어느 클라의 넷커넥션에 속하는가"를 정한다 — 멀티플레이의 핵심이다(챕터 1 Ownership 사슬). 단, **클라에서는 `Possess()`가 호출되지 않는다**. `Owner`는 `ReplicatedUsing` 속성이라, 클라에서는 `OnRep_Owner()`로 초기화된다.
+
+`UnPossessed`에서는 `SetPlayerState(nullptr)`·`SetOwner(nullptr)`·`Controller = nullptr`로 정리한다.
+
+빙의 전후 캐릭터의 `RemoteRole` 변화는 `DX_LOG_ROLE` 매크로(`GetLocalRole`/`GetRemoteRole` 출력)로 비교한다 — 빙의되면 해당 캐릭터가 Autonomous Proxy 대상이 되며 RemoteRole이 바뀐다.
+
+## CS 35·36, 챕터 1과의 연결
+
+- **CS 35(게임플레이 프레임워크 — GameMode/PlayerController/Pawn/PlayerState/GameState)** 의 실전 코드판이다. CS에서 본 "서버 권위·복제 범위"가 이 강의에서 **RPC·Property Replication·Owner**로 구현됐다. GameState가 클라에 복제된다는 사실이 채팅 접속 알림(2-2)과 StartPlay 전파(4-3) 양쪽에서 핵심으로 쓰였다.
+- **CS 36(FString/FName/FText)** — 챕터 3-4의 `NotificationText`가 `FText`(UI 표시·`BlueprintReadOnly`), 채팅·판정 메시지는 `FString`. "표시 = FText / 조작·전송 = FString"이 코드로 갈렸다.
+- **챕터 1(NetMode·NetRole·NetConnection/NetDriver)** 에서 이어진다. "어느 PC에서 도는가"(NetMode·NetRole)를 판별하는 능력 위에, 이제 "그 결과를 어떻게 다른 PC로 보내는가"(RPC·Replication)를 얹었다.
+
+## 오늘 배운 것 정리
+
+1. **RPC는 코스메틱, Replication은 게임 상태** — 일시적 효과(사운드·파티클)는 RPC로, 중대한 상태(HP·점수·이름)는 Property Replication으로. RPC 기본이 Unreliable이라 보장이 안 되기 때문.
+2. **"어느 액터에서 정의하느냐"가 도달 범위를 정한다** — PlayerController는 서버+소유클라에만 존재하므로 전원 알림은 GameState의 NetMulticast로. Multicast를 어디에 두느냐가 핵심.
+3. **Property Replication 3종 세트** — `bReplicates` + `UPROPERTY(Replicated)` + `DOREPLIFETIME`. 하나라도 빠지면 클라에서 값이 안 보인다(PIE에서 바로 드러남).
+4. **권위는 서버, 결과만 클라로** — 야구 판정·승패·리셋 전부 GameMode(서버)에서. 클라는 결과 문자열을 RPC로 받아 표시만.
+5. **클라는 GameMode 없이 GameState로 시작한다** — StartPlay는 GameMode가 GameState에 지시하고, GameState의 `bReplicatedHasBegunPlay` 복제가 클라 BeginPlay 사슬을 깨운다. "복제되는 액터를 시작 신호의 통로로 쓴다."
+6. **Owner = 넷커넥션 귀속** — `PossessedBy`의 `SetOwner`가 이 액터가 어느 클라에 속하는지 결정한다. 클라에서는 Possess 대신 `OnRep_Owner`로 초기화 — 멀티플레이 통신의 출발점.
