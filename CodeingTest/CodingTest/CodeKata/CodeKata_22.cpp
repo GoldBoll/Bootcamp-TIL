@@ -16,9 +16,9 @@ string solution(vector<string> survey, vector<int> choices) {
         int c = choices[i];
         char gain;                  // 점수를 얻는 유형
         int p;                      // 얻는 점수
-        if (c < 4)      { gain = survey[i][0]; p = 4 - c; }  // 비동의 쪽
-        else if (c > 4) { gain = survey[i][1]; p = c - 4; }  // 동의 쪽
-        else            { continue; }                        // 모르겠음
+        if (c < 4)      { gain = survey[i][0]; p = 4 - c; }  // 1~3(비동의): 첫 글자가 4-c점
+        else if (c > 4) { gain = survey[i][1]; p = c - 4; }  // 5~7(동의): 둘째 글자가 c-4점
+        else            { continue; }                        // 4(모르겠음): 점수 없음
 
         for (int k = 0; k < 4; k++) {
             if (gain == lo[k]) { score[k] += p; break; }
