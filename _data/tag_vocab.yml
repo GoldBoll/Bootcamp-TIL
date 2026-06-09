@@ -29,6 +29,7 @@ canonical:
   gameplay-framework: ["게임플레이 프레임워크", "게임 프레임워크"]
   netmode:    ["net-mode"]
   netrole:    ["net-role", "authority", "proxy", "autonomous-proxy", "simulated-proxy"]
+  animation:  ["애니메이션", "anim-instance", "animinstance", "anim-montage", "aimoffset", "aim-offset"]
 
   # --- Unity / 게임개발 ---
   unity:      ["유니티"]
