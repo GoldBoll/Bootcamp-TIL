@@ -71,6 +71,9 @@ canonical:
   bitmask:    ["비트마스크"]
   simulation: ["시뮬레이션", "구현"]
   greedy:     ["그리디", "탐욕법"]
+  dfs:        ["깊이우선탐색", "depth-first-search"]
+  bfs:        ["너비우선탐색", "breadth-first-search"]
+  graph:      ["그래프", "graph-traversal"]
 
   # --- 패턴 / 협업 / 디버깅 ---
   design-pattern: ["디자인패턴", "디자인 패턴", "template-pattern", "sandbox-pattern", "템플릿패턴", "샌드박스패턴"]
