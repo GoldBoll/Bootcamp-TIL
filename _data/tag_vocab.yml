@@ -29,6 +29,9 @@ canonical:
   gameplay-framework: ["게임플레이 프레임워크", "게임 프레임워크"]
   netmode:    ["net-mode"]
   netrole:    ["net-role", "authority", "proxy", "autonomous-proxy", "simulated-proxy"]
+  playerstate: ["player-state", "플레이어스테이트", "플레이어 스테이트"]
+  gamemode:   ["game-mode", "게임모드", "게임 모드", "postlogin", "changename"]
+  timer:      ["ftimerhandle", "ftimer", "타이머", "timer-handle"]
   animation:  ["애니메이션", "anim-instance", "animinstance", "anim-montage", "aimoffset", "aim-offset"]
 
   # --- Unity / 게임개발 ---
