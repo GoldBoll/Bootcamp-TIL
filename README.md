@@ -10,6 +10,12 @@
 
 ---
 
+## 🎬 미리보기
+
+https://github.com/user-attachments/assets/6f59fd7f-574d-4a0b-a9b0-5067de300c1f
+
+---
+
 ## 📅 학습 기록
 
 ## BootCamp_CodeKata | [정리보기](3월/CodeKata.md) |
