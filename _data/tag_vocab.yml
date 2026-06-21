@@ -45,6 +45,7 @@ canonical:
   social-deduction: ["소셜추리", "사회적 추리", "히든롤", "hidden-role", "마피아"]
   brainstorm:       ["브레인스토밍", "아이디에이션", "ideation"]
   trace:            ["트레이스"]
+  art-direction:    ["아트 방향", "아트방향", "아트 디렉션", "art direction", "concept-art", "컨셉아트", "셀셰이드", "cel-shading"]
 
   # --- CS ---
   os:         ["운영체제", "operating system"]
