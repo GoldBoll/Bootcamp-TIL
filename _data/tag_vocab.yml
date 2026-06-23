@@ -80,6 +80,8 @@ canonical:
   graph:      ["그래프", "graph-traversal"]
   fibonacci:  ["피보나치"]
   modular:    ["모듈러", "modular-arithmetic", "나머지연산", "나머지 연산"]
+  math:       ["수학", "정수론", "number-theory", "약수", "divisor"]
+  brute-force: ["완전탐색", "완전 탐색", "브루트포스", "exhaustive-search"]
 
   # --- 패턴 / 협업 / 디버깅 ---
   design-pattern: ["디자인패턴", "디자인 패턴", "template-pattern", "sandbox-pattern", "템플릿패턴", "샌드박스패턴"]
