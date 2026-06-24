@@ -33,6 +33,15 @@ canonical:
   gamemode:   ["game-mode", "게임모드", "게임 모드", "postlogin", "changename"]
   timer:      ["ftimerhandle", "ftimer", "타이머", "timer-handle"]
   animation:  ["애니메이션", "anim-instance", "animinstance", "anim-montage", "aimoffset", "aim-offset"]
+  mcp:        ["model-context-protocol", "vibeue", "unreal-mcp", "엠씨피"]
+  python:     ["파이썬", "py", "editor-scripting", "에디터 스크립팅", "에디터 자동화"]
+  asset-import: ["임포트", "import", "fbx", "glb", "import-scale", "uniform-scale", "asset-import-task"]
+  skeletal-mesh: ["스켈레탈 메시", "skeletalmesh", "skeleton", "스켈레톤", "rig", "리그"]
+  retargeting: ["리타게팅", "리타깃", "ik-retargeter", "ik-rig", "mixamo", "믹사모"]
+  root-motion: ["루트모션", "루트 모션", "root-bone", "bone-retargeting"]
+  blendspace: ["블렌드스페이스", "blend-space", "abp", "anim-blueprint", "애님 블루프린트"]
+  material:   ["머티리얼", "material-instance", "shininess", "phong", "퐁"]
+  texture:    ["텍스처", "텍스쳐", "max-texture-size", "vram", "비디오 메모리"]
 
   # --- Unity / 게임개발 ---
   unity:      ["유니티"]
@@ -82,6 +91,7 @@ canonical:
   modular:    ["모듈러", "modular-arithmetic", "나머지연산", "나머지 연산"]
   math:       ["수학", "정수론", "number-theory", "약수", "divisor"]
   brute-force: ["완전탐색", "완전 탐색", "브루트포스", "exhaustive-search"]
+  two-pointer: ["투 포인터", "투포인터", "two pointers", "two-pointers", "투포인터스"]
 
   # --- 패턴 / 협업 / 디버깅 ---
   design-pattern: ["디자인패턴", "디자인 패턴", "template-pattern", "sandbox-pattern", "템플릿패턴", "샌드박스패턴"]
