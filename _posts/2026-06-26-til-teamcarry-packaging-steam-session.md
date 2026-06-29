@@ -2,7 +2,7 @@
 title: "[TIL] 2026-06-26 — UAT 패키징 오류 수정·Steam 세션 디버깅·Git 롤백·패키징 성공"
 date: 2026-06-26 22:00:00 +0900
 categories: ["TIL", "언리얼"]
-tags: ["til", "ue5", "uat", "packaging", "steam", "online-subsystem", "multiplayer", "session", "git", "force-push", "github-cli"]
+tags: ["til", "ue5", "multiplayer", "dedicated-server", "git", "debugging"]
 render_with_liquid: false
 ---
 
