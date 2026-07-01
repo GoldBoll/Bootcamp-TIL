@@ -92,6 +92,7 @@ canonical:
   math:       ["수학", "정수론", "number-theory", "약수", "divisor"]
   brute-force: ["완전탐색", "완전 탐색", "브루트포스", "exhaustive-search"]
   two-pointer: ["투 포인터", "투포인터", "two pointers", "two-pointers", "투포인터스"]
+  sliding-window: ["슬라이딩 윈도우", "슬라이딩윈도우", "sliding window"]
 
   # --- 패턴 / 협업 / 디버깅 ---
   design-pattern: ["디자인패턴", "디자인 패턴", "template-pattern", "sandbox-pattern", "템플릿패턴", "샌드박스패턴"]
