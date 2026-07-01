@@ -1,12 +1,12 @@
 ---
-title: "[TIL] 2026-07-01 — 세션 UI↔Steam 바인딩·git 소유권/스코프·C4458·UE Python struct 함정"
+title: "[TIL] 2026-07-01 — 세션 UI↔Steam 바인딩·git 소유권/스코프·C4458"
 date: 2026-07-01 22:00:00 +0900
 categories: ["TIL", "언리얼"]
 tags: ["til", "ue5", "cpp", "network", "multiplayer", "git", "python", "debugging"]
 render_with_liquid: false
 ---
 
-> 오늘은 그동안 **목데이터(mock)** 로만 돌던 세션 UI를 실제 Steam 세션 코드에 붙이는 게 메인이었다(PR #28, develop 머지). 여기에 붙어 온 게 오히려 더 값진 교훈들 — **git 협업에서 "누가 커밋했나"와 "누가 소유자인가"는 다르다**, **빌드 오류는 추측 말고 컴파일 로그(C4458)를 봐라**, **Kenney 회색 머티리얼은 오버라이드 땜질 말고 메시 애셋에 굽는 게 근본해결**, **UE Python에서 struct 배열을 for로 순회하며 고치면 복사본이라 안 먹힌다**. 하나씩 정리한다.
+> 오늘은 그동안 **목데이터(mock)** 로만 돌던 세션 UI를 실제 Steam 세션 코드에 붙이는 게 메인이었다(PR #28, develop 머지). 여기에 붙어 온 게 오히려 더 값진 교훈들 — **git 협업에서 "누가 커밋했나"와 "누가 소유자인가"는 다르다**, **빌드 오류는 추측 말고 컴파일 로그(C4458)를 봐라**, **Kenney 회색 머티리얼은 오버라이드 땜질 말고 메시 애셋에 굽는 게 근본해결**. 하나씩 정리한다.
 
 ## 오늘 한 일 요약
 
@@ -108,28 +108,7 @@ Kenney 킷 메시들을 레벨에 배치하면 회색으로 나왔다. 원인은
 
 근본해결은 킷별 `colormap1`을 **메시 애셋 자체에 baking**하는 것이다(총 109개 애셋). 애셋에 구워두면 어느 레벨에 배치하든 자동으로 적용된다(PR #31). `L_KenneyPreview`는 오버라이드를 걷어내고 바닥만 `MI_Floor_Grass`를 남겼다.
 
-## 7. UE Python struct 배열 함정 — for 순회는 복사본이다
-
-Kenney 머티리얼 굽기를 UE Python으로 자동화하다 함정을 밟았다.
-
-```python
-# ❌ 안 먹힘 — static_materials 순회는 struct '복사본'을 돌려준다
-for s in sm.static_materials:
-    s.material_interface = m          # 원본에 반영 안 됨
-
-# ✅ 인덱스로 되쓰기 후 set_editor_property 로 배열 통째로 다시 넣기
-mats = sm.static_materials
-for i, s in enumerate(mats):
-    s.material_interface = m
-    mats[i] = s                       # 수정한 struct 를 배열 슬롯에 되쓰기
-sm.set_editor_property("static_materials", mats)
-```
-
-UE Python에서 **struct(값 타입) 배열을 for로 순회하면 각 원소는 복사본**이라 필드를 바꿔도 원본 배열에 반영되지 않는다. 인덱스로 다시 대입한 뒤, 배열 전체를 `set_editor_property`로 되써야 한다.
-
-또 하나 — **회색 판정은 `None`만이 아니라 `WorldGridMaterial`도 포함**해야 한다. 슬롯이 비면 UE가 기본으로 채워 넣는 게 `WorldGridMaterial`(체커 무늬)이라, "None인 슬롯만" 검사하면 이미 회색으로 보이는 애셋을 놓친다.
-
-## 8. UI 호스트 인터페이스 리팩터 (진행 중)
+## 7. UI 호스트 인터페이스 리팩터 (진행 중)
 
 `AGameUIPlayerController`가 `BeginPlay`에서 `SetInputMode(GameAndUI)` + 마우스 커서를 **강제**로 켰다. 문제는 이걸 상속한 게임플레이 컨트롤러(`ATCPlayerController`)까지 그 입력 모드를 물려받아 조작이 어긋났다는 것이다.
 
@@ -148,6 +127,5 @@ MCP(에디터 자동화)로 UIHost 컴포넌트 설정을 Python으로 읽기/�
 3. **커밋은 도메인(폴더)별로 쪼개고 scope를 OWNER.txt에 맞춘다.** 그래야 오너가 자기 것만 리뷰한다.
 4. **빌드 오류는 추측 금지, 로그를 봐라.** "위젯 이름 충돌" 추측은 헛다리였고 실제는 **C4458** — 지역변수 `Slot`이 `UWidget::Slot`을 가려 warning-as-error로 실패. `SlotIdx`로 해결.
 5. **회색 머티리얼은 오버라이드 말고 애셋에 굽는 게 근본해결.** 슬롯 비면 어느 레벨에서든 재발한다.
-6. **UE Python에서 struct 배열 for 순회는 복사본이다.** 인덱스로 되쓰기 + `set_editor_property`로 배열을 통째로 다시 넣어야 반영된다. 회색 판정은 `None`뿐 아니라 `WorldGridMaterial`도 포함.
-7. **상속이 강요하는 부작용은 컴포넌트로 끊는다.** `SetInputMode` 강제를 `UUIHostComponent`로 분리해 게임플레이 PC가 UI 입력모드를 물려받지 않게 했다.
-8. **예정에 없던 미사용 기능은 통합 전에 제거 = 스코프 축소.** 충돌 표면적을 줄이는 게 이득(`CharacterIndex` 배관 제거).
+6. **상속이 강요하는 부작용은 컴포넌트로 끊는다.** `SetInputMode` 강제를 `UUIHostComponent`로 분리해 게임플레이 PC가 UI 입력모드를 물려받지 않게 했다.
+7. **예정에 없던 미사용 기능은 통합 전에 제거 = 스코프 축소.** 충돌 표면적을 줄이는 게 이득(`CharacterIndex` 배관 제거).
