@@ -24,6 +24,7 @@ canonical:
   multiplayer: ["멀티플레이", "멀티플레이어"]
   network:    ["네트워크", "networking", "netdriver", "netconnection"]
   dedicated-server: ["데디케이티드 서버", "데디서버", "데디케이트 서버", "dedicated", "listen-server", "p2p"]
+  steam:      ["스팀", "steamworks", "online-subsystem-steam", "onlinesubsystemsteam"]
   replication: ["프로퍼티 리플리케이션", "property-replication", "복제", "레플리케이션"]
   rpc:        ["remote-procedure-call", "원격 프로시저 호출"]
   gameplay-framework: ["게임플레이 프레임워크", "게임 프레임워크"]
