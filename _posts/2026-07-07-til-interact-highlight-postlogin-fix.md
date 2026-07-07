@@ -2,20 +2,19 @@
 title: "[TIL] 2026-07-07 — 인터랙션 하이라이트 링 완성과 PostLogin 로비 킥 버그"
 date: 2026-07-07 21:30:00 +0900
 categories: ["TIL", "언리얼"]
-tags: ["til", "ue5", "cpp", "material", "gamemode", "multiplayer", "python", "mcp", "debugging", "git"]
+tags: ["til", "ue5", "cpp", "material", "gamemode", "multiplayer", "debugging"]
 render_with_liquid: false
 ---
 
-> 이날은 튜터 피드백 항목이었던 **인터랙션 하이라이트 링**을 끝냈다. 새 포스트 프로세스 패스를 추가하는 대신, 전날까지 만든 뎁스 아웃라인 머티리얼(`M_PP_OutlineHLSL`)에 CustomStencil 기반 링을 얹어 **패스 하나로** 세피아 아웃라인과 노란 포커스 링을 동시에 그렸다. C++ 훅 체인을 따라가다 "레벨 가구 22개가 전부 다른 클래스였다"는 반전을 만났고, 화면 경계 점선·Custom 노드 개행 사고·Live Coding 크래시까지 잔가지 디버깅을 여럿 거쳤다. 오후에는 **PostLogin 로비 킥 버그**를 잡았는데, 정작 수정은 `if (Playing)` 한 줄이었다. 심리스 트래블과 하드 트래블이 로그인 훅을 다르게 타는 구조를 이해하는 게 전부였다. 그리고 또 git 브랜치 사고 — 이번엔 "출력만 하는 확인"이 왜 무의미한지를 몸으로 배웠다.
+> 이날은 튜터 피드백 항목이었던 **인터랙션 하이라이트 링**을 끝냈다. 새 포스트 프로세스 패스를 추가하는 대신, 전날까지 만든 뎁스 아웃라인 머티리얼(`M_PP_OutlineHLSL`)에 CustomStencil 기반 링을 얹어 **패스 하나로** 세피아 아웃라인과 노란 포커스 링을 동시에 그렸다. C++ 훅 체인을 따라가다 "레벨 가구 22개가 전부 다른 클래스였다"는 반전을 만났고, 화면 경계 점선 아티팩트와 Live Coding 크래시까지 잔가지 디버깅을 거쳤다. 오후에는 **PostLogin 로비 킥 버그**를 잡았는데, 정작 수정은 `if (Playing)` 한 줄이었다. 심리스 트래블과 하드 트래블이 로그인 훅을 다르게 타는 구조를 이해하는 게 전부였다.
 
 ## 오늘 한 일 요약
 
 1. **인터랙션 하이라이트 링 완성** — `M_PP_OutlineHLSL`의 Custom HLSL 노드에 CustomStencil(id 25) 링을 통합, 추가 패스 없음. C++ 훅 체인(`ScanBestTarget → OnFocus/OnUnfocus → SetRenderCustomDepth`) 구현. PR #67 develop 머지
-2. **가구 클래스 반전** — 레벨 가구 22개가 `FurnitureActor`가 아니라 전부 `TCCarriableFurniture` 기반임을 파이썬 `call_method` 실패로 발견, 빈 스텁 구현이 핵심이었다
+2. **가구 클래스 반전** — 레벨 가구 22개가 `FurnitureActor`가 아니라 전부 `TCCarriableFurniture` 기반임을 발견. BP 이름만 보고 부모 클래스를 단정한 게 함정, 빈 스텁 구현이 핵심이었다
 3. **화면 경계 점선 아티팩트 수정** — 뷰포트 UV 기반 1픽셀 경계 가드로 프레임 밖으로 링을 깔끔히 빼냄
-4. **디버깅 사고 3종** — Custom 노드 개행 가정 사고(거짓 성공), Live Coding 패치 크래시→콜드 빌드, 셰이더 read-back 검증의 필요성
+4. **Live Coding 크래시 → 콜드 빌드** — 패치 2개가 쌓인 상태의 레벨 전환 크래시, 재시작 콜드 리빌드로 훅이 정식 DLL에 정상 반영
 5. **PostLogin 로비 킥 버그 수정** — 스테이지 맵 직접 PIE 시 로비로 튕기는 버그, `CurrentPhase == Playing` 게이트 한 줄로 해결. PR #69
-6. **git 브랜치 사고 수습** — develop에 잘못 커밋된 것을 워킹트리 클린 상태에서 새 브랜치로 떼어내 복구
 
 ---
 
@@ -66,21 +65,15 @@ GrabComponent::ScanBestTarget   // 박스 트레이스 + 스코어링 (기존 �
 
 ### 반전: 레벨 가구 22개는 전부 `TCCarriableFurniture`였다
 
-여기가 이날의 함정이었다. 나는 레벨에 놓인 가구 22개가 전부 CatchCharacter 플러그인의 `FurnitureActor`(→ `BP_Furniture_Box_C`)일 거라 생각하고, 에디터 파이썬으로 `actor.call_method('SetHighlight')`를 돌렸다. 그런데:
+여기가 이날의 함정이었다. 나는 레벨에 놓인 가구 22개가 전부 CatchCharacter 플러그인의 `FurnitureActor`(→ `BP_Furniture_Box`)일 거라 생각하고 `FurnitureActor::SetHighlight`부터 구현했다. 그런데 레벨 가구에는 링이 전혀 뜨지 않았다. 레벨의 박스 액터들을 하나씩 열어 실제 클래스를 확인해 보니, 박스들은 애초에 `FurnitureActor`가 아니라 전부 **`TCCarriableFurniture` 기반**이었다. BP 이름(`BP_Furniture_Box`)만 보고 부모 클래스를 단정한 게 함정. 정작 채워야 할 건 `FurnitureActor::SetHighlight`가 아니라 **`TCCarriableFurniture`의 빈 `OnFocus`/`OnUnfocus` 스텁**이었고, 이 스텁이 비어 있었기 때문에 아무리 셰이더와 스캔이 맞아도 링이 안 떴다. 빈 스텁을 채운 순간 링이 켜졌다.
 
-```
-LogPython: Error: Failed to find function 'SetHighlight' on 'BP_Furniture_Box_C'
-```
-
-`SetHighlight`는 `FurnitureActor`에 있는데 이 함수를 못 찾는다? → 레벨의 박스들은 애초에 `FurnitureActor`가 아니라 **`TCCarriableFurniture` 기반**이었던 것이다. 클래스 계층을 잘못 짚어서, 정작 채워야 할 건 `FurnitureActor::SetHighlight`가 아니라 **`TCCarriableFurniture`의 빈 `OnFocus`/`OnUnfocus` 스텁**이었다. 이 스텁이 비어 있었기 때문에 아무리 셰이더와 스캔이 맞아도 링이 안 떴다. 빈 스텁을 채운 순간 링이 켜졌다.
-
-교훈: **에디터 파이썬 `call_method` 실패 메시지는 클래스 계층을 역으로 알려주는 진단이다.** "함수가 없다"는 곧 "이 액터는 네가 생각한 그 클래스가 아니다"일 수 있다.
+교훈: **BP 이름만 보고 부모 클래스를 단정하지 마라.** 하이라이트가 안 뜨면 셰이더보다 먼저 액터의 실제 클래스 계층부터 확인해야 한다 — 이벤트를 받는 쪽이 빈 스텁이면 나머지가 다 맞아도 아무 일도 일어나지 않는다.
 
 ### 전제 조건과 검증
 
 - **전제 조건**: `r.CustomDepth=3` (Enabled with Stencil). 스텐실을 안 쓰는 모드면 셰이더가 읽을 값 자체가 없다.
-- **검증**: 에디터 파이썬으로 `box.call_method('OnFocus')`를 직접 호출 → 스텐실 1 + 커스텀뎁스 ON + 노란 링 렌더 확인, `OnUnfocus`로 OFF 확인. 스캔 로직을 실제로 플레이하지 않고도 이벤트를 손으로 호출해 렌더 결과만 격리 검증한 셈이다.
-- **컴파일 루프**: Epic 공식 `unreal-engine-skills-for-claude-code` 플러그인의 `LiveCodingToolset.CompileLiveCoding`으로 에디터 재시작 없이 C++를 컴파일했고, MSVC 진단까지 결과로 받아 반복을 빠르게 돌렸다.
+- **검증**: 먼저 디테일 패널에서 가구 메시의 Render CustomDepth와 스텐실 값(1)을 수동으로 토글해 셰이더가 링을 제대로 그리는지부터 격리 검증했다. 그다음 PIE에서 가구에 다가가 포커스가 잡히면 링 ON, 시선을 돌리면 OFF가 되는지로 C++ 훅 체인을 확인했다.
+- **컴파일 루프**: Live Coding으로 에디터 재시작 없이 C++를 컴파일하고 MSVC 진단을 바로 확인하며 반복을 빠르게 돌렸다.
 
 아래가 완성 결과다. 포커스된 박스만 노란 링, 나머지 상호작용 대상은 세피아 아웃라인만.
 
@@ -102,21 +95,9 @@ ring *= step(HighlightWidth + 1.0, min(edgePix.x, edgePix.y));      // 경계 �
 
 `min(vUV, 1.0 - vUV)`는 각 축에서 "가까운 쪽 경계까지의 정규화 거리"이고, 뷰 크기를 곱해 픽셀 거리로 바꾼다. 오프셋 폭 + 1픽셀 여유보다 안쪽에 있을 때만 링을 살리니, 클램프가 접히는 밴드에서는 링이 아예 안 그려진다.
 
-**검증**: 에디터 카메라 요(yaw)를 틀어 박스를 화면 왼쪽 경계에 반쯤 걸치고 `PrintWindow` 창 캡처. 점선 없이 링이 프레임 밖으로 깔끔히 빠지는 걸 확인했다. (하이레즈 스크린샷 말고 창 캡처를 쓴 건, 포스트 프로세스 오프셋 샘플링 결과는 실제 뷰포트 해상도에서 봐야 정확하기 때문 — 전날 배운 검증 규칙 그대로.)
+**검증**: 에디터 카메라 요(yaw)를 틀어 박스를 화면 왼쪽 경계에 반쯤 걸쳐놓고 뷰포트에서 확인 — 점선 없이 링이 프레임 밖으로 깔끔히 빠졌다.
 
-## 3. Custom 노드 코드 패치 사고 — 개행 가정과 거짓 성공
-
-경계 가드 코드를 넣을 때 사고가 났다. 파이썬으로 Custom 노드의 `code` 문자열에 가드를 삽입하려고 삽입 지점을 `code.find('\r\n')`으로 찾았다. 그런데 그 코드 문자열은 **LF(`\n`) 개행**이라 `find('\r\n')`이 `-1`을 반환했고, `code[:-1]` 류의 인덱싱이 엉키면서 가드 코드가 **`return` 문 뒤에** 삽입됐다. return 뒤 코드는 죽은 코드라 아무 효과가 없다.
-
-더 나쁜 건 이 상태에서 `MaterialEditingLibrary.recompile_material`이 **성공을 반환**했다는 것이다. 셰이더 컴파일 에러(도달 불가 코드, 문법 깨짐)를 파이썬 리턴값으로 안 돌려준다 — 이른바 **거짓 성공(false success)**. 스크립트는 "성공"인데 화면은 안 바뀌니 한참 헤맸다.
-
-교훈 세 줄:
-
-1. **Custom 노드 code 패치에서 개행을 가정하지 마라.** `\r\n`/`\n`이 섞인다. 삽입 위치를 개행으로 찾는 방식 자체가 취약하다.
-2. **부분 삽입 대신 전체 재작성.** code 문자열은 통째로 만들어 한 번에 `set_editor_property`로 덮어쓰는 게 안전하다.
-3. **set 후 반드시 read-back으로 구조 검증.** recompile의 성공 리턴을 믿지 말고, 다시 읽어서 가드가 return **앞에** 있는지 눈으로 확인. recompile이 셰이더 에러를 안 돌려주므로, 검증은 read-back과 실제 렌더 캡처로만 할 수 있다.
-
-## 4. Live Coding 크래시 → 콜드 빌드 전화위복
+## 3. Live Coding 크래시 → 콜드 빌드 전화위복
 
 C++ 훅을 반복 컴파일하며 Live Coding 패치가 두 개(patch_0, patch_1) 쌓였다. 이 상태에서 레벨을 전환하니 에디터가 `Exception 0x80000003`으로 크래시했다.
 
@@ -130,7 +111,7 @@ Live coding: NoChanges   // 소스 = DLL 최신, 더 패치할 게 없음 → �
 
 패치 상태가 정리되고 나니 이후로는 안정적이었다. 교훈: **Live Coding 패치가 쌓인 상태에서 레벨 전환은 위험**하다. 여러 번 컴파일했다면 한 번 콜드 빌드로 정리하는 게 최종 안정 상태다. 크래시가 오히려 강제 콜드 빌드를 유도해 전화위복이 된 셈.
 
-## 5. PostLogin 로비 킥 버그 — 하드 트래블과 심리스 트래블의 갈림
+## 4. PostLogin 로비 킥 버그 — 하드 트래블과 심리스 트래블의 갈림
 
 오후 버그. **증상**: 에디터에서 스테이지 맵(`L_LevelProto`)을 직접 PIE로 띄우면 곧바로 `L_Lobby`로 튕긴다. 반면 standalone 정상 플로우(로비에서 시작 → 스테이지로 이동)는 멀쩡하다.
 
@@ -177,42 +158,7 @@ if (CurrentPhase == EGamePhase::Playing
 
 교훈: **하드 트래블은 `PostLogin`을 재호출하고, 심리스 트래블은 `HandleSeamlessTravelPlayer`를 탄다.** 로그인 훅에 조건을 걸 때는 이 두 경로가 다르게 흐른다는 걸 반드시 고려해야 한다. "왜 특정 경로만 걸리나"의 답이 여기 있었다.
 
-## 6. git 브랜치 사고와 수습 — 확인은 게이트여야 한다
-
-또 git 사고가 났다. GitHub Desktop에서 브랜치가 어느새 `develop`으로 전환돼 있는 상태에서 커밋을 했고, 팀 규칙(**develop은 pull 전용, 직접 커밋 금지**)을 어긴 커밋이 로컬 develop에 얹혔다.
-
-### 왜 확인 체인이 사고를 못 막았나
-
-나는 커밋 전에 `git branch --show-current && git commit ...`처럼 브랜치를 **출력**하고 커밋하는 습관이 있었다. 문제는 **`show-current`는 어느 브랜치에 있든 성공(exit 0)한다**는 것이다. `&&`는 앞 명령의 성공 여부만 보므로, develop에 있어도 출력만 하고 체인은 그대로 커밋으로 이어진다. **출력만 하는 확인은 확인이 아니다.**
-
-게이트로 만들려면 조건이 틀렸을 때 **중단**해야 한다:
-
-```powershell
-if ((git branch --show-current) -ne 'feat/postlogin-lobby-kick') { throw '브랜치 불일치 — 커밋 중단' }
-git commit ...
-```
-
-이렇게 의도한 브랜치가 아니면 `throw`로 끊어야 `&&` 체인이 멈춘다. 전날 배운 "force push는 명령이 아니라 조율"의 연장선 — **검증은 출력이 아니라 흐름을 끊는 게이트여야 한다.**
-
-### 수습: 워킹트리가 깨끗해서 살았다
-
-다행히 상황이 좋았다.
-
-- 워킹트리 클린(미커밋 변경 없음)
-- 사고 커밋의 **부모가 `origin/develop`과 일치** (즉 develop 위에 커밋 하나만 얹힌 상태)
-
-그래서 커밋을 잃지 않고 브랜치로 떼어낸 뒤 develop을 원격에 맞추면 끝이었다.
-
-```bash
-git branch fix/postlogin-lobby-kick <사고 커밋 SHA>   # 1) 커밋을 새 브랜치로 보존
-git reset --hard origin/develop                        # 2) 로컬 develop을 원격과 일치시킴
-git checkout fix/postlogin-lobby-kick                   # 3) 새 브랜치로 이동
-git push -u origin fix/postlogin-lobby-kick             # 4) 명시적 브랜치로 push → PR
-```
-
-`push` 대상을 **명시적 브랜치**(`fix/...`)로 지정했기 때문에 원격 develop은 손 하나 안 댔다. 여기가 전날 사고와의 결정적 차이 — 전날은 force push가 develop을 직접 건드렸지만, 이날은 처음부터 push 목적지가 feature 브랜치라 원격이 무사했다.
-
-### 기타
+## 기타
 
 - **PR #67**(로비 톤 통일 + Lumen 정리 + 인터랙션 하이라이트) develop 머지 완료.
 - **PR #69**(PostLogin 로비 킥 수정) 생성.
@@ -221,8 +167,7 @@ git push -u origin fix/postlogin-lobby-kick             # 4) 명시적 브랜치
 ## 오늘 배운 것 정리
 
 1. **하이라이트는 패스를 늘리지 말고 스텐실로 기존 아웃라인에 얹는다.** `(1-isT) * step(0.5, nbor)`가 실루엣 바깥 1링의 정의다 — 내 픽셀은 대상 아님 + 이웃은 대상. 상호작용 액터의 스텐실 값을 1로 통일하는 게 절반의 일.
-2. **`call_method` 실패는 클래스 계층 진단이다.** "함수 없음" 에러가 레벨 가구 22개의 진짜 클래스가 `TCCarriableFurniture`임을 알려줬다. 빈 스텁을 채우는 게 핵심이었다.
+2. **BP 이름만 보고 부모 클래스를 단정하지 마라.** 레벨 가구 22개의 진짜 클래스는 `TCCarriableFurniture`였고, 채워야 할 곳은 그 빈 `OnFocus`/`OnUnfocus` 스텁이었다. 하이라이트가 안 뜨면 셰이더보다 액터의 실제 클래스 계층부터 확인하자.
 3. **경계 클램프는 이웃 샘플을 자기 픽셀로 접는다.** 오프셋 샘플링 링·아웃라인은 뷰포트 UV 기반 1픽셀 경계 가드로 프레임 가장자리를 죽여야 점선이 안 생긴다.
-4. **recompile의 성공 리턴을 믿지 마라 — 거짓 성공.** Custom 노드 code 패치는 개행 가정 금지·전체 재작성·set 후 read-back 검증. Live Coding은 패치가 쌓이면 콜드 빌드로 정리하는 게 최종 안정 상태.
+4. **Live Coding 패치가 쌓인 상태에서 레벨 전환은 위험하다.** 여러 번 컴파일했다면 콜드 빌드로 정리하는 게 최종 안정 상태 — `.voltbl` 로그는 알려진 노이즈라 직접 원인으로 오독하지 말 것.
 5. **하드 트래블은 `PostLogin`, 심리스 트래블은 `HandleSeamlessTravelPlayer`.** 로그인 훅 조건은 두 경로 차이를 고려해야 하고, 난입 차단 같은 게이트는 `Playing` 페이즈로 한정해야 한다(Logout의 기록 조건과 대칭).
-6. **검증은 출력이 아니라 게이트여야 한다.** `git branch --show-current`는 어디서든 성공하므로 `&&` 체인을 못 막는다. `if (…-ne 의도) { throw }`로 흐름을 끊어라. push 목적지를 명시적 feature 브랜치로 두면 원격 보호 브랜치는 안전하다.

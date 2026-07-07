@@ -2,17 +2,17 @@
 title: "[TIL] 2026-07-06 — 절차식 툰 스카이: 스카이돔 머티리얼 교체부터 git 히스토리 재작성까지"
 date: 2026-07-06 12:30:00 +0900
 categories: ["TIL", "언리얼"]
-tags: ["til", "ue5", "material", "texture", "python", "mcp", "git"]
+tags: ["til", "ue5", "material", "texture", "git"]
 render_with_liquid: false
 ---
 
-> 이날은 TeamCarry 레벨의 하늘을 갈아엎었다. 도시·나무·차량은 전부 툰 룩인데 하늘만 사실적인 볼류메트릭 구름이라 이질감이 컸다. 스카이돔 머티리얼을 **텍스처 0장짜리 절차식 툰 스카이**로 교체했고, 노드 그래프 전체를 에디터 파이썬(MCP)으로 생성했다. 오후에는 커밋에 들어간 공동작업자 트레일러를 지우려다 **"머지된 커밋의 히스토리 재작성"이라는 늪**에 빠졌고, 에디터 파일 잠금과 팀원의 pull이 겹치며 git plumbing까지 내려갔다 왔다. 머티리얼보다 git에서 배운 게 더 많은 날일지도 모른다.
+> 이날은 TeamCarry 레벨의 하늘을 갈아엎었다. 도시·나무·차량은 전부 툰 룩인데 하늘만 사실적인 볼류메트릭 구름이라 이질감이 컸다. 스카이돔 머티리얼을 **텍스처 0장짜리 절차식 툰 스카이**로 교체했다. 오후에는 커밋에 들어간 공동작업자 트레일러를 지우려다 **"머지된 커밋의 히스토리 재작성"이라는 늪**에 빠졌고, 에디터 파일 잠금과 팀원의 pull이 겹치며 git plumbing까지 내려갔다 왔다. 머티리얼보다 git에서 배운 게 더 많은 날일지도 모른다.
 
 ## 오늘 한 일 요약
 
 1. **`L_LevelProto` 하늘 진단** — 엔진 기본 스카이돔(`M_SimpleSkyDome`) + VolumetricCloud 조합 확인, 교체 전략 수립
-2. **`M_ToonSky` / `MI_ToonSky` 제작** — Unlit·Is Sky, 3색 밴딩 그라데이션 + 노이즈 투톤 만화 구름. 노드 ~40개 전부 파이썬으로 생성
-3. **개인 작업 분리** — `/Game/Developers/goldb`로 에셋 정리, `save_map`으로 레벨 사본(원본 무변경), `feat/toon-sky` → PR #60 (비공개 리포 이미지 문제는 Docs 커밋으로 우회)
+2. **`M_ToonSky` / `MI_ToonSky` 제작** — Unlit·Is Sky, 3색 밴딩 그라데이션 + 노이즈 투톤 만화 구름
+3. **개인 작업 분리** — `/Game/Developers/goldb`로 에셋 정리, 레벨 사본을 떠서 작업(원본 무변경), `feat/toon-sky` → PR #60 (비공개 리포 이미지 문제는 Docs 커밋으로 우회)
 4. **Co-Authored-By 트레일러 제거 대작전** — `commit-tree` plumbing으로 develop 재작성, 직후 팀원 pull로 옛 히스토리 재유입까지 한 사이클 경험
 5. **텍스처 하늘 소싱·AI 생성 가이드 정리** — equirect 2:1 요건, Blockade Labs Skybox AI, 임포트 체크리스트
 
@@ -79,62 +79,15 @@ render_with_liquid: false
 
 **디버깅 기록**: 첫 버전에서 두 가지를 고쳤다. ① 구름 가장자리에 자잘한 점 파편 — `CloudCover` 0.52→0.56으로 임계값을 조이니 정리됨(파편은 임계값 바로 위의 좁은 영역이라 조금만 올려도 사라진다). ② 하늘 중턱에 **링(원호) 아티팩트** — Band2 경계가 카메라 기준 등고선이라 페더가 좁으면(0.05) 돔에 띠가 그려진다. 0.18로 풀어서 해결. 툰 밴딩이라고 다 딱딱하게 주면 안 되고, "지면 근처 경계는 좁게, 하늘 위 경계는 넓게"가 답이었다.
 
-## 3. MCP 파이썬으로 노드 그래프를 코드로 짜기
-
-노드 ~40개를 에디터에서 손으로 잇는 대신 `MaterialEditingLibrary`(MEL)로 전부 생성했다. 골격:
-
-```python
-import unreal
-MEL = unreal.MaterialEditingLibrary
-at = unreal.AssetToolsHelpers.get_asset_tools()
-
-mat = at.create_asset("M_ToonSky", "/Game/Developers/goldb/Shading",
-                      unreal.Material, unreal.MaterialFactoryNew())
-mat.set_editor_property("shading_model", unreal.MaterialShadingModel.MSM_UNLIT)
-mat.set_editor_property("two_sided", True)
-mat.set_editor_property("is_sky", True)          # 안개 제외 + 하늘 픽셀 취급
-
-def node(cls, x, y, **props):
-    e = MEL.create_material_expression(mat, cls, x, y)
-    for k, v in props.items():
-        e.set_editor_property(k, v)
-    return e
-
-def con(src, dst, dst_in, src_out=""):
-    ok = MEL.connect_material_expressions(src, src_out, dst, dst_in)
-    if not ok:   # 단일 입력 노드는 입력명 대신 ""가 먹는다
-        MEL.connect_material_expressions(src, src_out, dst, "")
-
-# ... wp/cam/normalize/mask 체인, 파라미터 노드, Noise 노드 생성 ...
-
-MEL.connect_material_property(final, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
-MEL.recompile_material(mat)
-```
-
-실전에서 걸린 것들:
-
-- **연결 입력명 폴백**: `Normalize`·`Saturate`·`ComponentMask` 같은 단일 입력 노드는 문서상 입력명(`VectorInput`, `Input`)으로 연결이 실패하는 경우가 있다. 빈 문자열 `""`을 주면 첫 입력에 붙는다 — try/폴백 헬퍼로 감싸니 전부 통과.
-- **`const_b`로 상수 노드 절약**: `Add`/`Divide`/`Subtract`/`Multiply`는 입력을 연결하는 대신 `const_a`/`const_b` 프로퍼티에 상수를 박을 수 있다. `h + 0.3` 같은 건 Constant 노드 없이 한 줄.
-- **전부 파라미터로**: 상수 대신 `ScalarParameter`/`VectorParameter`로 노출하면, 이후 튜닝은 MIC에서 재컴파일 없이 즉시. `set_material_instance_scalar_parameter_value` → `update_material_instance` 콤보로 스크립트 튜닝도 가능.
-- **스크린샷 튜닝 루프**: `unreal.AutomationLibrary.take_high_res_screenshot(1280, 720, path)`로 찍고 → 파라미터 수정 → 다시 찍고. 뷰포트 카메라는 `UnrealEditorSubsystem.get/set_level_viewport_camera_info`로 저장·복원해서 하늘을 올려다본 앵글도 확인했다. 위 디버깅 기록 두 건 모두 이 루프에서 잡았다.
-
-다른 레벨에 적용하는 건 3단계면 된다:
-
-```python
-dome.static_mesh_component.set_material(0, mi_toonsky)   # 1) 돔에 할당
-cloud.root_component.set_visibility(False, True)          # 2) 볼류메트릭 구름 숨김
-skylight.light_component.recapture_sky()                  # 3) 앰비언트 재캡처
-```
-
-## 4. 개인 작업 분리 — Developers 폴더·save_map·PR
+## 3. 개인 작업 분리 — Developers 폴더·레벨 사본·PR
 
 팀 공용 레벨에 개인 실험이 섞이면 안 되므로:
 
-- 에셋은 `/Game/Developers/goldb/Shading/`으로. 이미 만든 걸 옮길 땐 `EditorAssetLibrary.rename_asset` — 리다이렉터가 남는지, 참조(돔 슬롯·MIC 부모)가 따라오는지 확인까지가 한 세트.
-- **레벨 사본은 `EditorLoadingAndSavingUtils.save_map(world, 새경로)`가 정답이었다.** 에디터의 **저장 안 된 상태까지** 사본에 담기고 원본 디스크는 바이트 하나 안 바뀐다. 함정: save_map 후에도 에디터는 여전히 원본을 편집 중이다 → `load_map`으로 사본에 전환해야 하는데, 이건 저장 프롬프트 없이 넘어가므로 원본의 미저장 변경은 사본에 담긴 걸 확인한 뒤에 실행할 것.
+- 에셋은 `/Game/Developers/goldb/Shading/`으로. 이미 만든 걸 옮길 땐 리다이렉터가 남는지, 참조(돔 슬롯·MIC 부모)가 따라오는지 확인까지가 한 세트.
+- **레벨 사본은 "다른 이름으로 저장"이 정답이었다.** 에디터의 **저장 안 된 상태까지** 사본에 담기고 원본 디스크는 바이트 하나 안 바뀐다. 함정: 사본을 저장한 뒤에도 에디터는 여전히 원본을 편집 중이다 → 사본 레벨로 전환해서 작업해야 하는데, 원본의 미저장 변경이 사본에 담긴 걸 확인한 뒤에 전환할 것.
 - PR에서 하나 배운 것: **비공개 리포는 PR 본문에 raw/media URL 이미지가 안 뜬다.** GitHub가 마크다운 이미지를 camo 프록시로 익명 fetch하는데 비공개 콘텐츠는 404. 해결은 스크린샷을 브랜치의 `Docs/images/`에 커밋하고 이미지가 렌더링되는 마크다운 문서를 PR 상단에 링크하는 것. (본문에 꼭 박고 싶으면 웹 UI에서 드래그&드롭 — user-attachments URL은 비공개에서도 렌더링된다.)
 
-## 5. git 소동 — 머지된 커밋의 공동작업자는 지울 수 있는가
+## 4. git 소동 — 머지된 커밋의 공동작업자는 지울 수 있는가
 
 커밋 메시지에 들어간 `Co-Authored-By` 트레일러를 지우려던 게 이렇게 커질 줄 몰랐다. 라운드별로.
 
