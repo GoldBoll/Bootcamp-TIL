@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "C++"]
 tags: ["vtable"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — 오늘 모의면접에서 막힌 질문들을 정리한 심화 파일"
 ---
 
 # 📕 04/23 — vtable 심화 (모의면접 미답변 복기)

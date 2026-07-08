@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "자료구조"]
 tags: ["vector", "hash"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — 모의면접 다음 주제: '`vector` 의 `push_back` 과 `emplace_back` 의 차이점에 대해 설명해 주세요'"
 ---
 
 # 📕 04/30 — vector push_back vs emplace_back + 해시 충돌 보강

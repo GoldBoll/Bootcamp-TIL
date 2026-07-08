@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "자료구조"]
 tags: ["vector", "hash"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — `15_1_vector_vs_hash_concepts.md` 의 후속편. 해시 테이블이 내부적으로 어떻게 크기를 관리하고, 언제 비싼 rehash가 일어나는지 �"
 ---
 
 # 📕 15-2 — 해시 자료구조의 capacity·load factor·rehash

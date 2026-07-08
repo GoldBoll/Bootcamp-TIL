@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "OS"]
 tags: ["concurrency"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — 정의(공유 자원 + 동시 접근 + 비결정성) → Critical Section → 동기화 객체 카탈로그(Mutex·Semaphore·Critical Section·SRWLock·Event·"
 ---
 
 # 📕 05/13 — Race Condition에 대해서 이야기 해주세요

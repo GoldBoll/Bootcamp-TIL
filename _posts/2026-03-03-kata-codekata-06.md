@@ -5,6 +5,7 @@ categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false
 image: /assets/img/thumbs/programmers.svg
+description: "문제 요약 — 다음에 올 숫자"
 ---
 
 ```cpp

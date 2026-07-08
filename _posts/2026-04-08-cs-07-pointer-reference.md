@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "C++"]
 tags: ["pointer", "reference"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — Notion 원본: https://www.notion.so/348f77b24d2f80c4ace7e1eae457d555"
 ---
 
 # 📕 포인터와 레퍼런스 — 차이점 분석

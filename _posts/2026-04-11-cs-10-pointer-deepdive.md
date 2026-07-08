@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "C++"]
 tags: ["pointer"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — 기반 파일: [07_pointer_reference.md](./07_pointer_reference.md)"
 ---
 
 # 📕 포인터·레퍼런스 심층 분석 — 댕글링·메모리 크기·런타임 오류

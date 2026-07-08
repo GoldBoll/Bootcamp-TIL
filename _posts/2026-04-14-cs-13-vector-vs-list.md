@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "자료구조"]
 tags: ["vector", "list"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — 메모리 레이아웃 → 시간 복잡도 함정 → **CPU 캐시(★ 핵심)** → iterator 무효화/예외 안전성 → 언제 list를 써야 하나 → T"
 ---
 
 # 📕 04/28 — std::vector vs std::list 모의면접 준비

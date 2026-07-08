@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "OS"]
 tags: ["context-switching"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — 정의·발생 시점 → PCB/TCB 저장·복원 → 모드 스위치 ≠ 컨텍스트 스위치 → 비용 요소(캐시 flush·TLB flush·파이프라인 정�"
 ---
 
 # 📕 05/12 — Context Switching에 대해서 설명해 주세요

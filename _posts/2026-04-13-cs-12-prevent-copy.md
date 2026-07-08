@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "C++"]
 tags: ["copy"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — 단독 소유 자원 → `= delete` / `private` / `noncopyable` → Rule of Three/Five/Zero → move-only(`unique_ptr`) → 슬라이싱 → virtual 소멸자 �"
 ---
 
 # 📕 04/27 — 객체 복사 금지 모의면접 준비

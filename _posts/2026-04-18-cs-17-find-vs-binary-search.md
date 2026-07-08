@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "자료구조"]
 tags: ["find", "binary-search"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — 정렬 전제 → 시간복잡도 → 반환 타입 차이 → lower_bound·equal_range → set/map 멤버 함수 vs 알고리즘 꼬리질문 연결 다리"
 ---
 
 # 📕 05/05 — std::find vs std::binary_search (선형 탐색 vs 이분 탐색)

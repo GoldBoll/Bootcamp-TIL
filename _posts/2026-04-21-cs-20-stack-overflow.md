@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "OS"]
 tags: ["stack-overflow"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — 발생 메커니즘 → 4가지 원인(무한 재귀·깊은 재귀·거대 지역 변수·상호 호출) → 플랫폼별 스택 크기 → 해결 5가지(종�"
 ---
 
 # 📕 05/08 — Stack Overflow는 어떤 상황에서 발생하나요?

@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "OS"]
 tags: ["process", "thread"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — 메모리 구조 → 컨텍스트 스위칭 비용 → IPC vs 공유 메모리 → 동기화 → 멀티프로세스/멀티스레드 선택 → 게임 스레드/"
 ---
 
 # 📕 05/07 — 프로세스와 스레드의 차이점

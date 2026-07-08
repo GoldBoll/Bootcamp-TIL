@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "OS"]
 tags: ["context-switching"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — [`21_context_switching.md`](./21_context_switching.md) 모의면접 직후 나온 후속 질문 5개를 1:1로 정리한 노트."
 ---
 
 # 📕 05/13 — Context Switching 모의면접 꼬리질문 정리

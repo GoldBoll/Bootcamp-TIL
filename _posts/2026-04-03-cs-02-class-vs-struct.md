@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "C++"]
 tags: ["class", "struct"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — Notion 원본: https://www.notion.so/344f77b24d2f8029867ff8e37968ce24"
 ---
 
 # 📕 class와 struct 의 차이점

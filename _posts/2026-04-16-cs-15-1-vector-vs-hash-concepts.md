@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "자료구조"]
 tags: ["vector", "hash"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — `15_pushback_vs_emplaceback.md` 를 읽으며 나온 질문들을 모아 정리한 보충 파일."
 ---
 
 # 📕 15-1 — push_back · emplace_back · 해시 개념 질문 정리

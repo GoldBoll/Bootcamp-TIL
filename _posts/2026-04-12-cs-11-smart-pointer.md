@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "C++"]
 tags: ["smart-pointer"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — RAII → unique_ptr / shared_ptr / weak_ptr → 참조 카운팅 → 순환 참조 → virtual 소멸자 → vtable 꼬리질문 연결 다리"
 ---
 
 # 📕 04/24 — C++ 스마트 포인터 모의면접 준비

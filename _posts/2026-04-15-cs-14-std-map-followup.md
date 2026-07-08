@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "자료구조"]
 tags: ["map", "stl"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — [`14_std_map.md`](./14_std_map.md) 모의면접 직후 나온 후속 질문 10개를 1:1로 정리한 노트."
 ---
 
 # 📕 04/30 — std::map 모의면접 꼬리질문 정리

@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "C++"]
 tags: ["virtual", "destructor"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — Notion 원본: https://www.notion.so/343f77b24d2f81b2897ac39040323256"
 ---
 
 # 📕 04/15 - 소멸자를 Virtual로 만들어야 하는 이유

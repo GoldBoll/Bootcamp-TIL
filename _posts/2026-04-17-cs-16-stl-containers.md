@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "자료구조"]
 tags: ["stl"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — 모의면접 다음 주제: 'C++ 표준 라이브러리(STL) 기준 컨테이너에 대해서 설명해 주세요'"
 ---
 
 # 📕 05/04 — C++ STL 컨테이너 전반 (시퀀스 · 연관 · 비순서 · 어댑터)

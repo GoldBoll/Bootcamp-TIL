@@ -5,6 +5,7 @@ categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false
 image: /assets/img/thumbs/programmers.svg
+description: "문제 요약 — 프로그래머스 입문 문제 — 기초 구현 풀이"
 ---
 
 > 출처: <https://school.programmers.co.kr/learn/courses/30/lessons/70128>

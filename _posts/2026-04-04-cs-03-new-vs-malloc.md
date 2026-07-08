@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "C++"]
 tags: ["new", "malloc", "memory"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — Notion 원본: https://www.notion.so/344f77b24d2f806baae6efa26094f26f"
 ---
 
 # 📕 new와 malloc의 차이점

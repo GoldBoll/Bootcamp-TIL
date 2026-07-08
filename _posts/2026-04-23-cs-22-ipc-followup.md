@@ -5,6 +5,7 @@ categories: ["CS 면접 준비", "OS"]
 tags: ["ipc"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
+description: "답변 흐름 — [`22_ipc.md`](./22_ipc.md) 모의면접 직후 나온 후속 질문 1개를 깊이 있게 정리한 노트."
 ---
 
 # 📕 05/13 — IPC 모의면접 꼬리질문 정리
