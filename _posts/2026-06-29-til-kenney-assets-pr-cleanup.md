@@ -4,6 +4,7 @@ date: 2026-06-29 22:00:00 +0900
 categories: ["TIL", "언리얼"]
 tags: ["til", "git", "ue5", "multiplayer", "asset-import", "python"]
 render_with_liquid: false
+image: /assets/img/thumbs/unreal.svg
 ---
 
 > 오늘은 **커밋 메시지 일괄 수정**부터 시작해 GitHub PR 삭제 한계 확인, UE 레벨의 끊어진 에셋 참조를 Python MCP로 복구하는 것까지 — git 히스토리 정리와 언리얼 에셋 파이프라인을 동시에 다룬 날이었다.

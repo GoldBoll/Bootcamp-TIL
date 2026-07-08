@@ -4,6 +4,7 @@ date: 2026-06-25 10:00:00 +0900
 categories: ["알고리즘", "백준"]
 tags: ["algorithm", "bfs", "graph"]
 render_with_liquid: false
+image: /assets/img/thumbs/baekjoon.svg
 ---
 
 > 오늘은 BFS 한 우물만 깊게 팠다. **연결 요소(1926) → 다중 소스 최장거리(2589) → 1차원 BFS(1697) → 0-1 BFS·라운드 BFS(14497)** 순으로, 같은 큐 골격에서 "무엇을 누적하고 큐를 어떻게 쓰느냐"만 문제에 맞게 바꾸는 연습이었다.

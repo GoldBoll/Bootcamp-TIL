@@ -4,6 +4,7 @@ date: 2026-06-15 21:30:00 +0900
 categories: ["TIL", "기획"]
 tags: ["til", "game-design", "gamedev", "multiplayer", "ue5"]
 render_with_liquid: false
+image: /assets/img/thumbs/til.svg
 ---
 
 > 팀 기획안을 읽고 정리했다. **Project A**는 2~4인 협동 캐주얼로, 무거운 가구를 이삿짐 트럭까지 부수지 않고 함께 옮기는 **이삿짐 센터 시뮬레이션**이다. 관통 컨셉은 *"호흡을 맞춰 큰 가구를 아슬아슬하게 옮기는 긴장감"*과 *"한 명의 실수로 가구가 부서질 때 나오는 우정 파괴의 재미"*. 문서는 One Pager → 코어 루프 → 역할 분담 → **인게임 시스템 기획** → **팀 규칙(에셋 접두사)** 순으로 구성돼 있다.

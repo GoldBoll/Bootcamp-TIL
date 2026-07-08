@@ -4,6 +4,7 @@ date: 2026-04-13 10:00:00 +0900
 categories: ["CS 면접 준비", "C++"]
 tags: ["copy"]
 render_with_liquid: false
+image: /assets/img/thumbs/cs.svg
 ---
 
 # 📕 04/27 — 객체 복사 금지 모의면접 준비

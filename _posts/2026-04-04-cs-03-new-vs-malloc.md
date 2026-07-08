@@ -4,6 +4,7 @@ date: 2026-04-04 10:00:00 +0900
 categories: ["CS 면접 준비", "C++"]
 tags: ["new", "malloc", "memory"]
 render_with_liquid: false
+image: /assets/img/thumbs/cs.svg
 ---
 
 # 📕 new와 malloc의 차이점

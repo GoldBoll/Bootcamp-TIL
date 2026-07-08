@@ -4,6 +4,7 @@ date: 2026-04-16 10:00:00 +0900
 categories: ["CS 면접 준비", "자료구조"]
 tags: ["vector", "hash"]
 render_with_liquid: false
+image: /assets/img/thumbs/cs.svg
 ---
 
 # 📕 15-1 — push_back · emplace_back · 해시 개념 질문 정리

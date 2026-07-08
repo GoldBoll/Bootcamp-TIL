@@ -4,6 +4,7 @@ date: 2026-07-08 19:30:00 +0900
 categories: ["TIL", "언리얼"]
 tags: ["til", "ue5", "material", "optimization", "debugging"]
 render_with_liquid: false
+image: /assets/img/thumbs/unreal.svg
 ---
 
 > TeamCarry 레벨 정리(바리케이드·원경) 구현 기록. 작업 레벨은 **`/Game/Developers/goldb/Maps/L_LevelProto_Dressed`** (팀 원본 `L_LevelProto`는 무변경 — 복제본에서 작업 후 리뷰를 거쳐 반영 예정). 셰이더 `M_PP_OutlineHLSL` v10, 브랜치 `feat/barricade-imposter`.

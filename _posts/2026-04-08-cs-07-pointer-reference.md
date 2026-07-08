@@ -4,6 +4,7 @@ date: 2026-04-08 10:00:00 +0900
 categories: ["CS 면접 준비", "C++"]
 tags: ["pointer", "reference"]
 render_with_liquid: false
+image: /assets/img/thumbs/cs.svg
 ---
 
 # 📕 포인터와 레퍼런스 — 차이점 분석

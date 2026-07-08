@@ -4,6 +4,7 @@ date: 2026-06-02 21:00:00 +0900
 categories: ["TIL"]
 tags: ["til", "ue5", "cpp", "gamedev", "game-design", "social-deduction"]
 render_with_liquid: false
+image: /assets/img/thumbs/til.svg
 ---
 
 > 오늘은 코드보다 **학습 기록 인프라**를 크게 손본 날. CS 면접 파일 두 건(32 보강·33 신규)과 Ch4 팀플 컨셉 개정도 병행. NBC_Master 4주차 과제는 의존관계 분석까지만 — 실제 구현은 다음으로 미뤘다.

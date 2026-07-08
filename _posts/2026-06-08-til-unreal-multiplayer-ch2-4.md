@@ -4,6 +4,7 @@ date: 2026-06-08 19:00:00 +0900
 categories: ["TIL", "Unreal"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "gameplay-framework", "netmode", "netrole", "enhanced-input", "umg"]
 render_with_liquid: false
+image: /assets/img/thumbs/unreal.svg
 ---
 
 > 언리얼 멀티플레이어 게임 개발 강의 **챕터 2~4**를 정리했다. 챕터 1에서 본 "이 로직이 서버에서 도는가 클라에서 도는가"(NetMode·NetRole)를 실제 **통신 수단**으로 옮긴다. 챕터 2는 일시적 효과를 보내는 **RPC**(Server/Client/NetMulticast)와 멀티플레이 채팅, 챕터 3은 액터 속성을 복제하는 **Property Replication**과 숫자 야구 게임, 챕터 4는 이 모든 걸 얹을 **게임 프로젝트 구조**(게임플레이 프레임워크 5클래스·디버그 로깅·시작 이벤트 흐름)다. 관통 주제는 챕터 1과 동일: **중대한 로직은 권한(Authority)을 가진 서버에서만 처리하고, 그 결과를 RPC·Replication으로 클라에 전파한다.**

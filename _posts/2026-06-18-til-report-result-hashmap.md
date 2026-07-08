@@ -4,6 +4,7 @@ date: 2026-06-18 21:30:00 +0900
 categories: ["TIL", "알고리즘"]
 tags: ["til", "algorithm", "hash", "map"]
 render_with_liquid: false
+image: /assets/img/thumbs/til.svg
 ---
 
 > 주말 백로그로 빼뒀던 **프로그래머스 92334 — 신고 결과 받기**(2022 KAKAO BLIND RECRUITMENT, Lv.1)를 마저 풀었다. 난이도는 낮지만 **"한 사람이 같은 사람을 여러 번 신고해도 1회"**라는 한 줄 조건을 놓치면 답이 통째로 틀어지는, 전형적인 "조건이 곧 함정"인 문제였다. 해시맵으로 카운팅하는 흐름과 그 함정을 정리한다.

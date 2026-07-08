@@ -4,6 +4,7 @@ date: 2026-07-01 22:00:00 +0900
 categories: ["TIL", "언리얼"]
 tags: ["til", "ue5", "cpp", "network", "multiplayer", "git", "python", "debugging"]
 render_with_liquid: false
+image: /assets/img/thumbs/unreal.svg
 ---
 
 > 오늘은 그동안 **목데이터(mock)** 로만 돌던 세션 UI를 실제 Steam 세션 코드에 붙이는 게 메인이었다(PR #28, develop 머지). 여기에 붙어 온 게 오히려 더 값진 교훈들 — **git 협업에서 "누가 커밋했나"와 "누가 소유자인가"는 다르다**, **빌드 오류는 추측 말고 컴파일 로그(C4458)를 봐라**, **Kenney 회색 머티리얼은 오버라이드 땜질 말고 메시 애셋에 굽는 게 근본해결**. 하나씩 정리한다.

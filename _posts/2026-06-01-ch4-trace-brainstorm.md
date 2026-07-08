@@ -4,6 +4,7 @@ date: 2026-06-01 08:30:00 +0900
 categories: ["Ch4 프로젝트", "기획"]
 tags: ["gamedev", "ue5", "game-design", "social-deduction", "brainstorm"]
 render_with_liquid: false
+image: /assets/img/thumbs/unreal.svg
 ---
 
 > Ch4 8조 팀 프로젝트의 게임 컨셉을 0에서 브레인스토밍한 기록.

@@ -4,6 +4,7 @@ date: 2026-06-23 22:30:00 +0900
 categories: ["TIL", "언리얼"]
 tags: ["til", "ue5", "cpp", "network", "replication", "multiplayer", "interface", "git"]
 render_with_liquid: false
+image: /assets/img/thumbs/unreal.svg
 ---
 
 > Ch4 팀플(TeamCarry — 오버쿡드+무빙아웃 풍 이사 협동게임)에서 내 파트인 **네트워크·물리 통합(접착제·안전망)**의 1차 토대를 깔았다. 가구 운반의 핵심인 **다인 합산 이동**을 서버 권위로 설계하고, 가구가 구현할 계약 인터페이스만 제공해 도메인 결합도를 낮췄다. 중간에 에디터가 `Missing Modules: Fab`로 막혀 **BuildId 불일치**를 추적한 게 의외의 수확. 저녁 회의에서 운반 방식이 "2인이 들고 양쪽 입력이 모두 들어올 때 방향벡터 합산"으로 확정되며 내 설계와 맞물렸다.

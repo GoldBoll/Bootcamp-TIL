@@ -4,6 +4,7 @@ date: 2026-06-30 21:00:00 +0900
 categories: ["TIL", "알고리즘"]
 tags: ["til", "algorithm", "sliding-window", "two-pointer", "string"]
 render_with_liquid: false
+image: /assets/img/thumbs/til.svg
 ---
 
 > 오늘은 슬라이딩 윈도우 한 패턴을 두 변형으로 익혔다. **고정 크기(643 Maximum Average Subarray I)** 와 **가변 크기(3 Longest Substring Without Repeating Characters)**. 공통 본질은 "직전 윈도우 계산 결과를 재활용해 매 스텝 O(1)로 갱신 → 전체 O(n)". 브루트포스의 O(n·k)·O(n²)를 선형으로 끌어내리는 것이 슬라이딩 윈도우의 핵심이라는 감을 굳혔다.

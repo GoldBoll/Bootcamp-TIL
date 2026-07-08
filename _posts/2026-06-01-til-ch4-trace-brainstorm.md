@@ -4,6 +4,7 @@ date: 2026-06-01 21:30:00 +0900
 categories: ["TIL", "Ch4 프로젝트"]
 tags: ["til", "gamedev", "ue5", "game-design", "social-deduction", "brainstorm"]
 render_with_liquid: false
+image: /assets/img/thumbs/unreal.svg
 ---
 
 > **성격** — 이 글은 **컨셉 단계의 러프 기록**이다. 게임의 큰 방향(장르·정체성·핵심 루프)을 잡은 단계이고, **구체적인 시스템 기획은 다음 팀 회의에서 보완**한다.

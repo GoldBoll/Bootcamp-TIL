@@ -4,6 +4,7 @@ date: 2026-07-03 22:00:00 +0900
 categories: ["TIL", "언리얼"]
 tags: ["til", "ue5", "cpp", "network", "multiplayer", "steam", "debugging", "git"]
 render_with_liquid: false
+image: /assets/img/thumbs/unreal.svg
 ---
 
 > 오늘은 **방코드 스팀 멀티플레이를 PC 2대 실기기로 완주**시켰다. 방코드 생성→검색/매칭→P2P 접속→로비 합류→Ready→게임 진입까지 전 구간. 쉽게 된 건 하나도 없었고, **문제→로그 판독→가설→수정→재테스트** 사이클을 7번 돌았다. 돌아보면 매 라운드 공식이 같았다 — 팀원 추측도, 내 추측도 다 빗나갔고 **매번 로그 한 줄이 정답**이었다. `Failed to load package`, `Already have a listen socket`, "패킷 송신 20초, 수신 0". 이 대장정을 라운드별로 기록한다. (PR #51, #54 develop 머지 완료)

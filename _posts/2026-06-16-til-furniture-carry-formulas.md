@@ -4,6 +4,7 @@ date: 2026-06-16 21:30:00 +0900
 categories: ["TIL", "기획"]
 tags: ["til", "game-design", "gamedev", "multiplayer", "ue5", "dp", "algorithm"]
 render_with_liquid: false
+image: /assets/img/thumbs/til.svg
 ---
 
 > 어제 정리한 "Project A 가구 옮기기" 기획안의 **후속 추가분**을 정리한다. 팀이 시스템 기획을 별도 스펙 문서(`furniture-carry-system.md`)로 떼어내면서, 어제 발행본에는 없던 **수식 정식화·튜닝 노브 표·수용 기준·미결 확장**이 새로 들어왔다. 여기서는 그 신규 부분만 추린다. 더해 이날 푼 **LeetCode 416 Partition Equal Subset Sum** DP 풀이를 요약한다.

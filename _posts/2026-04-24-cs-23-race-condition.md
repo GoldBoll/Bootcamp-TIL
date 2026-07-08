@@ -4,6 +4,7 @@ date: 2026-04-24 10:00:00 +0900
 categories: ["CS 면접 준비", "OS"]
 tags: ["concurrency"]
 render_with_liquid: false
+image: /assets/img/thumbs/cs.svg
 ---
 
 # 📕 05/13 — Race Condition에 대해서 이야기 해주세요

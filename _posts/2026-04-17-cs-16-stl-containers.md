@@ -4,6 +4,7 @@ date: 2026-04-17 10:00:00 +0900
 categories: ["CS 면접 준비", "자료구조"]
 tags: ["stl"]
 render_with_liquid: false
+image: /assets/img/thumbs/cs.svg
 ---
 
 # 📕 05/04 — C++ STL 컨테이너 전반 (시퀀스 · 연관 · 비순서 · 어댑터)

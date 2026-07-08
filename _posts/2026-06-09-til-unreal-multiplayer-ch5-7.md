@@ -4,6 +4,7 @@ date: 2026-06-09 19:00:00 +0900
 categories: ["TIL", "Unreal"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "netmode", "netrole", "component", "animation", "umg", "gameplay-framework"]
 render_with_liquid: false
+image: /assets/img/thumbs/unreal.svg
 ---
 
 > 챕터 2~4에서 **RPC**(코스메틱 전파)와 **Property Replication**(중대 상태 복제)의 기본 3종 세트, 그리고 게임 프로젝트 구조를 잡았다. 이번 챕터 5~7은 그 위에 "복제를 어떻게 **효율적으로·정확하게** 할 것인가"를 얹는다. 챕터 5는 Property Replication을 조절하는 **5가지 속성**(NetUpdateFrequency·Relevancy·NetPriority·NetDormancy + Replication Notify), 챕터 6은 Server/Client/NetMulticast **RPC를 직접 실습**하며 "RPC만으로는 안 되고 결국 Property Replication이 필요한" 지점을 체득, 챕터 7은 지금까지 배운 걸 총동원한 **실전 동기화**(애니메이션·공격·액터 컴포넌트)다. 관통 주제는 그대로다 — **권위(Authority)는 서버가, 결과는 RPC·Replication으로 클라에. 단 무엇을·언제·누구에게 보낼지를 조절해 부하를 줄이고 누락을 막는다.**

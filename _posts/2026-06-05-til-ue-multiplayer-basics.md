@@ -4,6 +4,7 @@ date: 2026-06-05 19:00:00 +0900
 categories: ["TIL", "Unreal"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "netmode", "netrole", "replication", "rpc", "gameplay-framework", "umg", "delegate"]
 render_with_liquid: false
+image: /assets/img/thumbs/unreal.svg
 ---
 
 > 언리얼 멀티플레이어 게임 개발 강의 **챕터 1: 멀티플레이 기초 개념**(1-1~1-5)을 정리했다. 채팅 프로젝트로 게임 프레임워크를 깔고(1-1), 서버의 세 종류와 데디케이티드 서버의 실행 흐름을 보고(1-2), 실습 환경을 맞춘 뒤(1-3), **"이 로직이 서버에서 도는가 클라에서 도는가"** 를 판별하는 두 축 — 월드 단위의 `NetMode`(1-4)와 액터 단위의 `NetRole`(1-5)을 익혔다. 관통 주제: **게임에 중대한 로직은 권한(Authority)을 가진 서버에서만 처리한다.**

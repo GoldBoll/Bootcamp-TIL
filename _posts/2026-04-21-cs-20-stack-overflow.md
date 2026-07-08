@@ -4,6 +4,7 @@ date: 2026-04-21 10:00:00 +0900
 categories: ["CS 면접 준비", "OS"]
 tags: ["stack-overflow"]
 render_with_liquid: false
+image: /assets/img/thumbs/cs.svg
 ---
 
 # 📕 05/08 — Stack Overflow는 어떤 상황에서 발생하나요?

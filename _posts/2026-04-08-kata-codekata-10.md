@@ -4,6 +4,8 @@ date: 2026-04-08 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false
+description: "vector<int> arr에서 int divisor로 나누어 떨어지는 원소만 골라 오름차순 정렬해서 반환."
+image: /assets/img/thumbs/programmers.svg
 ---
 
 > 출처: <https://school.programmers.co.kr/learn/courses/30/lessons/12910>

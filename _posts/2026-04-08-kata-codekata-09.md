@@ -4,6 +4,8 @@ date: 2026-04-08 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false
+description: "vector<string> seoul에서 'Kim'의 인덱스(위치) x를 찾아,"
+image: /assets/img/thumbs/programmers.svg
 ---
 
 > 출처: <https://school.programmers.co.kr/learn/courses/30/lessons/12919>

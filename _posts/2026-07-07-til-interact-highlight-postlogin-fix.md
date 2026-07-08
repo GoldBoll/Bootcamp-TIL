@@ -4,6 +4,7 @@ date: 2026-07-07 21:30:00 +0900
 categories: ["TIL", "언리얼"]
 tags: ["til", "ue5", "cpp", "material", "gamemode", "multiplayer", "debugging"]
 render_with_liquid: false
+image: /assets/img/thumbs/unreal.svg
 ---
 
 > 이날은 튜터 피드백 항목이었던 **인터랙션 하이라이트 링**을 끝냈다. 새 포스트 프로세스 패스를 추가하는 대신, 전날까지 만든 뎁스 아웃라인 머티리얼(`M_PP_OutlineHLSL`)에 CustomStencil 기반 링을 얹어 **패스 하나로** 세피아 아웃라인과 노란 포커스 링을 동시에 그렸다. C++ 훅 체인을 따라가다 "레벨 가구 22개가 전부 다른 클래스였다"는 반전을 만났고, 화면 경계 점선 아티팩트와 Live Coding 크래시까지 잔가지 디버깅을 거쳤다. 오후에는 **PostLogin 로비 킥 버그**를 잡았는데, 정작 수정은 `if (Playing)` 한 줄이었다. 심리스 트래블과 하드 트래블이 로그인 훅을 다르게 타는 구조를 이해하는 게 전부였다.

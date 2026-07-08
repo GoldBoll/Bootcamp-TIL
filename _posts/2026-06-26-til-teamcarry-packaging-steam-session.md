@@ -4,6 +4,7 @@ date: 2026-06-26 22:00:00 +0900
 categories: ["TIL", "언리얼"]
 tags: ["til", "ue5", "multiplayer", "dedicated-server", "git", "debugging"]
 render_with_liquid: false
+image: /assets/img/thumbs/unreal.svg
 ---
 
 > 오늘은 **UAT 쿡 단계 빌드 실패**를 잡는 것부터 시작해 Steam 멀티플레이어 세션 흐름을 실제로 검증하고, 팀 develop 브랜치를 force push로 롤백하는 것까지 — 온갖 파이프라인 잡일을 한 번에 처리한 날이었다. 그리고 최종적으로 `TeamCarry.exe` 패키징 빌드까지 성공시켰다.

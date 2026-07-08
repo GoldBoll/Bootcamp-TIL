@@ -4,6 +4,7 @@ date: 2026-06-03 22:00:00 +0900
 categories: ["TIL", "Unreal"]
 tags: ["til", "ue5", "cpp", "delegate", "component", "subsystem", "umg", "enhanced-input", "design-pattern", "debugging", "git"]
 render_with_liquid: false
+image: /assets/img/thumbs/unreal.svg
 ---
 
 > 마스터반 4·5주차 언리얼 과제를 NBC_Master(UE 5.5)에서 진행. 오늘의 메인은 **Dynamic Multicast Delegate**로 체력/사망 이벤트를 발신하고 UI가 구독하는 구조, 그리고 파티 공유 퀘스트를 **GameInstanceSubsystem**에 단일 진실 공급원(SSOT)으로 두는 설계. 곁들여 우클릭 ADS 카메라 보간과 데미지 타입 null 포인터 크래시를 잡았다.

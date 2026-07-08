@@ -4,6 +4,7 @@ date: 2026-04-22 10:00:00 +0900
 categories: ["CS 면접 준비", "OS"]
 tags: ["context-switching"]
 render_with_liquid: false
+image: /assets/img/thumbs/cs.svg
 ---
 
 # 📕 05/13 — Context Switching 모의면접 꼬리질문 정리

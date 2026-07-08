@@ -4,6 +4,8 @@ date: 2026-02-27 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false
+description: "정수 num1과 num2가 매개변수로 주어집니다. 두 수가 같으면 1 다르면 -1을 retrun하도록 solution 함수를 완성해주세요."
+image: /assets/img/thumbs/programmers.svg
 ---
 
 ```cpp

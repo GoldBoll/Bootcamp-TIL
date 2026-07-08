@@ -4,6 +4,7 @@ date: 2026-06-11 21:00:00 +0900
 categories: ["TIL", "알고리즘"]
 tags: ["til", "algorithm", "dfs", "bfs", "graph", "cpp"]
 render_with_liquid: false
+image: /assets/img/thumbs/til.svg
 ---
 
 > 오늘은 **그래프 탐색 심화 알고리즘 수업**이었다. DFS의 기본 틀인 전역 인접 리스트 + visited 배열 패턴을 익히고, 문제 유형에 따라 반환값과 매개변수를 달리하는 세 가지 변형을 연습했다. 백준 2606(바이러스), 1325(효율적인 해킹), 11724(연결 요소의 개수), 2644(촌수계산) 네 문제를 통해 **void → int 반환 → bool + int& 참조** 순으로 DFS 구조를 확장해가는 흐름이었다. 단방향/양방향 그래프 구분과 visited 초기화 타이밍이 핵심 포인트였다.

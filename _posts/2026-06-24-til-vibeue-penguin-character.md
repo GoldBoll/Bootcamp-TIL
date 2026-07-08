@@ -4,6 +4,7 @@ date: 2026-06-24 22:00:00 +0900
 categories: ["TIL", "언리얼"]
 tags: ["til", "ue5", "mcp", "python", "asset-import", "skeletal-mesh", "retargeting", "root-motion", "blendspace", "material", "texture", "debugging", "git"]
 render_with_liquid: false
+image: /assets/img/thumbs/unreal.svg
 ---
 
 > 이날의 큰 줄기는 **VibeUE(언리얼 MCP) 에이전트를 설치하고, 그걸로 펭귄 캐릭터를 임포트→셋업→애니메이션까지 붙이는** 과정이었다. 자연어로 에디터를 조작하는 신세계였지만, 그만큼 파이썬 자동화의 함정(CDO 직접 수정 크래시, 레벨 빠른전환 크래시), FBX/GLB **임포트 스케일 미스매치**, 8K 텍스처로 인한 VRAM 고갈, 그리고 **cross-rig 리타게팅의 한계**까지 — 함정을 하나씩 밟으며 원인과 해법을 정리했다. 곁들여 협동 운반 멀티플레이의 `ATCCarriableFurniture` C++ 베이스도 작성했다.

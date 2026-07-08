@@ -4,6 +4,7 @@ date: 2026-06-10 19:30:00 +0900
 categories: ["TIL", "CS"]
 tags: ["til", "mock-interview", "cs", "map", "hash", "stl", "ue5", "cpp", "replication", "rpc", "network", "reflection", "gc", "netrole", "algorithm", "simulation"]
 render_with_liquid: false
+image: /assets/img/thumbs/til.svg
 ---
 
 > 오늘은 CS 트랙이 두 갈래로 움직였다. 하나는 어제 작성한 **CS 37 "std::map vs TMap"** 파일을 **모의면접 답변용으로 보강**한 것 — 자료구조 차이(RBT 균형 트리 vs 해시 테이블)·복잡도·순회 순서·메모리 레이아웃·RBT 5대 불변식 다섯 축으로 답변 라인을 다듬었다. 다른 하나는 **다음 모의면접 주제 "언리얼 엔진 Replication"(CS 38)** 준비 파일 생성 — 어제 수강한 멀티플레이 강의 챕터 5~7이 그대로 토대가 됐다. 마지막으로 **코드카타 프로그래머스 161990 "바탕화면 정리"(CodeKata_23)** 를 단일 스캔 경계 사각형으로 풀었다. 관통 주제는 컨테이너(37) → 동기화(38)로 이어지는 **언리얼 핵심 시스템 확장**이다.

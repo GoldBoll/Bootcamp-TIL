@@ -4,6 +4,7 @@ date: 2026-06-04 21:00:00 +0900
 categories: ["TIL", "Algorithm"]
 tags: ["til", "algorithm", "cpp", "stl", "map", "set", "stack", "string", "find", "simulation", "greedy"]
 render_with_liquid: false
+image: /assets/img/thumbs/til.svg
 ---
 
 > 오후 알고리즘 심화수업에서 자료구조(map·set) → 문자열 인덱스 변환 → 스택 흐름으로 7문제를 풀었다. **관통하는 아이디어: `문자 - 기준문자`(`c - '0'`, `c - 'a'`, `c - 'A'`)로 문자를 배열 인덱스로 바꾸는 변환**이 거의 모든 문제에서 재등장했다.

@@ -4,6 +4,7 @@ date: 2026-06-17 19:30:00 +0900
 categories: ["TIL", "팀프로젝트"]
 tags: ["til", "git", "ue5", "gamedev"]
 render_with_liquid: false
+image: /assets/img/thumbs/til.svg
 ---
 
 > Ch4 팀 프로젝트(8조 — 가구 옮기기 협동 게임)를 시작하기 전에, **코드보다 레포 표준을 먼저** 잡았다. UE5용 `.gitignore`, 도메인별 코드 소유권, 에셋 접두사 규칙, 그리고 `develop` 완충 브랜치를 둔 Git Flow까지. "나중에 하면 되는 것" 같지만, 팀 작업에서 이 토대가 없으면 머지 충돌과 빌드 깨짐으로 시간을 다 잡아먹는다. 오늘 세팅하며 정리한 핵심을 남긴다.

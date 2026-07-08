@@ -4,6 +4,7 @@ date: 2026-06-17 20:30:00 +0900
 categories: ["TIL", "알고리즘"]
 tags: ["til", "algorithm", "greedy", "dp", "backtracking"]
 render_with_liquid: false
+image: /assets/img/thumbs/til.svg
 ---
 
 > 오늘은 알고리즘 시험으로 세 문제를 풀었다. 패러다임이 각각 다르다 — **그리디(회의실 배정)**, **DP(계단 오르기)**, **백트래킹+가지치기(MT 장보기)**. 세 문제 모두 "정답 코드를 짜는 법"보다 **틀리기 쉬운 한 끗**이 핵심이었다. 그리디는 정렬 기준, DP는 초기값과 점화식, 백트래킹은 분기 검사 순서. 각 문제에서 "왜 그렇게 해야 통하는지"를 정리한다.

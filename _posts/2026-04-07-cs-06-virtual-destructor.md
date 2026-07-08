@@ -4,6 +4,7 @@ date: 2026-04-07 10:00:00 +0900
 categories: ["CS 면접 준비", "C++"]
 tags: ["virtual", "destructor"]
 render_with_liquid: false
+image: /assets/img/thumbs/cs.svg
 ---
 
 # 📕 04/15 - 소멸자를 Virtual로 만들어야 하는 이유

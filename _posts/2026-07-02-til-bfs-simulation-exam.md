@@ -4,6 +4,7 @@ date: 2026-07-02 13:30:00 +0900
 categories: ["TIL", "알고리즘"]
 tags: ["til", "algorithm", "bfs", "graph", "simulation", "cpp"]
 render_with_liquid: false
+image: /assets/img/thumbs/til.svg
 ---
 
 > 코딩테스트 시험으로 세 문제를 풀었다. 백준 2589 보물섬, 1926 그림, 2852 NBA 농구. 앞의 둘은 격자 BFS인데 성격이 정반대였고, 마지막은 순수 이벤트 시뮬레이션이었다. 세 문제를 한 자리에서 풀면서 "BFS를 여러 번 부를 때 상태를 리셋해야 하는가"의 기준과 "시뮬레이션에서 상태 갱신의 순서"를 확실히 정리했다.

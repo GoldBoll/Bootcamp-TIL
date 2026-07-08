@@ -4,6 +4,7 @@ date: 2026-04-09 10:00:00 +0900
 categories: ["CS 면접 준비", "C++"]
 tags: ["vtable"]
 render_with_liquid: false
+image: /assets/img/thumbs/cs.svg
 ---
 
 # 📕 04/23 — vtable 심화 (모의면접 미답변 복기)
