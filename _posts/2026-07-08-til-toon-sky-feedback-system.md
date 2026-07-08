@@ -4,6 +4,8 @@ date: 2026-07-08 21:30:00 +0900
 categories: ["TIL", "언리얼"]
 tags: ["til", "ue5", "cpp", "material", "subsystem", "component", "interface", "reflection", "debugging"]
 render_with_liquid: false
+description: "낮→황혼→밤 실시간 툰 스카이(MPC 동기화 액터)와, 팀원 파일을 한 줄도 수정하지 않고 얹은 사운드·나이아가라 피드백 시스템(서브시스템+컴포넌트+인터페이스)"
+image: /assets/img/posts/2026-07-08/toon-sky-city.png
 ---
 
 > 이날 오후에는 두 가지를 만들었다. 하나는 절차식 툰 하늘의 **낮→황혼→밤 실시간 전환** — Unlit 이미시브 돔은 라이트를 모르기 때문에, Material Parameter Collection과 동기화 액터로 다리를 놓았다. 다른 하나는 가구 잡기·적재·파괴·게임 시작에 사운드와 나이아가라 이펙트를 주는 **유저 피드백 시스템** — 단, 팀원 소유 파일(가구 클래스, GameState)을 한 줄도 수정하지 않고 서브시스템·컴포넌트·인터페이스 신규 파일만으로. 관찰 기반 설계가 머지 컨플릭트 걱정을 지웠다.
