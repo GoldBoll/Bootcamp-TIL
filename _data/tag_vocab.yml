@@ -43,6 +43,7 @@ canonical:
   blendspace: ["블렌드스페이스", "blend-space", "abp", "anim-blueprint", "애님 블루프린트"]
   material:   ["머티리얼", "material-instance", "shininess", "phong", "퐁"]
   texture:    ["텍스처", "텍스쳐", "max-texture-size", "vram", "비디오 메모리"]
+  optimization: ["최적화", "임포스터", "imposter", "lod", "draw-call", "드로우콜"]
 
   # --- Unity / 게임개발 ---
   unity:      ["유니티"]
