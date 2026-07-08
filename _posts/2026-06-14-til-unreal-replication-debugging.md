@@ -4,7 +4,7 @@ date: 2026-06-14 19:30:00 +0900
 categories: ["TIL", "Unreal"]
 tags: ["til", "ue5", "cpp", "multiplayer", "replication", "playerstate", "gamemode", "umg", "timer", "debugging"]
 render_with_liquid: false
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/posts/2026-06-14/01-playername-hex-bug.png
 ---
 
 > 오늘은 9번 과제 **멀티플레이 숫자야구 게임**(`D:\Unreal\NumberBaseball`)에서 실제 멀티플레이 버그를 잡는 하루였다. 어제까지 정리한 CS 38 Replication 이론이 PIE 두 창(서버/클라) 앞에서 그대로 검증됐다. 잡은 문제는 셋 — (1) 플레이어 이름이 사람이 읽을 수 없는 엔진 hex ID로 표시되던 **이름 권위 문제**, (2) 서버 창은 멀쩡한데 클라 창 위젯만 디자인 기본값에 멈춰 있던 **PlayerState 복제 타이밍 문제**, (3) 접속 순번이 흔들리던 문제. 여기에 평가기준과 1:1 대조하다 **게임 리셋이 호출 경로가 없어 죽은 코드**였던 누락 필수 기능 하나를 추가로 완성했다. 관통 주제는 "복제는 언제 도착하는가, 그리고 누가 권위를 갖는가"다.

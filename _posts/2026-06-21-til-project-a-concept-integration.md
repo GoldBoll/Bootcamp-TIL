@@ -4,7 +4,7 @@ date: 2026-06-21 19:00:00 +0900
 categories: ["TIL", "기획"]
 tags: ["til", "game-design", "gamedev", "multiplayer", "ue5", "art-direction"]
 render_with_liquid: false
-image: /assets/img/thumbs/til.svg
+image: /assets/img/posts/2026-06-21/01-keyart-bean.png
 ---
 
 > Ch4 8조 팀 프로젝트 **Project A(이삿짐 협동 게임)**의 기획 통합 작업을 한 날. 여러 탭으로 흩어져 있던 Reverb 기획안을 **하나의 게임 컨셉 문서로 통합**하고, 합치는 과정에서 드러난 문서 간 충돌을 정리했다. 코딩보다 **문서 정합성 확보·아트 방향 결정**이 중심이었다.

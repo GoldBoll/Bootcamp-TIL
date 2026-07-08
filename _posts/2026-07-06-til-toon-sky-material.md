@@ -4,7 +4,7 @@ date: 2026-07-06 12:30:00 +0900
 categories: ["TIL", "언리얼"]
 tags: ["til", "ue5", "material", "texture", "git"]
 render_with_liquid: false
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/posts/2026-07-06/sky-before.jpg
 ---
 
 > 이날은 TeamCarry 레벨의 하늘을 갈아엎었다. 도시·나무·차량은 전부 툰 룩인데 하늘만 사실적인 볼류메트릭 구름이라 이질감이 컸다. 스카이돔 머티리얼을 **텍스처 0장짜리 절차식 툰 스카이**로 교체했다. 오후에는 커밋에 들어간 공동작업자 트레일러를 지우려다 **"머지된 커밋의 히스토리 재작성"이라는 늪**에 빠졌고, 에디터 파일 잠금과 팀원의 pull이 겹치며 git plumbing까지 내려갔다 왔다. 머티리얼보다 git에서 배운 게 더 많은 날일지도 모른다.
