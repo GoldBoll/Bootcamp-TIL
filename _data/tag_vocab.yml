@@ -30,6 +30,7 @@ canonical:
   gameplay-framework: ["게임플레이 프레임워크", "게임 프레임워크"]
   netmode:    ["net-mode"]
   netrole:    ["net-role", "authority", "proxy", "autonomous-proxy", "simulated-proxy"]
+  character-movement: ["cmc", "charactermovement", "charactermovementcomponent", "무브먼트", "이동 예측", "movement-prediction", "client-prediction", "클라이언트 예측", "러버밴딩", "rubber-banding"]
   playerstate: ["player-state", "플레이어스테이트", "플레이어 스테이트"]
   gamemode:   ["game-mode", "게임모드", "게임 모드", "postlogin", "changename"]
   timer:      ["ftimerhandle", "ftimer", "타이머", "timer-handle"]
