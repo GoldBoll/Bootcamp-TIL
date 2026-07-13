@@ -1,6 +1,6 @@
 ---
 title: "[TIL] 2026-07-13 — 러버밴딩의 뿌리와 들것 운반 모델: CMC 예측·협동 운반 재설계·아웃라인 v17"
-date: 2026-07-13 22:30:00 +0900
+date: 2026-07-13 21:30:00 +0900
 categories: ["TIL", "언리얼"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "netrole", "character-movement", "material", "debugging"]
 render_with_liquid: false
