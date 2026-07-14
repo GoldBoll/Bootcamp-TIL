@@ -2,7 +2,7 @@
 title: "[TIL] 2026-07-14 — 공동 운반 견인 동기화와 콜리전 수술: 관통 동결·평형점 계산·면도날 판"
 date: 2026-07-14 22:30:00 +0900
 categories: ["TIL", "언리얼"]
-tags: ["til", "ue5", "cpp", "multiplayer", "network", "character-movement", "collision", "physics", "debugging"]
+tags: ["til", "ue5", "cpp", "multiplayer", "network", "character-movement", "trace", "debugging"]
 render_with_liquid: false
 image: /assets/img/thumbs/unreal.svg
 ---
