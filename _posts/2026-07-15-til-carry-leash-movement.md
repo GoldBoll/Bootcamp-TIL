@@ -4,7 +4,7 @@ date: 2026-07-15 22:30:00 +0900
 categories: ["TIL", "언리얼"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "character-movement", "debugging"]
 render_with_liquid: false
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/posts/2026-07-15/tugofwar_mid.png
 ---
 
 > TeamCarry(4인 협동 이사 게임, 리슨서버 멀티)의 공동 운반에서 계속 잡히지 않던 **러버밴딩**의 뿌리가 "서버가 CMC 위에 한 번 더 보정한다"는 구조 자체에 있다는 결론에 도달했다. 플레이어를 **되끌어오는 견인 주입**을 걷어내고, **입력 단계에서 이동을 제한하는 리쉬(leash)** 로 전환했다. 방향은 하루 만에 잡혔지만 함정이 셋 있었다 — 축차 클램프가 만드는 한쪽 쏠림, 여유 반경의 방향, 그리고 견인 진입 반경과 클램프 한계의 순서. 검증은 키보드 하나로 줄다리기를 재현하는 콘솔 치트를 만들어 해결했다.
@@ -13,7 +13,7 @@ image: /assets/img/thumbs/unreal.svg
 
 **증상**: 2인 가구를 들면 파트너가 기차처럼 덜컹거리며 끌려오고(러버밴딩), 벌어짐이 한계를 넘으면 그랩이 뚝 끊어진다. 1인 가구도 충돌 후 캐릭터가 가구 위치로 되끌려오는 스냅백이 어색하다.
 
-<video controls muted preload="metadata" src="/assets/img/posts/2026-07-15/banding.mp4" style="max-width:100%"></video>
+<video controls muted preload="metadata" src="https://github.com/GoldBoll/GoldBoll.github.io/releases/download/til-media/banding.mp4" style="max-width:100%"></video>
 *기존 견인 방식 — 서 있는 파트너가 주입 견인으로 덜컹거리며 끌려오다, 벌어지자 그랩이 끊어진다*
 
 **원인은 구조**다. 언리얼 CMC(CharacterMovementComponent)는 이미 완결된 보정 체계를 갖고 있다 — 소유 클라이언트가 입력으로 예측 이동하고, `ServerMove`로 올라온 같은 입력을 서버가 재생하고, 결과가 어긋나면 `ClientAdjustPosition`으로 클라를 교정한다. 기존 견인은 이 위에 **서버가 매 틱 `CMC->Velocity`를 직접 덮어쓰는** 층을 하나 더 얹은 것이었다. 서버가 써넣은 속도는 클라이언트가 예측한 적 없는 값이라, 서버 재생 결과와 클라 예측이 매 틱 어긋나고, 그 차이만큼 교정 패킷이 날아온다. **이중 보정 = 러버밴딩**. 서버+소유 클라 동시 주입으로 어긋남을 줄이는 시도도 해봤지만, 원격 지연이 있는 한 두 주입 시점이 완전히 일치할 수 없어 잔여 밴딩이 남았다.
@@ -45,6 +45,9 @@ return (Outward > 0.0f) ? WorldInput - Away * Outward : WorldInput;
 
 보정을 **원본 후보 기준으로 동시에 계산해 합산 적용**하는 것으로 바꿨다. 반대 방향 위반은 합산에서 상쇄되니 가구가 중간에 머문다. 순서가 결과를 바꾸는 축차 갱신은 이럴 때 늘 의심해야 한다.
 
+![대칭 리쉬 검증 장면](/assets/img/posts/2026-07-15/banding_break.png)
+*운반 디버그(F9) HUD — 능동 Δ/허용 반경, 가구 실속도, 막힘 플래그를 매 틱 수치로 보면서 쏠림·진동을 판별했다*
+
 ## 4. 무입력 파트너는 끌려와야 한다 — 하이브리드와 교착의 함정
 
 리쉬로 전부 바꾸고 나니 새 문제가 왔다. **서 있는 파트너를 끌어줄 수단이 없다.** 한 명이 걸으면 가구가 파트너의 리쉬 끝에서 멈추고, 걷는 쪽 경계도 함께 동결 — 아무도 못 움직인다. "밴딩이 싫다"와 "파트너는 끌려와야 한다"는 둘 다 참이다. 답은 역할 분담이었다.
@@ -62,8 +65,11 @@ return (Outward > 0.0f) ? WorldInput - Away * Outward : WorldInput;
 
 "서로 반대 방향 동시 입력"은 PIE 두 창에서 한 키보드로는 테스트할 수 없다(포커스는 하나뿐). 콘솔 치트를 만들었다 — 켜면 가구를 잡은 로컬 폰 전원이 **가구 반대 방향으로 자동 입력**을 넣는다. 자동 입력도 실제 입력 경로처럼 리쉬 필터를 통과시켜서, 진짜 플레이어의 줄다리기와 동일한 코드 경로를 검증한다. 기존 방식과의 A/B 비교는 모든 가구의 리쉬 모드를 일괄 토글하는 명령을 만들어 게임 중 즉시 전환할 수 있게 했다.
 
-<video controls muted preload="metadata" src="/assets/img/posts/2026-07-15/tugofwar.mp4" style="max-width:100%"></video>
+<video controls muted preload="metadata" src="https://github.com/GoldBoll/GoldBoll.github.io/releases/download/til-media/tugofwar.mp4" style="max-width:100%"></video>
 *리쉬 방식 줄다리기 — 양쪽이 자동으로 반대로 당기지만 가구는 중간에 고정되고, 아무도 튕기지 않고, 그랩도 끊어지지 않는다*
+
+![줄다리기 재현 중](/assets/img/posts/2026-07-15/tugofwar_mid.png)
+*자동 줄다리기 진행 중 — 가구 실속도와 운반자막힘/가구막힘 플래그가 실시간으로 찍힌다*
 
 이 치트가 잡아준 게 3장의 축차 클램프 쏠림이었다. 눈으로는 "왠지 흘러간다" 수준이던 게, 손을 떼고 관찰하니 일정 속도의 드리프트라는 게 명확해졌고, 그래서 수식으로 검산할 생각을 하게 됐다. **재현 장치를 먼저 만들면 관찰이 측정이 된다.**
 
