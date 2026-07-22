@@ -8,7 +8,7 @@ image: /assets/img/thumbs/cs.svg
 description: "답변 흐름 — 정의(공유 자원 + 동시 접근 + 비결정성) → Critical Section → 동기화 객체 카탈로그(Mutex·Semaphore·Critical Section·SRWLock·Event·"
 ---
 
-# 📕 05/13 — Race Condition에 대해서 이야기 해주세요
+# 05/13 — Race Condition에 대해서 이야기 해주세요
 
 > 모의면접 주제: "Race Condition에 대해서 이야기 해주세요"
 > 정의(공유 자원 + 동시 접근 + 비결정성) → Critical Section → 동기화 객체 카탈로그(Mutex·Semaphore·Critical Section·SRWLock·Event·Condition Variable) → Lock-free / atomic / CAS → Memory Ordering·Memory Barrier(acquire/release) → ABA 문제 → Deadlock·Livelock·Starvation → Priority Inversion → Windows/POSIX API 비교 → 비용 스펙트럼 → 언리얼(GameThread/RenderThread 분리·TaskGraph)까지
@@ -17,7 +17,7 @@ description: "답변 흐름 — 정의(공유 자원 + 동시 접근 + 비결정
 
 ## 학습 영역 — 프로세스 vs 스레드(19)·컨텍스트 스위칭(21)·IPC(22)에서 파생된 동시성 회귀
 
-프로세스 vs 스레드(19)에서 같은 프로세스 안의 스레드는 코드·데이터·힙을 공유한다는 점을 봤고, 컨텍스트 스위칭(21)에서 스레드가 임의의 시점에 강제로 교체될 수 있다는 점을 봤습니다. IPC(22)에선 공유 메모리가 가장 빠르지만 동기화를 직접 해야 하는 트레이드오프를 짚었습니다. 23번은 그 세 주제가 모두 가리키는 결론, **공유 자원 + 동시 접근 + 비결정적 스케줄링이 만나는 지점에서 일어나는 Race Condition**이 본 주제입니다.
+프로세스 vs 스레드(19)에서 같은 프로세스 안의 스레드는 코드·데이터·힙을 공유한다는 점을 봤고, 컨텍스트 스위칭(21)에서 스레드가 임의의 시점에 강제로 교체될 수 있다는 점을 봤습니다. IPC(22)에선 공유 메모리가 가장 빠르지만 동기화를 직접 해야 하는 트레이드오프를 짚었습니다. 23번은 그 세 주제가 모두 가리키는 결론인 **공유 자원 + 동시 접근 + 비결정적 스케줄링이 만나는 지점에서 일어나는 Race Condition**입니다.
 
 ```
 01번 메모리 4영역 (Code/Data/Heap/Stack)        ← 공유 영역의 위치
@@ -31,15 +31,15 @@ description: "답변 흐름 — 정의(공유 자원 + 동시 접근 + 비결정
 이후 락-프리 자료구조 / 메모리 모델 심화 / 트랜잭션 메모리
 ```
 
-Race Condition은 OS 책의 동시성 챕터에서 가장 자주 등장하는 단어지만, 실제로는 **CPU 마이크로아키텍처(메모리 모델·캐시 일관성)·언어 표준(C++ memory_order)·OS API(Mutex·SRWLock)·하드웨어 명령(LOCK CMPXCHG)** 이 모두 만나는 지점입니다. 그래서 면접에서 "Race Condition이 뭡니까"를 물으면, 정의·예시·해결책·해결책의 비용·해결책 사이의 트레이드오프까지 4~5단계로 풀 수 있어야 깊이가 드러납니다.
+Race Condition은 OS 책 동시성 챕터의 단골 주제지만, 실제로는 **CPU 마이크로아키텍처(메모리 모델·캐시 일관성)·언어 표준(C++ memory_order)·OS API(Mutex·SRWLock)·하드웨어 명령(LOCK CMPXCHG)** 이 모두 만나는 지점입니다. 그래서 면접에서 "Race Condition이 뭡니까"를 물으면, 정의·예시·해결책·해결책의 비용·해결책 사이의 트레이드오프까지 4~5단계로 풀 수 있어야 깊이가 드러납니다.
 
-Windows는 특히 `CRITICAL_SECTION`·`SRWLock`·`Mutex`·`Semaphore`·`Event`·`InterlockedExchange`·`std::atomic`까지 단계별로 비용이 다른 동기화 도구를 제공합니다. 같은 "race를 막는다"는 작업이 **수 ns(atomic CAS)** 부터 **수 μs(커널 Mutex)** 까지 1000배 비용 차이를 만듭니다. 그래서 Race Condition을 막는 게 아니라 **"어떻게 적은 비용으로 막느냐"** 가 진짜 엔지니어링 문제입니다.
+Windows는 특히 `CRITICAL_SECTION`·`SRWLock`·`Mutex`·`Semaphore`·`Event`·`InterlockedExchange`·`std::atomic`까지 단계별로 비용이 다른 동기화 도구를 제공합니다. 같은 "race를 막는다"는 작업이 **수 ns(atomic CAS)** 부터 **수 μs(커널 Mutex)** 까지 1000배 비용 차이를 만듭니다. 그래서 진짜 문제는 race를 막느냐가 아니라 **얼마나 적은 비용으로 막느냐**입니다.
 
 ---
 
 ## 모의면접 답변
 
-Race Condition은 **둘 이상의 실행 단위(스레드·프로세스)가 공유 자원에 동시에 접근하면서, 실행 순서에 따라 결과가 달라지는 현상**입니다. 핵심은 세 가지 조건이 모두 만족되어야 한다는 점입니다 — **① 공유 자원이 존재하고**, **② 적어도 두 개 이상의 실행 단위가 그 자원에 접근하고**, **③ 그중 하나 이상이 쓰기(write)를 수행하며**, **④ 접근 순서를 OS가 보장하지 않습니다**. 이 네 조건이 모두 만족되어야 race가 발생합니다. 읽기만 하는 동시 접근은 race가 아니고, 단일 스레드에서의 접근도 race가 아닙니다.
+Race Condition은 **둘 이상의 실행 단위(스레드·프로세스)가 공유 자원에 동시에 접근하면서, 실행 순서에 따라 결과가 달라지는 현상**입니다. 핵심은 네 조건이 모두 겹쳐야 한다는 점입니다 — **① 공유 자원이 존재하고**, **② 적어도 두 개 이상의 실행 단위가 그 자원에 접근하고**, **③ 그중 하나 이상이 쓰기(write)를 수행하며**, **④ 접근 순서를 OS가 보장하지 않습니다**. 읽기만 하는 동시 접근은 race가 아니고, 단일 스레드에서의 접근도 race가 아닙니다.
 
 가장 흔한 예가 **counter 증가**입니다. `count++`라는 한 줄이 CPU 명령으로는 **load → increment → store** 세 단계로 분해되고, 그 사이 어디서나 컨텍스트 스위칭(21)이 일어날 수 있습니다. 스레드 A가 load해서 100을 읽고 increment까지 했는데(101), 그 사이 스레드 B가 들어와서 같은 100을 load해서 increment·store까지 끝내고(101), A가 다시 깨어나서 자기 결과 101을 store하면, 두 번 증가했는데도 최종 값이 101입니다. 결과가 102가 되어야 했지만 101이 됐고, 어떤 결과가 나올지 미리 알 수 없습니다 — **비결정성(non-determinism)** 이 race의 본질입니다.
 
@@ -66,7 +66,7 @@ Race Condition은 **둘 이상의 실행 단위(스레드·프로세스)가 공�
 | | **Critical Section (임계 영역)** | 한 번에 한 스레드만 실행되어야 하는 코드 구간의 추상 개념 |
 | | **Atomicity (원자성)** | 한 연산이 외부에서 보기에 "한 번에 끝나거나 아예 안 일어난" 것처럼 보이는 성질 |
 | | **비결정성 (Non-determinism)** | 같은 입력에 대해 실행마다 결과가 달라질 수 있는 성질. race의 본질 |
-| | **Data Race** | C++ 표준 용어 — 두 스레드가 같은 메모리에 동기화 없이 접근, 적어도 하나가 쓰기 시 UB |
+| | **Data Race** | C++ 표준 용어 — 두 스레드가 같은 메모리에 동기화 없이 접근, 적어도 하나가 쓰기 시 UB(Undefined Behavior, 미정의 동작) |
 | | **Race Condition vs Data Race** | Data race는 메모리 접근 차원 / Race condition은 의미·결과 차원. 모든 data race는 race condition이지만 역은 아님 |
 | 동기화 객체 | **Mutex (상호 배제, MUTual EXclusion)** | 한 스레드만 락을 잡을 수 있는 배타적 락. Windows 커널 객체는 프로세스 간 공유 가능 |
 | | **Semaphore** | 카운터 기반 락 — N개 동시 접근 허용. counting / binary semaphore |
@@ -150,7 +150,7 @@ Race Condition은 **둘 이상의 실행 단위(스레드·프로세스)가 공�
 13. [비용 스펙트럼 정리 — 어느 동기화가 얼마나 비싼가](#13-비용-스펙트럼-정리--어느-동기화가-얼마나-비싼가)
 14. [언리얼에서의 Race Condition 회피 — 스레드 분리·TaskGraph](#14-언리얼에서의-race-condition-회피--스레드-분리taskgraph)
 15. [꼬리질문 예상 경로](#15-꼬리질문-예상-경로)
-16. [핵심 요약 카드 (재게재)](#16-핵심-요약-카드-재게재)
+16. [핵심 요약 카드 (최종)](#16-핵심-요약-카드-최종)
 17. [회귀 다리 — 다른 CS 파일 연결](#17-회귀-다리--다른-cs-파일-연결)
 
 ---
@@ -180,24 +180,9 @@ Race Condition = 둘 이상의 스레드가 공유 자원에 동시 접근,
   ③ Lock-free / atomic / CAS (수 ns)
      - std::atomic<T>, InterlockedExchange
      - 자료구조 설계 매우 어렵다
-
-Memory Model:
-  CPU·컴파일러가 명령 재배치 → 멀티 스레드 가시성 깨짐
-  → memory_order_acquire / release 페어로 fence
-  → x86은 TSO (강함) / ARM은 weak (barrier 필수)
-
-병리:
-  Deadlock      = 서로의 락 기다리며 멈춤 (4조건: 상호배제·점유대기·비선점·순환)
-  Livelock      = 락 안 잡고 양보만 하다 진행 안 됨
-  Starvation    = 특정 스레드 영원히 락 못 잡음
-  Priority Inv. = 낮은 우선순위 락을 높은 우선순위가 기다림 (Pathfinder 사례)
-  ABA           = lock-free에서 A→B→A 못 알아챔
-
-언리얼 철학 — "락을 잘 쓰지 말고, 공유를 안 만든다":
-  GameThread (UObject) / RenderThread (proxy) / RHIThread (GPU 명령) 분리
-  TaskGraph로 의존성 그래프 표현 — 락 대신 작업 순서
-  ENQUEUE_RENDER_COMMAND — 명령 큐로 GameThread → RenderThread
 ```
+
+Memory Model·병리(Deadlock·Livelock·Starvation·Priority Inversion·ABA)·언리얼 파트까지 포함한 전체 요약은 [16. 핵심 요약 카드 (최종)](#16-핵심-요약-카드-최종)에 모아뒀습니다.
 
 ### 꼬리질문 연결 맵
 
@@ -289,7 +274,7 @@ if (count.load() == 0) {        // 1) 읽음
 // → data race는 없음 (atomic이라).
 ```
 
-면접에서는 보통 둘을 통틀어 "race condition"이라 부르지만, 두 단어를 구분해 답하면 깊이가 산다.
+면접에서는 보통 둘을 통틀어 "race condition"이라 부르지만, 두 단어를 구분해 답하면 이해 깊이가 드러납니다.
 
 ### 흐름 한눈에
 
@@ -500,7 +485,7 @@ void ProcessItem(Item* item) {
 }
 ```
 
-Critical section의 크기가 줄어들면 **lock contention(락 경합)** 이 줄어듭니다. 경합이 많으면 컨텍스트 스위칭(21)이 폭증해서 single-thread 코드보다 더 느려질 수 있습니다 — **convoy effect**.
+Critical section의 크기가 줄어들면 **lock contention(락 경합)** 이 줄어듭니다. 경합이 많으면 컨텍스트 스위칭(21)이 폭증해서 single-thread 코드보다 더 느려질 수 있습니다 — 락 앞에 스레드들이 줄지어 밀리는 **convoy effect**입니다.
 
 ### 4.5 RAII 패턴 — `std::lock_guard` / `std::scoped_lock`
 
@@ -675,7 +660,7 @@ void producer() {
 }
 ```
 
-`cv.wait`의 술어(predicate) 인자가 중요합니다 — **spurious wakeup**(가짜 깨어남) 회피용. CV는 OS의 보장 부족으로 깨어났을 때 술어를 재확인해야 합니다.
+`cv.wait`의 술어(predicate) 인자가 중요합니다 — **spurious wakeup**(가짜 깨어남, 조건이 만족되지 않았는데 OS가 스레드를 깨우는 일) 대응용입니다. CV는 이런 깨어남을 막아주지 않으므로, 깨어난 뒤 술어로 조건을 재확인해야 합니다.
 
 ### 5.6 동기화 객체 비교 표
 
@@ -929,7 +914,7 @@ int r2 = x.load();
 // relaxed 하에서는 r1=0 && r2=0 가능
 ```
 
-SC는 가장 안전하지만 가장 비쌉니다 — 모든 코어에 memory fence를 brodcast해야 합니다. ARM 같은 weak memory model에선 SC가 매우 비싸고, x86은 TSO라 상대적으로 싸지만 그래도 비쌉니다.
+SC는 가장 안전하지만 가장 비쌉니다 — 모든 코어에 memory fence를 broadcast해야 합니다. ARM 같은 weak memory model에선 SC가 매우 비싸고, x86은 TSO라 상대적으로 싸지만 그래도 비쌉니다.
 
 ### 7.5 memory_order_relaxed — 순서 보장 없음
 
@@ -1374,7 +1359,7 @@ PI는 동적, PCP는 정적. 실시간 시스템에서 PCP 선호 — 분석이 
 | Condition Variable | `CONDITION_VARIABLE` + `SleepConditionVariable*` | `pthread_cond_t` + `pthread_cond_wait/signal/broadcast` |
 | Wait API | `WaitForSingleObject` / `WaitForMultipleObjects` | `sem_wait` / `pthread_cond_wait` / `poll` 등 객체별 |
 
-Windows의 `WaitForMultipleObjects`는 매우 강력 — 여러 핸들을 한 번에 대기. POSIX는 보통 `select`/`poll`/`epoll`을 fd 기반으로 사용.
+Windows의 `WaitForMultipleObjects`는 여러 핸들을 한 번에 대기할 수 있다는 점이 강점입니다. POSIX는 보통 `select`/`poll`/`epoll`을 fd 기반으로 사용합니다.
 
 ### 12.3 Atomic
 
@@ -1852,7 +1837,7 @@ AsyncTask(ENamedThreads::AnyBackgroundThreadNormalTask, [this]() {
 >
 > **셋째, TaskGraph** — 큰 작업을 task로 쪼개고 의존성 그래프를 만들어 병렬 실행. task 내부는 독립이거나 명시적 의존만 있어 락 거의 없음. 결과는 `AsyncTask(ENamedThreads::GameThread)`로 GameThread에서 통합.
 >
-> 그래도 락이 필요할 때는 `FCriticalSection` + `FScopeLock`(RAII 가드), atomic 카운터로 `FThreadSafeCounter`, lock-free 큐로 `TQueue<T, EQueueMode::Spsc/Mpsc>`를 사용합니다. 다만 언리얼 코드에서 락 사용 빈도는 놀라울 정도로 낮습니다 — 동시성 모델 자체가 race를 안 만드는 방향으로 설계됐기 때문.
+> 그래도 락이 필요할 때는 `FCriticalSection` + `FScopeLock`(RAII 가드), atomic 카운터로 `FThreadSafeCounter`, lock-free 큐로 `TQueue<T, EQueueMode::Spsc/Mpsc>`를 사용합니다. 다만 언리얼 코드에서 락이 등장하는 빈도 자체가 낮습니다 — 동시성 모델이 race를 안 만드는 방향으로 설계됐기 때문입니다.
 
 ### Q10. "Spin Lock과 Mutex 중 무엇이 더 좋나요?"
 
@@ -1866,7 +1851,7 @@ AsyncTask(ENamedThreads::AnyBackgroundThreadNormalTask, [this]() {
 >
 > | 조건 | Spin Lock 유리 | Mutex 유리 |
 > |---|---|---|
-> | Critical section 길이 | 매우 짧음 (< 1 μs) | 길음 (> 10 μs) |
+> | Critical section 길이 | 매우 짧음 (< 1 μs) | 긴 편 (> 10 μs) |
 > | CPU 코어 수 | 멀티코어 | 단일 코어 — spin이 죽임 |
 > | 경합률 | 낮음 | 높음 |
 > | 락 잡힌 스레드가 진행 가능? | YES (다른 코어) | (sleep은 어차피 양보) |
@@ -1954,7 +1939,7 @@ AsyncTask(ENamedThreads::AnyBackgroundThreadNormalTask, [this]() {
 
 ---
 
-## 16. 핵심 요약 카드 (재게재)
+## 16. 핵심 요약 카드 (최종)
 
 ```
 Race Condition = 둘 이상의 스레드가 공유 자원에 동시 접근,
@@ -2064,4 +2049,10 @@ POSIX API:
 | **20_stack_overflow** | 스택은 스레드별 독립이라 스택 변수는 race 없음. 하지만 스택 변수의 주소를 다른 스레드에 넘기면 race + use-after-free 위험 |
 | **21_context_switching** | race의 시간적 원인 — 컨텍스트 스위칭이 명령 단위로 임의 시점에 끼어들기 때문에 `count++`의 3단계 사이에서 스위치가 일어남. 동기화 객체 비용도 컨텍스트 스위칭(21)의 비용 스펙트럼과 직결 |
 | **22_ipc** | 프로세스 간 race — 공유 메모리에서 OS가 동기화 안 해주므로 **Named Mutex/Semaphore/Event**(커널 객체)와 짝지어 사용. 22번 §13.5의 "공유 메모리 + Named 동기화" 패턴이 IPC 차원의 race 회피 |
+
+> **오늘 배운 것** — Race는 공유 자원·동시 접근·쓰기·순서 무보장 네 조건이 모두 겹칠 때 생기고, 이 중 하나만 깨도 사라진다. 같은 보호라도 atomic CAS(수 ns)부터 커널 Mutex(1~3 μs)까지 비용이 1000배 벌어지므로, 락을 고르는 것 이상으로 언리얼처럼 스레드 분리·명령 큐로 공유 자체를 없애는 구조가 좋은 답이 된다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "Race Condition이 무엇이고 어떻게 막을 수 있나요?" → 발생 4조건(공유·동시·쓰기·순서 무보장), count++ 3단계 분해, Critical Section, mutex/atomic 비용 스펙트럼, 공유 제거(스레드 분리·명령 큐)
+{: .prompt-info }
 

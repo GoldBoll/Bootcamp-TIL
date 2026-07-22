@@ -5,7 +5,7 @@ categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false
 image: /assets/img/thumbs/programmers.svg
-description: "문제 요약 — 프로그래머스 입문 문제 — 기초 구현 풀이"
+description: "프로그래머스 모의고사 — 수포자 3인의 찍기 패턴을 나머지 연산으로 순회하며 점수를 비교하는 완전탐색 풀이"
 ---
 
 > 출처: <https://school.programmers.co.kr/learn/courses/30/lessons/42840>
@@ -61,3 +61,10 @@ vector<int> solution(vector<int> answers) {
 }
 ```
 
+세 사람의 찍기 패턴은 길이가 5, 8, 10으로 제각각이지만 계속 반복된다는 점이 같다. 패턴을 배열로 박아두고 `i % 패턴길이`로 인덱스를 돌리면 무한 반복을 따로 만들 필요가 없다. 최고점자가 여럿일 수 있어서 최고점을 먼저 구한 뒤 같은 점수를 전부 담는 순서로 처리했다.
+
+> **오늘 배운 것** — 반복되는 패턴은 배열 하나와 나머지 연산(`i % size`)만으로 순회할 수 있다. 동점자 처리는 최댓값을 먼저 확정한 뒤 같은 점수를 모두 담는 2패스가 깔끔하다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "이 문제를 완전탐색으로 풀어도 되는 근거는 무엇인가요?" → 입력 최대 10,000개, 고정된 패턴 3개, O(N) 단일 순회, 나머지 연산
+{: .prompt-info }

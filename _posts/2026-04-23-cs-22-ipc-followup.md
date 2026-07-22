@@ -5,10 +5,10 @@ categories: ["CS 면접 준비", "OS"]
 tags: ["ipc"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
-description: "답변 흐름 — [`22_ipc.md`](./22_ipc.md) 모의면접 직후 나온 후속 질문 1개를 깊이 있게 정리한 노트."
+description: "IPC 모의면접 직후 나온 후속 질문 — 소켓이란 무엇인가 — 를 결론 → 흐름 → 표 → 코드 → 면접 답변 순으로 정리한 노트."
 ---
 
-# 📕 05/13 — IPC 모의면접 꼬리질문 정리
+# IPC 모의면접 꼬리질문 정리
 
 > [`22_ipc.md`](./22_ipc.md) 모의면접 직후 나온 후속 질문 1개를 깊이 있게 정리한 노트.
 > 본문은 22번 원본의 해당 섹션을 가리키고, 여기서는 **결론 → 흐름 → 표 → 코드/예 → 면접 답변 한 줄** 순으로 압축한다.
@@ -53,7 +53,7 @@ int sock = socket(AF_INET, SOCK_STREAM, 0);
 read(sock, buf, sizeof(buf));    // 같은 read()!
 ```
 
-이게 BSD socket API의 위대한 디자인 — 통신을 파일 I/O와 똑같이 다루게 한다.
+통신을 파일 I/O와 똑같이 다루게 만든 것 — 이게 BSD socket API 설계의 핵심이다.
 
 ### 1-2. 흐름 한눈에 — BSD socket API
 
@@ -331,4 +331,10 @@ recvfrom(sfd, buf, sizeof(buf), 0, (struct sockaddr*)&from, &fromlen);
 - [`21_context_switching.md`](./21_context_switching.md) — 매 송수신마다 발생하는 모드 스위치 비용이 소켓 비용의 출발점.
 - [`19_process_vs_thread.md`](./19_process_vs_thread.md) — 주소 공간 격리가 IPC가 필요한 이유의 토대.
 - [`07_pointer_reference.md`](./07_pointer_reference.md) — fd는 결국 커널 자료구조에 대한 핸들(추상 포인터)이라는 점에서 같은 추상화 패턴.
+
+> **오늘 배운 것** — 소켓은 OS가 파일 디스크립터로 노출하는 양방향 통신 채널의 추상화라서 파일과 같은 `read`/`write` API로 다룰 수 있고, 같은 머신 IPC만 필요하면 UNIX domain socket이 TCP loopback보다 30~50% 빠르며 파일 권한으로 접근을 제어할 수 있다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "소켓이 무엇이고, UNIX domain socket은 TCP loopback과 어떻게 다른가요?" → endpoint 추상화, 파일 디스크립터, 프로토콜 스택 우회, 파일 권한 접근 제어, 5-tuple
+{: .prompt-info }
 
