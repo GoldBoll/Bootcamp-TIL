@@ -4,6 +4,7 @@ date: 2026-06-08 19:00:00 +0900
 categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "gameplay-framework", "netmode", "netrole", "enhanced-input", "umg"]
 render_with_liquid: false
+description: "언리얼 멀티플레이 챕터 2~4 — RPC 기초와 채팅 구현, Property Replication, 숫자 야구 판정·승패, 게임플레이 프레임워크 구조 정리."
 image: /assets/img/thumbs/unreal.svg
 ---
 

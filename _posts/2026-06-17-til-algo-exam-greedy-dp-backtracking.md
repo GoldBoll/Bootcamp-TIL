@@ -4,6 +4,7 @@ date: 2026-06-17 20:30:00 +0900
 categories: ["알고리즘"]
 tags: ["til", "algorithm", "greedy", "dp", "backtracking"]
 render_with_liquid: false
+description: "알고리즘 시험 3문제 — 회의실 배정(그리디는 기준이 전부), 계단 오르기(점화식 직접 세우기), MT 장보기(백트래킹과 가지치기)."
 image: /assets/img/thumbs/til.svg
 ---
 

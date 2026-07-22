@@ -4,6 +4,7 @@ date: 2026-07-10 21:30:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "packaging", "multiplayer", "network", "debugging", "git"]
 render_with_liquid: false
+description: "클린 패키징까지 3회전 — 쿠킹 레퍼런스 누락, LFS 포인터 머지 충돌 손상 에셋 복구, CDO 물리 세터 금지, 하드 트래블 로딩 화면까지."
 image: /assets/img/thumbs/unreal.svg
 ---
 

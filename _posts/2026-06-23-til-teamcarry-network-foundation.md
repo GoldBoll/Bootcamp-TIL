@@ -4,6 +4,7 @@ date: 2026-06-23 22:30:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "network", "replication", "multiplayer", "interface", "git"]
 render_with_liquid: false
+description: "팀플 네트워크 복제 표준을 먼저 세우고 합산 물리를 순수 함수로, 가구는 인터페이스 계약만 구현. Fab BuildId 불일치 트러블슈팅 포함."
 image: /assets/img/thumbs/unreal.svg
 ---
 

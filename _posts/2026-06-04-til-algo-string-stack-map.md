@@ -4,6 +4,7 @@ date: 2026-06-04 21:00:00 +0900
 categories: ["알고리즘"]
 tags: ["til", "algorithm", "cpp", "stl", "map", "set", "stack", "string", "find", "simulation", "greedy"]
 render_with_liquid: false
+description: "map·set·문자열·스택 7문제 — 문자를 배열 인덱스로 바꾸는 '문자-기준문자' 변환이 거의 모든 문제에서 재등장한 하루."
 image: /assets/img/thumbs/til.svg
 ---
 

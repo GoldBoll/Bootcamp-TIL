@@ -4,6 +4,7 @@ date: 2026-06-10 19:30:00 +0900
 categories: ["CS", "자료구조"]
 tags: ["til", "mock-interview", "cs", "map", "hash", "stl", "ue5", "cpp", "replication", "rpc", "network", "reflection", "gc", "netrole", "algorithm", "simulation"]
 render_with_liquid: false
+description: "std::map(RBT) vs TMap 모의면접 답변 보강 — TMap은 unordered_map에 가깝다는 결론, Replication(CS 38) 준비와 코드카타 바탕화면 정리까지."
 image: /assets/img/thumbs/til.svg
 ---
 

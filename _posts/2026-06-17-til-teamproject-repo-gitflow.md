@@ -4,6 +4,7 @@ date: 2026-06-17 19:30:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "git", "ue5", "gamedev"]
 render_with_liquid: false
+description: "코드보다 레포 먼저 — UE5 .gitignore, 도메인별 코드 소유권으로 머지 충돌 예방, 에셋 접두사 규칙, Git Flow develop 완충 브랜치 세팅."
 image: /assets/img/thumbs/til.svg
 ---
 

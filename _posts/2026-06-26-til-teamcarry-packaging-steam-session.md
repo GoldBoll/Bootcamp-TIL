@@ -4,6 +4,7 @@ date: 2026-06-26 22:00:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "multiplayer", "dedicated-server", "git", "debugging"]
 render_with_liquid: false
+description: "UAT 패키징 빌드 오류 수정과 Steam 멀티플레이어 세션 디버깅, git 브랜치 롤백(force push)을 거쳐 UE5 패키징 빌드 성공까지."
 image: /assets/img/thumbs/unreal.svg
 ---
 

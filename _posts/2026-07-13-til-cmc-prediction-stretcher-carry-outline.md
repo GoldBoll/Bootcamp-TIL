@@ -4,6 +4,7 @@ date: 2026-07-13 21:30:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "netrole", "character-movement", "material", "debugging"]
 render_with_liquid: false
+description: "운반 중 러버밴딩의 원인을 CMC 예측·서버 개입으로 규명하고 협동 운반을 들것 모델로 재설계. 잡기 스캔 기하 함정 3건과 아웃라인 심화까지."
 image: /assets/img/thumbs/unreal.svg
 ---
 

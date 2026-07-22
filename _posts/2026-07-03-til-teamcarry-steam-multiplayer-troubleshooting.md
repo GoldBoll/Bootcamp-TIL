@@ -5,6 +5,7 @@ pin: true
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "network", "multiplayer", "steam", "debugging", "git"]
 render_with_liquid: false
+description: "방코드 스팀 멀티 실기기 검증 7라운드 트러블슈팅 — SteamSockets·Seamless Travel 이슈와 가구 회전 버그 라이브 계측까지."
 image: /assets/img/thumbs/unreal.svg
 ---
 

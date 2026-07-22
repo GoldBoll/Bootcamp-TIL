@@ -4,6 +4,7 @@ date: 2026-07-14 22:30:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "character-movement", "trace", "debugging"]
 render_with_liquid: false
+description: "콜리전 쿡 데이터 손상, 스윕 관통 동결, 릴리즈 CCD, 원격 폰 견인 무효(CMC 예측)까지 — 공동 운반 동기화와 콜리전 재구성 기록."
 image: /assets/img/thumbs/unreal.svg
 ---
 

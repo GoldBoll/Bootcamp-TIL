@@ -4,6 +4,7 @@ date: 2026-07-01 22:00:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "network", "multiplayer", "git", "python", "debugging"]
 render_with_liquid: false
+description: "세션 UI를 mock에서 실제 Steam 세션에 바인딩하고 방 코드 매칭 도입, C4458 빌드 오류와 Kenney 회색 머티리얼 굽기까지 정리."
 image: /assets/img/thumbs/unreal.svg
 ---
 

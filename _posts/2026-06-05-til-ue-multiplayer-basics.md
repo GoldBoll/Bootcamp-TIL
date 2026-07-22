@@ -4,6 +4,7 @@ date: 2026-06-05 19:00:00 +0900
 categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "netmode", "netrole", "replication", "rpc", "gameplay-framework", "umg", "delegate"]
 render_with_liquid: false
+description: "언리얼 멀티플레이 기초(챕터 1) — 데디케이티드 서버, NetMode·NetConnection·NetDriver, Authority와 Proxy NetRole 개념 정리."
 image: /assets/img/thumbs/unreal.svg
 ---
 

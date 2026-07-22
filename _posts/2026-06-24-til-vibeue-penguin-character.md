@@ -4,6 +4,7 @@ date: 2026-06-24 22:00:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "mcp", "python", "asset-import", "skeletal-mesh", "retargeting", "root-motion", "blendspace", "material", "texture", "debugging", "git"]
 render_with_liquid: false
+description: "VibeUE(언리얼 MCP)로 펭귄 캐릭터 임포트 — 스케일·머티리얼·PIE 크래시·VRAM 고갈·애니메이션 리타게팅까지 연쇄 트러블슈팅 기록."
 image: /assets/img/thumbs/unreal.svg
 ---
 

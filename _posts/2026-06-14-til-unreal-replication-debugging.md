@@ -4,6 +4,7 @@ date: 2026-06-14 19:30:00 +0900
 categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "multiplayer", "replication", "playerstate", "gamemode", "umg", "timer", "debugging"]
 render_with_liquid: false
+description: "언리얼 멀티 디버깅 — 이름이 hex ID로 표시되는 ChangeName 권위 문제, PlayerState 복제 타이밍의 클라 위젯 미갱신, 게임 리셋 죽은 코드까지."
 image: /assets/img/posts/2026-06-14/01-playername-hex-bug.png
 ---
 

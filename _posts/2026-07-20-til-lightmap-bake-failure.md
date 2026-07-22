@@ -5,6 +5,7 @@ pin: true
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "material", "debugging"]
 render_with_liquid: false
+description: "라이트맵을 구우면 벽이 타던 문제 — 엉뚱한 UV 채널·해상도 4·단일 Cube 재사용 세 원인을 추적하고 전 조명 Movable 전환으로 결론."
 image: /assets/img/posts/2026-07-20/bake_burned.png
 ---
 

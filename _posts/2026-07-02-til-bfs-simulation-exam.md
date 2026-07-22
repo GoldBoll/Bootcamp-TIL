@@ -4,6 +4,7 @@ date: 2026-07-02 13:30:00 +0900
 categories: ["알고리즘"]
 tags: ["til", "algorithm", "bfs", "graph", "simulation", "cpp"]
 render_with_liquid: false
+description: "BFS 두 문제와 이벤트 시뮬레이션 — 보물섬(다중 시작 BFS+매번 리셋), 그림(리셋 없는 flood fill), NBA 농구(이벤트 순서 함정)."
 image: /assets/img/thumbs/til.svg
 ---
 

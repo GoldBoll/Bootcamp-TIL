@@ -4,6 +4,7 @@ date: 2026-06-11 21:00:00 +0900
 categories: ["알고리즘"]
 tags: ["til", "algorithm", "dfs", "bfs", "graph", "cpp"]
 render_with_liquid: false
+description: "백준 2606·1325·11724·2644로 익힌 DFS 패턴 4종 — int 반환 컴포넌트 크기, 단방향/양방향 구분, bool+int& 참조 경로 깊이 추출."
 image: /assets/img/thumbs/til.svg
 ---
 

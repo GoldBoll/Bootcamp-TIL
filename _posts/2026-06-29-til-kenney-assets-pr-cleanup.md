@@ -4,6 +4,7 @@ date: 2026-06-29 22:00:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "git", "ue5", "multiplayer", "asset-import", "python"]
 render_with_liquid: false
+description: "git filter-branch로 커밋 메시지 일괄 수정, PR 삭제 불가 확인, UE 에디터가 .umap을 자동 수정하는 현상과 레벨 에셋 참조 복구까지."
 image: /assets/img/thumbs/unreal.svg
 ---
 

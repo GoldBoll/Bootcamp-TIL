@@ -4,6 +4,7 @@ date: 2026-06-01 21:30:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "gamedev", "ue5", "game-design", "social-deduction", "brainstorm"]
 render_with_liquid: false
+description: "Ch4 'TRACE' 기획 과정 학습 기록 — 크리에이티브 브리프, 방향 전환의 순간들, 정적 보상 표에서 이진 승패로 바꾼 승부 판정 설계까지."
 image: /assets/img/thumbs/unreal.svg
 ---
 

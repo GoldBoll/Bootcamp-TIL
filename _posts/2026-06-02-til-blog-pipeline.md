@@ -4,6 +4,7 @@ date: 2026-06-02 21:00:00 +0900
 categories: ["회고"]
 tags: ["til", "ue5", "cpp", "gamedev", "game-design", "social-deduction"]
 render_with_liquid: false
+description: "블로그 TIL 발행 파이프라인 구축이 메인 — CS 32 방화벽 발표와 33 UObject 트랙 전환, Ch4 TRACE 컨셉 개정까지 하루 작업 정리."
 image: /assets/img/thumbs/til.svg
 ---
 

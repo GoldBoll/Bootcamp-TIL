@@ -4,6 +4,7 @@ date: 2026-07-07 21:30:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "material", "gamemode", "multiplayer", "debugging"]
 render_with_liquid: false
+description: "패스 하나로 아웃라인+링을 그리는 인터랙션 하이라이트 완성, 화면 경계 점선 아티팩트(클램프 원인) 해결, PostLogin 로비 킥 버그 분석."
 image: /assets/img/posts/2026-07-07/highlight-ring.jpg
 ---
 

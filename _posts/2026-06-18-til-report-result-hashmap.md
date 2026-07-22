@@ -4,6 +4,7 @@ date: 2026-06-18 21:30:00 +0900
 categories: ["알고리즘"]
 tags: ["til", "algorithm", "hash", "map"]
 render_with_liquid: false
+description: "프로그래머스 신고 결과 받기 — 중복 신고 제거를 가장 먼저 처리해야 하는 함정과 해시맵 자료구조를 둘로 나눈 이유를 정리했다."
 image: /assets/img/thumbs/til.svg
 ---
 

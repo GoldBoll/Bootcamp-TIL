@@ -4,6 +4,7 @@ date: 2026-06-30 21:00:00 +0900
 categories: ["알고리즘"]
 tags: ["til", "algorithm", "sliding-window", "two-pointer", "string"]
 render_with_liquid: false
+description: "슬라이딩 윈도우 두 패턴 — LeetCode 643 고정 크기 윈도우와 LeetCode 3 가변 크기 윈도우를 풀고 차이를 비교 정리했다."
 image: /assets/img/thumbs/til.svg
 ---
 

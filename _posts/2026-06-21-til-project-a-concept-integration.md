@@ -4,6 +4,7 @@ date: 2026-06-21 19:00:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "game-design", "gamedev", "multiplayer", "ue5", "art-direction"]
 render_with_liquid: false
+description: "Project A 기획 통합 — 문서 간 충돌 3건을 드러내 결정받고, 시안용 이미지 프롬프트 작성과 아트 스타일 방향(시안·구현 룩 분리)을 결정했다."
 image: /assets/img/posts/2026-06-21/01-keyart-bean.png
 ---
 

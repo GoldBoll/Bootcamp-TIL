@@ -4,6 +4,7 @@ date: 2026-06-09 19:00:00 +0900
 categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "netmode", "netrole", "component", "animation", "umg", "gameplay-framework"]
 render_with_liquid: false
+description: "언리얼 멀티플레이 챕터 5~7 — RepNotify·NetUpdateFrequency·Relevancy·NetDormancy, RPC 3종과 지뢰 재폭발 디버깅, 애니메이션·공격 동기화까지."
 image: /assets/img/thumbs/unreal.svg
 ---
 

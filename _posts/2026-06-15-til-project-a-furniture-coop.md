@@ -4,6 +4,7 @@ date: 2026-06-15 21:30:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "game-design", "gamedev", "multiplayer", "ue5"]
 render_with_liquid: false
+description: "가구 옮기기 협동 게임 Project A 기획안 — One Pager·코어 루프·역할 분담·운반 시스템 기획과 언리얼 에셋 접두사 팀 규칙 정리."
 image: /assets/img/thumbs/til.svg
 ---
 

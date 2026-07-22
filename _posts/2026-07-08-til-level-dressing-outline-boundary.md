@@ -4,6 +4,7 @@ date: 2026-07-08 19:30:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "material", "optimization", "debugging"]
 render_with_liquid: false
+description: "맵 가장자리 바리케이드·원경 임포스터로 레벨을 드레싱하고, 볼륨 안에만 아웃라인이 그려지는 경계 차등 셰이딩을 구현했다."
 image: /assets/img/posts/2026-07-08/barricade-skyline.jpg
 ---
 

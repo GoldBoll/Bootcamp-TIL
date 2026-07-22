@@ -4,6 +4,7 @@ date: 2026-06-03 22:00:00 +0900
 categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "delegate", "component", "subsystem", "umg", "enhanced-input", "design-pattern", "debugging", "git"]
 render_with_liquid: false
+description: "언리얼 인터페이스와 델리게이트 — HealthComponent·UI 구독·퀘스트 Subsystem 실습, 데미지 타입 null 포인터 크래시 디버깅까지."
 image: /assets/img/thumbs/unreal.svg
 ---
 
