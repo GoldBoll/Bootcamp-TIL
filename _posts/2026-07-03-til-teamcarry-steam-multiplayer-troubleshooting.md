@@ -1,6 +1,7 @@
 ---
 title: "[TIL] 2026-07-03 — 방코드 스팀 멀티 완주기: 7라운드 트러블슈팅·SteamSockets·Seamless Travel"
 date: 2026-07-03 22:00:00 +0900
+pin: true
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "network", "multiplayer", "steam", "debugging", "git"]
 render_with_liquid: false

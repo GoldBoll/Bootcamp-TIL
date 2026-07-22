@@ -1,6 +1,7 @@
 ---
 title: "[TIL] 2026-07-20 — 라이트맵을 구우면 벽이 타는 문제 · 원인 추적과 전 조명 Movable 전환"
 date: 2026-07-20 21:30:00 +0900
+pin: true
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "material", "debugging"]
 render_with_liquid: false
