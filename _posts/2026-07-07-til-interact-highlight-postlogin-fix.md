@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-07-07 — 인터랙션 하이라이트 링 완성과 PostLogin 로비 킥 버그"
 date: 2026-07-07 21:30:00 +0900
-categories: ["TIL", "언리얼"]
+categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "material", "gamemode", "multiplayer", "debugging"]
 render_with_liquid: false
 image: /assets/img/posts/2026-07-07/highlight-ring.jpg

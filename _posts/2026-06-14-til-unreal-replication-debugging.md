@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-14 — 언리얼 멀티플레이 Replication 디버깅: 이름 권위·PlayerState 복제 타이밍·게임 리셋"
 date: 2026-06-14 19:30:00 +0900
-categories: ["TIL", "Unreal"]
+categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "multiplayer", "replication", "playerstate", "gamemode", "umg", "timer", "debugging"]
 render_with_liquid: false
 image: /assets/img/posts/2026-06-14/01-playername-hex-bug.png

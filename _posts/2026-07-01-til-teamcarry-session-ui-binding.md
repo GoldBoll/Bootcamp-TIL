@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-07-01 — 세션 UI↔Steam 바인딩·git 소유권/스코프·C4458"
 date: 2026-07-01 22:00:00 +0900
-categories: ["TIL", "언리얼"]
+categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "network", "multiplayer", "git", "python", "debugging"]
 render_with_liquid: false
 image: /assets/img/thumbs/unreal.svg

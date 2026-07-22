@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-07-02 — 코딩테스트 3제: BFS 두 문제와 이벤트 시뮬레이션 (보물섬·그림·NBA 농구)"
 date: 2026-07-02 13:30:00 +0900
-categories: ["TIL", "알고리즘"]
+categories: ["알고리즘"]
 tags: ["til", "algorithm", "bfs", "graph", "simulation", "cpp"]
 render_with_liquid: false
 image: /assets/img/thumbs/til.svg

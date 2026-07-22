@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-03 — 언리얼 인터페이스 & 델리게이트: HealthComponent·UI 구독·퀘스트 Subsystem"
 date: 2026-06-03 22:00:00 +0900
-categories: ["TIL", "Unreal"]
+categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "delegate", "component", "subsystem", "umg", "enhanced-input", "design-pattern", "debugging", "git"]
 render_with_liquid: false
 image: /assets/img/thumbs/unreal.svg

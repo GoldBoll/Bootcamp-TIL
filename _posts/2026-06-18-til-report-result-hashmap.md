@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-18 — 신고 결과 받기: 해시맵 카운팅과 '중복 제거' 함정"
 date: 2026-06-18 21:30:00 +0900
-categories: ["TIL", "알고리즘"]
+categories: ["알고리즘"]
 tags: ["til", "algorithm", "hash", "map"]
 render_with_liquid: false
 image: /assets/img/thumbs/til.svg

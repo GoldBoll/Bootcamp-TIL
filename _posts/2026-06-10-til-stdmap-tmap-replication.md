@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-10 — std::map vs TMap 모의면접 보강 · Replication(CS 38) 준비 · 바탕화면 정리"
 date: 2026-06-10 19:30:00 +0900
-categories: ["TIL", "CS"]
+categories: ["CS", "자료구조"]
 tags: ["til", "mock-interview", "cs", "map", "hash", "stl", "ue5", "cpp", "replication", "rpc", "network", "reflection", "gc", "netrole", "algorithm", "simulation"]
 render_with_liquid: false
 image: /assets/img/thumbs/til.svg

@@ -1,7 +1,7 @@
 ---
 title: "이 블로그 읽는 법 — UE5 C++ 학습 기록 가이드"
 date: 2026-07-08 11:00:00 +0900
-categories: ["소개"]
+categories: ["회고"]
 tags: ["til"]
 pin: true
 render_with_liquid: false

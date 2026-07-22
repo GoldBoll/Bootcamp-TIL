@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-07-10 — 클린 패키징까지: 쿠킹 누락·LFS 손상 에셋·CDO 물리 세터·하드 트래블"
 date: 2026-07-10 21:30:00 +0900
-categories: ["TIL", "언리얼"]
+categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "packaging", "multiplayer", "network", "debugging", "git"]
 render_with_liquid: false
 image: /assets/img/thumbs/unreal.svg

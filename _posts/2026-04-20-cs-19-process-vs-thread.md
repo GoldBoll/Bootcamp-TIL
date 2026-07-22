@@ -1,7 +1,7 @@
 ---
 title: "CS — process vs thread"
 date: 2026-04-20 10:00:00 +0900
-categories: ["CS 면접 준비", "OS"]
+categories: ["CS", "OS"]
 tags: ["process", "thread"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg

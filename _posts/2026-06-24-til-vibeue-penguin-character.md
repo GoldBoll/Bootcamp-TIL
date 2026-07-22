@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-24 — VibeUE(언리얼 MCP)로 펭귄 캐릭터 임포트 · 스케일·크래시·리타게팅 삽질기"
 date: 2026-06-24 22:00:00 +0900
-categories: ["TIL", "언리얼"]
+categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "mcp", "python", "asset-import", "skeletal-mesh", "retargeting", "root-motion", "blendspace", "material", "texture", "debugging", "git"]
 render_with_liquid: false
 image: /assets/img/thumbs/unreal.svg

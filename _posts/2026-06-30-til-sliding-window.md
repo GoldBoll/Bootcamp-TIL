@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-30 — 슬라이딩 윈도우: 고정 크기 vs 가변 크기 (LeetCode 643·3)"
 date: 2026-06-30 21:00:00 +0900
-categories: ["TIL", "알고리즘"]
+categories: ["알고리즘"]
 tags: ["til", "algorithm", "sliding-window", "two-pointer", "string"]
 render_with_liquid: false
 image: /assets/img/thumbs/til.svg

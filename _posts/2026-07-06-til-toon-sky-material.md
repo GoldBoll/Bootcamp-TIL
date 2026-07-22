@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-07-06 — 절차식 툰 스카이: 스카이돔 머티리얼 교체부터 git 히스토리 재작성까지"
 date: 2026-07-06 12:30:00 +0900
-categories: ["TIL", "언리얼"]
+categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "material", "texture", "git"]
 render_with_liquid: false
 image: /assets/img/posts/2026-07-06/sky-before.jpg

@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-07-15 — 러버밴딩의 뿌리를 뽑다: 견인 주입에서 리쉬 이동 제한으로"
 date: 2026-07-15 22:30:00 +0900
-categories: ["TIL", "언리얼"]
+categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "character-movement", "debugging"]
 render_with_liquid: false
 image: /assets/img/posts/2026-07-15/tugofwar_mid.png

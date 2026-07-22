@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-17 — 팀 프로젝트 레포 세팅: UE5 .gitignore·도메인 소유권·Git Flow develop 완충"
 date: 2026-06-17 19:30:00 +0900
-categories: ["TIL", "팀프로젝트"]
+categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "git", "ue5", "gamedev"]
 render_with_liquid: false
 image: /assets/img/thumbs/til.svg

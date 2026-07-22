@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-16 — 가구 운반 시스템 추가분: 수식 정식화·튜닝 노브·수용 기준 + LeetCode 416 DP"
 date: 2026-06-16 21:30:00 +0900
-categories: ["TIL", "기획"]
+categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "game-design", "gamedev", "multiplayer", "ue5", "dp", "algorithm"]
 render_with_liquid: false
 image: /assets/img/thumbs/til.svg

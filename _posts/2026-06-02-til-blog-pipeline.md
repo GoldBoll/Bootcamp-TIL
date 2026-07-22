@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-02 — 블로그 TIL 발행 파이프라인 구축 · CS 32 보강/33 UObject · Ch4 컨셉 개정"
 date: 2026-06-02 21:00:00 +0900
-categories: ["TIL"]
+categories: ["회고"]
 tags: ["til", "ue5", "cpp", "gamedev", "game-design", "social-deduction"]
 render_with_liquid: false
 image: /assets/img/thumbs/til.svg

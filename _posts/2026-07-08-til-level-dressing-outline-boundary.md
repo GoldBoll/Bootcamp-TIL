@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-07-08 — 레벨 드레싱 & 아웃라인 경계 차등: 볼륨 안만 아웃라인"
 date: 2026-07-08 19:30:00 +0900
-categories: ["TIL", "언리얼"]
+categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "material", "optimization", "debugging"]
 render_with_liquid: false
 image: /assets/img/posts/2026-07-08/barricade-skyline.jpg

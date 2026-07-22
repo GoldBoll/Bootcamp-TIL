@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-04 — 알고리즘 심화: map·set·문자열·스택 7문제"
 date: 2026-06-04 21:00:00 +0900
-categories: ["TIL", "Algorithm"]
+categories: ["알고리즘"]
 tags: ["til", "algorithm", "cpp", "stl", "map", "set", "stack", "string", "find", "simulation", "greedy"]
 render_with_liquid: false
 image: /assets/img/thumbs/til.svg

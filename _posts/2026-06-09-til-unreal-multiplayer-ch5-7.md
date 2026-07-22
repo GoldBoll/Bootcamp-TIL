@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-09 — 언리얼 멀티플레이 Replication·RPC·동기화 (강의 챕터 5~7)"
 date: 2026-06-09 19:00:00 +0900
-categories: ["TIL", "Unreal"]
+categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "netmode", "netrole", "component", "animation", "umg", "gameplay-framework"]
 render_with_liquid: false
 image: /assets/img/thumbs/unreal.svg

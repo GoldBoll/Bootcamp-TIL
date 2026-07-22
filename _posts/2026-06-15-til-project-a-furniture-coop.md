@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-15 — Project A 기획안 정리: 가구 옮기기 협동 게임 (시스템 기획 · 팀 규칙)"
 date: 2026-06-15 21:30:00 +0900
-categories: ["TIL", "기획"]
+categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "game-design", "gamedev", "multiplayer", "ue5"]
 render_with_liquid: false
 image: /assets/img/thumbs/til.svg

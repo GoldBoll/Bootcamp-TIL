@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-23 — 팀플 네트워크 토대 설계 · Fab BuildId 불일치 트러블슈팅"
 date: 2026-06-23 22:30:00 +0900
-categories: ["TIL", "언리얼"]
+categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "network", "replication", "multiplayer", "interface", "git"]
 render_with_liquid: false
 image: /assets/img/thumbs/unreal.svg

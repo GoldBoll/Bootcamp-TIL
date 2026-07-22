@@ -1,7 +1,7 @@
 ---
 title: "Ch4 팀플 기획 — 협동+마피아에서 포렌식 소셜 추리 'TRACE'까지"
 date: 2026-06-01 08:30:00 +0900
-categories: ["Ch4 프로젝트", "기획"]
+categories: ["언리얼", "팀프로젝트"]
 tags: ["gamedev", "ue5", "game-design", "social-deduction", "brainstorm"]
 render_with_liquid: false
 image: /assets/img/thumbs/unreal.svg

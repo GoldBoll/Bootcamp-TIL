@@ -1,7 +1,7 @@
 ---
 title: "CS — stl containers"
 date: 2026-04-17 10:00:00 +0900
-categories: ["CS 면접 준비", "자료구조"]
+categories: ["CS", "자료구조"]
 tags: ["stl"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg

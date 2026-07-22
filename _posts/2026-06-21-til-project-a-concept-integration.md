@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-21 — Project A 기획 통합: 문서 충돌 해소 · 아트 방향 결정"
 date: 2026-06-21 19:00:00 +0900
-categories: ["TIL", "기획"]
+categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "game-design", "gamedev", "multiplayer", "ue5", "art-direction"]
 render_with_liquid: false
 image: /assets/img/posts/2026-06-21/01-keyart-bean.png

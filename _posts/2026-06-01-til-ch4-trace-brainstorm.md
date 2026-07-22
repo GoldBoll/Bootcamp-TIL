@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-01 — Ch4 'TRACE' 기획 브레인스토밍 학습 기록"
 date: 2026-06-01 21:30:00 +0900
-categories: ["TIL", "Ch4 프로젝트"]
+categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "gamedev", "ue5", "game-design", "social-deduction", "brainstorm"]
 render_with_liquid: false
 image: /assets/img/thumbs/unreal.svg

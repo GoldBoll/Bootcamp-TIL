@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-05 — 언리얼 멀티플레이 기초: 서버 구조·NetMode·NetRole (강의 챕터 1)"
 date: 2026-06-05 19:00:00 +0900
-categories: ["TIL", "Unreal"]
+categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "netmode", "netrole", "replication", "rpc", "gameplay-framework", "umg", "delegate"]
 render_with_liquid: false
 image: /assets/img/thumbs/unreal.svg

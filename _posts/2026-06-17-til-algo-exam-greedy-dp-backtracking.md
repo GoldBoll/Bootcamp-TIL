@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-17 — 알고리즘 시험: 그리디·DP·백트래킹 3문제"
 date: 2026-06-17 20:30:00 +0900
-categories: ["TIL", "알고리즘"]
+categories: ["알고리즘"]
 tags: ["til", "algorithm", "greedy", "dp", "backtracking"]
 render_with_liquid: false
 image: /assets/img/thumbs/til.svg

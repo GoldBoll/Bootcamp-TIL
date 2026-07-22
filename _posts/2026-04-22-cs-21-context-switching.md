@@ -1,7 +1,7 @@
 ---
 title: "CS — context switching"
 date: 2026-04-22 12:00:00 +0900
-categories: ["CS 면접 준비", "OS"]
+categories: ["CS", "OS"]
 tags: ["context-switching"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg

@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-07-08 — 툰 스카이 주야 전환과 팀 파일 무수정 피드백 시스템"
 date: 2026-07-08 21:30:00 +0900
-categories: ["TIL", "언리얼"]
+categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "material", "subsystem", "component", "interface", "reflection", "debugging"]
 render_with_liquid: false
 description: "낮→황혼→밤 실시간 툰 스카이(MPC 동기화 액터)와, 팀원 파일을 한 줄도 수정하지 않고 얹은 사운드·나이아가라 피드백 시스템(서브시스템+컴포넌트+인터페이스)"

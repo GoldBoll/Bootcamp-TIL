@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-11 — 심화 알고리즘 그래프 탐색 DFS 패턴 4종 (백준 2606·1325·11724·2644)"
 date: 2026-06-11 21:00:00 +0900
-categories: ["TIL", "알고리즘"]
+categories: ["알고리즘"]
 tags: ["til", "algorithm", "dfs", "bfs", "graph", "cpp"]
 render_with_liquid: false
 image: /assets/img/thumbs/til.svg

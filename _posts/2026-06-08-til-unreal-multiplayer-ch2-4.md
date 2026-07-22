@@ -1,7 +1,7 @@
 ---
 title: "[TIL] 2026-06-08 — 언리얼 멀티플레이 RPC·Property Replication·게임 프로젝트 구조 (강의 챕터 2~4)"
 date: 2026-06-08 19:00:00 +0900
-categories: ["TIL", "Unreal"]
+categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "gameplay-framework", "netmode", "netrole", "enhanced-input", "umg"]
 render_with_liquid: false
 image: /assets/img/thumbs/unreal.svg
