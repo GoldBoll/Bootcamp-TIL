@@ -357,3 +357,9 @@ Owner 설정이 "해당 액터가 어느 클라의 넷커넥션에 속하는가"
 4. **권위는 서버, 결과만 클라로** — 야구 판정·승패·리셋 전부 GameMode(서버)에서. 클라는 결과 문자열을 RPC로 받아 표시만.
 5. **클라는 GameMode 없이 GameState로 시작한다** — StartPlay는 GameMode가 GameState에 지시하고, GameState의 `bReplicatedHasBegunPlay` 복제가 클라 BeginPlay 사슬을 깨운다. "복제되는 액터를 시작 신호의 통로로 쓴다."
 6. **Owner = 넷커넥션 귀속** — `PossessedBy`의 `SetOwner`가 이 액터가 어느 클라에 속하는지 결정한다. 클라에서는 Possess 대신 `OnRep_Owner`로 초기화 — 멀티플레이 통신의 출발점.
+
+> **오늘 배운 것** — 일시적 효과는 RPC, 중대한 상태는 Property Replication 3종 세트(`bReplicates`·`Replicated`·`DOREPLIFETIME`)로 나눠 다루며, Multicast를 어느 액터에 정의하느냐(PlayerController가 아니라 GameState)가 도달 범위를 정한다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "멀티플레이에서 전체 클라이언트 알림을 왜 GameState에서 보내나요?" → 액터 존재 위치, PlayerController는 서버+소유 클라에만, GameState는 전 클라 복제, NetMulticast 도달 범위
+{: .prompt-info }

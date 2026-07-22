@@ -98,7 +98,7 @@ void ACXPlayerController::BeginPlay()
 
 ### Run Under One Process
 
-채팅 설정을 아무것도 안 했는데 다른 클라에도 메시지가 보이는 이유는 **Run Under One Process**(하나의 엔진 프로세스에서 전부 실행) 때문. `PrintString`이 모든 화면에 떠버린다. 진짜 멀티플레이 환경을 보려면 이 옵션을 끄면 서버/각 클라가 별도 프로세스로 분기된다. (다만 켜두면 성능 이점이 있어 디버깅 시엔 켜고 로깅하기도.)
+채팅 설정을 아무것도 안 했는데 다른 클라에도 메시지가 보이는 이유는 **Run Under One Process**(하나의 엔진 프로세스에서 전부 실행) 때문. `PrintString`이 모든 화면에 떠버린다. 진짜 멀티플레이 환경을 보려면 이 옵션을 꺼야 한다 — 그러면 서버/각 클라가 별도 프로세스로 분기된다. (다만 켜두면 성능 이점이 있어 디버깅 시엔 켜고 로깅하기도.)
 
 - **Net Mode = Play as Client**, **Number of Players = 2**, **Launch Separate Server**(서버 별도) 등으로 데디 환경 구성.
 
@@ -186,3 +186,9 @@ FORCEINLINE_DEBUGGABLE bool AActor::HasAuthority() const
 4. **NetMode(월드 단위) vs NetRole(액터 단위)** — "어느 PC인가"는 NetMode, "이 액터가 권한을 가졌나"는 NetRole. 둘을 분리해서 본다.
 5. **LocalRole + RemoteRole 2축** — 한 축(Authority)만으로 구분 안 되는 케이스를 두 축으로 분류해 RPC 대상이 정해진다.
 6. **Ownership 사슬이 통신의 뼈대** — `Connection→Controller→Pawn→액터` 소유 관계가 있어야 `GetNetConnection()`이 동작하고 RPC/Replication이 성립한다.
+
+> **오늘 배운 것** — "중대한 로직은 권한(Authority)을 가진 서버에서만"이라는 대전제 아래, 월드 단위 NetMode와 액터 단위 NetRole(LocalRole/RemoteRole 2축)로 "이 코드가 어느 PC에서 도는가"를 판별하는 법을 익혔다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "언리얼 멀티플레이에서 서버 로직과 클라이언트 로직을 어떻게 구분하나요?" → 서버 권위(Authority), NetMode vs NetRole, HasAuthority(), Autonomous/Simulated Proxy, Ownership 사슬
+{: .prompt-info }
