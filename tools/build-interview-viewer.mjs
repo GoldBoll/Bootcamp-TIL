@@ -12,7 +12,8 @@
 //   raw/cs-notion/interview-viewer.html  자체완결 1파일 (브라우저로 열면 끝)
 //
 // 뷰어 기능:
-//   - 실시간 검색(한글 부분일치 + 매칭 하이라이트), `/` = 검색 포커스
+//   - 실시간 랭킹 검색: 제목→연관→본문 순 정렬 + 원본 섹션(헤딩) 별도 그룹,
+//     조사·어간 완화 AND 매칭, 매칭 스니펫, Enter=첫 결과 점프, `/` = 포커스
 //   - 좌측 도메인 트리 → 카드 점프, 카드 안 🔗연관/NN_*.md#앵커 → 임베드된
 //     원본 섹션 오버레이로 뷰어 내 점프 (외부 파일 이동 없음)
 //   - 🎤 모의면접 모드: 답 가림 → 카드 클릭 개별 공개, 🎲 랜덤 문제
@@ -369,6 +370,149 @@ const overlayFiles = [...registry.values()]
 const fileNamesJson = JSON.stringify(Object.fromEntries([...registry.values()].map((f) => [f.id, f.name]))).replace(/</g, '\\u003c');
 
 // ---------------------------------------------------------------------------
+// 8.5) 검색 인덱스 + 랭킹 코어
+//    코어는 순수 함수로 작성해 toString()으로 클라이언트에 직렬화한다.
+//    검증 스크립트는 생성된 HTML에서 /*__CORE_START__*/…/*__CORE_END__*/ 블록과
+//    "var SIDX=…" 라인을 추출하면 뷰어와 동일한 로직으로 랭킹을 재현할 수 있다.
+// ---------------------------------------------------------------------------
+function SEARCH_CORE() {
+  // 질의 토큰화: 공백 분리 + 꼬리 조사 제거(어간 2자 이상 보존)
+  var PARTICLES = ['이란', '에서', '에게', '으로', '부터', '까지', '와', '과', '은', '는', '이', '가', '을', '를', '의', '로', '에', '도', '만', '란'];
+  function tokenize(qs) {
+    var out = [];
+    qs.toLowerCase().trim().split(/\s+/).forEach(function (w) {
+      if (!w) return;
+      for (var i = 0; i < PARTICLES.length; i++) {
+        var p = PARTICLES[i];
+        if (w.length - p.length >= 2 && w.slice(-p.length) === p) { w = w.slice(0, w.length - p.length); break; }
+      }
+      out.push(w);
+    });
+    return out;
+  }
+  function countOcc(t, s) { var n = 0, i = t.indexOf(s); while (i >= 0) { n++; i = t.indexOf(s, i + s.length); } return n; }
+  // 토큰 1개의 점수: 완전일치 2점/회, 어간(끝 1~2자 완화, "페이징"→"페이"≈"페이지") 1점/회
+  // 어간 완화는 한글 꼬리 토큰에만 적용 — "tlb"→"tl"이 "stl"에 걸리는 오탐 방지
+  function hitScore(t, tok) {
+    var c = countOcc(t, tok);
+    if (c) return c * 2;
+    if (!/[가-힣]$/.test(tok)) return 0;
+    if (tok.length >= 3 && (c = countOcc(t, tok.slice(0, -1)))) return c;
+    if (tok.length >= 4 && (c = countOcc(t, tok.slice(0, -2)))) return c;
+    return 0;
+  }
+  // AND 매칭: 모든 토큰 히트 시 합산 점수, 아니면 0 (토큰이 인접할 필요 없음)
+  function matchAll(t, toks) { var s = 0; for (var i = 0; i < toks.length; i++) { var c = hitScore(t, toks[i]); if (!c) return 0; s += c; } return s; }
+  // 부분 매칭: 히트한 토큰 수 n + 합산 점수 s
+  function partialHits(t, toks) { var n = 0, s = 0; toks.forEach(function (tk) { var c = hitScore(t, tk); if (c) { n++; s += c; } }); return { n: n, s: s }; }
+  // 하이라이트용: 각 토큰이 실제 매칭된 형태(원형 우선, 없으면 어간), 긴 것부터
+  function matchForms(t, toks) {
+    var out = [];
+    toks.forEach(function (tok) {
+      if (t.indexOf(tok) >= 0) out.push(tok);
+      else if (!/[가-힣]$/.test(tok)) return;
+      else if (tok.length >= 3 && t.indexOf(tok.slice(0, -1)) >= 0) out.push(tok.slice(0, -1));
+      else if (tok.length >= 4 && t.indexOf(tok.slice(0, -2)) >= 0) out.push(tok.slice(0, -2));
+    });
+    out.sort(function (a, b) { return b.length - a.length; });
+    return out;
+  }
+  // 스니펫: 토큰이 가장 많이 걸린 줄 하나
+  function bestLine(lines, toks) {
+    var best = '', bh = 0;
+    lines.forEach(function (ln) {
+      var l = ln.toLowerCase(), h = 0;
+      toks.forEach(function (tk) { if (hitScore(l, tk)) h++; });
+      if (h > bh) { bh = h; best = ln; }
+    });
+    return best;
+  }
+  // 첫 매칭 위치 주변으로 잘라내기
+  function clip(s, forms, max) {
+    max = max || 100;
+    var l = s.toLowerCase(), first = -1;
+    forms.forEach(function (f) { var i = l.indexOf(f); if (i >= 0 && (first < 0 || i < first)) first = i; });
+    var start = first < 0 ? 0 : Math.max(0, first - 28);
+    var end = Math.min(s.length, start + max);
+    return (start > 0 ? '…' : '') + s.slice(start, end) + (end < s.length ? '…' : '');
+  }
+  function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  // 매칭 구간을 <mark>로 감싼 HTML (겹침 병합)
+  function hilite(s, forms) {
+    var l = s.toLowerCase(), sp = [];
+    forms.forEach(function (f) { if (!f) return; var i = l.indexOf(f); while (i >= 0) { sp.push([i, i + f.length]); i = l.indexOf(f, i + 1); } });
+    if (!sp.length) return esc(s);
+    sp.sort(function (a, b) { return a[0] - b[0]; });
+    var mg = [sp[0]];
+    for (var i = 1; i < sp.length; i++) { var p = mg[mg.length - 1]; if (sp[i][0] <= p[1]) { if (sp[i][1] > p[1]) p[1] = sp[i][1]; } else mg.push(sp[i]); }
+    var out = '', last = 0;
+    mg.forEach(function (m) { out += esc(s.slice(last, m[0])) + '<mark>' + esc(s.slice(m[0], m[1])) + '</mark>'; last = m[1]; });
+    return out + esc(s.slice(last));
+  }
+  // 인덱스 전처리: 소문자 캐시
+  function prepIndex(idx) {
+    idx.topics.forEach(function (t) {
+      t._ti = t.ti.toLowerCase();
+      t._rel = t.rel.toLowerCase();
+      t._all = (t.ti + ' ' + t.rel + ' ' + t.lines.join(' ')).toLowerCase();
+    });
+    idx.files.forEach(function (f) { f.hs.forEach(function (h) { h[2] = h[0].toLowerCase(); }); });
+    return idx;
+  }
+  // 랭킹 검색.
+  //   주제 밴드: 1 제목(전체) → 2 연관(전체) → 3 제목(부분) → 4 본문통합(전체) → 5 연관(부분)
+  //   원본 섹션: 헤딩 전체 매칭 → 헤딩 부분 매칭
+  //   정렬: 밴드 → 히트 토큰 수 → 점수 → (섹션은 짧은 헤딩 우선) → 문서 순서
+  function search(idx, query) {
+    var toks = tokenize(query);
+    var res = { toks: toks, topics: [], sections: [] };
+    if (!toks.length) return res;
+    var multi = toks.length > 1;
+    idx.topics.forEach(function (t, i) {
+      var band = 0, n = toks.length, s;
+      if ((s = matchAll(t._ti, toks))) band = 1;
+      else if ((s = matchAll(t._rel, toks))) band = 2;
+      else {
+        var pT = multi ? partialHits(t._ti, toks) : { n: 0 };
+        if (pT.n) { band = 3; n = pT.n; s = pT.s; }
+        else if ((s = matchAll(t._all, toks))) band = 4;
+        else {
+          var pR = multi ? partialHits(t._rel, toks) : { n: 0 };
+          if (pR.n) { band = 5; n = pR.n; s = pR.s; }
+        }
+      }
+      if (band) res.topics.push({ band: band, n: n, score: s, ord: i, t: t });
+    });
+    res.topics.sort(function (a, b) { return a.band - b.band || b.n - a.n || b.score - a.score || a.ord - b.ord; });
+    var ord = 0;
+    idx.files.forEach(function (f) {
+      f.hs.forEach(function (h) {
+        var s = matchAll(h[2], toks), band = 1, n = toks.length;
+        if (!s && multi) { var p = partialHits(h[2], toks); if (p.n) { band = 2; n = p.n; s = p.s; } }
+        if (s) res.sections.push({ band: band, n: n, score: s, len: h[0].length, ord: ord, h: h[0], slug: h[1], f: f.f, fn: f.n });
+        ord++;
+      });
+    });
+    res.sections.sort(function (a, b) { return a.band - b.band || b.n - a.n || b.score - a.score || a.len - b.len || a.ord - b.ord; });
+    return res;
+  }
+  return { tokenize: tokenize, hitScore: hitScore, matchAll: matchAll, partialHits: partialHits, matchForms: matchForms, bestLine: bestLine, clip: clip, esc: esc, hilite: hilite, prepIndex: prepIndex, search: search };
+}
+
+// 검색 인덱스 데이터: 주제(제목·연관·본문 줄) + 원본 섹션 헤딩
+const plainMd = (s) => stripInlineMd(s).trim();
+const searchIdx = {
+  topics: domains.flatMap((d) => d.topics.map((t) => {
+    const facts = [];
+    const rels = [];
+    for (const b of t.bullets) (b.startsWith('🔗') ? rels : facts).push(plainMd(b));
+    return { c: `t${t.num}`, num: t.num, ti: plainMd(t.title), rel: rels.join(' '), lines: [...facts, ...rels] };
+  })),
+  files: [...registry.values()].map((f) => ({ f: f.id, n: f.name, hs: f.headings.map((h) => [plainMd(h.raw), h.slug]) })),
+};
+const searchIdxJson = JSON.stringify(searchIdx).replace(/</g, '\\u003c');
+
+// ---------------------------------------------------------------------------
 // 9) CSS (다크+골드 디자인 토큰)
 // ---------------------------------------------------------------------------
 const css = `
@@ -393,9 +537,21 @@ th{color:var(--gold);background:rgba(232,185,49,.06);white-space:nowrap}
 #top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;padding:10px 16px;background:rgba(27,27,30,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
 .brand{font-weight:700;font-size:16px;white-space:nowrap}
 .brand span{color:var(--gold);font-size:12px;margin-left:4px}
-#q{flex:1;min-width:120px;max-width:520px;background:var(--card);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:8px 12px;font-size:14px;outline:none}
+#qwrap{flex:1;min-width:120px;max-width:520px;position:relative}
+#q{width:100%;background:var(--card);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:8px 12px;font-size:14px;outline:none}
 #q:focus{border-color:var(--gold)}
-#qcount{color:var(--muted);font-size:12px;min-width:34px}
+#qcount{color:var(--muted);font-size:12px;min-width:34px;white-space:nowrap}
+/* 검색 결과 패널 */
+#qpanel{position:absolute;top:calc(100% + 6px);left:0;width:100%;max-height:min(72vh,560px);overflow-y:auto;background:#202024;border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.55);padding:6px}
+.qgh{color:var(--gold);font-size:12px;font-weight:700;padding:6px 8px 3px;letter-spacing:.02em}
+.qres{display:block;padding:5px 8px;border-radius:7px;color:var(--ink);text-decoration:none;line-height:1.5}
+.qres:hover{background:var(--card)}
+.qtt{display:block;font-size:13.5px}
+.qtt b{color:var(--gold);font-size:11px;margin-right:3px}
+.qtag{font-style:normal;font-size:10.5px;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 4px;margin-left:6px;white-space:nowrap}
+.qfn{color:var(--muted);font-size:11px;margin-left:7px;white-space:nowrap}
+.qsn{display:block;color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qempty,.qmore{color:var(--muted);font-size:12.5px;padding:6px 8px}
 #top button{background:var(--card);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:8px 13px;font-size:13px;cursor:pointer;white-space:nowrap}
 #top button:hover{border-color:var(--gold)}
 #top button.on{background:var(--gold);color:#1b1b1e;font-weight:700;border-color:var(--gold)}
@@ -460,15 +616,18 @@ body.quiz .topic:not(.revealed) .srcbtn{display:none}
 // ---------------------------------------------------------------------------
 const clientJs = `
 (function(){
-var q=document.getElementById('q'),qc=document.getElementById('qcount');
+var q=document.getElementById('q'),qc=document.getElementById('qcount'),qp=document.getElementById('qpanel');
 var quizBtn=document.getElementById('quiz'),randBtn=document.getElementById('rand');
 var ov=document.getElementById('ov'),ovBody=document.getElementById('ovbody'),ovTitle=document.getElementById('ovtitle');
 var FILE_NAMES=__FILE_NAMES__;
+__SEARCH_CORE__
+var SIDX=CORE.prepIndex(__SIDX__);
 var topics=[].slice.call(document.querySelectorAll('#main .topic'));
 var cards=[].slice.call(document.querySelectorAll('#main .card'));
 var blocks=[].slice.call(document.querySelectorAll('#main .dblock'));
 var texts=new Map();cards.forEach(function(c){texts.set(c,c.textContent.toLowerCase());});
 var hist=[];
+var lastRes=null;
 
 function flash(el){el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');}
 
@@ -510,9 +669,18 @@ function goCard(id){
 
 /* ---- 클릭 위임 ---- */
 document.addEventListener('click',function(e){
-  var j=e.target.closest?e.target.closest('a.jump'):null;
+  if(!e.target.closest)return;
+  if(!qp.hidden&&!e.target.closest('#qwrap'))hidePanel();
+  var r=e.target.closest('#qpanel .qres');
+  if(r){
+    e.preventDefault();hidePanel();
+    if(r.hasAttribute('data-file'))openSrc(r.getAttribute('data-file'),r.getAttribute('data-target'));
+    else goCard(r.getAttribute('data-card'));
+    return;
+  }
+  var j=e.target.closest('a.jump');
   if(j){e.preventDefault();openSrc(j.getAttribute('data-file'),j.getAttribute('data-target'));return;}
-  var s=e.target.closest?e.target.closest('[data-card]'):null;
+  var s=e.target.closest('[data-card]');
   if(s){e.preventDefault();goCard(s.getAttribute('data-card'));return;}
   if(document.body.classList.contains('quiz')){
     var card=e.target.closest?e.target.closest('.topic'):null;
@@ -520,45 +688,98 @@ document.addEventListener('click',function(e){
   }
 });
 
-/* ---- 검색: 필터 + 하이라이트 ---- */
+/* ---- 검색: 랭킹 패널 + 카드 필터 + 하이라이트 ---- */
 function clearMarks(){
   var ms=[].slice.call(document.querySelectorAll('#main mark'));
   ms.forEach(function(m){m.replaceWith(document.createTextNode(m.textContent));});
 }
-function markCard(card,s){
-  var w=document.createTreeWalker(card,NodeFilter.SHOW_TEXT),nodes=[];
-  while(w.nextNode())nodes.push(w.currentNode);
-  nodes.forEach(function(n){
-    var t=n.nodeValue,lt=t.toLowerCase(),i=lt.indexOf(s);
-    if(i<0)return;
-    var frag=document.createDocumentFragment(),last=0;
-    while(i>=0){
-      frag.appendChild(document.createTextNode(t.slice(last,i)));
-      var m=document.createElement('mark');
-      m.textContent=t.slice(i,i+s.length);
-      frag.appendChild(m);
-      last=i+s.length;i=lt.indexOf(s,last);
-    }
-    frag.appendChild(document.createTextNode(t.slice(last)));
-    n.parentNode.replaceChild(frag,n);
+function markCard(card,forms){
+  forms.forEach(function(s){
+    var w=document.createTreeWalker(card,NodeFilter.SHOW_TEXT),nodes=[];
+    while(w.nextNode())nodes.push(w.currentNode);
+    nodes.forEach(function(n){
+      if(n.parentNode&&n.parentNode.nodeName==='MARK')return;
+      var t=n.nodeValue,lt=t.toLowerCase(),i=lt.indexOf(s);
+      if(i<0)return;
+      var frag=document.createDocumentFragment(),last=0;
+      while(i>=0){
+        frag.appendChild(document.createTextNode(t.slice(last,i)));
+        var m=document.createElement('mark');
+        m.textContent=t.slice(i,i+s.length);
+        frag.appendChild(m);
+        last=i+s.length;i=lt.indexOf(s,last);
+      }
+      frag.appendChild(document.createTextNode(t.slice(last)));
+      n.parentNode.replaceChild(frag,n);
+    });
   });
 }
+function hidePanel(){qp.hidden=true;}
+var BAND_TAG={1:'제목',2:'연관',3:'제목 일부',4:'본문',5:'연관 일부'};
+function renderPanel(res){
+  var h=[];
+  if(res.topics.length){
+    h.push('<div class="qgh">주제 <b>'+res.topics.length+'</b>건</div>');
+    res.topics.forEach(function(r){
+      var t=r.t,forms=CORE.matchForms(t._all,res.toks);
+      var line=CORE.bestLine(t.lines,res.toks);
+      var sn=line?'<span class="qsn">'+CORE.hilite(CORE.clip(line,forms),forms)+'</span>':'';
+      h.push('<a class="qres" href="#" data-card="'+t.c+'"><span class="qtt"><b>'+t.num+'</b> '+CORE.hilite(t.ti,forms)+'<i class="qtag">'+BAND_TAG[r.band]+'</i></span>'+sn+'</a>');
+    });
+  }
+  if(res.sections.length){
+    h.push('<div class="qgh">원본 섹션 <b>'+res.sections.length+'</b>건</div>');
+    res.sections.slice(0,50).forEach(function(r){
+      var forms=CORE.matchForms(r.h.toLowerCase(),res.toks);
+      h.push('<a class="qres" href="#" data-file="'+r.f+'" data-target="f-'+r.f+'--'+r.slug+'"><span class="qtt">'+CORE.hilite(r.h,forms)+'<span class="qfn">'+CORE.esc(r.fn)+'</span></span></a>');
+    });
+    if(res.sections.length>50)h.push('<div class="qmore">… 외 '+(res.sections.length-50)+'건</div>');
+  }
+  if(!h.length)h.push('<div class="qempty">결과 없음</div>');
+  qp.innerHTML=h.join('');
+  qp.scrollTop=0;
+  qp.hidden=false;
+}
 function applyFilter(){
-  var s=q.value.trim().toLowerCase(),n=0;
+  var s=q.value.trim();
   clearMarks();
+  if(!s){
+    lastRes=null;
+    cards.forEach(function(c){c.hidden=false;});
+    blocks.forEach(function(b){b.hidden=false;});
+    qc.textContent='';hidePanel();return;
+  }
+  var res=CORE.search(SIDX,s);
+  lastRes=res;
+  var hit={};
+  res.topics.forEach(function(r){hit[r.t.c]=1;});
   cards.forEach(function(c){
-    var hit=!s||texts.get(c).indexOf(s)>=0;
-    c.hidden=!hit;
-    if(hit){n++;if(s)markCard(c,s);}
+    c.hidden=!hit[c.id];
+    if(!c.hidden){
+      var forms=CORE.matchForms(texts.get(c),res.toks);
+      if(forms.length)markCard(c,forms);
+    }
   });
   blocks.forEach(function(b){
     var any=[].slice.call(b.querySelectorAll('.card')).some(function(c){return !c.hidden;});
     b.hidden=!any;
   });
-  qc.textContent=s?(n+'건'):'';
+  qc.textContent='주제 '+res.topics.length+' · 원본 '+res.sections.length;
+  renderPanel(res);
 }
 var deb;
 q.addEventListener('input',function(){clearTimeout(deb);deb=setTimeout(applyFilter,80);});
+q.addEventListener('focus',function(){if(q.value.trim()&&qp.hidden)applyFilter();});
+q.addEventListener('keydown',function(e){
+  if(e.key!=='Enter')return;
+  e.preventDefault();clearTimeout(deb);
+  if(q.value.trim())applyFilter();
+  if(!lastRes)return;
+  var t=lastRes.topics[0],sc=lastRes.sections[0];
+  hidePanel();
+  if(t)goCard(t.t.c);
+  else if(sc)openSrc(sc.f,'f-'+sc.f+'--'+sc.slug);
+});
 
 /* ---- 모의면접 모드 + 랜덤 ---- */
 function setQuiz(on){
@@ -587,7 +808,10 @@ document.addEventListener('keydown',function(e){
   }
 });
 })();
-`.replace('__FILE_NAMES__', fileNamesJson);
+`
+  .replace('__FILE_NAMES__', () => fileNamesJson)
+  .replace('__SEARCH_CORE__', () => `/*__CORE_START__*/\nvar CORE=(${SEARCH_CORE.toString()})();\n/*__CORE_END__*/`)
+  .replace('__SIDX__', () => searchIdxJson);
 
 // ---------------------------------------------------------------------------
 // 11) 최종 HTML 조립 + 쓰기
@@ -603,7 +827,7 @@ const html = `<!doctype html>
 <body>
 <header id="top">
 <div class="brand">💻 CS 모의면접<span>${topicCount}주제 · 원본 ${registry.size}파일 임베드</span></div>
-<input id="q" type="search" placeholder="검색 — 제목·정의·연관 키워드 ( / )" autocomplete="off">
+<div id="qwrap"><input id="q" type="search" placeholder="검색 — 주제·연관·원본 섹션 ( / )" autocomplete="off"><div id="qpanel" hidden></div></div>
 <span id="qcount"></span>
 <button id="quiz" title="답을 가리고 카드 클릭으로 공개">🎤 모의면접</button>
 <button id="rand" title="랜덤 주제로 점프 (답 가린 채)">🎲 랜덤</button>
@@ -639,6 +863,7 @@ const size = fs.statSync(OUT_PATH).size;
 console.log(`✔ 주제 카드: ${topicCount}개 (도메인 ${domains.length}개${domains.map((d) => ` · ${d.num}=${d.topics.length}`).join('')})`);
 console.log(`✔ 색인 섹션: ${extras.length}개`);
 console.log(`✔ 원본 임베드: ${registry.size}파일 / ${totalSections}섹션(헤딩)`);
+console.log(`✔ 검색 인덱스: 주제 ${searchIdx.topics.length} · 원본 섹션 헤딩 ${searchIdx.files.reduce((n, f) => n + f.hs.length, 0)}`);
 console.log(`✔ 링크: 해석 ${stats.resolved} · 파일상단 폴백 ${stats.fileTop} · 원본없음 ${stats.deadFile.length} · 외부 ${stats.external}`);
 if (stats.fallbackList.length) {
   console.log(`  ⚠ 앵커 미해석(파일 상단으로 폴백) 상위 ${Math.min(20, stats.fallbackList.length)}건:`);
