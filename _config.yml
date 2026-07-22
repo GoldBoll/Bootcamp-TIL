@@ -215,7 +215,7 @@ exclude:
   # 학습 산출물
   - graphify-out/
   - 과제/
-  - CodeingTest/
+  - algorithm/
   - compile_commands.json
   # 하네스
   - .claude/
