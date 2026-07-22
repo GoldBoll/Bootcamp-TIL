@@ -211,7 +211,7 @@ html[data-mode='dark'] {
    실사 캡처 썸네일은 기존 cover 유지 (경로 스코프로 구분) */
 #post-list .card img[src*='/thumbs/'] {
   object-fit: contain;
-  background: #141417;
+  background: #1d1e22; /* 배너 SVG 자체 배경색과 동일 — 레터박스 이음새 제거 */
 }
 
 /* ---------- 태그 칩: 완전 rounded(pill), 호버 시 골드 틴트 ---------- */
