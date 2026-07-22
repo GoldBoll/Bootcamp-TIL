@@ -8,8 +8,6 @@ image: /assets/img/thumbs/cs.svg
 description: "답변 흐름 — RAII → unique_ptr / shared_ptr / weak_ptr → 참조 카운팅 → 순환 참조 → virtual 소멸자 → vtable 꼬리질문 연결 다리"
 ---
 
-# 📕 04/24 — C++ 스마트 포인터 모의면접 준비
-
 > 내일 모의면접 주제: "C++ 스마트포인터에 대해서 설명해 주세요"
 > RAII → unique_ptr / shared_ptr / weak_ptr → 참조 카운팅 → 순환 참조 → virtual 소멸자 → vtable 꼬리질문 연결 다리
 
@@ -23,8 +21,7 @@ description: "답변 흐름 — RAII → unique_ptr / shared_ptr / weak_ptr → 
 
 생성 시에는 `new` 직접 호출보다 `make_unique`/`make_shared` 팩토리를 권장합니다. 예외 안전성이 보장되고, `make_shared`는 객체와 제어 블록을 **단일 힙 할당**으로 묶어 캐시 지역성과 성능이 좋아지기 때문입니다. 마지막으로 `unique_ptr<Base>` 나 `shared_ptr<Base>`로 파생 객체를 담을 때는 **기반 클래스에 virtual 소멸자**가 반드시 선언되어 있어야 파생 소멸자까지 올바른 체인 호출이 보장됩니다.
 
-"new로 만든 raw pointer를 shared_ptr에 넘기면 세 가지 문제가 있습니다. 첫째, 함수 인자 평가 순서에 따라 예외 발생 시 누수가 가능합니다. 둘째, 객체와 제어 블록이 별도로 힙 할당돼 캐시 지역성이 나쁩니다. 셋째, 같은 raw pointer를 두 shared_ptr에 넘기면 제어    
-  ▎ 블록이 따로 생겨 이중 해제 UB가 납니다. 그래서 기본은 make_shared를 쓰고, 커스텀 deleter나 큰 객체 + weak_ptr 장기 보관 같은 특수 케이스에서만 new를 씁니다."
+"왜 make_shared인가"라는 꼬리질문에 대비해 준비한 한 단락: "new로 만든 raw pointer를 shared_ptr에 넘기면 세 가지 문제가 있습니다. 첫째, 함수 인자 평가 순서에 따라 예외 발생 시 누수가 가능합니다. 둘째, 객체와 제어 블록이 별도로 힙 할당돼 캐시 지역성이 나쁩니다. 셋째, 같은 raw pointer를 두 shared_ptr에 넘기면 제어 블록이 따로 생겨 이중 해제 UB(undefined behavior, 미정의 동작)가 납니다. 그래서 기본은 make_shared를 쓰고, 커스텀 deleter나 큰 객체 + weak_ptr 장기 보관 같은 특수 케이스에서만 new를 씁니다."
 
 ## 핵심 개념
 
@@ -113,9 +110,7 @@ shared_ptr<A> → shared_ptr<B> → shared_ptr<A> 로 루프 형성
 
 ## 2. unique_ptr — 단독 소유
 
-### 핵심 한 문장
-
-> `unique_ptr`은 **객체를 정확히 하나의 포인터만 소유**하도록 보장하는 스마트 포인터입니다. 복사는 불가능하고 `std::move`로 소유권을 이전합니다.
+> `unique_ptr`은 객체를 정확히 하나의 포인터만 소유하도록 보장하는 스마트 포인터입니다. 복사는 불가능하고 `std::move`로 소유권을 이전합니다.
 
 ### 기본 사용법
 
@@ -193,9 +188,7 @@ std::unique_ptr<FILE, decltype(fileDeleter)> file(fopen("data.txt", "r"), fileDe
 
 ## 3. shared_ptr — 공유 소유 + 참조 카운팅
 
-### 핵심 한 문장
-
-> `shared_ptr`은 **여러 포인터가 하나의 객체를 공유 소유**하도록 하는 스마트 포인터이며, **참조 카운팅**으로 마지막 소유자가 사라질 때 객체를 해제합니다.
+> `shared_ptr`은 여러 포인터가 하나의 객체를 공유 소유하도록 하는 스마트 포인터이며, 참조 카운팅으로 마지막 소유자가 사라질 때 객체를 해제합니다.
 
 ### 기본 사용법
 
@@ -280,9 +273,7 @@ auto self = w->GetSelf();   // 같은 제어 블록 공유, strong=2
 
 ## 4. weak_ptr — 순환 참조 해결
 
-### 핵심 한 문장
-
-> `weak_ptr`은 `shared_ptr`이 관리하는 객체를 **소유권 없이 관찰**하는 스마트 포인터로, **순환 참조 문제**와 **댕글링 감지**에 사용됩니다.
+> `weak_ptr`은 `shared_ptr`이 관리하는 객체를 소유권 없이 관찰하는 스마트 포인터로, 순환 참조 문제와 댕글링(이미 해제된 객체를 가리키는 상태) 감지에 사용됩니다.
 
 ### 순환 참조 문제
 
@@ -366,9 +357,7 @@ if (!wp.expired()) {
 
 ## 5. make_unique vs make_shared vs new
 
-### 핵심 한 문장
-
-> `make_*` 팩토리는 **예외 안전성**과 **단일 힙 할당**의 장점을 제공하므로, 특별한 이유가 없다면 `new`보다 항상 우선합니다.
+> `make_*` 팩토리는 예외 안전성과 단일 힙 할당의 장점을 제공하므로, 특별한 이유가 없다면 `new`보다 우선합니다.
 
 ### 예외 안전성 (Exception Safety)
 
@@ -692,4 +681,10 @@ if (WeakActor.IsValid()) { WeakActor->Foo(); }
 - [06_virtual_destructor.md](./06_virtual_destructor.md) — virtual 소멸자 상세
 - [08_vtable_deepdive.md](./08_vtable_deepdive.md) — vtable 구조 심화
 - [10_pointer_deepdive.md](./10_pointer_deepdive.md) — 댕글링 포인터와 스마트 포인터 방어 전략
+
+> **오늘 배운 것** — 스마트 포인터 3종은 소유권 모델(단독·공유·관찰)로 구분하면 정리가 된다. shared_ptr의 순환 참조는 한쪽을 weak_ptr로 바꿔 끊고, 생성은 예외 안전성과 단일 힙 할당 때문에 make_unique/make_shared가 기본값이다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "shared_ptr의 순환 참조는 왜 생기고 어떻게 해결하나요?" → strong count가 0이 안 됨, 서로 참조 루프, weak_ptr 교체, lock() 승격, 부모 소유·자식 관찰
+{: .prompt-info }
 
