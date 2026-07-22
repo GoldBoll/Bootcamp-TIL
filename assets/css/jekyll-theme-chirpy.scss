@@ -9,9 +9,10 @@
 ';
 
 /* ============================================================
-   GoldBoll TIL Design System — 라이트 기본 + 골드 액센트
+   GoldBoll TIL Design System — 다크 기본 + 골드 액센트
    Chirpy 7.5 오버라이드 진입점 (gem 원본 수정 없음)
-   theme_mode: light 고정 → 다크 토글 없음 (A 결정)
+   theme_mode: dark 고정 (사용자 결정: 클로드 디자인 시스템의
+   다크+골드 아이덴티티 적용, 공백 축소)
    ============================================================ */
 
 /* ---------- 라이트(기본) 토큰 ---------- */
@@ -85,46 +86,102 @@ html:not([data-mode='dark']) {
   --code-header-muted-color: #e5e7eb;
 }
 
-/* ---------- 다크 최소 세트 ----------
-   theme_mode: light 고정 상태에선 도달 불가.
-   훗날 토글을 되살릴 때(theme_mode 비우기) 골드 액센트가
-   다크에서 깨지지 않도록 하는 안전망만 유지. */
+/* ---------- 다크(기본) 토큰 — 디자인 시스템 원본 팔레트 ---------- */
 html[data-mode='dark'] {
+  /* 팔레트 */
   --gb-accent: #e8b931;
-  --gb-accent-hover: #d4a017;
+  --gb-accent-hover: #f0c04a;
   --gb-surface: #242428;
+
+  /* Framework */
   --main-bg: #1b1b1e;
   --main-border-color: #33333a;
+
+  /* Common */
   --text-color: #e6e1d7;
+  --heading-color: #e6e1d7;
   --text-muted-color: #9a938a;
-  --sidebar-bg: var(--gb-surface);
-  --card-bg: var(--gb-surface);
   --link-color: var(--gb-accent);
+  --link-underline-color: #8a6a0e;
+  --btn-border-color: #33333a;
+  --blockquote-border-color: #33333a;
+  --blockquote-text-color: #9a938a;
+  --checkbox-checked-color: var(--gb-accent);
+
+  /* Sidebar */
+  --site-title-color: #e6e1d7;
+  --site-subtitle-color: #9a938a;
+  --sidebar-bg: #17171a;
+  --sidebar-border-color: #33333a;
+  --sidebar-muted-color: #9a938a;
+  --sidebar-active-color: var(--gb-accent);
+  --sidebar-hover-bg: rgb(232 185 49 / 10%);
+
+  /* Topbar */
+  --topbar-bg: rgb(27 27 30 / 70%);
+  --topbar-text-color: #e6e1d7;
+  --search-border-color: #33333a;
+  --input-focus-border-color: var(--gb-accent);
+
+  /* Home */
+  --post-list-text-color: #9a938a;
+  --btn-paginator-hover-color: var(--gb-surface);
+
+  /* Posts */
   --toc-highlight: var(--gb-accent);
+  --btn-share-hover-color: var(--gb-accent);
+  --card-bg: var(--gb-surface);
+  --card-hover-bg: #2a2a2f;
+  --tb-odd-bg: #202024;
+  --tb-border-color: #33333a;
+
+  /* Prompts — tip 골드, info 블루 (다크 틴트) */
+  --prompt-tip-bg: rgb(232 185 49 / 10%);
+  --prompt-tip-icon-color: var(--gb-accent);
+  --prompt-info-bg: rgb(79 142 247 / 12%);
+  --prompt-info-icon-color: #7fabfa;
+
+  /* Tags */
+  --tag-border: #33333a;
   --tag-hover: rgb(232 185 49 / 18%);
+  --search-tag-bg: var(--gb-surface);
+
+  /* Categories */
+  --categories-hover-bg: var(--gb-surface);
+  --categories-icon-hover-color: var(--gb-accent);
+
+  /* Code — 디자인 시스템 코드 패널 톤 */
+  --language-border-color: #33333a;
+  --highlight-bg-color: #16161a;
+  --code-header-text-color: #9a938a;
+  --code-header-muted-color: #33333a;
 }
 
-/* ---------- 포스트 리스트 카드 (velog 감각: 제목이 주인공) ---------- */
+/* ---------- 포스트 리스트 카드 (제목이 주인공, 공백 축소) ---------- */
 #post-list .card-wrapper:not(:last-child) {
-  margin-bottom: 1.75rem; /* 넉넉한 세로 여백 */
+  margin-bottom: 0.9rem; /* 공백 축소: 스크롤당 노출 글 수 증가 */
 }
 
 #post-list .card {
   background: var(--card-bg);
   border: 1px solid var(--main-border-color);
-  border-radius: 12px;
+  border-radius: 10px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+#post-list .card .card-body {
+  padding: 0.9rem 1.15rem; /* 카드 내부 패딩 축소 */
+}
+
 #post-list .card:hover {
-  border-color: rgb(212 160 23 / 45%);
-  box-shadow: 0 4px 14px rgb(31 35 40 / 6%);
+  border-color: rgb(232 185 49 / 55%);
+  box-shadow: 0 4px 14px rgb(0 0 0 / 25%);
 }
 
 #post-list .card .card-title {
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 #post-list .card .card-text.content p {
