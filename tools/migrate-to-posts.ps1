@@ -78,9 +78,9 @@ function Get-PartMarkers {
   return $parts
 }
 
-# === 1. 월별 TIL (2월/, 3월/, 4월/, 5월/) — 인라인 마커가 있으면 주제별 분할 ===
+# === 1. 월별 TIL (til/2026-02/ ~ til/2026-05/) — 인라인 마커가 있으면 주제별 분할 ===
 Write-Host "[1/3] 월별 TIL..."
-Get-ChildItem -Path "$Root\2월","$Root\3월","$Root\4월","$Root\5월" -Filter "*.md" -ErrorAction SilentlyContinue |
+Get-ChildItem -Path "$Root\til\2026-02","$Root\til\2026-03","$Root\til\2026-04","$Root\til\2026-05" -Filter "*.md" -ErrorAction SilentlyContinue |
   ForEach-Object {
     $m = [regex]::Match($_.Name, "^(\d{4}-\d{2}-\d{2})")
     if (-not $m.Success) { return }
@@ -218,7 +218,7 @@ $kataDates = @{
   "01"="2026-02-23"; "02"="2026-02-24"; "03"="2026-02-25"; "04"="2026-02-26"
   "05"="2026-02-27"; "06"="2026-03-03"; "07"="2026-03-04"; "08"="2026-03-05"
 }
-Get-ChildItem "$Root\CodeingTest\CodingTest\CodeKata" -Filter "*.cpp" -ErrorAction SilentlyContinue |
+Get-ChildItem "$Root\algorithm\CodeKata" -Filter "*.cpp" -ErrorAction SilentlyContinue |
   ForEach-Object {
     # CodeKata 파일은 주석에 문제 설명을 통째로 담아 제목 추출이 부적합 →
     # 항상 "프로그래머스 — CodeKata NN"으로 고정
@@ -230,7 +230,7 @@ Get-ChildItem "$Root\CodeingTest\CodingTest\CodeKata" -Filter "*.cpp" -ErrorActi
 
 # 100zun은 날짜명 cpp. 카테고리는 첫 주석 제목의 플랫폼 키워드로 자동 판별
 # (프로그래머스/백준/LeetCode). 키워드 없으면 LeetCode로 간주.
-Get-ChildItem "$Root\CodeingTest\CodingTest\100zun" -Filter "*.cpp" -ErrorAction SilentlyContinue |
+Get-ChildItem "$Root\algorithm\100zun" -Filter "*.cpp" -ErrorAction SilentlyContinue |
   ForEach-Object {
     $dm = [regex]::Match($_.Name, '^(\d{4}-\d{2}-\d{2})')
     $d = if ($dm.Success) { $dm.Groups[1].Value } else { $null }
