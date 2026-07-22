@@ -10,7 +10,7 @@ description: "IPC 모의면접 직후 나온 후속 질문 — 소켓이란 무�
 
 # IPC 모의면접 꼬리질문 정리
 
-> [`22_ipc.md`](./22_ipc.md) 모의면접 직후 나온 후속 질문 1개를 깊이 있게 정리한 노트.
+> [IPC](/posts/cs-22-ipc/) 모의면접 직후 나온 후속 질문 1개를 깊이 있게 정리한 노트.
 > 본문은 22번 원본의 해당 섹션을 가리키고, 여기서는 **결론 → 흐름 → 표 → 코드/예 → 면접 답변 한 줄** 순으로 압축한다.
 
 ---
@@ -327,10 +327,10 @@ recvfrom(sfd, buf, sizeof(buf), 0, (struct sockaddr*)&from, &fromlen);
 
 ## 회귀 다리
 
-- [`22_ipc.md`](./22_ipc.md) — 본 문서의 원본 §10(소켓), §3(분류축), §12(비용 스펙트럼)이 답변 근거.
-- [`21_context_switching.md`](./21_context_switching.md) — 매 송수신마다 발생하는 모드 스위치 비용이 소켓 비용의 출발점.
-- [`19_process_vs_thread.md`](./19_process_vs_thread.md) — 주소 공간 격리가 IPC가 필요한 이유의 토대.
-- [`07_pointer_reference.md`](./07_pointer_reference.md) — fd는 결국 커널 자료구조에 대한 핸들(추상 포인터)이라는 점에서 같은 추상화 패턴.
+- [IPC](/posts/cs-22-ipc/) — 본 문서의 원본 §10(소켓), §3(분류축), §12(비용 스펙트럼)이 답변 근거.
+- [컨텍스트 스위칭](/posts/cs-21-context-switching/) — 매 송수신마다 발생하는 모드 스위치 비용이 소켓 비용의 출발점.
+- [프로세스 vs 스레드](/posts/cs-19-process-vs-thread/) — 주소 공간 격리가 IPC가 필요한 이유의 토대.
+- [포인터·레퍼런스](/posts/cs-07-pointer-reference/) — fd는 결국 커널 자료구조에 대한 핸들(추상 포인터)이라는 점에서 같은 추상화 패턴.
 
 > **오늘 배운 것** — 소켓은 OS가 파일 디스크립터로 노출하는 양방향 통신 채널의 추상화라서 파일과 같은 `read`/`write` API로 다룰 수 있고, 같은 머신 IPC만 필요하면 UNIX domain socket이 TCP loopback보다 30~50% 빠르며 파일 권한으로 접근을 제어할 수 있다.
 {: .prompt-tip }

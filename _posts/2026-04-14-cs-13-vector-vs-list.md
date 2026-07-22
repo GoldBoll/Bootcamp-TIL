@@ -1288,11 +1288,11 @@ TLinkedList·TDoubleLinkedList가 있지만 헬퍼 수준입니다. 게임 엔�
 
 ## 참고
 
-- [11_smart_pointer.md](./11_smart_pointer.md) — `unique_ptr`/`shared_ptr`이 컨테이너 원소일 때의 패턴 (`vector<unique_ptr<T>>`이 list 대안인 이유)
-- [12_prevent_copy.md](./12_prevent_copy.md) — Rule of Five의 noexcept 이동, move-only 타입(`unique_ptr`, `thread`, `ifstream`)을 컨테이너에 담기
-- [09_rtti_raii.md](./09_rtti_raii.md) — RAII 자원 관리, vector 자체가 RAII 정석 사례
-- [10_pointer_deepdive.md](./10_pointer_deepdive.md) — vector 재할당 후 댕글링 포인터 (캐시 친화 vs 안정성 트레이드오프의 정확한 사례)
-- [00_index.md](./00_index.md) — CS 면접 인덱스 (이번 13번이 STL+시스템 영역 진입점)
+- [스마트 포인터](/posts/cs-11-smart-pointer/) — `unique_ptr`/`shared_ptr`이 컨테이너 원소일 때의 패턴 (`vector<unique_ptr<T>>`이 list 대안인 이유)
+- [복사 방지(Rule of Five)](/posts/cs-12-prevent-copy/) — Rule of Five의 noexcept 이동, move-only 타입(`unique_ptr`, `thread`, `ifstream`)을 컨테이너에 담기
+- [RTTI & RAII](/posts/cs-09-rtti-raii/) — RAII 자원 관리, vector 자체가 RAII 정석 사례
+- [포인터 deep dive](/posts/cs-10-pointer-deepdive/) — vector 재할당 후 댕글링 포인터 (캐시 친화 vs 안정성 트레이드오프의 정확한 사례)
+- 00_index.md(미발행 내부 노트) — CS 면접 인덱스 (이번 13번이 STL+시스템 영역 진입점)
 
 > **오늘 배운 것** — 이론 시간 복잡도가 같아도 실측 성능은 메모리 접근 패턴이 결정한다. vector는 연속 메모리라 캐시 라인과 프리페처의 덕을 그대로 보고, list는 노드가 흩어져 있어 1M 순회에서 100배까지 느려진다. 결론은 "의심스러우면 vector".
 {: .prompt-tip }

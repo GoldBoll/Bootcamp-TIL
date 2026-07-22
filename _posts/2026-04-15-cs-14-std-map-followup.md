@@ -5,10 +5,10 @@ categories: ["CS", "자료구조"]
 tags: ["map", "stl"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
-description: "답변 흐름 — [`14_std_map.md`](./14_std_map.md) 모의면접 직후 나온 후속 질문 16개를 1:1로 정리한 노트."
+description: "답변 흐름 — std::map(cs-14) 모의면접 직후 나온 후속 질문 16개를 1:1로 정리한 노트."
 ---
 
-> [`14_std_map.md`](./14_std_map.md) 모의면접 직후 나온 후속 질문 16개를 1:1로 정리한 노트.
+> [std::map](/posts/cs-14-std-map/) 모의면접 직후 나온 후속 질문 16개를 1:1로 정리한 노트.
 > 본문은 14번 원본의 해당 섹션을 가리키고, 여기서는 **답변만 짧게 결론 → 근거 → 코드/예** 순으로 압축한다.
 
 ---
@@ -823,11 +823,11 @@ size_t h4 = std::hash<std::string>{}("xyz");
 
 ## 회귀 다리
 
-- [`14_std_map.md`](./14_std_map.md) — 본 문서의 원본. 답변 근거가 모두 여기에 있음.
-- [`13_vector_vs_list.md`](./13_vector_vs_list.md) — 노드 안정성·캐시 친화성 프레임. §9 게임 엔진 철학과 직결.
-- [`11_smart_pointer.md`](./11_smart_pointer.md) — `try_emplace` + `unique_ptr` 안전 패턴 + 힙 수명 자동화.
-- [`03_new_vs_malloc.md`](./03_new_vs_malloc.md) — 힙 메모리 영역 (§7-1, §14 와 직결).
-- [`10_pointer_deepdive.md`](./10_pointer_deepdive.md) — rehash 후 댕글링 포인터 (§12-2 iterator 무효화와 같은 맥락).
+- [std::map](/posts/cs-14-std-map/) — 본 문서의 원본. 답변 근거가 모두 여기에 있음.
+- [vector vs list](/posts/cs-13-vector-vs-list/) — 노드 안정성·캐시 친화성 프레임. §9 게임 엔진 철학과 직결.
+- [스마트 포인터](/posts/cs-11-smart-pointer/) — `try_emplace` + `unique_ptr` 안전 패턴 + 힙 수명 자동화.
+- [new vs malloc](/posts/cs-03-new-vs-malloc/) — 힙 메모리 영역 (§7-1, §14 와 직결).
+- [포인터 deep dive](/posts/cs-10-pointer-deepdive/) — rehash 후 댕글링 포인터 (§12-2 iterator 무효화와 같은 맥락).
 
 > **오늘 배운 것** — RB-Tree 가 새 노드를 빨강으로 넣는 이유는 black height(속성 5)를 건드리지 않아 위반 가능성을 R-R 금지(속성 4) 하나로 국한시키기 위해서다. 그리고 해시값은 "키 → 버킷 인덱스" 변환용 결정적 정수일 뿐, 할당자가 반환하는 포인터 주소와는 출처·결정성·용도가 전부 다르다.
 {: .prompt-tip }

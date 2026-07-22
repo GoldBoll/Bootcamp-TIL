@@ -5,12 +5,12 @@ categories: ["CS", "C++"]
 tags: ["pointer"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
-description: "답변 흐름 — 기반 파일: [07_pointer_reference.md](./07_pointer_reference.md)"
+description: "답변 흐름 — 포인터·레퍼런스(cs-07) 기반 심화 노트"
 ---
 
 # 포인터·레퍼런스 심층 분석 — 댕글링·메모리 크기·런타임 오류
 
-> 기반 파일: [07_pointer_reference.md](./07_pointer_reference.md)
+> 기반 파일: [포인터·레퍼런스](/posts/cs-07-pointer-reference/)
 > 작성 기준: 2026-04-23 모의면접 추가 분석
 
 ---
@@ -468,9 +468,9 @@ UPROPERTY  — 언리얼: GC 추적 등록 (없으면 댕글링)
 
 ## 참고
 
-- [07_pointer_reference.md](./07_pointer_reference.md) — 포인터·레퍼런스 기본
-- [09_rtti_raii.md](./09_rtti_raii.md) — RAII 상세 (unique_ptr·shared_ptr)
-- [06_virtual_destructor.md](./06_virtual_destructor.md) — 다형적 삭제와 virtual 소멸자
+- [포인터·레퍼런스](/posts/cs-07-pointer-reference/) — 포인터·레퍼런스 기본
+- [RTTI & RAII](/posts/cs-09-rtti-raii/) — RAII 상세 (unique_ptr·shared_ptr)
+- [virtual 소멸자](/posts/cs-06-virtual-destructor/) — 다형적 삭제와 virtual 소멸자
 
 > **오늘 배운 것** — 댕글링은 delete 후 미초기화, 스택 주소 반환, 컨테이너 재할당 세 경로로 생기고, 레퍼런스라고 예외가 아니다. "레퍼런스는 안전하다"는 문법 제약이지 런타임 보장이 아니라는 점이 핵심이었다.
 {: .prompt-tip }

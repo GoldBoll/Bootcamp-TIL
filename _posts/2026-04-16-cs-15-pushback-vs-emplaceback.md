@@ -685,11 +685,11 @@ STL 은 표준 명세의 iterator 안정성 요구와 load_factor 1.0 초과 허
 
 ## 10. 회귀 다리
 
-- [`13_vector_vs_list.md`](./13_vector_vs_list.md) — vector 의 메모리 레이아웃·캐시 친화성. §5 capacity/재할당 의 원본.
-- [`14_std_map.md`](./14_std_map.md) — std::map 의 RB-Tree, unordered_map rehash 와 비교. §5-5 의 데칼코마니 표.
-- [`14_std_map_followup.md`](./14_std_map_followup.md) — 모의면접 꼬리물기 16개. §11 (해시·버킷), §12 (load_factor) 와 본 문서 §6·§7 가 한 세트.
-- [`11_smart_pointer.md`](./11_smart_pointer.md) — `unique_ptr` + emplace_back 안전 패턴.
-- [`10_pointer_deepdive.md`](./10_pointer_deepdive.md) — vector 재할당 후 댕글링 포인터.
+- [vector vs list](/posts/cs-13-vector-vs-list/) — vector 의 메모리 레이아웃·캐시 친화성. §5 capacity/재할당 의 원본.
+- [std::map](/posts/cs-14-std-map/) — std::map 의 RB-Tree, unordered_map rehash 와 비교. §5-5 의 데칼코마니 표.
+- [std::map 꼬리질문](/posts/cs-14-std-map-followup/) — 모의면접 꼬리물기 16개. §11 (해시·버킷), §12 (load_factor) 와 본 문서 §6·§7 가 한 세트.
+- [스마트 포인터](/posts/cs-11-smart-pointer/) — `unique_ptr` + emplace_back 안전 패턴.
+- [포인터 deep dive](/posts/cs-10-pointer-deepdive/) — vector 재할당 후 댕글링 포인터.
 
 ---
 

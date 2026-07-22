@@ -793,12 +793,12 @@ STL 컨테이너는 시퀀스, 연관, 비순서 연관, 컨테이너 어댑터 
 
 ## 참고
 
-- [13_vector_vs_list.md](./13_vector_vs_list.md) — 시퀀스 컨테이너 + 캐시 친화성 깊이
-- [14_std_map.md](./14_std_map.md) — RB-Tree 5속성 + 회전 + 재색칠
-- [14_std_map_followup.md](./14_std_map_followup.md) — map 모의면접 꼬리물기 16개
-- [15_pushback_vs_emplaceback.md](./15_pushback_vs_emplaceback.md) — vector capacity + 해시 충돌(체이닝/오픈 어드레싱)
-- [11_smart_pointer.md](./11_smart_pointer.md) — 컨테이너에 unique_ptr 담을 때 emplace 필수
-- [12_prevent_copy.md](./12_prevent_copy.md) — move-only 타입과 컨테이너
+- [vector vs list](/posts/cs-13-vector-vs-list/) — 시퀀스 컨테이너 + 캐시 친화성 깊이
+- [std::map](/posts/cs-14-std-map/) — RB-Tree 5속성 + 회전 + 재색칠
+- [std::map 꼬리질문](/posts/cs-14-std-map-followup/) — map 모의면접 꼬리물기 16개
+- [push_back vs emplace_back](/posts/cs-15-pushback-vs-emplaceback/) — vector capacity + 해시 충돌(체이닝/오픈 어드레싱)
+- [스마트 포인터](/posts/cs-11-smart-pointer/) — 컨테이너에 unique_ptr 담을 때 emplace 필수
+- [복사 방지(Rule of Five)](/posts/cs-12-prevent-copy/) — move-only 타입과 컨테이너
 
 > **오늘 배운 것** — 개별로 파던 vector·list·map·unordered_map을 시퀀스/연관/비순서 연관/어댑터 4분류 지도 위에 재배치했다. 선택 기준은 "의심스러우면 vector, 정렬·최악 보장이 필요하면 map, 처리량이 필요하면 unordered_map" 한 줄로 압축된다.
 {: .prompt-tip }

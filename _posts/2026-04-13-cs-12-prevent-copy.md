@@ -1183,10 +1183,10 @@ struct FBigData
 
 ## 참고
 
-- [11_smart_pointer.md](./11_smart_pointer.md) — `unique_ptr`(move-only)·`shared_ptr`(복사 가능) 소유권 모델, 오늘 회고 1·4번 연결
-- [09_rtti_raii.md](./09_rtti_raii.md) — RAII 자원 관리, Rule of Zero의 이상적 활용
-- [06_virtual_destructor.md](./06_virtual_destructor.md) — 다형 기반 클래스 + 슬라이싱 차단 + virtual 소멸자 통합 패턴
-- [08_vtable_deepdive.md](./08_vtable_deepdive.md) — 슬라이싱 시 vptr이 Base로 고정되는 이유
+- [스마트 포인터](/posts/cs-11-smart-pointer/) — `unique_ptr`(move-only)·`shared_ptr`(복사 가능) 소유권 모델, 오늘 회고 1·4번 연결
+- [RTTI & RAII](/posts/cs-09-rtti-raii/) — RAII 자원 관리, Rule of Zero의 이상적 활용
+- [virtual 소멸자](/posts/cs-06-virtual-destructor/) — 다형 기반 클래스 + 슬라이싱 차단 + virtual 소멸자 통합 패턴
+- [vtable deep dive](/posts/cs-08-vtable-deepdive/) — 슬라이싱 시 vptr이 Base로 고정되는 이유
 
 > **오늘 배운 것** — 복사 가능 여부는 편의가 아니라 타입 의미론의 일부다. 파일 핸들·뮤텍스·소켓·`unique_ptr`처럼 책임자가 하나여야 하는 자원은 복사를 `= delete`하고 move만 살리는 게 표준 라이브러리 공통 패턴이고, 멤버에 `unique_ptr`을 두면 암묵적 삭제로 클래스가 자동 move-only가 된다(Rule of Zero).
 {: .prompt-tip }
