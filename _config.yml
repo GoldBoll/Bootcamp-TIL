@@ -16,10 +16,11 @@ timezone: Asia/Seoul
 
 title: GoldBoll TIL
 
-tagline: 부트캠프 학습 기록 — UE5 · CS · 알고리즘
+tagline: UE5 게임 클라이언트 지망 — 증상→분석→해결 기록
 
 description: >-
-  Unreal Engine 5 C++, 자료구조·OS 면접 준비, 알고리즘 풀이를 매일 정리합니다.
+  UE5 C++ 게임 클라이언트 개발자를 지망합니다. 멀티플레이 트러블슈팅과 CS 면접 준비,
+  알고리즘 풀이를 증상→분석→해결 과정 그대로 매일 기록합니다.
 
 # Fill in the protocol & hostname for your site.
 url: "https://goldboll.github.io"
