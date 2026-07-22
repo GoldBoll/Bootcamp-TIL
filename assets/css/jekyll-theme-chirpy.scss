@@ -221,20 +221,49 @@ html[data-mode='dark'] {
   color: var(--gb-accent-hover);
 }
 
-/* ---------- 카테고리 색 (링크가 있는 곳: 포스트 상세·카테고리 페이지) ---------- */
+/* ---------- 사이드바 카테고리 트리: 뮤트 톤 통일 ---------- */
+/* sidebar.html 인라인 스타일의 color:inherit가 본문 크림색(#e6e1d7)을 받아
+   다크에서 흰색으로 떠 보임 → 사이드바 뮤트 톤으로. 인라인보다 높은 셀렉터 유지 */
+#sidebar .cat-tree .cat-row .cat-link {
+  color: var(--sidebar-muted-color);
+  opacity: 1;
+}
+
+#sidebar .cat-tree .cat-sub .cat-row .cat-link {
+  opacity: 0.85; /* 하위 위계는 투명도로만 (대비 AA 유지선) */
+}
+
+#sidebar .cat-tree .cat-row .cat-link:hover {
+  color: var(--sidebar-active-color);
+  opacity: 1;
+}
+
+/* ---------- 골드 절제: 목록성 텍스트는 본문색, 골드는 호버만 ---------- */
+#archives li a:not(:hover) {
+  color: var(--text-color);
+}
+
+#search-results a:not(:hover) {
+  color: var(--heading-color);
+}
+
+/* ---------- 카테고리 색 (표준 4개: 알고리즘·언리얼·CS·회고) ---------- */
 /* 알고리즘 */
 a[href='/categories/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/'] {
   color: #b17df0 !important;
 }
 
-/* CS 면접 준비 */
-a[href='/categories/cs-%EB%A9%B4%EC%A0%91-%EC%A4%80%EB%B9%84/'] {
+/* 언리얼 */
+a[href='/categories/%EC%96%B8%EB%A6%AC%EC%96%BC/'] {
+  color: #4f8ef7 !important;
+}
+
+/* CS */
+a[href='/categories/cs/'] {
   color: #4cc38a !important;
 }
 
-/* 언리얼 / Unreal / UE5 */
-a[href='/categories/%EC%96%B8%EB%A6%AC%EC%96%BC/'],
-a[href='/categories/unreal/'],
-a[href='/categories/ue5/'] {
-  color: #4f8ef7 !important;
+/* 회고 — 뮤트 톤 */
+a[href='/categories/%ED%9A%8C%EA%B3%A0/'] {
+  color: var(--text-muted-color) !important;
 }
