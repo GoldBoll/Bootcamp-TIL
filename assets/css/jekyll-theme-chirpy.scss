@@ -1,0 +1,183 @@
+---
+---
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* ============================================================
+   GoldBoll TIL Design System — 라이트 기본 + 골드 액센트
+   Chirpy 7.5 오버라이드 진입점 (gem 원본 수정 없음)
+   theme_mode: light 고정 → 다크 토글 없음 (A 결정)
+   ============================================================ */
+
+/* ---------- 라이트(기본) 토큰 ---------- */
+html:not([data-mode='dark']) {
+  /* 팔레트 */
+  --gb-accent: #d4a017;
+  --gb-accent-hover: #b8890f;
+  --gb-surface: #f6f7f8;
+
+  /* Framework */
+  --main-bg: #fdfdfd;
+  --main-border-color: #e5e7eb;
+
+  /* Common */
+  --text-color: #1f2328;
+  --heading-color: #1f2328;
+  --text-muted-color: #6a737d;
+  --link-color: var(--gb-accent);
+  --link-underline-color: #e7d9b0;
+  --btn-border-color: #e5e7eb;
+  --blockquote-border-color: #e5e7eb;
+  --blockquote-text-color: #6a737d;
+  --checkbox-checked-color: var(--gb-accent);
+
+  /* Sidebar — 밝은 surface 톤 */
+  --site-title-color: #1f2328;
+  --site-subtitle-color: #6a737d;
+  --sidebar-bg: var(--gb-surface);
+  --sidebar-border-color: #e5e7eb;
+  --sidebar-muted-color: #6a737d;
+  --sidebar-active-color: #1f2328;
+  --sidebar-hover-bg: rgb(212 160 23 / 8%);
+
+  /* Topbar */
+  --topbar-bg: rgb(253 253 253 / 70%);
+  --topbar-text-color: #1f2328;
+  --search-border-color: #e5e7eb;
+  --input-focus-border-color: var(--gb-accent);
+
+  /* Home */
+  --post-list-text-color: #6a737d;
+  --btn-paginator-hover-color: var(--gb-surface);
+
+  /* Posts */
+  --toc-highlight: var(--gb-accent-hover);
+  --btn-share-hover-color: var(--gb-accent);
+  --card-bg: #ffffff;
+  --card-hover-bg: var(--gb-surface);
+  --tb-odd-bg: #fbfbfc;
+  --tb-border-color: #e5e7eb;
+
+  /* Prompts — tip은 골드, info는 블루(카테고리 UE5 톤과 조화) */
+  --prompt-tip-bg: rgb(212 160 23 / 12%);
+  --prompt-tip-icon-color: var(--gb-accent-hover);
+  --prompt-info-bg: #e8f1fe;
+  --prompt-info-icon-color: #4f8ef7;
+
+  /* Tags */
+  --tag-border: #e5e7eb;
+  --tag-hover: rgb(212 160 23 / 15%);
+  --search-tag-bg: var(--gb-surface);
+
+  /* Categories */
+  --categories-hover-bg: var(--gb-surface);
+  --categories-icon-hover-color: var(--gb-accent-hover);
+
+  /* Code — 밝은 배경에서 언어 라벨·대비 확보 */
+  --language-border-color: #e5e7eb;
+  --highlight-bg-color: var(--gb-surface);
+  --code-header-text-color: #6a737d;
+  --code-header-muted-color: #e5e7eb;
+}
+
+/* ---------- 다크 최소 세트 ----------
+   theme_mode: light 고정 상태에선 도달 불가.
+   훗날 토글을 되살릴 때(theme_mode 비우기) 골드 액센트가
+   다크에서 깨지지 않도록 하는 안전망만 유지. */
+html[data-mode='dark'] {
+  --gb-accent: #e8b931;
+  --gb-accent-hover: #d4a017;
+  --gb-surface: #242428;
+  --main-bg: #1b1b1e;
+  --main-border-color: #33333a;
+  --text-color: #e6e1d7;
+  --text-muted-color: #9a938a;
+  --sidebar-bg: var(--gb-surface);
+  --card-bg: var(--gb-surface);
+  --link-color: var(--gb-accent);
+  --toc-highlight: var(--gb-accent);
+  --tag-hover: rgb(232 185 49 / 18%);
+}
+
+/* ---------- 포스트 리스트 카드 (velog 감각: 제목이 주인공) ---------- */
+#post-list .card-wrapper:not(:last-child) {
+  margin-bottom: 1.75rem; /* 넉넉한 세로 여백 */
+}
+
+#post-list .card {
+  background: var(--card-bg);
+  border: 1px solid var(--main-border-color);
+  border-radius: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#post-list .card:hover {
+  border-color: rgb(212 160 23 / 45%);
+  box-shadow: 0 4px 14px rgb(31 35 40 / 6%);
+}
+
+#post-list .card .card-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+#post-list .card .card-text.content p {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 요약 2줄 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: normal;
+}
+
+/* 카드 하단 메타: 날짜·카테고리 명확히 */
+#post-list .card .post-meta {
+  font-size: 0.85rem;
+}
+
+#post-list .card .post-meta .categories {
+  display: inline-block;
+  background: var(--gb-surface);
+  border: 1px solid var(--main-border-color);
+  border-radius: 999px;
+  padding: 0.05em 0.65em;
+  font-weight: 500;
+}
+
+/* ---------- 태그 칩: 완전 rounded(pill), 호버 시 골드 틴트 ---------- */
+.post-tag {
+  border-radius: 999px;
+  background: var(--search-tag-bg);
+  border: 1px solid var(--tag-border);
+  padding: 0 0.75rem;
+  line-height: 1.6rem;
+}
+
+.post-tag:hover {
+  background: var(--tag-hover);
+  border-color: var(--gb-accent);
+  color: var(--gb-accent-hover);
+}
+
+/* ---------- 카테고리 색 (링크가 있는 곳: 포스트 상세·카테고리 페이지) ---------- */
+/* 알고리즘 */
+a[href='/categories/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/'] {
+  color: #b17df0 !important;
+}
+
+/* CS 면접 준비 */
+a[href='/categories/cs-%EB%A9%B4%EC%A0%91-%EC%A4%80%EB%B9%84/'] {
+  color: #4cc38a !important;
+}
+
+/* 언리얼 / Unreal / UE5 */
+a[href='/categories/%EC%96%B8%EB%A6%AC%EC%96%BC/'],
+a[href='/categories/unreal/'],
+a[href='/categories/ue5/'] {
+  color: #4f8ef7 !important;
+}
