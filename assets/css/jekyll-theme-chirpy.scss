@@ -206,6 +206,14 @@ html[data-mode='dark'] {
   font-weight: 500;
 }
 
+/* ---------- 홈 카드 썸네일: 텍스트 배너(thumbs)는 크롭 금지 ---------- */
+/* 배너형 SVG는 cover 크롭 시 글자가 잘림 → contain으로 전체 표시.
+   실사 캡처 썸네일은 기존 cover 유지 (경로 스코프로 구분) */
+#post-list .card img[src*='/thumbs/'] {
+  object-fit: contain;
+  background: #141417;
+}
+
 /* ---------- 태그 칩: 완전 rounded(pill), 호버 시 골드 틴트 ---------- */
 .post-tag {
   border-radius: 999px;
