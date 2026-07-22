@@ -171,6 +171,13 @@ html[data-mode='dark'] {
 
 #post-list .card .card-body {
   padding: 0.9rem 1.15rem; /* 카드 내부 패딩 축소 */
+  display: flex;
+  flex-direction: column; /* 메타를 하단 고정하기 위한 컬럼 플렉스 */
+}
+
+#post-list .card .post-meta {
+  margin-top: auto; /* 날짜·카테고리 메타를 카드 하단에 고정 */
+  padding-top: 0.5rem;
 }
 
 #post-list .card:hover {
