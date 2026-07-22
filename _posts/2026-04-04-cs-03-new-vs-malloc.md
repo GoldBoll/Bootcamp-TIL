@@ -5,13 +5,8 @@ categories: ["CS 면접 준비", "C++"]
 tags: ["new", "malloc", "memory"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
-description: "답변 흐름 — Notion 원본: https://www.notion.so/344f77b24d2f806baae6efa26094f26f"
+description: "new와 malloc의 차이를 30초 답변 + 꼬리질문 브랜치로 정리"
 ---
-
-# 📕 new와 malloc의 차이점
-
-> Notion 원본: https://www.notion.so/344f77b24d2f806baae6efa26094f26f
-> 부모: 자료 → Cs 면접준비 → cs 주제
 
 ## 30초 답변
 
@@ -215,4 +210,10 @@ delete m;      // Boss → Monster 소멸자 연쇄
 정리:
 - virtual = "이 함수는 자식이 갈아끼울 수 있다"라고 부모가 허락
 - override = "내가 부모 함수를 갈아끼운다"라고 자식이 약속
+
+> **오늘 배운 것** — `new`는 메모리 할당과 생성자 호출을 함께 수행하는 C++ 연산자이고 `malloc`은 raw 메모리만 주는 C 함수라서, C++ 객체에 혼용하면 생성자·소멸자가 빠지면서 UB(미정의 동작)로 이어진다. `new` 표현식이 내부적으로 `operator new` 호출 + 생성자 호출의 2단계라는 것도 함께 정리했다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "malloc으로 C++ 객체를 만들면 무슨 일이 생기나요?" → 생성자 미호출, UB(미정의 동작), 리소스 누수, new/delete 쌍 맞추기, 스마트 포인터
+{: .prompt-info }
 

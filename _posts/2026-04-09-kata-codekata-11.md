@@ -50,3 +50,11 @@ int solution(int absolutes[], size_t absolutes_len, bool signs[], size_t signs_l
 }
 ```
 
+부호 배열을 따로 변환하지 않고, 순회하면서 `signs[i]`가 true면 더하고 false면 빼는 식으로 한 번에 합산했다. 이번 문제는 C 스타일 시그니처(`int[]` + `size_t` 길이 인자)라서, `vector`가 아니라 배열과 길이를 따로 받는 형태에 맞춰 작성했다.
+
+> **오늘 배운 것** — 부호를 붙여 더하는 문제는 조건에 따라 `+=`/`-=`만 갈라주면 별도 변환 배열 없이 한 번의 순회로 끝난다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "C 스타일 배열 인자와 vector의 차이는 무엇인가요?" → 배열은 포인터로 전달, 길이 정보 별도 인자(size_t), vector는 크기 내장, 범위 기반 순회, 경계 안전성
+{: .prompt-info }
+

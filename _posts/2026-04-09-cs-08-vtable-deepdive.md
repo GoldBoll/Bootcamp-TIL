@@ -8,10 +8,7 @@ image: /assets/img/thumbs/cs.svg
 description: "답변 흐름 — 오늘 모의면접에서 막힌 질문들을 정리한 심화 파일"
 ---
 
-# 📕 04/23 — vtable 심화 (모의면접 미답변 복기)
-
-> 오늘 모의면접에서 막힌 질문들을 정리한 심화 파일
-> 기본 개념은 → [05_vtable.md](./05_vtable.md)
+오늘 모의면접에서 vtable 꼬리질문에 제대로 답하지 못한 게 몇 개 있었다. 막혔던 질문들을 하나씩 다시 파서, 다음에 같은 질문이 오면 30초 안에 답할 수 있게 정리해 둔다. 기본 개념은 [vtable 기본](/posts/cs-05-vtable/) 글에 있고, 여기는 그 다음 단계다.
 
 ---
 
@@ -413,8 +410,14 @@ vtable + RTTI:
 
 ## 참고
 
-- [05_vtable.md](./05_vtable.md) — vtable 기본 개념
-- [06_virtual_destructor.md](./06_virtual_destructor.md) — virtual 소멸자
+- [vtable 기본 개념](/posts/cs-05-vtable/)
+- [virtual 소멸자](/posts/cs-06-virtual-destructor/)
 - [MSVC _purecall 문서](https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/reference/purecall?view=msvc-170)
-- 내일 주제: [09_rtti_raii.md](./09_rtti_raii.md)
+- 내일 주제: [RTTI & RAII](/posts/cs-09-rtti-raii/)
+
+> **오늘 배운 것** — vtable은 클래스당 1개(.rodata), vptr은 객체당 1개(생성자에서 초기화)라는 구분이 모든 꼬리질문의 출발점이었다. override 안 한 슬롯엔 부모 함수 포인터가 그대로 복사되고, 순수 가상 함수 슬롯엔 `_purecall`이 들어가며, 생성자 안에서는 vptr이 아직 부모 vtable을 가리켜서 자식 override가 호출되지 않는다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "vtable을 사용하면 어떤 단점이 있나요?" → 간접 호출(역참조 2번), 인라이닝 불가, 캐시 미스, vptr 메모리 오버헤드, final/CRTP로 devirtualize
+{: .prompt-info }
 

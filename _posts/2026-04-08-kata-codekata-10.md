@@ -79,3 +79,8 @@ vector<int> solution(vector<int> arr, int divisor) {
 }
 ```
 
+> **오늘 배운 것** — `copy_if` + `back_inserter` + 람다 캡처로 for 루프 필터링을 한 줄로 대체할 수 있다. 결과가 비어 `-1`을 넣은 경우에는 정렬을 건너뛰도록 분기해야 한다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "배열에서 조건에 맞는 원소만 골라 정렬하면 시간복잡도는 어떻게 되나요?" → 필터링 O(n), 정렬 O(k log k), 전체 O(n + k log k), copy_if, back_inserter
+{: .prompt-info }
