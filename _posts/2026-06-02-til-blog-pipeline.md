@@ -20,7 +20,7 @@ image: /assets/img/thumbs/til.svg
 
 - 모의면접 "방화벽이 무엇이며 어떻게 동작하는지" 발표. 30(TCP/UDP) → 31(Socket) → 32(Firewall)로 네트워크 트랙 마무리.
 - 비어 있던 부분 보강:
-  - **트래픽** = 네트워크를 오가는 패킷의 흐름. 방화벽은 그 패킷의 5-tuple(봉투)을 검사.
+  - **트래픽** = 네트워크를 오가는 패킷의 흐름. 방화벽은 그 패킷의 5-tuple(출발지·목적지 IP와 포트 + 프로토콜, 다섯 값 — 말하자면 봉투 겉면)을 검사.
   - **OSI 계층** L3(IP 주소)·L4(포트)·L7(내용물)을 택배 비유로 정리 — 계층이 높을수록 깊이 보지만 느림.
   - **가정용 공유기 = 작은 방화벽 + NAT** — 평소 인바운드 자동 차단. 밖에서 내부 기기로 접속하려면 **포트포워딩**(지정 포트만 전달)이나 **공유기 DMZ**(한 기기 모든 포트 노출, 위험).
   - 기업용 DMZ(격리 구역) vs 공유기 DMZ(전체 노출)는 이름만 같고 동작이 정반대.
@@ -28,7 +28,7 @@ image: /assets/img/thumbs/til.svg
 ## 2. CS 33 UObject — 네트워크에서 언리얼로 트랙 전환
 
 - 30~32(순수 CS·네트워크)에서 **언리얼 엔진 C++ 도메인**으로 넘어가는 첫 주제로 UObject.
-- 핵심: 리플렉션(`UCLASS`/`UPROPERTY`/`UFUNCTION`·UHT)·CDO·GC(`UPROPERTY` 참조 그래프·루트 셋)·UObject vs AActor vs UActorComponent 계층·`NewObject` vs `new`.
+- 핵심: 리플렉션(`UCLASS`/`UPROPERTY`/`UFUNCTION`·UHT)·CDO(Class Default Object, 클래스 기본값의 원본 객체)·GC(`UPROPERTY` 참조 그래프·루트 셋)·UObject vs AActor vs UActorComponent 계층·`NewObject` vs `new`.
 - **회귀 다리** — 그동안 쌓은 C++ 객체 모델(OOP·vtable·가상 소멸자·스마트포인터·new vs malloc)이 "언리얼이 왜 표준 C++ 위에 자기 객체 시스템을 한 겹 더 올렸나"를 이해하는 배경.
 
 ## 3. Ch4 "TRACE" 컨셉 개정
@@ -56,3 +56,9 @@ image: /assets/img/thumbs/til.svg
 4. **GitHub Pages는 "레포 비공개 ≠ 사이트 비공개"** — private 레포 Pages는 유료 플랜에서만, 그래도 사이트는 공개. 진짜 접근 제한은 Enterprise.
 5. **승리 조건 = 행동 설계** (Ch4) — 범인 소극성을 보상 경제(복잡) 대신 이진 승패의 승리 조건 구조(단순)로 해결.
 6. **리스크는 종류를 구분** (Ch4) — 학습으로 흡수 가능한 리스크는 1순위에서 내리고, 못 메우는 리스크를 1순위로.
+
+> **오늘 배운 것** — 상세 종합본(비공개)과 다듬은 발행본(공개)을 쌍으로 두는 TIL 발행 파이프라인을 세웠고, 태그는 통제 어휘 + CI 린트로 빌드 단계에서 걸러 사람 규율에 기대지 않게 했다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "학습 기록을 어떻게 관리하나요?" → 종합본·발행본 분리, 제목 주제화, 통제 태그 어휘, CI 린트 자동화, 검색·회고 가치
+{: .prompt-info }

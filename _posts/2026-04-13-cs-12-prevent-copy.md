@@ -5,19 +5,21 @@ categories: ["CS 면접 준비", "C++"]
 tags: ["copy"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
-description: "답변 흐름 — 단독 소유 자원 → `= delete` / `private` / `noncopyable` → Rule of Three/Five/Zero → move-only(`unique_ptr`) → 슬라이싱 → virtual 소멸자 �"
+description: "답변 흐름 — 단독 소유 자원 → `= delete` / `private` / `noncopyable` → Rule of Three/Five/Zero → move-only(`unique_ptr`) → 슬라이싱 → virtual 소멸자 꼬리질문 연결"
 ---
 
-# 📕 04/27 — 객체 복사 금지 모의면접 준비
+# 04/27 — 객체 복사 금지 모의면접 준비
 
 > 내일 모의면접 주제: "객체 복사를 막는 방법은 어떤 방법이 있을까요? 왜 객체 복사를 막아야 할까요?"
 > 단독 소유 자원 → `= delete` / `private` / `noncopyable` → Rule of Three/Five/Zero → move-only(`unique_ptr`) → 슬라이싱 → virtual 소멸자 꼬리질문 연결 다리
+
+주제를 받고 나서, 답변을 한 번에 말할 수 있게 먼저 흐름을 잡고 꼬리질문이 어디로 뻗어갈지까지 미리 그려봤다. 어제 정리한 스마트 포인터(`unique_ptr`)가 그대로 이 주제의 핵심 사례로 다시 나온다.
 
 ---
 
 ## 모의면접 답변
 
-객체 복사를 막아야 하는 이유는 크게 네 가지입니다. 첫째, **단독 소유해야 하는 자원** — 파일 핸들, 뮤텍스, 소켓, `unique_ptr`처럼 두 객체가 같은 자원을 들고 있으면 **이중 해제(double free)나 잠금 충돌**이 발생합니다. 둘째, **고비용 복사** — 큰 컨테이너의 깊은 복사는 성능을 크게 떨어뜨립니다. 셋째, **싱글턴/매니저 객체**처럼 의도적으로 인스턴스가 1개여야 할 때입니다. 넷째, **다형 객체의 슬라이싱(slicing)** — `Base b = derived;` 처럼 복사하면 Derived 부분이 잘려나갑니다. 자식 객체를 부모 타입 변수에 값으로 복사하면, 자식에서 추가·오버라이드한 부분이 날아간다
+객체 복사를 막아야 하는 이유는 크게 네 가지입니다. 첫째, **단독 소유해야 하는 자원** — 파일 핸들, 뮤텍스, 소켓, `unique_ptr`처럼 두 객체가 같은 자원을 들고 있으면 **이중 해제(double free)나 잠금 충돌**이 발생합니다. 둘째, **고비용 복사** — 큰 컨테이너의 깊은 복사는 성능을 크게 떨어뜨립니다. 셋째, **싱글턴/매니저 객체**처럼 의도적으로 인스턴스가 1개여야 할 때입니다. 넷째, **다형 객체의 슬라이싱(slicing)** — `Base b = derived;` 처럼 자식 객체를 부모 타입 변수에 값으로 복사하면, 자식에서 추가·오버라이드한 부분이 잘려나갑니다.
 
 복사를 막는 방법은 C++11 기준 **`= delete`** 가 표준 권장 패턴입니다. 복사 생성자와 복사 대입 연산자에 `= delete`를 명시해 컴파일 타임에 명확한 에러 메시지로 차단합니다. C++98 이전에는 **`private` 선언 + 정의 안 함** 패턴(Boost::noncopyable 스타일)을 썼는데, friend 안에서는 호출 가능하고 링크 타임 에러가 나서 메시지가 모호하다는 단점이 있습니다. 또 하나의 패턴은 **move-only 타입**으로 만드는 것 — 복사는 `= delete`로 막고 move 생성자/대입은 살려두면 `unique_ptr`처럼 **단독 소유 + 소유권 이전**을 표현할 수 있습니다.
 
@@ -785,13 +787,13 @@ asio::async_read(sock, buf, [s = std::move(sock)](auto ec, auto n) mutable {
 
 | 자원 | 표준 타입 | 복사 | 이동 | 위험 (복사 시) |
 |---|---|---|---|---|
-| 파일 | `std::ifstream`/`ofstream` | delete | ✅ | 이중 close, fd 재사용 공격 |
+| 파일 | `std::ifstream`/`ofstream` | delete | 허용 | 이중 close, fd 재사용 공격 |
 | 뮤텍스 | `std::mutex` | delete | delete | 잠금 상태 의미 모호 |
 | 스코프 잠금 | `std::lock_guard` | delete | delete | 이중 unlock UB |
-| 잠금 소유권 | `std::unique_lock` | delete | ✅ | (이동 가능 — cv.wait용) |
+| 잠금 소유권 | `std::unique_lock` | delete | 허용 | (이동 가능 — cv.wait용) |
 | 복수 잠금 | `std::scoped_lock` | delete | delete | 데드락 방지 알고리즘 |
-| 소켓 (Asio) | `asio::ip::tcp::socket` | delete | ✅ | 연결 상태 공유, RST, 부분 송신 |
-| 동적 메모리 | `std::unique_ptr` | delete | ✅ | 이중 delete, 힙 손상 |
+| 소켓 (Asio) | `asio::ip::tcp::socket` | delete | 허용 | 연결 상태 공유, RST, 부분 송신 |
+| 동적 메모리 | `std::unique_ptr` | delete | 허용 | 이중 delete, 힙 손상 |
 
 **공통 패턴:** 모두 **자원 핸들 + 소멸자 release + 복사 delete + (필요 시) move 허용** = RAII + move-only.
 사용자 코드는 이 표준 타입들을 멤버로 두기만 하면 **암묵적 삭제**로 자동 move-only가 됩니다 → Rule of Zero.
@@ -925,15 +927,8 @@ s->Area();   // 다형성 유지, 슬라이싱 없음, virtual 소멸자로 안�
 ### 각 꼬리질문 30초 답변
 
 **Q: 복사를 왜 막아야 하나요?**
-```
-네 가지 이유:
-1) 단독 소유 자원 — 파일/뮤텍스/소켓/unique_ptr.
-   복사하면 같은 자원에 두 책임자가 생겨 이중 해제·잠금 충돌.
-2) 고비용 복사 — 큰 컨테이너 깊은 복사 비용 차단.
-3) 싱글턴/매니저 — 인스턴스가 1개여야 하는 객체.
-4) 슬라이싱 — Base b = derived 시 Derived 부분 손실.
-즉 "복사가 의미상 깨지는 타입"은 막아야 합니다.
-```
+
+네 가지 이유(단독 소유 자원 / 고비용 복사 / 싱글턴·매니저 / 슬라이싱)는 [1장 "왜 막는가 30초" 카드](#1-핵심-요약-카드)와 같다. 한 문장으로 답하면 — 복사하면 같은 자원에 책임자가 둘 생겨 이중 해제·잠금 충돌이 나므로, **"복사가 의미상 깨지는 타입"은 막아야 합니다.**
 
 **Q: `= delete`와 `private` 트릭의 차이?**
 ```
@@ -949,13 +944,8 @@ private + 정의 X (C++98):
 ```
 
 **Q: Rule of Three / Five / Zero가 뭔가요?**
-```
-Rule of Three  — 소멸자/복사 생성자/복사 대입 중 하나 정의 → 셋 다 정의
-                  자원 직접 관리(new/delete) 시 일관성 유지용
-Rule of Five   — + move 생성자 + move 대입 (C++11)
-Rule of Zero   — RAII 타입(string/vector/unique_ptr)에 위임,
-                  특별 멤버 함수 정의 안 함. 가장 권장.
-```
+
+[1장 "Rule of N 30초" 카드](#1-핵심-요약-카드)와 같은 내용. 요약하면 — Three는 자원을 직접 관리(new/delete)할 때 소멸자·복사 생성자·복사 대입을 한 세트로 정의해 일관성을 지키는 규칙이고, Five는 여기에 move 생성자/대입이 추가된 것(C++11), Zero는 RAII 타입(string/vector/unique_ptr)에 위임하고 특별 멤버 함수를 아예 정의하지 않는 가장 권장되는 형태입니다.
 
 **Q: 왜 복사는 막고 move는 살리나요?**
 ```
@@ -1135,11 +1125,11 @@ AMyActor* Actor = NewObject<AMyActor>(this);
 
 | 타입 | 복사 | 이동 | 비고 |
 |---|---|---|---|
-| `TUniquePtr<T>` | ❌ delete | ✅ | move-only — `unique_ptr` 대응 |
-| `TSharedPtr<T>` | ✅ (카운트++) | ✅ | 공유 소유 — `shared_ptr` 대응 |
-| `TSharedRef<T>` | ✅ (null 불가) | ✅ | 항상 유효한 공유 소유 |
-| `TWeakPtr<T>` | ✅ (관찰만) | ✅ | 약한 참조 |
-| `TWeakObjectPtr<T>` | ✅ (UObject 약한 참조) | ✅ | GC 환경 약한 참조 |
+| `TUniquePtr<T>` | delete | 허용 | move-only — `unique_ptr` 대응 |
+| `TSharedPtr<T>` | 허용 (카운트++) | 허용 | 공유 소유 — `shared_ptr` 대응 |
+| `TSharedRef<T>` | 허용 (null 불가) | 허용 | 항상 유효한 공유 소유 |
+| `TWeakPtr<T>` | 허용 (관찰만) | 허용 | 약한 참조 |
+| `TWeakObjectPtr<T>` | 허용 (UObject 약한 참조) | 허용 | GC 환경 약한 참조 |
 
 ```cpp
 TUniquePtr<FMyData> a = MakeUnique<FMyData>();
@@ -1197,4 +1187,11 @@ struct FBigData
 - [09_rtti_raii.md](./09_rtti_raii.md) — RAII 자원 관리, Rule of Zero의 이상적 활용
 - [06_virtual_destructor.md](./06_virtual_destructor.md) — 다형 기반 클래스 + 슬라이싱 차단 + virtual 소멸자 통합 패턴
 - [08_vtable_deepdive.md](./08_vtable_deepdive.md) — 슬라이싱 시 vptr이 Base로 고정되는 이유
+
+> **오늘 배운 것** — 복사 가능 여부는 편의가 아니라 타입 의미론의 일부다. 파일 핸들·뮤텍스·소켓·`unique_ptr`처럼 책임자가 하나여야 하는 자원은 복사를 `= delete`하고 move만 살리는 게 표준 라이브러리 공통 패턴이고, 멤버에 `unique_ptr`을 두면 암묵적 삭제로 클래스가 자동 move-only가 된다(Rule of Zero).
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "객체 복사를 막는 방법에는 어떤 것이 있고, 왜 막아야 하나요?" → = delete, 단독 소유 자원, 이중 해제, Rule of Three/Five/Zero, 슬라이싱
+{: .prompt-info }
+
 

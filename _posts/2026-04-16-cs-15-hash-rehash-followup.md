@@ -5,10 +5,8 @@ categories: ["CS 면접 준비", "자료구조"]
 tags: ["vector", "hash"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
-description: "답변 흐름 — `15_1_vector_vs_hash_concepts.md` 의 후속편. 해시 테이블이 내부적으로 어떻게 크기를 관리하고, 언제 비싼 rehash가 일어나는지 �"
+description: "답변 흐름 — `15_1_vector_vs_hash_concepts.md` 의 후속편. 해시 테이블이 내부적으로 어떻게 크기를 관리하고, 언제 비싼 rehash가 일어나는지 정리"
 ---
-
-# 📕 15-2 — 해시 자료구조의 capacity·load factor·rehash
 
 > `15_1_vector_vs_hash_concepts.md` 의 후속편. 해시 테이블이 내부적으로 어떻게 크기를 관리하고, 언제 비싼 rehash가 일어나는지 정리.
 
@@ -236,4 +234,10 @@ int32 BucketCount = Map.GetMaxIndex();   // 내부 슬롯 수
 | **14_std_map** | RB-Tree 기반 `map`과의 비교 — 항상 O(log N) vs 평균 O(1)/최악 O(N). 순서 보장 vs 빠른 평균 lookup |
 | **16_stl_containers** | STL 통합 정리 — `unordered_*` 컨테이너 4종(map/multimap/set/multiset) 공통 특성 |
 | **23_race_condition** | rehash 중 다른 스레드가 lookup하면 UB. STL 컨테이너는 thread-safe가 아니라서 동시 접근 보호 필요 (FCriticalSection 등) |
+
+> **오늘 배운 것** — 해시 테이블은 `load_factor(= size / bucket_count)` 가 `max_load_factor` 를 넘는 순간 rehash 로 모든 원소를 O(N)에 재배치한다. 게임 루프에서는 이 한 번의 비용이 프레임 드롭으로 나타나므로, 시작 시 `reserve(N)` 으로 rehash 자체를 회피하는 게 표준 패턴이다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "unordered_map 의 rehash 는 언제 일어나고 비용은 어떻게 되나요?" → load factor 임계 초과, bucket 2배 증가, O(N) 재해싱, amortized O(1), reserve 회피, iterator 무효화
+{: .prompt-info }
 

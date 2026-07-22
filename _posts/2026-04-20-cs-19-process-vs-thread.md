@@ -5,10 +5,10 @@ categories: ["CS 면접 준비", "OS"]
 tags: ["process", "thread"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
-description: "답변 흐름 — 메모리 구조 → 컨텍스트 스위칭 비용 → IPC vs 공유 메모리 → 동기화 → 멀티프로세스/멀티스레드 선택 → 게임 스레드/"
+description: "답변 흐름 — 메모리 구조 → 컨텍스트 스위칭 비용 → IPC vs 공유 메모리 → 동기화 → 멀티프로세스/멀티스레드 선택 → 게임 스레드/렌더 스레드"
 ---
 
-# 📕 05/07 — 프로세스와 스레드의 차이점
+# 05/07 — 프로세스와 스레드의 차이점
 
 > 모의면접 주제: "프로세스와 스레드의 차이점에 대해서 이야기 해주세요"
 > 메모리 구조 → 컨텍스트 스위칭 비용 → IPC vs 공유 메모리 → 동기화 → 멀티프로세스/멀티스레드 선택 → 게임 스레드/렌더 스레드까지
@@ -27,7 +27,7 @@ description: "답변 흐름 — 메모리 구조 → 컨텍스트 스위칭 비�
         가상 메모리·페이징·스택 vs 힙 (재방문) — 메모리 관리
 ```
 
-이 주제는 11번 스마트 포인터의 **shared_ptr 멀티스레드 안전성**(제어 블록 atomic 카운터), 16번 STL 컨테이너의 **스레드 안전성 컨벤션**(개별 컨테이너는 thread-safe하지 않음)과도 직접 연결됩니다. 그리고 한 단계 더 들어가면 mutex·lock_guard·scoped_lock(GRAPH_REPORT의 Community 18·23) 같은 RAII 락 패턴으로 자연스럽게 이어집니다 — 이것도 9번 RAII의 동시성 버전입니다.
+이 주제는 11번 스마트 포인터의 **shared_ptr 멀티스레드 안전성**(제어 블록 atomic 카운터), 16번 STL 컨테이너의 **스레드 안전성 컨벤션**(개별 컨테이너는 thread-safe하지 않음)과도 직접 연결됩니다. 그리고 한 단계 더 들어가면 mutex·lock_guard·scoped_lock 같은 RAII 락 패턴으로 자연스럽게 이어집니다 — 이것도 9번 RAII의 동시성 버전입니다.
 
 ---
 
@@ -41,7 +41,7 @@ description: "답변 흐름 — 메모리 구조 → 컨텍스트 스위칭 비�
 
 **컨텍스트 스위칭 비용에서 차이가 큽니다.** 프로세스 전환은 가상 주소 공간을 바꿔야 해서 **TLB(Translation Lookaside Buffer)를 비우고**(flush), 페이지 테이블 베이스 레지스터(CR3)를 교체합니다. 그 직후엔 **L1·L2 캐시도 새 프로세스 데이터가 없어 미스가 잇따라 발생하는 "cache cold"(캐시 콜드) 상태**가 됩니다. 스레드 전환은 같은 주소 공간 안에서 일어나므로 TLB·페이지 테이블을 그대로 두고 레지스터만 교체합니다. 그래서 일반적으로 **스레드 전환이 프로세스 전환보다 5~10배 빠릅니다**.
 
-하지만 공유의 대가가 있습니다. **여러 스레드가 같은 데이터를 동시에 건드리면 race condition이 발생**합니다. `count++` 한 줄도 사실은 load·add·store 세 단계라 두 스레드가 인터리빙되면 결과가 깨집니다. 그래서 mutex, atomic, condition variable 같은 동기화 도구가 필요하고, 잘못 쓰면 deadlock·livelock·priority inversion 같은 문제가 따라옵니다. 프로세스는 메모리가 격리돼 있어서 이런 문제가 원천적으로 적습니다.
+하지만 공유의 대가가 있습니다. **여러 스레드가 같은 데이터를 동시에 건드리면 race condition이 발생**합니다. `count++` 한 줄도 사실은 load·add·store 세 단계라 두 스레드가 인터리빙(두 실행 흐름의 명령이 서로 끼어들며 섞여 실행되는 것)되면 결과가 깨집니다. 그래서 mutex, atomic, condition variable 같은 동기화 도구가 필요하고, 잘못 쓰면 deadlock·livelock·priority inversion 같은 문제가 따라옵니다. 프로세스는 메모리가 격리돼 있어서 이런 문제가 원천적으로 적습니다.
 
 **그래서 둘은 트레이드오프 관계**입니다. **격리·안정성이 중요하면 멀티프로세스**(Chrome 탭 분리·Postgres 워커), **빠른 통신·낮은 오버헤드가 중요하면 멀티스레드**(게임 엔진·웹 서버 워커). 게임 엔진은 매 프레임 60fps를 맞춰야 하니 통신 오버헤드가 큰 IPC는 부담이고, 그래서 게임 스레드와 렌더 스레드를 같은 프로세스 안에서 **공유 메모리 + 동기화**로 운용합니다. 언리얼 엔진도 `FRunnable`, `AsyncTask`, `ParallelFor` 같은 추상화를 통해 이 모델을 따릅니다.
 
@@ -78,7 +78,7 @@ description: "답변 흐름 — 메모리 구조 → 컨텍스트 스위칭 비�
 | | **N:1 모델** | 유저 N → 커널 1. 가벼우나 한 시스템 콜에 전부 차단 |
 | | **M:N 모델** | 유저 M → 커널 N. Go 고루틴 등 |
 | C++ API | **`std::thread`** | C++11 표준 스레드. 1:1 모델 (OS 스레드 래핑) |
-| | **`std::mutex`** | 상호 배제 락. **복사·이동 불가** (Community 23) |
+| | **`std::mutex`** | 상호 배제 락. **복사·이동 불가** |
 | | **`std::lock_guard`** | RAII 락. 생성 시 lock, 소멸 시 unlock |
 | | **`std::scoped_lock`** (C++17) | 여러 mutex 동시 락. 데드락 회피 |
 | | **`std::async`/`std::future`** | 비동기 작업 실행 + 결과 기다림 |
@@ -87,7 +87,7 @@ description: "답변 흐름 — 메모리 구조 → 컨텍스트 스위칭 비�
 | | **렌더 스레드 (Render Thread)** | 게임 스레드의 명령을 받아 GPU 명령어 생성 |
 | | **`FRunnable` / `FRunnableThread`** | 언리얼 워커 스레드 추상화 |
 | | **`AsyncTask` / `ParallelFor`** | 짧은 작업 풀 디스패치 / 병렬 루프 |
-| | **`FCriticalSection` / `FScopeLock`** | mutex / RAII 락 (Community 7) |
+| | **`FCriticalSection` / `FScopeLock`** | mutex / RAII 락 |
 | 사례 | **Chrome 멀티프로세스** | 탭마다 프로세스 — 격리·보안 |
 | | **게임 엔진 멀티스레드** | 같은 프로세스의 게임/렌더 스레드 — 60fps 위해 IPC 회피 |
 
@@ -381,9 +381,9 @@ TLB flush: 위 캐시를 통째로 무효화 → 한동안 매번 page walk
 
 | 항목 | 프로세스 전환 | 스레드 전환 (같은 프로세스) |
 |---|---|---|
-| 레지스터 저장/복원 | ✅ | ✅ |
-| 페이지 테이블 교체 | ✅ (CR3) | ❌ |
-| TLB flush | ✅ 또는 부분 무효화 | ❌ |
+| 레지스터 저장/복원 | O | O |
+| 페이지 테이블 교체 | O (CR3) | X |
+| TLB flush | O (또는 부분 무효화) | X |
 | L1·L2 캐시 영향 | 큼 (cold) | 작음 (warm 유지) |
 | 비용 (실측 대략) | ~5~50 μs | ~1~10 μs |
 | 통신 비용도 | IPC (추가) | 공유 메모리 (추가 비용 0) |
@@ -520,7 +520,7 @@ void IncSafe() {
 }                                         // 소멸 시 자동 unlock
 ```
 
-→ Community 18 (Mutex 락 — lock_guard·scoped·unique)과 Community 23 (std::mutex 복사·이동 금지)이 정확히 이 영역.
+→ RAII 락 계열(lock_guard·scoped_lock·unique_lock)과 `std::mutex`의 복사·이동 금지 특성이 정확히 이 영역.
 
 ### Deadlock — 4가지 조건 (Coffman conditions)
 
@@ -1037,7 +1037,7 @@ ParallelFor(NumActors, [&](int32 Index)
 
 → for 루프를 자동 병렬화. 게임 스레드에서 호출해도 워커 스레드가 분담.
 
-### 10.6 FCriticalSection / FScopeLock — RAII 락 (Community 7 회귀)
+### 10.6 FCriticalSection / FScopeLock — RAII 락
 
 ```cpp
 #include "HAL/CriticalSection.h"
@@ -1056,7 +1056,7 @@ private:
 };
 ```
 
-→ `std::lock_guard`의 언리얼 대응. 9번 RAII와 18번 Community 18(Mutex 락)의 패턴 그대로.
+→ `std::lock_guard`의 언리얼 대응. 9번 RAII의 패턴 그대로.
 
 ### 10.7 게임 스레드 체크 매크로
 
@@ -1282,4 +1282,11 @@ C++ API:
 | **11_smart_pointer** | `shared_ptr` 제어 블록의 reference count가 atomic으로 구현됨. 카운터는 thread-safe, 가리키는 객체는 별도 보호 필요 |
 | **16_stl_containers** | STL 컨테이너의 스레드 안전성 컨벤션 — 개별 컨테이너는 thread-safe하지 않음. 외부 mutex 또는 동시성 자료구조 사용 |
 | **18_list_sort** | 알고리즘 도메인의 마지막 — 19번에서 OS 도메인으로 전환되는 분기점 |
-```
+
+---
+
+> **오늘 배운 것** — 프로세스와 스레드의 차이는 "자원 소유 단위 vs 실행 흐름 단위" 한 축으로 정리된다. 스레드 전환이 5~10배 빠른 이유는 TLB flush·페이지 테이블 교체·캐시 콜드를 건너뛰기 때문이고, 그 공유의 대가가 race condition과 동기화 비용이라는 것까지가 한 세트다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "프로세스와 스레드의 차이를 설명하고, 게임 엔진이 멀티스레드를 선택하는 이유를 말해 보세요." → 자원 소유 vs 실행 흐름, TLB flush, 컨텍스트 스위칭 비용, IPC vs 공유 메모리, 60fps(16.6ms)
+{: .prompt-info }

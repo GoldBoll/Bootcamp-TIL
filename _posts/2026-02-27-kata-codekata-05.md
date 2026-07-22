@@ -8,6 +8,8 @@ description: "정수 num1과 num2가 매개변수로 주어집니다. 두 수가
 image: /assets/img/thumbs/programmers.svg
 ---
 
+두 정수가 같으면 1, 다르면 -1을 반환하는 문제. 비교 연산자 `==`로 분기해서 처리했다.
+
 ```cpp
 //5.숫자 비교하기
 // 문제 설명
@@ -30,4 +32,3 @@ int solution(int num1, int num2) {
     return answer;
 }
 ```
-

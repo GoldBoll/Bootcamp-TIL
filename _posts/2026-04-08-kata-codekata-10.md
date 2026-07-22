@@ -79,3 +79,5 @@ vector<int> solution(vector<int> arr, int divisor) {
 }
 ```
 
+> **오늘 배운 것** — `copy_if` + `back_inserter` + 람다 캡처로 for 루프 필터링을 한 줄로 대체할 수 있다. 결과가 비어 `-1`을 넣은 경우에는 정렬을 건너뛰도록 분기해야 한다.
+{: .prompt-tip }

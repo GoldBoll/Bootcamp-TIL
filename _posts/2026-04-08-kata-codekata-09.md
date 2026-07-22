@@ -4,7 +4,7 @@ date: 2026-04-08 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false
-description: "vector<string> seoul에서 'Kim'의 인덱스(위치) x를 찾아,"
+description: "vector<string> seoul에서 'Kim'의 인덱스를 찾아 '김서방은 x에 있다'를 반환 — find + 이터레이터 거리 계산"
 image: /assets/img/thumbs/programmers.svg
 ---
 
@@ -59,3 +59,5 @@ string solution(vector<string> seoul) {
 }
 ```
 
+> **오늘 배운 것** — `find()`는 정수 인덱스가 아니라 이터레이터를 반환하므로, `begin()`을 빼서 두 위치 사이의 거리(칸 수)를 인덱스로 변환한다.
+{: .prompt-tip }

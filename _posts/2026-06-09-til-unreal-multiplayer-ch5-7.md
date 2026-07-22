@@ -167,7 +167,7 @@ float AActor::GetNetPriority(... float Time, bool bLowBandwidth)
 }
 ```
 
-가중치 정리: ViewTarget 본인/영향받음 → ×4, 시야 정면+가까움 → ×2, 시야 안+적당히 멀음 → ×0.4, 시야 밖+멈 → ×0.2. 계산엔 직전 패킷 이후 경과 시간도 곱해진다.
+가중치 정리: ViewTarget 본인/영향받음 → ×4, 시야 정면+가까움 → ×2, 시야 안+적당히 멀음 → ×0.4, 시야 밖+멀음 → ×0.2. 계산엔 직전 패킷 이후 경과 시간도 곱해진다.
 
 ### 포화(Saturation) 상태
 
@@ -504,3 +504,9 @@ UPROPERTY(ReplicatedUsing = OnRep_MaxHP)     float MaxHP;
 4. **RPC는 순간, Property Replication은 상태.** 지뢰 재폭발은 RPC만으로 못 푼다 — 늦게 접속/연관성 밖 클라는 Multicast를 놓치기 때문. "이미 일어난 일을 나중 합류자에게도 보여줘야 하면" 상태 복제가 답이다(6-4).
 5. **동기화의 분업: 판정은 서버, 표현은 전파.** 공격 데미지·히트 스윕은 `HasAuthority()` 안에서만, 몽타주·이펙트는 Multicast/Client RPC로. 그리고 OwningClient가 이미 처리한 표현은 **OtherClient에게만** 보내 중복을 없앤다(7-2).
 6. **컴포넌트(Subobject)도 스스로 복제한다.** `SetIsReplicatedByDefault(true)` + 컴포넌트 자체의 `GetLifetimeReplicatedProps`. Subobject는 오너의 NetRole을 따르고, `COND_OwnerOnly`처럼 속성마다 복제 범위를 달리해 부하를 줄인다(7-3).
+
+> **오늘 배운 것** — Property Replication을 조절하는 다이얼(NetUpdateFrequency·Relevancy·NetPriority·NetDormancy)을 배웠고, 지뢰 재폭발 디버깅으로 "RPC는 순간 이벤트, Replication은 지속 상태"라는 구분을 직접 겪으며 익혔다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "RPC와 Property Replication은 각각 언제 쓰나요?" → 순간 이벤트 vs 지속 상태, 늦게 접속한 클라이언트, Multicast 누락, ReplicatedUsing(OnRep), 서버 권위
+{: .prompt-info }

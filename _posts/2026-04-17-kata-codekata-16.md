@@ -10,6 +10,8 @@ description: "문제 요약 — 프로그래머스 입문 문제 — 기초 구�
 
 > 출처: <https://school.programmers.co.kr/learn/courses/30/lessons/70128>
 
+두 배열에서 같은 인덱스 원소끼리 곱해 전부 더하면 되는 문제라, 반복문 하나로 누적하면 끝난다.
+
 ```cpp
 //https://school.programmers.co.kr/learn/courses/30/lessons/70128
 

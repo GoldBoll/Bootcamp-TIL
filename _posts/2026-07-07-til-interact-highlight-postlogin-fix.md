@@ -172,3 +172,9 @@ if (CurrentPhase == EGamePhase::Playing
 3. **경계 클램프는 이웃 샘플을 자기 픽셀로 접는다.** 오프셋 샘플링 링·아웃라인은 뷰포트 UV 기반 1픽셀 경계 가드로 프레임 가장자리를 죽여야 점선이 안 생긴다.
 4. **Live Coding 패치가 쌓인 상태에서 레벨 전환은 위험하다.** 여러 번 컴파일했다면 콜드 빌드로 정리하는 게 최종 안정 상태 — `.voltbl` 로그는 알려진 노이즈라 직접 원인으로 오독하지 말 것.
 5. **하드 트래블은 `PostLogin`, 심리스 트래블은 `HandleSeamlessTravelPlayer`.** 로그인 훅 조건은 두 경로 차이를 고려해야 하고, 난입 차단 같은 게이트는 `Playing` 페이즈로 한정해야 한다(Logout의 기록 조건과 대칭).
+
+> **오늘 배운 것** — 새 포스트 프로세스 패스를 추가하는 대신 CustomStencil을 읽어 기존 아웃라인 머티리얼 하나에 하이라이트 링을 얹었고, 하이라이트가 안 뜨는 원인은 셰이더가 아니라 실제 가구 클래스(`TCCarriableFurniture`)의 빈 `OnFocus` 스텁이었다. 오후의 로비 킥 버그는 하드 트래블만 `PostLogin`을 탄다는 구조를 이해하고 나니 `Playing` 페이즈 게이트 한 줄로 끝났다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "언리얼 멀티플레이어에서 심리스 트래블과 하드 트래블은 뭐가 다른가요?" → bUseSeamlessTravel, PostLogin은 하드 로그인만 호출, HandleSeamlessTravelPlayer, 로그인 훅 조건 분기, 게임 페이즈 게이트
+{: .prompt-info }

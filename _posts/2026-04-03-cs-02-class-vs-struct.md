@@ -5,13 +5,8 @@ categories: ["CS 면접 준비", "C++"]
 tags: ["class", "struct"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
-description: "답변 흐름 — Notion 원본: https://www.notion.so/344f77b24d2f8029867ff8e37968ce24"
+description: "class와 struct의 두 가지 기능 차이와 꼬리물기 질문 대비 정리"
 ---
-
-# 📕 class와 struct 의 차이점
-
-> Notion 원본: https://www.notion.so/344f77b24d2f8029867ff8e37968ce24
-> 부모: 자료 → Cs 면접준비 → cs 주제
 
 ## 모의면접 답변
 
@@ -225,4 +220,10 @@ sizeof(Derived);     // 4
 ```
 
 C++20의 `[[no_unique_address]]` 속성으로 멤버에도 EBO와 같은 최적화 가능.
+
+> **오늘 배운 것** — C++에서 class와 struct의 기능 차이는 기본 접근 지정자와 기본 상속 방식 두 가지뿐이고, 나머지는 관용적 사용 구분이다. 언리얼로 넘어가면 USTRUCT는 GC 비대상 경량 데이터, UCLASS는 UObject GC 관리 대상이라는 실전 차이로 이어진다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "class와 struct의 차이를 설명해 보세요" → 기본 접근 지정자, 기본 상속 방식, 기능적으로 동일, POD·aggregate 초기화, USTRUCT vs UCLASS
+{: .prompt-info }
 

@@ -1,5 +1,5 @@
 ---
-title: "CS — 1 vector vs hash concepts"
+title: "CS — vector vs hash concepts"
 date: 2026-04-16 10:00:00 +0900
 categories: ["CS 면접 준비", "자료구조"]
 tags: ["vector", "hash"]
@@ -8,9 +8,7 @@ image: /assets/img/thumbs/cs.svg
 description: "답변 흐름 — `15_pushback_vs_emplaceback.md` 를 읽으며 나온 질문들을 모아 정리한 보충 파일."
 ---
 
-# 📕 15-1 — push_back · emplace_back · 해시 개념 질문 정리
-
-> `15_pushback_vs_emplaceback.md` 를 읽으며 나온 질문들을 모아 정리한 보충 파일.
+> `15_pushback_vs_emplaceback.md` 를 읽으며 나온 질문들을 모아 정리한 보충 파일. 본편을 읽다가 막힌 지점마다 스스로 질문을 던지고 답을 찾아 붙였다.
 
 ---
 
@@ -294,4 +292,10 @@ O(n) 비용             O(n) 비용
 iterator 전부 무효화    iterator 전부 무효화
 reserve(n) 로 회피     reserve(n) 로 회피
 ```
+
+> **오늘 배운 것** — push_back 은 완성된 객체 1개만 받고 emplace_back 은 가변 템플릿으로 생성자 인자를 그대로 받는다는 차이가 이 질문들 전부의 뿌리였다. 그리고 vector 와 해시는 충돌 개념 자체가 무관하지만, "용량 초과 시 새로 할당해 전체를 옮기는" 재확장 패턴은 똑같다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "emplace_back 으로 unique_ptr 을 넣을 때 주의할 점은?" → raw new 예외 시 누수, make_unique, explicit 생성자 우회, 예외 안전성
+{: .prompt-info }
 

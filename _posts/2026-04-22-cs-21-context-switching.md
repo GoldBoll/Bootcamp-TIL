@@ -5,10 +5,10 @@ categories: ["CS 면접 준비", "OS"]
 tags: ["context-switching"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
-description: "답변 흐름 — 정의·발생 시점 → PCB/TCB 저장·복원 → 모드 스위치 ≠ 컨텍스트 스위치 → 비용 요소(캐시 flush·TLB flush·파이프라인 정�"
+description: "답변 흐름 — 정의·발생 시점 → PCB/TCB 저장·복원 → 모드 스위치 ≠ 컨텍스트 스위치 → 비용 요소(캐시 flush·TLB flush·파이프라인 정지) → 프로세스 vs 스레드 비용 차까지"
 ---
 
-# 📕 05/12 — Context Switching에 대해서 설명해 주세요
+# 05/12 — Context Switching에 대해서 설명해 주세요
 
 > 모의면접 주제: "Context Switching에 대해서 설명해 주세요"
 > 정의·발생 시점 → PCB/TCB 저장·복원 → 모드 스위치 ≠ 컨텍스트 스위치 → 비용 요소(캐시 flush·TLB flush·파이프라인 정지) → 프로세스 vs 스레드 비용 차 → 스케줄링 알고리즘과의 연관 → Windows 깊이(Win32 스레드 API·동기화 객체·ConcRT/PPL·Fiber·UMS·C++ 표준 매핑·TLS·CRT 옵션) → 언리얼(`FRunnableThread`·TaskGraph·GameThread/RenderThread/RHIThread)까지
@@ -38,7 +38,7 @@ description: "답변 흐름 — 정의·발생 시점 → PCB/TCB 저장·복원
 
 컨텍스트 스위칭은 **CPU 코어 위에서 실행되던 한 실행 단위(스레드 또는 프로세스)를 잠시 내려놓고, 다른 실행 단위로 갈아끼우는 과정**입니다. 핵심은 **현재 실행 중이던 단위의 상태(레지스터·SP·PC 등)를 잃지 않도록 메모리에 저장하고, 새로 들어올 단위의 실행 상태가 멈췄던 시점 그대로 복원되도록 저장된 컨텍스트를 메모리에서 CPU 레지스터로 적재**하는 것입니다. 이 상태를 "컨텍스트(context)"라 부르고, 그래서 이 작업의 이름이 컨텍스트 스위칭(context switching)입니다. OS는 이 정보를 PCB(Process Control Block, 프로세스 제어 블록)와 TCB(Thread Control Block, 스레드 제어 블록)라는 커널 자료구조에 저장합니다.
 
-**컨텍스트 스위칭이 일어나는 경우는 크게 네 가지로 나뉩니다.** 한 단락에 죽 늘어놓기보다 글머리표로 분리하는 게 정확합니다.
+**컨텍스트 스위칭이 일어나는 경우는 크게 네 가지로 나뉩니다.**
 
 - **타이머 인터럽트(timer interrupt) 만료** — OS 스케줄러가 매 스레드에 할당해 둔 시간 조각(time slice, 보통 수 ms)이 끝나면 강제로 스위칭합니다. 선점형 스케줄링의 본체입니다.
 - **블로킹 I/O 또는 시스템 콜** — `read()`·`recv()`·`WaitForSingleObject()`처럼 대기를 동반하는 호출을 만나면 그 스레드는 즉시 Wait 상태로 전환되고, 스케줄러가 다른 Ready 스레드를 골라 실행합니다.
@@ -47,7 +47,7 @@ description: "답변 흐름 — 정의·발생 시점 → PCB/TCB 저장·복원
 
 여기서 자주 헷갈리는 게 **모드 스위치(mode switch)와 컨텍스트 스위치(context switch)의 차이**입니다. 모드 스위치는 같은 스레드 안에서 사용자 모드(user mode)와 커널 모드(kernel mode)를 오가는 것으로, 시스템 콜 호출이나 하드웨어 인터럽트 처리 시 발생합니다. 레지스터를 일부 저장·복원하긴 하지만 실행 주체(스레드)가 바뀌지 않으므로 **PCB·TCB 교체가 없고**, 비용도 훨씬 작습니다. 컨텍스트 스위치는 보통 모드 스위치 위에서 일어나지만, **모드 스위치가 있다고 항상 컨텍스트 스위치가 일어나는 건 아닙니다** — 시스템 콜이 즉시 끝나면 같은 스레드가 사용자 모드로 돌아올 뿐 다른 스레드로 갈아끼우지 않습니다.
 
-**비용은 여러 층에서 누적됩니다.** 이것도 글머리표로 정리합니다.
+**비용은 여러 층에서 누적됩니다.**
 
 - **레지스터 저장·복원** — 범용 레지스터(general purpose register), SP(Stack Pointer, 스택 포인터), PC(Program Counter, 프로그램 카운터), 플래그 레지스터, FPU·SIMD 레지스터(x86_64에서 XMM·YMM·ZMM)를 PCB/TCB로 옮기는 직접 비용. 보통 수백 nanosecond.
 - **캐시 콜드(cache cold)** — 새 스레드의 데이터·명령어가 L1·L2 캐시에 없어 진입 직후 줄줄이 캐시 미스(cache miss)가 발생합니다. 이게 직접 비용보다 훨씬 큰 간접 비용입니다.
@@ -168,34 +168,14 @@ description: "답변 흐름 — 정의·발생 시점 → PCB/TCB 저장·복원
 컨텍스트 스위칭 = CPU 코어에서 실행되던 스레드/프로세스를 다른 것으로 갈아끼우는 OS 작업.
                   현재 컨텍스트(레지스터·SP·PC)를 PCB/TCB에 저장 → 다음 컨텍스트 복원.
 
-발생 시점 4가지:
-  ① 타이머 인터럽트 — quantum 만료 (선점형 스케줄링)
-  ② 블로킹 시스템 콜 — read/recv/WaitForSingleObject
-  ③ 동기화 객체 대기 — mutex/semaphore/event/condition variable
-  ④ 자발적 양보 — Sleep(0)/SwitchToThread/std::this_thread::yield
-
-비용 요소:
-  ① 레지스터 저장·복원 (직접 비용, 수백 ns)
-  ② 캐시 콜드 (간접 비용, 가장 큼)
-  ③ TLB flush (프로세스 전환에서만, PCID로 회피 가능)
-  ④ 파이프라인 정지 + 분기 예측기 무효화
-  ⑤ 커널 진입(모드 스위치) 자체 비용
-
-프로세스 vs 스레드:
-  스레드 전환 = TCB만 교체, 가상 주소 공간 보존 → 5~10배 빠름
-  프로세스 전환 = CR3 교체 + TLB flush + 캐시 콜드
-
-모드 스위치 ≠ 컨텍스트 스위치:
-  모드 스위치 = 같은 스레드 user ↔ kernel (PCB 교체 없음)
-  컨텍스트 스위치 = 다른 스레드/프로세스로 갈아끼움 (보통 모드 스위치 위에서)
-
-Windows 비용 스펙트럼 (낮음 → 높음):
-  Fiber/SwitchToFiber       사용자 모드, 수십 ns
-  ConcRT Context::Yield     사용자 모드 협력적
-  SRWLock / Critical Section 사용자 모드 우선, 경합 시 커널
-  Mutex / Event / Semaphore  항상 커널 객체
-  CreateThread quantum 만료  타이머 인터럽트 → 커널 스케줄러
+발생 시점 4가지: ① 타이머 인터럽트(quantum 만료) ② 블로킹 시스템 콜 ③ 동기화 객체 대기 ④ 자발적 양보
+비용 요소:      레지스터 저장·복원(직접) + 캐시 콜드(간접, 가장 큼) + TLB flush(프로세스 전환만)
+                + 파이프라인 정지·분기 예측 무효화 + 커널 진입 비용
+프로세스 vs 스레드: 스레드 전환은 TCB만 교체(주소 공간 보존) → 5~10배 빠름
+모드 스위치 ≠ 컨텍스트 스위치: 권한 전환(같은 스레드) vs 실행 주체 교체
 ```
+
+Windows 동기화 객체별 비용 스펙트럼까지 포함한 전체 카드는 글 끝의 [18. 핵심 요약 카드](#18-핵심-요약-카드-재게재)에 있습니다.
 
 ### 꼬리질문 연결 맵
 
@@ -552,7 +532,7 @@ Fiber API(`SwitchToFiber`)는 **사용자 모드에서 직접 SP·PC를 바꿔�
 
 ## 6. 비용 요소 — 캐시 flush · TLB flush · 파이프라인 정지
 
-비용은 글머리표로 분리해 정리합니다(20번 파일에서 확인된 사용자 선호 그대로).
+컨텍스트 스위칭이 비싸다는 말의 실체를 항목별로 나눠 봅니다.
 
 ### 비용 요소 1 — 레지스터 저장·복원 (직접 비용)
 
@@ -1783,4 +1763,10 @@ CRT 옵션:
 | **16_stl_containers** | STL 컨테이너 thread-safety 컨벤션 — 외부 mutex 또는 lock-free 컨테이너로 컨텍스트 스위치 제어 |
 | **19_process_vs_thread** | 컨텍스트 스위칭 비용이 19번의 핵심 비교 항목 — 21번에서 메커니즘 깊이 확장. PCB/TCB·TLB·CR3 개념 직접 회귀 |
 | **20_stack_overflow** | 스레드별 독립 스택 + SP가 컨텍스트의 핵심 구성요소 — 20번에서 다룬 스택 한계와 컨텍스트 보존이 같은 메모리를 다룸 |
+
+> **오늘 배운 것** — 모드 스위치(권한 전환)와 컨텍스트 스위치(실행 주체 교체)는 다른 것이고, 컨텍스트 스위칭 비용의 대부분은 레지스터 저장 같은 직접 비용이 아니라 캐시 콜드·TLB flush라는 간접 비용에서 온다. 스레드 전환이 프로세스 전환보다 5~10배 빠른 이유가 바로 이 간접 비용의 차이다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "컨텍스트 스위칭 비용은 어디서 오고, 어떻게 줄일 수 있나요?" → 캐시 콜드, TLB flush, PCID/ASID, 사용자 모드 동기화(Critical Section·SRWLock), 스레드 분리 + 명령 큐
+{: .prompt-info }
 

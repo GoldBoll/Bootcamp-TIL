@@ -8,7 +8,7 @@ image: /assets/img/thumbs/cs.svg
 description: "답변 흐름 — 기반 파일: [07_pointer_reference.md](./07_pointer_reference.md)"
 ---
 
-# 📕 포인터·레퍼런스 심층 분석 — 댕글링·메모리 크기·런타임 오류
+# 포인터·레퍼런스 심층 분석 — 댕글링·메모리 크기·런타임 오류
 
 > 기반 파일: [07_pointer_reference.md](./07_pointer_reference.md)
 > 작성 기준: 2026-04-23 모의면접 추가 분석
@@ -87,7 +87,7 @@ std::cout << *p;      // UB
 | Double Free | `abort()` / Segmentation Fault |
 | 운 좋은 경우 | 우연히 정상 동작처럼 보임 → 더 위험 |
 
-**핵심**: 댕글링 포인터 역참조는 **Undefined Behavior** — 컴파일 오류가 없고 즉시 크래시도 안 날 수 있어서 디버깅이 가장 어려운 버그 유형.
+댕글링 포인터 역참조는 UB(Undefined Behavior, 미정의 동작)다. 컴파일 오류가 없고 즉시 크래시도 안 날 수 있어서, 디버깅이 가장 어려운 버그 유형에 속한다.
 
 ---
 
@@ -230,10 +230,10 @@ int& r2 = someFunc();   // someFunc()이 int& 반환 시
 
 | | 포인터 | 레퍼런스 |
 |---|---|---|
-| nullptr 가능 | ✅ (명시적) | ❌ (문법 불가, 단 우회 가능) |
-| 런타임 오류 가능 | ✅ | ✅ (댕글링, nullptr 우회) |
+| nullptr 가능 | 가능 (명시적) | 불가 (문법 불가, 단 우회 가능) |
+| 런타임 오류 가능 | 가능 | 가능 (댕글링, nullptr 우회) |
 | 컴파일 타임 감지 | 일부 | 일부 경고 |
-| 재할당 후 무효화 | ✅ | ✅ (동일하게 발생) |
+| 재할당 후 무효화 | 발생 | 발생 (동일하게) |
 
 **30초 답변**:  
 레퍼런스도 런타임 오류가 발생할 수 있습니다. 주요 케이스는 세 가지입니다. 첫째, 지역 변수의 레퍼런스를 반환하면 함수 종료 후 댕글링 레퍼런스가 됩니다. 둘째, `int& r = *nullptr` 같이 null 포인터를 역참조해서 레퍼런스로 바인딩하면 UB가 발생합니다. 셋째, vector 재할당 후 기존 원소 레퍼런스가 무효화됩니다. 레퍼런스가 "항상 안전하다"는 것은 *문법적* 제약이지, 런타임 안전을 보장하지는 않습니다.
@@ -471,4 +471,10 @@ UPROPERTY  — 언리얼: GC 추적 등록 (없으면 댕글링)
 - [07_pointer_reference.md](./07_pointer_reference.md) — 포인터·레퍼런스 기본
 - [09_rtti_raii.md](./09_rtti_raii.md) — RAII 상세 (unique_ptr·shared_ptr)
 - [06_virtual_destructor.md](./06_virtual_destructor.md) — 다형적 삭제와 virtual 소멸자
+
+> **오늘 배운 것** — 댕글링은 delete 후 미초기화, 스택 주소 반환, 컨테이너 재할당 세 경로로 생기고, 레퍼런스라고 예외가 아니다. "레퍼런스는 안전하다"는 문법 제약이지 런타임 보장이 아니라는 점이 핵심이었다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "댕글링 포인터는 언제 생기고 어떻게 방지하나요?" → 해제된 메모리 참조, UB, delete 후 nullptr, unique_ptr 소유권 단독화, weak_ptr lock()
+{: .prompt-info }
 

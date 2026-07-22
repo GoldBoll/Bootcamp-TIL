@@ -5,12 +5,10 @@ categories: ["CS 면접 준비", "자료구조"]
 tags: ["map", "stl"]
 render_with_liquid: false
 image: /assets/img/thumbs/cs.svg
-description: "답변 흐름 — [`14_std_map.md`](./14_std_map.md) 모의면접 직후 나온 후속 질문 10개를 1:1로 정리한 노트."
+description: "답변 흐름 — [`14_std_map.md`](./14_std_map.md) 모의면접 직후 나온 후속 질문 16개를 1:1로 정리한 노트."
 ---
 
-# 📕 04/30 — std::map 모의면접 꼬리질문 정리
-
-> [`14_std_map.md`](./14_std_map.md) 모의면접 직후 나온 후속 질문 10개를 1:1로 정리한 노트.
+> [`14_std_map.md`](./14_std_map.md) 모의면접 직후 나온 후속 질문 16개를 1:1로 정리한 노트.
 > 본문은 14번 원본의 해당 섹션을 가리키고, 여기서는 **답변만 짧게 결론 → 근거 → 코드/예** 순으로 압축한다.
 
 ---
@@ -27,6 +25,12 @@ description: "답변 흐름 — [`14_std_map.md`](./14_std_map.md) 모의면접 
 8. [Red — 새 노드를 빨강으로 삽입하는 기준](#8-red--새-노드를-빨강으로-삽입하는-기준)
 9. [언리얼이 캐시 친화 우선인 이유](#9-언리얼이-캐시-친화-우선인-이유)
 10. [Algo:: 가 뭔지](#10-algo-가-뭔지)
+11. [해시(Hash) 가 뭔가 / 버킷(Bucket) 이 뭔가](#11-해시hash-가-뭔가--버킷bucket-이-뭔가)
+12. [unordered_map 의 load_factor 임계 초과 — 언제 일어나나](#12-unordered_map-의-load_factor-임계-초과--언제-일어나나)
+13. [map 에서 "노드" 는 뭘 가리키나](#13-map-에서-노드-는-뭘-가리키나)
+14. [힙 = 메모리 할당 시점 이야기인가?](#14-힙--메모리-할당-시점-이야기인가)
+15. [해시 = 메모리 할당 시 필요한 정수값?](#15-해시--메모리-할당-시-필요한-정수값)
+16. [해시는 포인터 주소값 같은 건가?](#16-해시는-포인터-주소값-같은-건가)
 
 ---
 
@@ -824,4 +828,10 @@ size_t h4 = std::hash<std::string>{}("xyz");
 - [`11_smart_pointer.md`](./11_smart_pointer.md) — `try_emplace` + `unique_ptr` 안전 패턴 + 힙 수명 자동화.
 - [`03_new_vs_malloc.md`](./03_new_vs_malloc.md) — 힙 메모리 영역 (§7-1, §14 와 직결).
 - [`10_pointer_deepdive.md`](./10_pointer_deepdive.md) — rehash 후 댕글링 포인터 (§12-2 iterator 무효화와 같은 맥락).
+
+> **오늘 배운 것** — RB-Tree 가 새 노드를 빨강으로 넣는 이유는 black height(속성 5)를 건드리지 않아 위반 가능성을 R-R 금지(속성 4) 하나로 국한시키기 위해서다. 그리고 해시값은 "키 → 버킷 인덱스" 변환용 결정적 정수일 뿐, 할당자가 반환하는 포인터 주소와는 출처·결정성·용도가 전부 다르다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "unordered_map 이 최악 O(n)이 되는 경우와 대처 방법은?" → 해시 충돌로 한 버킷에 체인 몰림, 나쁜 해시 함수·해시 DoS, std::map 의 O(log n) 최악 보장, reserve 로 rehash 회피
+{: .prompt-info }
 

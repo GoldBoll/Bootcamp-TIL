@@ -8,8 +8,6 @@ image: /assets/img/thumbs/cs.svg
 description: "답변 흐름 — 모의면접 다음 주제: '`vector` 의 `push_back` 과 `emplace_back` 의 차이점에 대해 설명해 주세요'"
 ---
 
-# 📕 04/30 — vector push_back vs emplace_back + 해시 충돌 보강
-
 > 모의면접 다음 주제: "`vector` 의 `push_back` 과 `emplace_back` 의 차이점에 대해 설명해 주세요"
 > 14번 모의면접 꼬리물기 보강: **해시 충돌(Hash Collision) 처리 — 체이닝 vs 오픈 어드레싱** + **vector capacity / rehash** 정리
 
@@ -26,10 +24,7 @@ description: "답변 흐름 — 모의면접 다음 주제: '`vector` 의 `push_
 이후  std::unordered_map deepdive       — 해시 자료구조 단독 정리
 ```
 
-본 문서는 두 가지 갈래를 한 파일에 묶는다:
-
-1. **다음 주제 답변** — push_back vs emplace_back (1·2부)
-2. **14번 보강** — 해시 충돌 처리(체이닝/오픈 어드레싱) + vector capacity/rehash (3·4부)
+이번 글은 두 갈래를 한 번에 정리한다. 하나는 다음 모의면접 주제인 push_back vs emplace_back 답변이고, 다른 하나는 14번 모의면접에서 꼬리물기로 밀렸던 해시 충돌 처리(체이닝/오픈 어드레싱)와 vector capacity/rehash 보강이다. 따로 쓸까 하다가, vector 재할당과 해시 rehash가 같은 패턴이라는 걸 발견해서 한 파일로 묶었다.
 
 ---
 
@@ -347,8 +342,6 @@ emplace 는 **무브-온리 타입 / 무거운 객체 / in-place 생성이 본�
 
 ## 5. vector capacity 와 재할당 (rehash 와 비교)
 
-### 핵심 한 문장
-
 > `vector` 는 `size > capacity` 가 되는 순간 **새 배열 할당 + 전체 복사·이동 + 기존 배열 해제** 를 수행한다. 이게 unordered_map 의 rehash 와 동일한 패턴이며, **iterator·포인터·참조 모두 무효화**시킨다.
 
 ### 5-1. size vs capacity
@@ -450,8 +443,6 @@ v.shrink_to_fit();               // capacity 를 size 로 축소 시도 (구현 
 
 ## 6. 해시 충돌 처리 — 체이닝 (Separate Chaining)
 
-### 핵심 한 문장
-
 > 체이닝은 **같은 버킷에 매핑된 원소들을 연결 리스트(또는 작은 컨테이너) 로 묶는** 방식이다. STL `std::unordered_map` 이 채택한 표준적 방식.
 
 ### 6-1. 동작
@@ -521,8 +512,6 @@ Value* find(Key k) {
 ---
 
 ## 7. 해시 충돌 처리 — 오픈 어드레싱 (Open Addressing)
-
-### 핵심 한 문장
 
 > 오픈 어드레싱은 **충돌 시 같은 버킷 배열 안에서 다음 빈 슬롯을 찾아 가는** 방식이다. 노드를 따로 할당하지 않고 **배열 한 덩어리** 만 사용해 캐시 친화적.
 
@@ -719,4 +708,10 @@ vector 는 `size > capacity` 가 되는 순간 새 배열을 할당하고 전체
 이 패턴은 unordered_map 의 rehash 와 정확히 같습니다. unordered_map 은 `load_factor > max_load_factor` 일 때 새 버킷 배열을 할당해 모든 원소를 재배치합니다. 트리거 조건만 다를 뿐 비용 O(n), iterator 전체 무효화, reserve 로 회피 가능 — 모두 동일합니다.
 
 해시 충돌이 발생할 때 처리하는 방법은 두 가지입니다. STL `std::unordered_map` 은 같은 버킷에 매핑된 원소들을 연결 리스트로 묶는 **체이닝(Separate Chaining)** 을, Unreal `TMap` 은 같은 배열 안에서 다음 빈 슬롯으로 probing 하는 **오픈 어드레싱(Open Addressing)** 을 사용합니다. 게임 엔진은 매 프레임 16.6ms 안에서 lookup 비용을 줄이기 위해 캐시 친화적인 오픈 어드레싱을 택했고, 이는 vector → TArray, list 회피 와 같은 일관된 철학입니다.
+
+> **오늘 배운 것** — emplace_back 은 가변 템플릿 + perfect forwarding 으로 슬롯 위에서 객체를 직접 생성해 임시 객체를 없애지만, explicit 생성자를 우회할 수 있어 확실한 이득이 없으면 push_back 이 안전하다. 그리고 vector 재할당과 unordered_map rehash 는 "용량 초과 시 새로 할당해 통째로 옮기는" 같은 패턴이라, 둘 다 iterator 가 전부 무효화되고 reserve 로 회피한다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "push_back 과 emplace_back 의 차이를 설명해 주세요" → 임시 객체 생성 여부, perfect forwarding, in-place 생성, explicit 우회 함정, 무브-온리 타입
+{: .prompt-info }
 

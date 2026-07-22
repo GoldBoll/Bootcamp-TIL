@@ -8,6 +8,8 @@ description: "머쓱이는 태어난 지 6개월 된 조카를 돌보고 있습�
 image: /assets/img/thumbs/programmers.svg
 ---
 
+네 가지 발음 토큰을 각각 최대 1번씩만 써서 만들 수 있는 단어를 세는 문제. pos 포인터로 단어를 왼쪽부터 소비하면서 `compare(pos, len, tok)`으로 토큰을 매칭하고, used 배열로 발음별 1회 제한을 걸었다. 단어 끝까지 소비에 성공한 경우만 카운트한다.
+
 ```cpp
 //7.옹알이 (1)
 
@@ -70,3 +72,8 @@ int solution(vector<string> babbling) {
 }
 ```
 
+> **오늘 배운 것** — 문자열을 pos 포인터로 왼쪽부터 소비하며 토큰을 매칭하는 패턴을 익혔다. `pos == word.size()`까지 도달했는지가 성공 판정 기준이고, used 배열이 토큰별 사용 횟수 제한을 담당한다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "토큰 조합으로 만들 수 있는 문자열인지 어떻게 판정하나요?" → pos 포인터 소비, compare(pos, len, tok), used 플래그, 끝까지 소비 성공 여부
+{: .prompt-info }

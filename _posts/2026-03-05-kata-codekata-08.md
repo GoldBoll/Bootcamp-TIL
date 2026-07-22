@@ -8,6 +8,8 @@ description: "연속된 세 개의 정수를 더해 12가 되는 경우는 3, 4,
 image: /assets/img/thumbs/programmers.svg
 ---
 
+연속된 num개 수의 합이 total이 되는 수열을 구하는 문제. 케이스를 나누는 대신 등차수열 합 공식에서 첫 항 `start = total/num - (num-1)/2`를 유도해, 분기 없이 start부터 num개를 채우는 방식으로 풀었다.
+
 ```cpp
 // 8. 연속된 수의 합
 // 문제 설명
@@ -37,3 +39,8 @@ vector<int> solution(int num, int total)
 }
 ```
 
+> **오늘 배운 것** — 연속 수열 문제는 첫 항만 구하면 나머지는 start+i로 결정된다. 등차수열 합 공식을 start에 대해 정리하면 `start = total/num - (num-1)/2`로 분기 없는 단일 식이 나온다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "이 문제에서 반복 탐색 없이 답을 구한 방법은?" → 등차수열 합 공식, 첫 항 유도, 단일 식, 해 존재 보장 조건 활용
+{: .prompt-info }

@@ -178,3 +178,9 @@ ROLE_SimulatedProxy    남의 캐릭터. 복제값으로 시뮬레이션·보간
 3. **TMap은 std::map보다 std::unordered_map에 가깝다.** 둘 다 해시 계열이고, TMap은 거기에 UPROPERTY 직렬화·복제·GC 추적이라는 엔진 통합을 더한 것이다. UObject 맵은 반드시 TMap + UPROPERTY.
 4. **Replication = 서버 권위 단방향 복제.** 지속 상태는 Property Replication(3종 세트), 순간 이벤트는 RPC(Server/Client/NetMulticast). "이미 일어난 일을 나중 합류 클라에게도 보여줘야 하면 상태 복제"가 선택 기준이고, `OnRep_` 서버 미호출 함정이 디버깅 단골이다.
 5. **경계 사각형은 min/max 단일 스캔이면 충분하다.** 161990은 모든 `#`의 최소/최대 행·열만 추적하면 O(N·M) 한 번에 풀린다. 좌표가 격자점이라 끝점에 +1 보정을 잊지 말 것.
+
+> **오늘 배운 것** — std::map vs TMap은 "트리 vs 해시" 하나에서 정렬·복잡도·캐시·엔진 통합까지 연쇄로 갈라진다. TMap은 std::map보다 std::unordered_map에 가깝고, UObject를 담는 맵이 반드시 TMap + UPROPERTY여야 하는 이유는 리플렉션과 GC 추적이다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "std::map과 TMap의 차이를 설명해 보세요" → 레드블랙 트리 vs 해시 테이블, O(log n) 최악 보장 vs 평균 O(1), 순회 순서, UPROPERTY 통합(직렬화·복제·GC 추적)
+{: .prompt-info }
