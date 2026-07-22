@@ -8,7 +8,7 @@ image: /assets/img/thumbs/cs.svg
 description: "답변 흐름 — 모의면접 다음 주제: 'C++ 표준 라이브러리(STL) 기준 컨테이너에 대해서 설명해 주세요'"
 ---
 
-# 📕 05/04 — C++ STL 컨테이너 전반 (시퀀스 · 연관 · 비순서 · 어댑터)
+# 05/04 — C++ STL 컨테이너 전반 (시퀀스 · 연관 · 비순서 · 어댑터)
 
 > 모의면접 다음 주제: "C++ 표준 라이브러리(STL) 기준 컨테이너에 대해서 설명해 주세요"
 > 컨테이너 4분류 → 내부 구조와 시간 복잡도 → 선택 기준 → vector vs list / map vs unordered_map / iterator 무효화 꼬리질문 연결 다리
@@ -106,7 +106,7 @@ C++ STL 컨테이너는 크게 **시퀀스(sequence)**, **연관(associative)**,
 
 ## 1. 핵심 요약 카드
 
-### 한 줄 요약 30초
+### 한 줄 요약
 
 ```
 시퀀스       — 순서 보관: vector(연속), deque(청크), list(노드), forward_list(단방향), array(고정)
@@ -116,7 +116,7 @@ C++ STL 컨테이너는 크게 **시퀀스(sequence)**, **연관(associative)**,
 룰           — 의심스러우면 vector. 정렬 필요 → map. 처리량 → unordered_map.
 ```
 
-### 4분류 지도 30초
+### 4분류 지도
 
 ```
 STL Container
@@ -141,7 +141,7 @@ STL Container
     └── priority_queue      이진 힙, 기본 vector + make_heap
 ```
 
-### 시간 복잡도 표 30초
+### 시간 복잡도 표
 
 | 컨테이너 | 임의 접근 | 끝 삽입 | 앞 삽입 | 중간 삽입 | 검색 | 정렬 | iterator 안정성 |
 |---|---|---|---|---|---|---|---|
@@ -799,4 +799,10 @@ STL 컨테이너는 시퀀스, 연관, 비순서 연관, 컨테이너 어댑터 
 - [15_pushback_vs_emplaceback.md](./15_pushback_vs_emplaceback.md) — vector capacity + 해시 충돌(체이닝/오픈 어드레싱)
 - [11_smart_pointer.md](./11_smart_pointer.md) — 컨테이너에 unique_ptr 담을 때 emplace 필수
 - [12_prevent_copy.md](./12_prevent_copy.md) — move-only 타입과 컨테이너
+
+> **오늘 배운 것** — 개별로 파던 vector·list·map·unordered_map을 시퀀스/연관/비순서 연관/어댑터 4분류 지도 위에 재배치했다. 선택 기준은 "의심스러우면 vector, 정렬·최악 보장이 필요하면 map, 처리량이 필요하면 unordered_map" 한 줄로 압축된다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "C++ STL 컨테이너를 분류해서 설명해 주세요" → 4분류(시퀀스·연관·비순서 연관·어댑터), RB-Tree O(log n) 최악 보장, 해시 평균 O(1)·rehash, iterator 무효화, vector first
+{: .prompt-info }
 

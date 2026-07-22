@@ -10,6 +10,8 @@ description: "문제 요약 — 프로그래머스 입문 문제 — 기초 구�
 
 > 출처: <https://school.programmers.co.kr/learn/courses/30/lessons/77884>
 
+약수의 개수가 짝수면 그 수를 더하고, 홀수면 빼는 문제. `left`부터 `right`까지 각 수마다 2부터 자기 자신까지 나머지 연산으로 약수를 직접 세고(약수 1은 `count = 1` 초기값으로 미리 포함), 개수의 홀짝에 따라 `answer`에 더하거나 뺐다.
+
 ```cpp
 //https://school.programmers.co.kr/learn/courses/30/lessons/77884
 
@@ -29,4 +31,10 @@ int solution(int left, int right) {
     return answer;
 }
 ```
+
+> **오늘 배운 것** — 약수 개수는 2부터 i까지 나머지 연산으로 세면 되고, 약수 1을 초기값 `count = 1`로 처리하면 루프 시작을 2로 당길 수 있다. 이후 `count % 2` 홀짝 분기로 더할지 뺄지 결정한다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "어떤 수의 약수 개수를 세는 코드를 작성해 보세요." → 나머지 연산, 완전 탐색, 이중 루프, 홀짝 분기
+{: .prompt-info }
 

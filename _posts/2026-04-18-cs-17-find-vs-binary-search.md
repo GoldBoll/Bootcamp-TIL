@@ -8,7 +8,7 @@ image: /assets/img/thumbs/cs.svg
 description: "답변 흐름 — 정렬 전제 → 시간복잡도 → 반환 타입 차이 → lower_bound·equal_range → set/map 멤버 함수 vs 알고리즘 꼬리질문 연결 다리"
 ---
 
-# 📕 05/05 — std::find vs std::binary_search (선형 탐색 vs 이분 탐색)
+# 05/05 — std::find vs std::binary_search (선형 탐색 vs 이분 탐색)
 
 > 모의면접 주제: "std::find()와 std::binary_search()의 차이점에 대해서 설명해 주세요"
 > 정렬 전제 → 시간복잡도 → 반환 타입 차이 → lower_bound·equal_range → set/map 멤버 함수 vs 알고리즘 꼬리질문 연결 다리
@@ -117,8 +117,6 @@ std::find vs binary_search
 
 ## 2. std::find — 선형 탐색
 
-### 핵심 한 문장
-
 > `std::find`는 `[first, last)` 구간을 처음부터 순회하며 `==` 연산자로 값을 비교해, **일치하는 첫 원소의 iterator**를 반환하는 **선형 탐색**입니다.
 
 ### 시그니처
@@ -161,8 +159,6 @@ auto it = std::find_if(v.begin(), v.end(), [](int x){ return x > 4; });
 
 ## 3. std::binary_search — 이분 탐색
 
-### 핵심 한 문장
-
 > `std::binary_search`는 **정렬된 구간**에서 `<` 연산자 두 번으로 동치를 판단하며 **이분 탐색**으로 값의 존재 여부만 확인해, **`bool`** 만 반환합니다.
 
 ### 시그니처
@@ -201,7 +197,7 @@ if (it != v.end() && *it == 5) {
 ### 함정
 
 - **정렬 안 된 컨테이너**: 결과 보장 X → **Undefined Behavior**
-- **`==` 연산자만 정의된 타입**: 컴파일은 되지만 의미가 깨짐. `<` 비교자가 strict weak ordering을 만족해야 함
+- **`==` 연산자만 정의된 타입**: 컴파일은 되지만 의미가 깨짐. `<` 비교자가 strict weak ordering(비교 결과가 모순 없이 일관된 순서를 이뤄야 한다는 조건)을 만족해야 함
 - **`std::list`에 사용**: 동작은 하지만 거리 계산이 `O(n)` → 의미 없음
 
 ---
@@ -229,8 +225,6 @@ if (it != v.end() && *it == 5) {
 ---
 
 ## 5. 관련 알고리즘 family — lower_bound / upper_bound / equal_range
-
-### 핵심 한 문장
 
 > `binary_search` 내부는 `lower_bound` 호출이고, 위치·범위가 필요하면 `lower_bound`·`upper_bound`·`equal_range` 셋이 정렬 자료 탐색의 진짜 도구입니다.
 
@@ -344,11 +338,11 @@ int main() {
 
 ### Q1. "왜 binary_search는 iterator를 안 돌려주나요?"
 
-> STL은 **책임을 분리**해서 설계했습니다. 존재 여부만 확인하는 빠른 경로는 `binary_search`(`bool`), 위치까지 알고 싶으면 `lower_bound`(iterator), 같은 값들의 범위는 `equal_range`(pair). 사실 `binary_search` 내부 구현 자체가 `lower_bound`를 호출한 뒤 `!(value < *it)` 한 줄로 동치 검사만 하는 wrapper입니다. 위치가 필요하면 `lower_bound`를 직접 부르는 게 더 효율적이에요.
+> STL은 **책임을 분리**해서 설계했습니다. 존재 여부만 확인하는 빠른 경로는 `binary_search`(`bool`), 위치까지 알고 싶으면 `lower_bound`(iterator), 같은 값들의 범위는 `equal_range`(pair). 사실 `binary_search` 내부 구현 자체가 `lower_bound`를 호출한 뒤 `!(value < *it)` 한 줄로 동치 검사만 하는 wrapper입니다. 위치가 필요하면 `lower_bound`를 직접 부르는 게 더 효율적입니다.
 
 ### Q2. "정렬 안 된 컨테이너에 binary_search 쓰면 어떻게 되나요?"
 
-> **Undefined Behavior**입니다. 표준은 "정렬돼 있다"를 전제로만 동작을 보장합니다. 운이 좋으면 우연히 맞을 수도 있지만 일반적으로는 잘못된 결과 또는 무한 분할로 끝나지 않을 수도 있습니다. 그래서 `binary_search` 호출 전에 반드시 `std::is_sorted`로 검증하거나 `std::sort`로 정렬해야 합니다.
+> **Undefined Behavior**입니다. 표준은 "정렬돼 있다"를 전제로만 동작을 보장합니다. 운이 좋으면 우연히 맞을 수도 있지만, 보통은 잘못된 결과가 나오거나 탐색이 끝나지 않을 수도 있습니다. 그래서 `binary_search` 호출 전에 반드시 `std::is_sorted`로 검증하거나 `std::sort`로 정렬해야 합니다.
 
 ### Q3. "set이나 map에서는 멤버 함수 find와 알고리즘 std::find 중 뭘 써야 하나요?"
 
@@ -380,8 +374,6 @@ int main() {
 ---
 
 ## 8. 언리얼에서의 탐색 — Algo::Find / Algo::BinarySearch
-
-### 핵심 한 문장
 
 > 언리얼은 `Algo::` 네임스페이스에 `std::` 알고리즘 대응 함수를 두고, 컨테이너 자체에도 `Find` 같은 멤버 함수를 제공해 **인덱스 또는 포인터** 기반으로 동작합니다.
 
@@ -672,7 +664,7 @@ for (auto it = lo; it != hi; ++it) {
 }
 ```
 
-→ `multimap`/`multiset`에서 같은 키 모두 가져오는 **유일한 정석 방법** (반복 `find`로는 첫 개만).
+→ `multimap`/`multiset`에서 같은 키를 모두 가져오는 **정석 방법** (반복 `find`로는 첫 번째 것만 나옴).
 → **멤버 함수 `equal_range`가 따로 있다** — 알고리즘 `std::equal_range`보다 자료구조 친화적.
 
 #### 못 찾았을 때 — `.first == .second` 의 의미
@@ -699,7 +691,7 @@ auto [lo, hi] = std::equal_range(v.begin(), v.end(), 2);
 ```
 
 → 표준은 (B)를 **단일 패스로 최적화 가능**하게 명세 — 일부 구현은 분기 절약. 의도 표현도 명확.
-→ "범위가 필요하다"가 의도면 `equal_range` 직선택.
+→ 범위가 필요하다면 처음부터 `equal_range`를 쓴다.
 
 #### 반환값 정리 카드
 
@@ -853,7 +845,7 @@ auto it = std::find(v.begin(), v.end(), x);              // O(n)
 
 ---
 
-## 핵심 요약 카드 (재게재)
+## 전체 요약 카드
 
 ```
 std::find          → O(n), iterator, 정렬 X, ==     | 못 찾으면 end()
@@ -873,4 +865,10 @@ unordered_map → 멤버 함수 find() (O(1) 평균)
 언리얼: Algo::Find (T*), Algo::BinarySearch (int32 / INDEX_NONE),
        TArray::Find (멤버, int32)
 ```
+
+> **오늘 배운 것** — `std::find`는 정렬 없이 `==`로 비교해 iterator를 돌려주는 O(n) 선형 탐색이고, `std::binary_search`는 정렬을 전제로 `<` 두 번의 동치 판단으로 존재 여부(bool)만 알려주는 O(log n) 이분 탐색이다. 위치까지 필요하면 처음부터 `std::lower_bound`를 부르는 게 정석이라는 것.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "std::find()와 std::binary_search()의 차이점은 무엇인가요?" → 정렬 전제, O(n) vs O(log n), iterator vs bool 반환, 동치 판단(strict weak ordering), lower_bound
+{: .prompt-info }
 
