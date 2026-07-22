@@ -214,6 +214,13 @@ html[data-mode='dark'] {
   background: #1d1e22; /* 배너 SVG 자체 배경색과 동일 — 레터박스 이음새 제거 */
 }
 
+/* ---------- 안 A: 와이드 컨테이너 확장 (1400px+ 죽은 공백 흡수) ---------- */
+@media (min-width: 1400px) {
+  #main-wrapper .container {
+    max-width: min(1600px, 94vw);
+  }
+}
+
 /* ---------- 태그 칩: 완전 rounded(pill), 호버 시 골드 틴트 ---------- */
 .post-tag {
   border-radius: 999px;
