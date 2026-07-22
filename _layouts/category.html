@@ -1,0 +1,39 @@
+---
+layout: page
+# The Category layout — Chirpy 7.5 원본 기반 셰도잉 (테마 업그레이드 시 대조 필요)
+# 변경점: 각 글에 description 1줄 + 태그 미리보기 렌더 (면접관이 제목만으로 파악 안 되는 문제 해결)
+---
+
+{% include lang.html %}
+
+<div id="page-category">
+  <h1 class="ps-lg-2">
+    <i class="far fa-folder-open fa-fw text-muted"></i>
+    {{ page.title }}
+    <span class="lead text-muted ps-2">{{ page.posts | size }}</span>
+  </h1>
+
+  <ul class="content ps-0">
+    {% for post in page.posts %}
+      <li class="cat-post-item px-md-3">
+        <div class="d-flex justify-content-between">
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          <span class="dash flex-grow-1"></span>
+          {% include datetime.html date=post.date class='text-muted small text-nowrap' lang=lang %}
+        </div>
+        {% if post.description %}
+          <p class="cat-post-desc">{{ post.description }}</p>
+        {% else %}
+          <p class="cat-post-desc">{{ post.excerpt | strip_html | truncate: 90 }}</p>
+        {% endif %}
+        {% if post.tags.size > 0 %}
+          <div class="cat-post-tags">
+            {% for tag in post.tags limit: 3 %}
+              <span class="cat-post-tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>

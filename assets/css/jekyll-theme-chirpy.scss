@@ -247,6 +247,39 @@ html[data-mode='dark'] {
   color: var(--heading-color);
 }
 
+/* ---------- 카테고리 페이지: 글 미리보기 (셰도잉 _layouts/category.html과 세트) ---------- */
+#page-category .cat-post-item {
+  display: block;
+  padding-top: 0.55rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+#page-category .cat-post-desc {
+  margin: 0.15rem 0 0;
+  font-size: 0.85rem;
+  color: var(--text-muted-color);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+#page-category .cat-post-tags {
+  margin-top: 0.25rem;
+}
+
+#page-category .cat-post-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  color: var(--text-muted-color);
+  background: var(--gb-surface);
+  border: 1px solid var(--main-border-color);
+  border-radius: 999px;
+  padding: 0 0.55em;
+  margin-right: 0.3rem;
+}
+
 /* ---------- 카테고리 색 (표준 4개: 알고리즘·언리얼·CS·회고) ---------- */
 /* 알고리즘 */
 a[href='/categories/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/'] {
