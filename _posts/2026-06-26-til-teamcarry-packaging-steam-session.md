@@ -25,7 +25,7 @@ image: /assets/img/thumbs/unreal.svg
 
 ### 문제: exit code 25
 
-UAT(UnrealAutomationTool)의 쿡(Cook) 단계가 **exit code 25**로 빌드를 실패시켰다. UAT는 쿠킹 로그에서 `LogLevel: Error`가 하나라도 보이면 빌드 실패로 판정한다.
+UAT(UnrealAutomationTool)의 쿡(Cook, 에셋을 대상 플랫폼용 포맷으로 변환하는 단계)에서 **exit code 25**로 빌드가 실패했다. UAT는 쿠킹 로그에서 `LogLevel: Error`가 하나라도 보이면 빌드 실패로 판정한다.
 
 ```cpp
 // S_MainMenu.cpp — 수정 전 (빌드 실패 원인)
@@ -68,7 +68,7 @@ MapsToCook=(FilePath="/Game/Maps/Prototype")
 
 ### 환경 설정
 
-- Steam OSS AppID: **480(Spacewar)** — 개발용 공개 AppID, 친구 관계 없이 공개 로비 검색 가능
+- Steam OSS(OnlineSubsystem Steam, 언리얼 온라인 기능의 Steam 구현) AppID: **480(Spacewar)** — 개발용 공개 AppID, 친구 관계 없이 공개 로비 검색 가능
 - `DefaultEngine.ini`에 P2P 정리 타임아웃 추가 (세션 종료 후 소켓 정리 지연 경고 제거)
 
 ```ini
@@ -136,3 +136,9 @@ UAT BuildCookRun으로 Development 구성 패키징 완료.
 3. **force push 후엔 팀 공지가 세트.** `git reset --hard origin/<branch>`를 팀원이 직접 실행해야 로컬이 맞춰진다. 자동으로 되지 않는다.
 4. **`gh pr create`의 default base는 저장소 기본 브랜치.** `develop` 운영 시 `--base develop` 명시가 필수. PR 생성 후 `gh pr edit <num> --base <branch>`로 수정 가능.
 5. **쿠킹 대상 맵의 BP 의존성도 빌드 결과에 영향.** 맵을 바꿀 때 그 맵의 BP 부모 클래스가 모두 빌드에 포함돼 있는지 확인해야 한다.
+
+> **오늘 배운 것** — UAT는 쿠킹 로그에 Error 레벨 로그가 하나라도 있으면 exit code 25로 빌드를 실패시키므로, 실제 예외가 아닌 출력에 `UE_LOG Error`를 쓰면 안 된다. Steam 세션은 CreateSession 완료 콜백을 받은 뒤에 FindSessions를 해야 검색이 된다는 비동기 순서도 직접 확인했다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "언리얼 패키징 빌드가 쿡 단계에서 실패하면 어떻게 원인을 좁히는가?" → 쿠킹 로그의 Error 레벨 확인, 로그 레벨 관례(Error는 실제 예외만), 쿠킹 대상 맵의 BP 의존성 점검, exit code 25 의미
+{: .prompt-info }

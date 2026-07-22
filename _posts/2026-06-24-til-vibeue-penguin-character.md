@@ -24,7 +24,7 @@ image: /assets/img/thumbs/unreal.svg
 ## 1. VibeUE(언리얼 MCP) 에이전트 설치 + 로컬 전용 git 설정
 
 ### VibeUE란
-`kevinpbuckley/VibeUE`를 프로젝트 `Plugins/`에 git clone 했다. UE 5.8의 **네이티브 MCP 서버를 확장**하는 플러그인으로, 블루프린트·머티리얼·애니메이션·지형·위젯·성능 프로파일링 등 30+ 서비스를 제공한다. 핵심은 **자연어로 시키면 Claude가 파이썬/툴 호출로 에디터를 조작**한다는 것.
+`kevinpbuckley/VibeUE`를 프로젝트 `Plugins/`에 git clone 했다. UE 5.8의 **네이티브 MCP(Model Context Protocol, AI 에이전트가 외부 프로그램의 기능을 호출하게 해 주는 프로토콜) 서버를 확장**하는 플러그인으로, 블루프린트·머티리얼·애니메이션·지형·위젯·성능 프로파일링 등 30+ 서비스를 제공한다. 핵심은 **자연어로 시키면 Claude가 파이썬/툴 호출로 에디터를 조작**한다는 것.
 
 MCP 도구 구조가 **2단계**라는 점이 인상적이었다.
 
@@ -55,7 +55,7 @@ printf "/.mcp.json\n/Plugins/VibeUE/\n" >> .git/info/exclude
 
 ## 2. 네트워크 토대 검증 + ATCCarriableFurniture C++
 
-이전에 깔아둔 네트워크 C++ 토대(`UTCNetStatics` 권위/역할 헬퍼, `UTCCarryStatics::CombineCarryVelocity` 합산 물리, `ITCGrabbable` 인터페이스, `UTCGameInstance`의 HostListenServer/JoinByAddress)를 빌드 검증하고 **리슨서버 PIE 세션 진입**까지 확인했다.
+이전에 깔아둔 네트워크 C++ 토대(`UTCNetStatics` 권위/역할 헬퍼, `UTCCarryStatics::CombineCarryVelocity` 합산 물리, `ITCGrabbable` 인터페이스, `UTCGameInstance`의 HostListenServer/JoinByAddress)를 빌드 검증하고 **리슨서버 PIE(Play In Editor, 에디터 안에서 바로 실행하는 테스트 플레이) 세션 진입**까지 확인했다.
 
 이어서 운반 가구의 C++ 베이스 `ATCCarriableFurniture`를 작성했다.
 
@@ -254,3 +254,9 @@ SkeletonService.set_bone_retargeting_mode(skel, "root", "Skeleton")
 5. **외부 에셋 텍스처는 8K로 들어올 수 있다.** VRAM 고갈로 메시가 아예 안 그려질 수 있으니 `max_texture_size`로 캡.
 6. **PIE 캐릭터 테스트는 DefaultPawnClass로.** 배치형 auto-possess는 빙의 타이밍이 어긋나 BeginPlay에서 PC null → Access Violation.
 7. **cross-rig 리타게팅의 한계 vs in-place.** 본 구조가 다르면 IK Retargeter는 붕괴. 본 이름이 같으면 동일 스켈레톤으로 임포트하고, 전진은 **root 본만 Skeleton 리타게팅**으로 제자리 처리한다.
+
+> **오늘 배운 것** — 외부 FBX/GLB 파이프라인의 함정은 대부분 "스케일·좌표 규약 불일치"였다. 메시와 애니메이션의 임포트 스케일을 반드시 같게 맞춰야 하고, Rotator 인자 순서(roll, pitch, yaw)를 헷갈리면 라이팅 어둠부터 캐릭터 눕는 현상까지 전부 여기서 난다. 에디터 파이썬 자동화에서는 CDO 직접 수정과 레벨 연속 전환이 에디터 크래시를 부른다는 것도 몸으로 확인했다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "외부 리깅 캐릭터를 언리얼에 붙일 때 어떤 문제를 겪을 수 있는가?" → 임포트 스케일 불일치, 메시·애님 스케일 통일, cross-rig 리타게팅 붕괴, root 본 Skeleton 리타게팅으로 in-place 처리, 8K 텍스처 VRAM 캡
+{: .prompt-info }

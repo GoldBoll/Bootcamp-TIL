@@ -7,7 +7,7 @@ render_with_liquid: false
 image: /assets/img/thumbs/unreal.svg
 ---
 
-> 오늘은 **커밋 메시지 일괄 수정**부터 시작해 GitHub PR 삭제 한계 확인, UE 레벨의 끊어진 에셋 참조를 Python MCP로 복구하는 것까지 — git 히스토리 정리와 언리얼 에셋 파이프라인을 동시에 다룬 날이었다.
+> 오늘은 **커밋 메시지 일괄 수정**부터 시작해 GitHub PR 삭제 한계 확인, UE 레벨의 끊어진 에셋 참조를 Python MCP(에디터의 Python API를 외부에서 호출해 조작하는 연결)로 복구하는 것까지 — git 히스토리 정리와 언리얼 에셋 파이프라인을 동시에 다룬 날이었다.
 
 ## 오늘 한 일 요약
 
@@ -124,3 +124,9 @@ sm_assets = asset_lib.list_assets("/Game/Assets", recursive=True)
 3. **redirector 삭제 전엔 참조 레벨을 먼저 업데이트해야 한다.** 에디터의 "Fix Up Redirectors"를 쓰거나, 삭제 전에 "Consolidate and Remove" 워크플로우를 따라야 한다.
 4. **UE 에디터가 열려 있으면 .umap이 자동으로 수정된다.** 커밋 전 `git diff`로 의도하지 않은 `.umap` 변경이 섞이지 않았는지 확인하자.
 5. **`gh pr create`의 기본 base는 저장소 기본 브랜치다.** develop 운영 시 `--base develop` 명시는 필수.
+
+> **오늘 배운 것** — UE의 redirector는 이전 경로에서 새 경로로 이어 주는 포인터라, 참조를 정리하지 않고 삭제하면 그걸 바라보던 레벨 참조가 통째로 끊긴다. 끊어진 StaticMesh 액터 404개를 UE Python으로 일괄 삭제하고 새 경로 기준으로 재배치해 복구했다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "언리얼에서 에셋 폴더를 옮긴 뒤 참조가 깨졌다면 어떻게 대응하겠는가?" → redirector 역할 이해, Fix Up Redirectors 선행, 참조 갱신 후 삭제, Python API로 일괄 복구, 커밋 전 git diff 확인
+{: .prompt-info }
