@@ -1,5 +1,5 @@
 ---
-title: "[TIL] 2026-06-24 — VibeUE(언리얼 MCP)로 펭귄 캐릭터 임포트 · 스케일·크래시·리타게팅 삽질기"
+title: "[TIL] 2026-06-24 — VibeUE(언리얼 MCP)로 펭귄 캐릭터 임포트 · 스케일·크래시·리타게팅 트러블슈팅"
 date: 2026-06-24 22:00:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "mcp", "python", "asset-import", "skeletal-mesh", "retargeting", "root-motion", "blendspace", "material", "texture", "debugging", "git"]
@@ -19,7 +19,7 @@ image: /assets/img/thumbs/unreal.svg
 6. 파이썬 자동화의 **CDO 직접 수정 / 레벨 빠른전환 크래시** 안전 패턴 정립
 7. `BP_PenguinCharacter` 제작 + **PIE PC null 크래시** → DefaultPawnClass 스폰 경로로 해결
 8. **8K 텍스처 VRAM 고갈** → `max_texture_size=1024` 캡
-9. 애니메이션 리타게팅 대장정 — cross-rig 붕괴 → 동일 스켈레톤 애님 임포트 + **root 본 Skeleton 리타게팅**으로 in-place 처리
+9. 애니메이션 리타게팅 — cross-rig 붕괴 → 동일 스켈레톤 애님 임포트 + **root 본 Skeleton 리타게팅**으로 in-place 처리
 
 ## 1. VibeUE(언리얼 MCP) 에이전트 설치 + 로컬 전용 git 설정
 
@@ -204,7 +204,7 @@ unreal.EditorAssetLibrary.save_asset(tex_path)
 
 8K 텍스처 6장이면 비압축 기준만 해도 수 GB라 캐릭터 한 마리에 과하다. 외부(Tripo/CC) 에셋은 텍스처가 8K로 들어올 수 있으니 임포트 직후 캡을 확인하는 습관이 필요하다.
 
-## 9. 애니메이션 리타게팅 — 가장 긴 삽질
+## 9. 애니메이션 리타게팅 — 가장 오래 걸린 구간
 
 펭귄에 이동 애니메이션을 붙이는 게 이날 가장 오래 걸린 작업이었다.
 

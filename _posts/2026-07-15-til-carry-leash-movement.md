@@ -1,11 +1,11 @@
 ---
-title: "[TIL] 2026-07-15 — 러버밴딩의 뿌리를 뽑다: 견인 주입에서 리쉬 이동 제한으로"
+title: "[TIL] 2026-07-15 — 협동 운반 러버밴딩 해결 — 견인 주입을 리쉬 이동 제한으로 교체"
 date: 2026-07-15 22:30:00 +0900
 pin: true
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "character-movement", "debugging"]
 render_with_liquid: false
-description: 공동 운반 러버밴딩의 뿌리는 CMC 예측 위에 서버가 한 번 더 보정을 얹는 구조였다 — 되끌어오는 견인을 걷어내고 입력 단계에서 이탈 성분만 지우는 리쉬로 바꿔, 교정 패킷 자체를 없앤 기록.
+description: 공동 운반 러버밴딩의 원인은 CMC 예측 위에 서버가 한 번 더 보정을 얹는 구조였다 — 되끌어오는 견인을 제거하고 입력 단계에서 이탈 성분만 지우는 리쉬로 바꿔, 교정 패킷 자체를 없앤 기록.
 image: /assets/img/posts/2026-07-15/tugofwar_mid.png
 ---
 

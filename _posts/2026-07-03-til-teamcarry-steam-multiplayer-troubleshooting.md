@@ -1,5 +1,5 @@
 ---
-title: "[TIL] 2026-07-03 — 방코드 스팀 멀티 완주기: 7라운드 트러블슈팅·SteamSockets·Seamless Travel"
+title: "[TIL] 2026-07-03 — 방코드 스팀 멀티 실기기 검증: 7라운드 트러블슈팅·SteamSockets·Seamless Travel"
 date: 2026-07-03 22:00:00 +0900
 pin: true
 categories: ["언리얼", "팀프로젝트"]
@@ -8,11 +8,11 @@ render_with_liquid: false
 image: /assets/img/thumbs/unreal.svg
 ---
 
-> 오늘은 **방코드 스팀 멀티플레이를 PC 2대 실기기로 완주**시켰다. 방코드 생성→검색/매칭→P2P 접속→로비 합류→Ready→게임 진입까지 전 구간. 쉽게 된 건 하나도 없었고, **문제→로그 판독→가설→수정→재테스트** 사이클을 7번 돌았다. 돌아보면 매 라운드 공식이 같았다 — 팀원 추측도, 내 추측도 다 빗나갔고 **매번 로그 한 줄이 정답**이었다. `Failed to load package`, `Already have a listen socket`, "패킷 송신 20초, 수신 0". 이 대장정을 라운드별로 기록한다. (PR #51, #54 develop 머지 완료)
+> 오늘은 **방코드 스팀 멀티플레이를 PC 2대 실기기에서 전 구간 검증**했다. 방코드 생성→검색/매칭→P2P 접속→로비 합류→Ready→게임 진입까지. 쉽게 된 건 하나도 없었고, **문제→로그 판독→가설→수정→재테스트** 사이클을 7번 돌았다. 돌아보면 매 라운드 공식이 같았다 — 팀원 추측도, 내 추측도 다 빗나갔고 **매번 로그 한 줄이 정답**이었다. `Failed to load package`, `Already have a listen socket`, "패킷 송신 20초, 수신 0". 이 과정을 라운드별로 기록한다. (PR #51, #54 develop 머지 완료)
 
 ## 오늘 한 일 요약
 
-1. **방코드 스팀 멀티 2-PC 실기기 완주** — 7라운드 트러블슈팅 (PR #51, PR #54 develop 머지)
+1. **방코드 스팀 멀티 2-PC 실기기 전 구간 검증** — 7라운드 트러블슈팅 (PR #51, PR #54 develop 머지)
 2. 구형 `SocketSubsystemSteamIP` P2P 폐기 → **SteamSockets(SDR) 플러그인 전환**
 3. **"리슨 시작은 hard travel, 이후 seamless"** 설계 확립 + seamless 도착자 로비 슬롯 재배정
 4. `UIHostComponent` 리팩터 마무리 — develop 9커밋 머지 + `TCPlayerController` 충돌 통합 (브랜치 `7db9ebe`, PR 대기)
@@ -99,7 +99,7 @@ vport 재바인딩을 피하려 Seamless Travel을 켰더니 부작용이 둘 �
 - 세션 생성 후 **첫 트래블만** 현재 GameMode의 `bUseSeamlessTravel`을 꺼서 hard travel 강제 (커밋 `3fa2ada`, seamless 적용은 `603ec9d`)
 - `TCLobbyGameMode::HandleSeamlessTravelPlayer`에서 미배정 슬롯 재배정
 
-→ **전 구간 완주**: 방코드 생성 → 검색/매칭 → SDR P2P 접속 → 로비 합류(슬롯 표시) → Ready → 시작 → `L_LevelProto` seamless 동반 진입. PR #54로 정리, develop 머지 완료.
+→ **전 구간 통과**: 방코드 생성 → 검색/매칭 → SDR P2P 접속 → 로비 합류(슬롯 표시) → Ready → 시작 → `L_LevelProto` seamless 동반 진입. PR #54로 정리, develop 머지 완료.
 
 ---
 
@@ -139,7 +139,7 @@ develop이 9커밋 전진해 있어 머지했는데, **에디터가 에셋 파�
 6. **원격 협업 테스트에서 "수정이 안 먹는다"고 하기 전에 상대가 pull했는지부터.** 커밋 시각 vs 로그 시각 대조가 판별법.
 7. **배치 자동화의 단일 하향 트레이스는 지붕에 얹힌다.** 멀티 트레이스로 층 구조(히스토그램)를 파악한 뒤 원하는 밴드만 골라야 한다.
 
-> **오늘 배운 것** — 7라운드 내내 추측은 전부 빗나갔고 매번 로그 한 줄이 정답이었다. 호스트·클라 양쪽 로그를 대조하면 실패가 세션 계층인지 전송 계층인지 특정되고, 구형 SteamIP P2P 대신 SteamSockets(SDR)로 전환한 뒤 "리슨 시작은 hard travel, 이후는 seamless" 설계로 전 구간을 완주했다.
+> **오늘 배운 것** — 7라운드 내내 추측은 전부 빗나갔고 매번 로그 한 줄이 정답이었다. 호스트·클라 양쪽 로그를 대조하면 실패가 세션 계층인지 전송 계층인지 특정되고, 구형 SteamIP P2P 대신 SteamSockets(SDR)로 전환한 뒤 "리슨 시작은 hard travel, 이후는 seamless" 설계로 전 구간을 통과시켰다.
 {: .prompt-tip }
 
 > **면접에서 이렇게 말한다** — 예상 질문: "스팀 P2P 멀티플레이 접속이 안 될 때 어떻게 디버깅했나요?" → 호스트·클라 로그 대조, 세션 계층과 전송 계층 분리, SteamSockets(SDR) 전환, vport 리슨 소켓 충돌, hard/seamless travel 설계

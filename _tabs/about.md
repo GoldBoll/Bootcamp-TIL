@@ -21,7 +21,7 @@ UE5 C++ 게임 클라이언트 개발자를 지망합니다.
 Steam 리슨서버 멀티플레이. 두 명이 가구를 맞들고 옮기는 협동 운반이 핵심 시스템입니다. [GitHub](https://github.com/GoldBoll/TeamCarry)
 
 - **협동 운반 러버밴딩** — 운반 중 캐릭터가 되끌리는 원인이 "서버가 CMC 예측 위에 위치를 한 번 더 보정하는 구조"에 있음을 찾음 → 견인 주입을 걷어내고 입력 단계에서 이동을 제한하는 리쉬(leash)로 전환 → 콘솔 치트로 줄다리기를 재현해 밴딩 소멸 검증. [기록](/posts/til-carry-leash-movement/)
-- **방코드 스팀 멀티 완주** — 방 생성→검색→P2P 접속→게임 진입이 실기기에서 구간마다 끊김 → 추측 대신 로그 판독으로 문제→가설→수정 사이클을 7라운드 반복 → PC 2대 실기기로 전 구간 완주, PR #51·#54 develop 머지. [기록](/posts/til-teamcarry-steam-multiplayer-troubleshooting/)
+- **방코드 스팀 멀티 실기기 검증** — 방 생성→검색→P2P 접속→게임 진입이 실기기에서 구간마다 끊김 → 추측 대신 로그 판독으로 문제→가설→수정 사이클을 7라운드 반복 → PC 2대 실기기로 전 구간 통과, PR #51·#54 develop 머지. [기록](/posts/til-teamcarry-steam-multiplayer-troubleshooting/)
 - **라이트맵 베이크 실패 추적** — Build Lighting을 돌리면 벽이 그라데이션 없는 주황 덩어리가 됨 → 하나로 보였던 원인이 실제로는 셋임을 순서대로 확인 → 남는 한계까지 검증한 뒤 전 조명 Movable 전환으로 결론. [기록](/posts/til-lightmap-bake-failure/)
 - **로비 맵 프리로드 충돌** — 로딩을 줄이려고 넣은 스테이지 맵 프리로드가 게임 진입 자체를 막음 → "호스트가 먼저 멈추는" 비대칭 증상에서 서버 전용 코드를 역추적, ServerTravel의 LoadMap이 같은 맵 패키지를 다시 여는 충돌임을 확인 → 프리로드 제거 + "맵이 아니라 맵이 쓰는 에셋 단위로 데워야 한다"는 기준 정리. [기록](/posts/til-lobby-map-preload-travel-conflict/)
 
