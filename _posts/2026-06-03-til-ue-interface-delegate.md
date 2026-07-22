@@ -253,3 +253,9 @@ UGameplayStatics::ApplyDamage(액터, 양, ...)
 4. **데미지 흐름과 null 가드** — `ApplyDamage → OnTakeAnyDamage → TakeDamage`. `GetDefaultObject<T>()` 무검사 캐스팅은 위험하니 클래스 포인터 null 체크 + `Cast<>`로 방어한다.
 5. **`FInterpTo`로 카메라를 부드럽게** — ADS는 즉시 대입 대신 목표값으로 보간하면 ease-out 줌이 나온다. 단 `bCanEverTick=true` 필수.
 6. **샌드박스 vs 템플릿 패턴** — 발사 변형이 많은 무기는 호출 순서를 자식에게 넘기는 샌드박스가, 절차가 고정된 경우는 부모가 골격을 쥐는 템플릿이 맞다.
+
+> **오늘 배운 것** — Dynamic Multicast Delegate로 발신부(HealthComponent)와 수신부(UI·캐릭터)를 분리하면 서로를 몰라도 이벤트가 전달돼 결합도가 낮아진다. 파티 공유 퀘스트처럼 공유돼야 하는 상태는 GameInstanceSubsystem 한 곳(SSOT)에 두면 누가 막타를 치든 진행도가 일관된다.
+{: .prompt-tip }
+
+> **면접에서 이렇게 말한다** — 예상 질문: "언리얼에서 델리게이트를 왜 쓰고, Dynamic Multicast는 언제 선택하나요?" → 발신부·수신부 분리, 결합도 감소, BlueprintAssignable, 1:다 Broadcast, BP 바인딩
+{: .prompt-info }
