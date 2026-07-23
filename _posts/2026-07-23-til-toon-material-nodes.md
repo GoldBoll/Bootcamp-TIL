@@ -5,6 +5,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "postprocess", "material", "art-direction"]
 render_with_liquid: false
 description: 팀 게임에 걸린 툰 룩의 머티리얼 내부 구조 편 — 셀 셰이딩 포스트 프로세스(M_PP_ToonTest)의 휘도 양자화 노드 체인과 툰스카이(M_ToonSky)의 절차식 하늘 그래프를 에디터에서 직접 열어 뜯어보고, 마스터-인스턴스 패턴이 튜닝 반복을 어떻게 흡수하는지 정리했다.
+pin: true
 image: /assets/img/til/2026-07-23/mat-pp-toon-graph.png
 ---
 

@@ -334,16 +334,22 @@ article div.mt-3.mb-3:has(> a.preview-img) {
   margin: 0 !important;
 }
 
-/* ---------- 카드 핀 아이콘: 레이아웃 밖으로 ----------
-   핀 아이콘이 하단 메타 플렉스 행에 끼어 세로 공백을 만들던 문제.
-   플로우에서 분리해 카드 본문 우상단 배지로 고정 — 메타 행은 날짜·카테고리만 남는다. */
-#post-list .card .card-body {
-  position: relative;
+/* ---------- 카드 메타 행: 좌하단 날짜·카테고리 / 우하단 핀 ----------
+   _layouts/home.html 셰도잉으로 핀은 .post-meta 직속 자식.
+   Chirpy 번들에 Bootstrap d-flex 유틸이 없어 여기서 직접 flex 선언.
+   하단 고정은 위의 .post-meta { margin-top: auto } 가 담당. */
+#post-list .card .card-body .post-meta {
+  display: flex;
+  align-items: center;
+}
+#post-list .card .card-body .post-meta > div:first-child {
+  margin-right: auto; /* 날짜·카테고리는 왼쪽, 핀은 오른쪽 끝으로 */
 }
 #post-list .card .post-meta .pin {
-  position: absolute;
-  top: 0.95rem;
-  right: 1.15rem;
-  margin: 0;
   color: var(--gb-accent);
+}
+
+/* 카테고리 행 아래 잔여 공백 축소 */
+#post-list .card .card-body {
+  padding-bottom: 0.55rem;
 }
