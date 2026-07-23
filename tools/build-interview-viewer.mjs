@@ -21,6 +21,9 @@
 //     → 키워드↔설명 무한 순환. 꼬리물기 브레드크럼(🧭)으로 경로 표시·되돌아가기
 //   - 검색 즉답 패널: 최상위 결과의 정의 2~3줄을 검색창 바로 아래 즉시 표시
 //   - 🎤 모의면접 모드: 답 가림 → 카드 클릭 개별 공개, 🎲 랜덤 문제
+//   - 면접 실전 카드 순서(P13): ①정의(핵심 답변) 최상단 강조 → ②동작·차이·해결
+//     → ③원본의 "학습 영역" 파생 블록은 하단 <details> 접힘 → ④🔗연관 맨 아래.
+//     좌측 목차는 스크롤 스파이로 현재 카드 하이라이트
 // ============================================================================
 
 import fs from 'node:fs';
@@ -76,11 +79,48 @@ if (!allMd.includes(SUMMARY_NAME)) {
 }
 const embedNames = allMd.filter((f) => f !== SUMMARY_NAME).sort();
 
+// "## 학습 영역 …" 파생 블록(P13): 면접 실전 순서상 핵심 답변보다 뒤 — 파일 끝으로
+// 옮기고 마커 줄로 감싸 renderBlocks가 <details> 접힘으로 렌더한다(콘텐츠 삭제 없음).
+// pass1(헤딩 수집)·pass2(렌더)가 같은 줄 배열을 보므로 앵커 id는 그대로 유지된다.
+const STUDY_START = '\u0000study\u0000'; // 뒤에 한 줄 라벨
+const STUDY_END = '\u0000/study\u0000';
+const studyFiles = [];
+function hoistStudySection(lines) {
+  let inFence = false;
+  let start = -1;
+  let end = lines.length;
+  for (let i = 0; i < lines.length; i++) {
+    if (/^```/.test(lines[i])) { inFence = !inFence; continue; }
+    if (inFence) continue;
+    if (start < 0) {
+      if (/^##\s+학습 영역/.test(lines[i])) start = i;
+    } else if (/^#{1,2}\s/.test(lines[i])) { end = i; break; } // 다음 동급 헤딩 전까지
+  }
+  if (start < 0) return false;
+  const chunk = lines.splice(start, end - start);
+  // 블록 꼬리의 빈 줄·hr은 본문 구분선이므로 접힘 안에 넣지 않는다
+  while (chunk.length && (/^\s*$/.test(chunk[chunk.length - 1]) || /^\s*-{3,}\s*$/.test(chunk[chunk.length - 1]))) chunk.pop();
+  const label = stripInlineMd(chunk[0].replace(/^##\s+/, ''))
+    .replace(/^학습 영역(?:\s*전환점)?\s*[—–-]*\s*/, '').trim();
+  // 파일 꼬리가 열린 코드펜스면(19번: EOF 직전 고아 ``` 1개) 붙일 블록이 펜스에
+  // 삼켜진다 — 꼬리의 고아 여는 펜스는 제거(렌더 출력 없음), 아니면 닫는 펜스 추가
+  let open = false;
+  for (const l of lines) if (/^```/.test(l)) open = !open;
+  if (open) {
+    while (lines.length && /^\s*$/.test(lines[lines.length - 1])) lines.pop();
+    if (/^```/.test(lines[lines.length - 1])) lines.pop();
+    else lines.push('```');
+  }
+  lines.push('', STUDY_START + (label || '학습 영역'), ...chunk, STUDY_END);
+  return true;
+}
+
 // filename → {id, name, lines, headings, slugToDom, canonToDom, html}
 const registry = new Map();
 
 for (const name of embedNames) {
   const lines = fs.readFileSync(path.join(SRC_DIR, name), 'utf8').split(/\r?\n/);
+  if (hoistStudySection(lines)) studyFiles.push(name);
   const id = name.replace(/\.md$/, '').replace(/[^\w가-힣]/gu, '_');
   const file = { id, name, lines, headings: [], slugToDom: new Map(), canonToDom: new Map(), html: '' };
 
@@ -205,6 +245,14 @@ function renderBlocks(lines, ctx, withHeadingIds) {
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
+
+    // "학습 영역" 파생 블록 마커(P13) → 기본 접힘 <details> + 한 줄 라벨
+    if (line.startsWith(STUDY_START)) {
+      closeBlocks();
+      out.push(`<details class="study"><summary>▸ 심화: ${escapeHtml(line.slice(STUDY_START.length))}</summary><div class="study-body">`);
+      continue;
+    }
+    if (line === STUDY_END) { closeBlocks(); out.push('</div></details>'); continue; }
 
     if (inFence) {
       if (/^```\s*$/.test(line)) {
@@ -491,19 +539,32 @@ const totalSections = [...registry.values()].reduce((n, f) => n + f.headings.len
 // 8) 메인 카드 HTML
 // ---------------------------------------------------------------------------
 const sumCtx = { file: null };
+// 면접 실전 순서(P13) 검증 카운트: ①정의 최상단 ②동작·차이·해결 ④연관 하단
+const cardStats = { total: 0, defTop: 0, relBottom: 0, noDef: [], noRel: [] };
 function topicCard(t) {
   const src = registry.get(t.file);
   const srcBtn = src
     ? `<a class="jump srcbtn" href="#" data-file="${src.id}" data-target="" title="${escapeHtml(t.file)} 원본 열기">원본 ↗</a>`
     : '';
+  // 불릿 분류: **정의** → 강조 블록(최상단) / 🔗연관 → 맨 아래 / 나머지 → 동작·차이·해결
+  let def = '';
   const facts = [];
   const rels = [];
-  for (const b of t.bullets) (b.startsWith('🔗') ? rels : facts).push(b);
+  for (const b of t.bullets) {
+    if (b.startsWith('🔗')) { rels.push(b); continue; }
+    const m = !def && b.match(/^\*\*정의\*\*\s*[::]\s*(.*)$/);
+    if (m) def = m[1];
+    else facts.push(b);
+  }
+  cardStats.total++;
+  if (def) cardStats.defTop++; else cardStats.noDef.push(t.num);
+  if (rels.length) cardStats.relBottom++; else cardStats.noRel.push(t.num);
   const cardCtx = { file: null, topic: t, autoLink: true }; // 정의·해결 텍스트 자동 링크化 (자기 카드·자기 원본 제외)
   return `<article class="card topic" id="t${t.num}">
 <header class="card-head"><span class="num">${t.num}</span><h3>${renderInline(t.title, sumCtx)}</h3>${srcBtn}</header>
 <div class="card-body">
-<ul class="facts">${facts.map((b) => `<li>${renderInline(b, cardCtx)}</li>`).join('\n')}</ul>
+${def ? `<p class="def"><b class="dl">정의</b>${renderInline(def, cardCtx)}</p>` : ''}
+${facts.length ? `<ul class="facts">${facts.map((b) => `<li>${renderInline(b, cardCtx)}</li>`).join('\n')}</ul>` : ''}
 ${rels.map((b) => `<div class="rel">${renderInline(b, cardCtx)}</div>`).join('\n')}
 </div>
 </article>`;
@@ -760,18 +821,24 @@ th{color:var(--gold);background:rgba(232,185,49,.06);white-space:nowrap}
 .sitem{display:flex;gap:7px;align-items:baseline;color:var(--ink);text-decoration:none;padding:3px 8px;border-radius:6px;line-height:1.45}
 .sitem:hover{background:var(--card);color:var(--gold)}
 .sitem b{color:var(--muted);font-weight:600;font-size:11px;flex:none}
+/* 스크롤 스파이: 현재 보고 있는 카드 하이라이트 */
+.sitem.cur{background:rgba(232,185,49,.12);color:var(--gold);font-weight:600}
+.sitem.cur b{color:var(--gold)}
 #main{flex:1;min-width:0;padding:16px 0 80px}
-.dtitle{color:var(--gold);font-size:19px;margin:30px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line)}
-.dblock:first-child .dtitle{margin-top:10px}
-/* 카드 */
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:14px;scroll-margin-top:70px;outline:2px solid transparent}
+.dtitle{color:var(--gold);font-size:19px;margin:22px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.dblock:first-child .dtitle{margin-top:8px}
+/* 카드 — 면접 실전 순서: 정의(강조) → 동작·차이·해결 → 🔗연관(하단) */
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 16px 13px;margin-bottom:12px;scroll-margin-top:70px;outline:2px solid transparent}
 .card-head{display:flex;align-items:baseline;gap:10px}
 .card-head h3{margin:0;font-size:16.5px;flex:1}
 .num{color:var(--gold);font-weight:800;font-size:13px;background:rgba(232,185,49,.1);border-radius:6px;padding:2px 7px;flex:none}
 .srcbtn{font-size:12px;text-decoration:none;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:2px 8px;flex:none}
 .srcbtn:hover{color:var(--gold);border-color:var(--gold)}
-.facts{margin:10px 0 0;padding-left:20px}
-.facts li{margin:5px 0}
+/* ① 정의 = 핵심 답변: 카드 열자마자 첫 문장이 보이게 최상단 강조 */
+.def{margin:8px 0 0;padding:8px 12px;background:rgba(232,185,49,.07);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;line-height:1.65}
+.def .dl{color:var(--gold);font-weight:800;font-size:11px;letter-spacing:.06em;margin-right:8px}
+.facts{margin:7px 0 0;padding-left:20px}
+.facts li{margin:4px 0}
 .rel{margin-top:9px;padding-top:8px;border-top:1px dashed var(--line);font-size:13.5px;color:var(--muted)}
 a.jump{color:var(--gold);text-decoration:none;border-bottom:1px dotted rgba(232,185,49,.5)}
 a.jump:hover{border-bottom-style:solid}
@@ -805,6 +872,14 @@ body.quiz .topic:not(.revealed) .srcbtn{display:none}
 #ovbody h3{font-size:15.5px;margin-top:24px;scroll-margin-top:10px}
 #ovbody h4,#ovbody h5{font-size:14.5px;scroll-margin-top:10px}
 #ovbody h1,#ovbody h2,#ovbody h3,#ovbody h4{outline:2px solid transparent;border-radius:4px}
+/* ③ 원본 "학습 영역" 파생 블록: 하단 이동 + 기본 접힘, 클릭 시 펼침 */
+.study{margin:22px 0 8px;border:1px dashed var(--line);border-radius:10px;background:rgba(232,185,49,.03)}
+.study>summary{cursor:pointer;padding:9px 14px;color:var(--muted);font-size:13px;list-style:none;user-select:none}
+.study>summary::-webkit-details-marker{display:none}
+.study>summary:hover{color:var(--gold)}
+.study[open]>summary{color:var(--gold);border-bottom:1px dashed var(--line)}
+.study-body{padding:0 16px 12px}
+#ovbody .study-body h2{font-size:15px;margin-top:14px;padding-bottom:0;border-bottom:0}
 @media(max-width:900px){#side{display:none}#wrap{padding:0 12px}.brand span{display:none}}
 `;
 
@@ -873,7 +948,11 @@ function openSrc(fid,tid,noPush){
   if(!noPush)hist.push({f:fid,t:tid||''});
   requestAnimationFrame(function(){
     var el=tid?document.getElementById(tid):null;
-    if(el){el.scrollIntoView({block:'start'});flash(el);}
+    if(el){
+      var dd=el.closest('details'); /* 접힌 학습 영역 안의 앵커면 펼치고 점프 */
+      while(dd){dd.open=true;dd=dd.parentElement?dd.parentElement.closest('details'):null;}
+      el.scrollIntoView({block:'start'});flash(el);
+    }
     else ovBody.scrollTop=0;
   });
 }
@@ -1041,7 +1120,7 @@ function applyFilter(){
     lastRes=null;
     cards.forEach(function(c){c.hidden=false;});
     blocks.forEach(function(b){b.hidden=false;});
-    qc.textContent='';hidePanel();return;
+    qc.textContent='';hidePanel();spyUpdate();return;
   }
   var res=CORE.search(SIDX,s);
   lastRes=res;
@@ -1060,6 +1139,7 @@ function applyFilter(){
   });
   qc.textContent='주제 '+res.topics.length+' · 원본 '+res.sections.length;
   renderPanel(res);
+  spyUpdate();
 }
 var deb;
 q.addEventListener('input',function(){clearTimeout(deb);deb=setTimeout(applyFilter,80);});
@@ -1092,6 +1172,36 @@ randBtn.addEventListener('click',function(){
   t.scrollIntoView({behavior:'smooth',block:'center'});
   flash(t);
 });
+
+/* ---- 좌측 목차 스크롤 스파이: 현재 보고 있는 카드 하이라이트 ---- */
+var side=document.getElementById('side');
+var spyMap={};
+[].slice.call(document.querySelectorAll('#side .sitem')).forEach(function(a){spyMap[a.getAttribute('data-card')]=a;});
+var spyCur=null,spyTick=false;
+function spyUpdate(){
+  spyTick=false;
+  var best=null,bestTop=-1e9,first=null;
+  for(var i=0;i<cards.length;i++){
+    var c=cards[i];
+    if(c.hidden)continue;
+    if(!first)first=c;
+    var top=c.getBoundingClientRect().top;
+    if(top<=130&&top>bestTop){bestTop=top;best=c;} /* 화면 상단(헤더 아래)을 지난 마지막 카드 */
+  }
+  if(!best)best=first;
+  var id=best?best.id:null;
+  if(id===spyCur)return;
+  if(spyCur&&spyMap[spyCur])spyMap[spyCur].classList.remove('cur');
+  spyCur=id;
+  var it=id?spyMap[id]:null;
+  if(it){
+    it.classList.add('cur');
+    var r=it.getBoundingClientRect(),p=side.getBoundingClientRect();
+    if(r.top<p.top+8||r.bottom>p.bottom-8)it.scrollIntoView({block:'nearest'});
+  }
+}
+window.addEventListener('scroll',function(){if(!spyTick){spyTick=true;requestAnimationFrame(spyUpdate);}},{passive:true});
+spyUpdate();
 
 /* ---- 키보드: / 검색, Esc 닫기 ---- */
 document.addEventListener('keydown',function(e){
@@ -1180,6 +1290,12 @@ console.log(`✔ ${path.relative(ROOT, OUT_PATH)} (${kb(size)})`);
 if (prevSize) {
   const growth = ((size - prevSize) / prevSize) * 100;
   console.log(`  이전 빌드 ${kb(prevSize)} → ${growth >= 0 ? '+' : ''}${growth.toFixed(1)}%${growth >= 20 ? ' ⚠ 20% 이상 증가' : ''}`);
+}
+// 카드 구조 검증(P13): 전 카드 면접 실전 순서(정의 최상단 · 연관 하단) + 학습 영역 접힘
+{
+  console.log(`✔ 카드 구조: 정의 최상단 ${cardStats.defTop}/${cardStats.total} · 연관 하단 ${cardStats.relBottom}/${cardStats.total} · 학습영역 접힘 ${studyFiles.length}파일(원본 하단 이동)`);
+  if (cardStats.noDef.length) console.log(`  ⚠ 정의 불릿 없는 카드: ${cardStats.noDef.join(', ')}`);
+  if (cardStats.noRel.length) console.log(`  ⚠ 연관 불릿 없는 카드: ${cardStats.noRel.join(', ')}`);
 }
 // 구조 검증: 주제 번호 중복 / 원본 파일 누락
 {
