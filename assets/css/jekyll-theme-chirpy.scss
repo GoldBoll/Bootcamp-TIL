@@ -333,3 +333,17 @@ article a.preview-img {
 article div.mt-3.mb-3:has(> a.preview-img) {
   margin: 0 !important;
 }
+
+/* ---------- 카드 핀 아이콘: 레이아웃 밖으로 ----------
+   핀 아이콘이 하단 메타 플렉스 행에 끼어 세로 공백을 만들던 문제.
+   플로우에서 분리해 카드 본문 우상단 배지로 고정 — 메타 행은 날짜·카테고리만 남는다. */
+#post-list .card .card-body {
+  position: relative;
+}
+#post-list .card .post-meta .pin {
+  position: absolute;
+  top: 0.95rem;
+  right: 1.15rem;
+  margin: 0;
+  color: var(--gb-accent);
+}

@@ -5,6 +5,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "mcp", "blender", "python", "asset-import", "skeletal-mesh", "texture", "debugging"]
 render_with_liquid: false
 description: 공식 Blender MCP(blender.org/lab)를 구축하며 만난 에러 없는 실패 2건 — online_access 게이트와 CLI 활성화 휘발 — 을 상태덤프 스크립트로 규명했다. 구축 후 에이전트가 MCP로 펭귄을 임포트·검증하고, 텍스처 내장 FBX를 3중 검증으로 확인한 파이프라인 기록.
+pin: true
 image: /assets/img/til/2026-07-23/blender-penguin-render.png
 ---
 
