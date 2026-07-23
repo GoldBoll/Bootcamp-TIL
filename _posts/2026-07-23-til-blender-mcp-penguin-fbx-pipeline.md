@@ -122,9 +122,3 @@ Walking 시퀀스가 펭귄 스켈레톤에서 정상 재생되고, BS_BaseChara
 > - CLI의 상태 변경은 **어디에 저장되는지**까지 확인 — `--enable`은 세션 휘발, `addon_enable` + `save_userpref`로 영속화해야 재현 가능한 설치가 된다
 > - 산출물 검증은 옵션이 아니라 **결과물**로 — `embed_textures`는 크기 델타·PNG 시그니처·로그 3중으로 확인했다
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다**
-> - 예상 질문: "자동화 도구가 에러 없이 동작만 안 할 때 어떻게 디버깅하나요?" → Blender MCP 자동시작 무음 실패 사례로 답변 — 상태덤프 스크립트로 게이트 변수(`bpy.app.online_access`) 규명
-> - 예상 질문: "DCC↔엔진 왕복 파이프라인에서 산출물을 어떻게 검증하나요?" → 텍스처 내장 FBX 3중 검증(크기 델타·바이너리 시그니처·로그) + `add_leaf_bones=False`
-> - 키워드: MCP, stdio/TCP 브리지, bpy.app.online_access, save_userpref, embed_textures, path_mode COPY
-{: .prompt-info }

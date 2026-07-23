@@ -210,7 +210,3 @@ delete p;
 
 > **오늘 배운 것** — 기반 클래스 포인터로 delete할 때 소멸자가 non-virtual이면 기반 소멸자만 호출돼 파생 클래스의 자원이 그대로 새고, C++ 표준상 UB다. 가상 함수가 하나라도 있는 클래스에는 virtual 소멸자를 선언한다(Effective C++ Item 7).
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다** — 예상 질문: "소멸자를 virtual로 선언해야 하는 이유는 무엇인가요?" → 다형적 delete, vtable 동적 디스패치, 소멸자 체인(파생→기반), 메모리 누수, UB
-{: .prompt-info }
-

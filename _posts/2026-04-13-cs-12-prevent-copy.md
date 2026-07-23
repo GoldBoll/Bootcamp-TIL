@@ -1190,8 +1190,3 @@ struct FBigData
 
 > **오늘 배운 것** — 복사 가능 여부는 편의가 아니라 타입 의미론의 일부다. 파일 핸들·뮤텍스·소켓·`unique_ptr`처럼 책임자가 하나여야 하는 자원은 복사를 `= delete`하고 move만 살리는 게 표준 라이브러리 공통 패턴이고, 멤버에 `unique_ptr`을 두면 암묵적 삭제로 클래스가 자동 move-only가 된다(Rule of Zero).
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다** — 예상 질문: "객체 복사를 막는 방법에는 어떤 것이 있고, 왜 막아야 하나요?" → = delete, 단독 소유 자원, 이중 해제, Rule of Three/Five/Zero, 슬라이싱
-{: .prompt-info }
-
-

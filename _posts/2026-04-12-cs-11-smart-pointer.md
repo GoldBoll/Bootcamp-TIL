@@ -684,7 +684,3 @@ if (WeakActor.IsValid()) { WeakActor->Foo(); }
 
 > **오늘 배운 것** — 스마트 포인터 3종은 소유권 모델(단독·공유·관찰)로 구분하면 정리가 된다. shared_ptr의 순환 참조는 한쪽을 weak_ptr로 바꿔 끊고, 생성은 예외 안전성과 단일 힙 할당 때문에 make_unique/make_shared가 기본값이다.
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다** — 예상 질문: "shared_ptr의 순환 참조는 왜 생기고 어떻게 해결하나요?" → strong count가 0이 안 됨, 서로 참조 루프, weak_ptr 교체, lock() 승격, 부모 소유·자식 관찰
-{: .prompt-info }
-

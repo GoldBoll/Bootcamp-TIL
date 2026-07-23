@@ -223,7 +223,3 @@ C++20의 `[[no_unique_address]]` 속성으로 멤버에도 EBO와 같은 최적�
 
 > **오늘 배운 것** — C++에서 class와 struct의 기능 차이는 기본 접근 지정자와 기본 상속 방식 두 가지뿐이고, 나머지는 관용적 사용 구분이다. 언리얼로 넘어가면 USTRUCT는 GC 비대상 경량 데이터, UCLASS는 UObject GC 관리 대상이라는 실전 차이로 이어진다.
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다** — 예상 질문: "class와 struct의 차이를 설명해 보세요" → 기본 접근 지정자, 기본 상속 방식, 기능적으로 동일, POD·aggregate 초기화, USTRUCT vs UCLASS
-{: .prompt-info }
-

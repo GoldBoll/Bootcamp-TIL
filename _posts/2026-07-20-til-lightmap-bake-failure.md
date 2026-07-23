@@ -241,6 +241,3 @@ Static 라이트는 실시간 렌더 기여가 아예 없다. 라이트맵 안�
 
 > **오늘 배운 것** — 라이트맵은 UV를 만드는 설정(`DstLightmapIndex`)과 읽는 설정(`LightMapCoordinateIndex`)이 별개라, 어긋나면 타일링용 겹친 UV를 라이트맵으로 읽어 벽이 통째로 탄다. 그리고 파라미터를 하루 종일 돌리기 전에 "이 프로젝트에 베이크가 필요한가"부터 물었어야 했다.
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다** — 예상 질문: "라이트맵을 구웠는데 벽이 단색으로 타 보이면 어디부터 확인하시겠어요?" → 라이트맵 UV 겹침, LightMapCoordinateIndex, 라이트맵 해상도, 라이트 모빌리티(Static/Stationary/Movable), 격리 실험
-{: .prompt-info }

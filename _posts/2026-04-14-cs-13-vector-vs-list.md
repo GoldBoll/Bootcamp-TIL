@@ -1296,7 +1296,3 @@ TLinkedList·TDoubleLinkedList가 있지만 헬퍼 수준입니다. 게임 엔�
 
 > **오늘 배운 것** — 이론 시간 복잡도가 같아도 실측 성능은 메모리 접근 패턴이 결정한다. vector는 연속 메모리라 캐시 라인과 프리페처의 덕을 그대로 보고, list는 노드가 흩어져 있어 1M 순회에서 100배까지 느려진다. 결론은 "의심스러우면 vector".
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다** — 예상 질문: "list는 중간 삽입이 O(1)인데 왜 실제로는 vector가 빠른가요?" → 위치 iterator 전제, find는 O(n), 캐시 라인 64B, 하드웨어 프리페처, memmove의 SIMD 이동
-{: .prompt-info }
-

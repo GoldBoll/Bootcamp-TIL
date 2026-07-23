@@ -237,7 +237,3 @@ int32 BucketCount = Map.GetMaxIndex();   // 내부 슬롯 수
 
 > **오늘 배운 것** — 해시 테이블은 `load_factor(= size / bucket_count)` 가 `max_load_factor` 를 넘는 순간 rehash 로 모든 원소를 O(N)에 재배치한다. 게임 루프에서는 이 한 번의 비용이 프레임 드롭으로 나타나므로, 시작 시 `reserve(N)` 으로 rehash 자체를 회피하는 게 표준 패턴이다.
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다** — 예상 질문: "unordered_map 의 rehash 는 언제 일어나고 비용은 어떻게 되나요?" → load factor 임계 초과, bucket 2배 증가, O(N) 재해싱, amortized O(1), reserve 회피, iterator 무효화
-{: .prompt-info }
-

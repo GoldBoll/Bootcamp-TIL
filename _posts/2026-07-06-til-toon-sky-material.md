@@ -134,6 +134,3 @@ git symbolic-ref HEAD refs/heads/develop && git reset
 
 > **오늘 배운 것** — 하늘은 라이팅을 받는 표면이 아니라 배경이라서 포스트 프로세스 셀 셰이딩이 아니라 스카이돔의 Unlit 머티리얼 교체로 잡아야 하고, `saturate((x−t)/f)` 하나로 밴딩·구름·투톤을 전부 만들 수 있었다. git 쪽에서는 머지된 커밋의 재작성이 `commit-tree` plumbing으로 워킹 트리 없이 가능하다는 것과, force push는 팀 조율이 없으면 pull 한 번에 되돌아간다는 걸 몸으로 배웠다.
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다** — 예상 질문: "포스트 프로세스 셀 셰이딩을 쓰는데 하늘은 왜 따로 처리했나요?" → 하늘은 Unlit 배경, 라이팅 결과 계단화 불가, 스카이돔 머티리얼 교체, Is Sky 플래그, 절차식 노이즈 구름
-{: .prompt-info }

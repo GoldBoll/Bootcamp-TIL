@@ -75,5 +75,3 @@ int solution(vector<string> babbling) {
 > **오늘 배운 것** — 문자열을 pos 포인터로 왼쪽부터 소비하며 토큰을 매칭하는 패턴을 익혔다. `pos == word.size()`까지 도달했는지가 성공 판정 기준이고, used 배열이 토큰별 사용 횟수 제한을 담당한다.
 {: .prompt-tip }
 
-> **면접에서 이렇게 말한다** — 예상 질문: "토큰 조합으로 만들 수 있는 문자열인지 어떻게 판정하나요?" → pos 포인터 소비, compare(pos, len, tok), used 플래그, 끝까지 소비 성공 여부
-{: .prompt-info }

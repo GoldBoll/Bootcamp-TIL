@@ -154,5 +154,3 @@ image: /assets/img/thumbs/til.svg
 > **오늘 배운 것** — 기획안을 구현 관점으로 다시 읽으면, "여럿이 동시에 든다"는 재미 요소가 곧 서버 권위 + Replication 설계 문제라는 게 보인다. 속도 페널티 공식처럼 수식은 있는데 단위·하한이 비어 있는 지점은 구현 전에 팀과 맞춰야 할 확인 목록이 된다.
 {: .prompt-tip }
 
-> **면접에서 이렇게 말한다** — 예상 질문: "여러 플레이어가 동시에 한 오브젝트를 옮기는 협동 시스템을 어떻게 설계하겠습니까?" → 서버 권위, 입력 합산(CombinedVelocity), 복제 프로퍼티(CurrentHealth·bIsGrabbed), DataTable 밸런싱, 예외 케이스 정의
-{: .prompt-info }

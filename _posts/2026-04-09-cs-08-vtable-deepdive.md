@@ -417,7 +417,3 @@ vtable + RTTI:
 
 > **오늘 배운 것** — vtable은 클래스당 1개(.rodata), vptr은 객체당 1개(생성자에서 초기화)라는 구분이 모든 꼬리질문의 출발점이었다. override 안 한 슬롯엔 부모 함수 포인터가 그대로 복사되고, 순수 가상 함수 슬롯엔 `_purecall`이 들어가며, 생성자 안에서는 vptr이 아직 부모 vtable을 가리켜서 자식 override가 호출되지 않는다.
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다** — 예상 질문: "vtable을 사용하면 어떤 단점이 있나요?" → 간접 호출(역참조 2번), 인라이닝 불가, 캐시 미스, vptr 메모리 오버헤드, final/CRTP로 devirtualize
-{: .prompt-info }
-

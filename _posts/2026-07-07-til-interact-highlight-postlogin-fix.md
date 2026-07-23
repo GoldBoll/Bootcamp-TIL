@@ -177,5 +177,3 @@ if (CurrentPhase == EGamePhase::Playing
 > **오늘 배운 것** — 새 포스트 프로세스 패스를 추가하는 대신 CustomStencil을 읽어 기존 아웃라인 머티리얼 하나에 하이라이트 링을 얹었고, 하이라이트가 안 뜨는 원인은 셰이더가 아니라 실제 가구 클래스(`TCCarriableFurniture`)의 빈 `OnFocus` 스텁이었다. 오후의 로비 킥 버그는 하드 트래블만 `PostLogin`을 탄다는 구조를 이해하고 나니 `Playing` 페이즈 게이트 한 줄로 끝났다.
 {: .prompt-tip }
 
-> **면접에서 이렇게 말한다** — 예상 질문: "언리얼 멀티플레이어에서 심리스 트래블과 하드 트래블은 뭐가 다른가요?" → bUseSeamlessTravel, PostLogin은 하드 로그인만 호출, HandleSeamlessTravelPlayer, 로그인 훅 조건 분기, 게임 페이즈 게이트
-{: .prompt-info }

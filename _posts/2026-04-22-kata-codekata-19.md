@@ -47,6 +47,4 @@ long long solution(int price, int money, int count)
 > **오늘 배운 것** — 회차마다 price×N으로 늘어나는 요금의 누적 합은 등차수열 합 공식 `price * count * (count + 1) / 2`로 반복문 없이 O(1)에 구할 수 있다. 곱셈 중간값이 int 범위를 넘지 않도록 `(long long)` 캐스팅을 곱셈 앞에 붙이는 것까지가 풀이의 완성이다.
 {: .prompt-tip }
 
-> **면접에서 이렇게 말한다** — 예상 질문: "반복 누적 계산을 상수 시간으로 줄일 수 있나요?" → 등차수열 합 공식, O(N)→O(1), 정수 오버플로, long long 캐스팅
-{: .prompt-info }
 

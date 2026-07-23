@@ -141,6 +141,3 @@ develop이 9커밋 전진해 있어 머지했는데, **에디터가 에셋 파�
 
 > **오늘 배운 것** — 7라운드 내내 추측은 전부 빗나갔고 매번 로그 한 줄이 정답이었다. 호스트·클라 양쪽 로그를 대조하면 실패가 세션 계층인지 전송 계층인지 특정되고, 구형 SteamIP P2P 대신 SteamSockets(SDR)로 전환한 뒤 "리슨 시작은 hard travel, 이후는 seamless" 설계로 전 구간을 통과시켰다.
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다** — 예상 질문: "스팀 P2P 멀티플레이 접속이 안 될 때 어떻게 디버깅했나요?" → 호스트·클라 로그 대조, 세션 계층과 전송 계층 분리, SteamSockets(SDR) 전환, vport 리슨 소켓 충돌, hard/seamless travel 설계
-{: .prompt-info }

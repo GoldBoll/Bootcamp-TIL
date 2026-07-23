@@ -102,5 +102,3 @@ GitHub Flow는 `feat`가 곧장 `main`으로 들어간다. 단순하지만, **�
 > **오늘 배운 것** — 팀 프로젝트는 코드보다 레포 표준이 먼저다. UE5 `.gitignore`로 재생성물을 빼고, 도메인 소유권으로 같은 파일 동시 수정을 구조로 막고, `develop` 완충 브랜치로 main이 깨질 위험을 흡수한다.
 {: .prompt-tip }
 
-> **면접에서 이렇게 말한다** — 예상 질문: "Git Flow에서 develop 브랜치를 왜 두나요?" → 통합 완충 지대, main 안정판 유지, feat 브랜치 PR, 릴리즈 시점에만 main 머지
-{: .prompt-info }

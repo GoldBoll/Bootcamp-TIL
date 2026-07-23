@@ -136,6 +136,3 @@ void UTCSessionFlow::PreloadSelectedStageMapAsync()
 
 > **오늘 배운 것** — 맵(레벨) 패키지는 곧이어 ServerTravel의 LoadMap이 같은 패키지를 다시 여는 대상이라, 일반 에셋처럼 프리로드하면 트래블 경로와 충돌한다. 프리로드의 이득은 맵이 아니라 맵이 쓰는 에셋에서 얻어야 한다.
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다** — 예상 질문: "멀티플레이어에서 맵 로딩 히치를 줄이려면 어떻게 접근하시겠어요?" → 맵 패키지 프리로드 충돌, ServerTravel/LoadMap, 에셋 단위 프리로드, PSO 워밍업, 서버 권위 코드와 비대칭 증상
-{: .prompt-info }

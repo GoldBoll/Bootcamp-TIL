@@ -42,5 +42,3 @@ vector<int> solution(int num, int total)
 > **오늘 배운 것** — 연속 수열 문제는 첫 항만 구하면 나머지는 start+i로 결정된다. 등차수열 합 공식을 start에 대해 정리하면 `start = total/num - (num-1)/2`로 분기 없는 단일 식이 나온다.
 {: .prompt-tip }
 
-> **면접에서 이렇게 말한다** — 예상 질문: "이 문제에서 반복 탐색 없이 답을 구한 방법은?" → 등차수열 합 공식, 첫 항 유도, 단일 식, 해 존재 보장 조건 활용
-{: .prompt-info }

@@ -191,5 +191,3 @@ FORCEINLINE_DEBUGGABLE bool AActor::HasAuthority() const
 > **오늘 배운 것** — "중대한 로직은 권한(Authority)을 가진 서버에서만"이라는 대전제 아래, 월드 단위 NetMode와 액터 단위 NetRole(LocalRole/RemoteRole 2축)로 "이 코드가 어느 PC에서 도는가"를 판별하는 법을 익혔다.
 {: .prompt-tip }
 
-> **면접에서 이렇게 말한다** — 예상 질문: "언리얼 멀티플레이에서 서버 로직과 클라이언트 로직을 어떻게 구분하나요?" → 서버 권위(Authority), NetMode vs NetRole, HasAuthority(), Autonomous/Simulated Proxy, Ownership 사슬
-{: .prompt-info }

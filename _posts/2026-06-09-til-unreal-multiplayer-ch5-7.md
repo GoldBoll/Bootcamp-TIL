@@ -509,5 +509,3 @@ UPROPERTY(ReplicatedUsing = OnRep_MaxHP)     float MaxHP;
 > **오늘 배운 것** — Property Replication을 조절하는 다이얼(NetUpdateFrequency·Relevancy·NetPriority·NetDormancy)을 배웠고, 지뢰 재폭발 디버깅으로 "RPC는 순간 이벤트, Replication은 지속 상태"라는 구분을 직접 겪으며 익혔다.
 {: .prompt-tip }
 
-> **면접에서 이렇게 말한다** — 예상 질문: "RPC와 Property Replication은 각각 언제 쓰나요?" → 순간 이벤트 vs 지속 상태, 늦게 접속한 클라이언트, Multicast 누락, ReplicatedUsing(OnRep), 서버 권위
-{: .prompt-info }

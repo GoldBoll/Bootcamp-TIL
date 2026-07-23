@@ -711,7 +711,3 @@ vector 는 `size > capacity` 가 되는 순간 새 배열을 할당하고 전체
 
 > **오늘 배운 것** — emplace_back 은 가변 템플릿 + perfect forwarding 으로 슬롯 위에서 객체를 직접 생성해 임시 객체를 없애지만, explicit 생성자를 우회할 수 있어 확실한 이득이 없으면 push_back 이 안전하다. 그리고 vector 재할당과 unordered_map rehash 는 "용량 초과 시 새로 할당해 통째로 옮기는" 같은 패턴이라, 둘 다 iterator 가 전부 무효화되고 reserve 로 회피한다.
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다** — 예상 질문: "push_back 과 emplace_back 의 차이를 설명해 주세요" → 임시 객체 생성 여부, perfect forwarding, in-place 생성, explicit 우회 함정, 무브-온리 타입
-{: .prompt-info }
-

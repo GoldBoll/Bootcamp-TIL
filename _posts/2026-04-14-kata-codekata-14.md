@@ -60,6 +60,4 @@ vector<int> solution(vector<int> arr) {
 > **오늘 배운 것** — `min_element`는 최솟값의 위치(반복자)를 돌려주므로, 값을 다시 찾을 필요 없이 `erase`에 바로 넘겨 한 줄로 제거할 수 있다. 원소를 골라 새 벡터에 담는 방식보다 코드가 짧아진다.
 {: .prompt-tip }
 
-> **면접에서 이렇게 말한다** — 예상 질문: "vector에서 최솟값 원소를 제거하려면 어떻게 하나요?" → min_element로 O(n) 탐색, 반복자 반환, erase에 전달, erase 시 뒤 원소들이 앞으로 당겨짐, 빈 벡터 예외 처리
-{: .prompt-info }
 

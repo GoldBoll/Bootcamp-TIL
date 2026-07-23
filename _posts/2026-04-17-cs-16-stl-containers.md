@@ -802,7 +802,3 @@ STL 컨테이너는 시퀀스, 연관, 비순서 연관, 컨테이너 어댑터 
 
 > **오늘 배운 것** — 개별로 파던 vector·list·map·unordered_map을 시퀀스/연관/비순서 연관/어댑터 4분류 지도 위에 재배치했다. 선택 기준은 "의심스러우면 vector, 정렬·최악 보장이 필요하면 map, 처리량이 필요하면 unordered_map" 한 줄로 압축된다.
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다** — 예상 질문: "C++ STL 컨테이너를 분류해서 설명해 주세요" → 4분류(시퀀스·연관·비순서 연관·어댑터), RB-Tree O(log n) 최악 보장, 해시 평균 O(1)·rehash, iterator 무효화, vector first
-{: .prompt-info }
-

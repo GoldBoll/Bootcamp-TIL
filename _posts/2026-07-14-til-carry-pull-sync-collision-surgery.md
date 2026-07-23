@@ -179,5 +179,3 @@ if (bDragged != bWasDraggedLastTick)
 > **오늘 배운 것** — ServerMove는 속도가 아니라 가속도를 나르기 때문에, 서버가 견인 속도를 주입하지 않으면 서버 재적분 결과가 제자리가 되고 보정이 클라의 견인을 지워버린다. 예측 시스템에서 외부 속도는 '한쪽만'이 아니라 서버와 소유 클라가 '같은 값을' 주입해야 한다.
 {: .prompt-tip }
 
-> **면접에서 이렇게 말한다** — 예상 질문: "언리얼 CharacterMovementComponent의 서버-클라이언트 동기화 구조를 설명해 보세요" → 클라 예측, ServerMove(가속도 전송), 서버 재적분, ClientAdjustPosition 교정, 외부 속도는 양쪽 동일 주입
-{: .prompt-info }

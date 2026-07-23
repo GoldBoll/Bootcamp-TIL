@@ -334,7 +334,3 @@ recvfrom(sfd, buf, sizeof(buf), 0, (struct sockaddr*)&from, &fromlen);
 
 > **오늘 배운 것** — 소켓은 OS가 파일 디스크립터로 노출하는 양방향 통신 채널의 추상화라서 파일과 같은 `read`/`write` API로 다룰 수 있고, 같은 머신 IPC만 필요하면 UNIX domain socket이 TCP loopback보다 30~50% 빠르며 파일 권한으로 접근을 제어할 수 있다.
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다** — 예상 질문: "소켓이 무엇이고, UNIX domain socket은 TCP loopback과 어떻게 다른가요?" → endpoint 추상화, 파일 디스크립터, 프로토콜 스택 우회, 파일 권한 접근 제어, 5-tuple
-{: .prompt-info }
-

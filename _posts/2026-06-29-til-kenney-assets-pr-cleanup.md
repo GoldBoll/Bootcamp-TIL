@@ -129,5 +129,3 @@ sm_assets = asset_lib.list_assets("/Game/Assets", recursive=True)
 > **오늘 배운 것** — UE의 redirector는 이전 경로에서 새 경로로 이어 주는 포인터라, 참조를 정리하지 않고 삭제하면 그걸 바라보던 레벨 참조가 통째로 끊긴다. 끊어진 StaticMesh 액터 404개를 UE Python으로 일괄 삭제하고 새 경로 기준으로 재배치해 복구했다.
 {: .prompt-tip }
 
-> **면접에서 이렇게 말한다** — 예상 질문: "언리얼에서 에셋 폴더를 옮긴 뒤 참조가 깨졌다면 어떻게 대응하겠는가?" → redirector 역할 이해, Fix Up Redirectors 선행, 참조 갱신 후 삭제, Python API로 일괄 복구, 커밋 전 git diff 확인
-{: .prompt-info }

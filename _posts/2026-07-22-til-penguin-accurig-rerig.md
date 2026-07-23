@@ -78,9 +78,3 @@ _ABP_Penguin AnimGraph — 상태머신 없이 BS_BaseCharacter 블렌드스페�
 > - AI 생성 메시(Tripo)도 리깅 표준화를 거치면 기성 애니메이션 생태계(IK 리타게터 → Mixamo 계열 시퀀스)에 올라탄다
 > - 로코모션에 상태머신이 필수는 아니다 — C++ AnimInstance(Speed/bIsFalling) + 1D 블렌드스페이스 하나로 충분한 구조를 확인했다
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다**
-> - 예상 질문: "리타게팅 품질이 무너질 때 어떻게 접근하시겠어요?" → 6/24 cross-rig 실패 → 리그 표준화 재작업(AccuRIG) → IK Rig/리타게터 체인 매핑으로 이어진 이 사례로 답변
-> - 예상 질문: "애님 블루프린트 로직을 어디에 두시겠어요?" → 상태머신 없는 ABP_Penguin 구조 — NativeUpdateAnimation(C++)에서 변수 갱신, 그래프는 블렌드스페이스 플레이어만
-> - 키워드: IK Rig, IK Retargeter, retarget chain, cc_base 리그, AccuRIG, 블렌드스페이스, NativeUpdateAnimation, asset_import_data
-{: .prompt-info }

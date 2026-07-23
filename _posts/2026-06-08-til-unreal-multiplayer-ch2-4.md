@@ -362,5 +362,3 @@ Owner 설정이 "해당 액터가 어느 클라의 넷커넥션에 속하는가"
 > **오늘 배운 것** — 일시적 효과는 RPC, 중대한 상태는 Property Replication 3종 세트(`bReplicates`·`Replicated`·`DOREPLIFETIME`)로 나눠 다루며, Multicast를 어느 액터에 정의하느냐(PlayerController가 아니라 GameState)가 도달 범위를 정한다.
 {: .prompt-tip }
 
-> **면접에서 이렇게 말한다** — 예상 질문: "멀티플레이에서 전체 클라이언트 알림을 왜 GameState에서 보내나요?" → 액터 존재 위치, PlayerController는 서버+소유 클라에만, GameState는 전 클라 복제, NetMulticast 도달 범위
-{: .prompt-info }

@@ -259,5 +259,3 @@ SkeletonService.set_bone_retargeting_mode(skel, "root", "Skeleton")
 > **오늘 배운 것** — 외부 FBX/GLB 파이프라인의 함정은 대부분 "스케일·좌표 규약 불일치"였다. 메시와 애니메이션의 임포트 스케일을 반드시 같게 맞춰야 하고, Rotator 인자 순서(roll, pitch, yaw)를 헷갈리면 라이팅 어둠부터 캐릭터 눕는 현상까지 전부 여기서 난다. 에디터 파이썬 자동화에서는 CDO 직접 수정과 레벨 연속 전환이 에디터 크래시를 부른다는 것도 몸으로 확인했다.
 {: .prompt-tip }
 
-> **면접에서 이렇게 말한다** — 예상 질문: "외부 리깅 캐릭터를 언리얼에 붙일 때 어떤 문제를 겪을 수 있는가?" → 임포트 스케일 불일치, 메시·애님 스케일 통일, cross-rig 리타게팅 붕괴, root 본 Skeleton 리타게팅으로 in-place 처리, 8K 텍스처 VRAM 캡
-{: .prompt-info }

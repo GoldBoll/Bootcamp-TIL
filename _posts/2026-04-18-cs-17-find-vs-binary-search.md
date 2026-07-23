@@ -868,7 +868,3 @@ unordered_map → 멤버 함수 find() (O(1) 평균)
 
 > **오늘 배운 것** — `std::find`는 정렬 없이 `==`로 비교해 iterator를 돌려주는 O(n) 선형 탐색이고, `std::binary_search`는 정렬을 전제로 `<` 두 번의 동치 판단으로 존재 여부(bool)만 알려주는 O(log n) 이분 탐색이다. 위치까지 필요하면 처음부터 `std::lower_bound`를 부르는 게 정석이라는 것.
 {: .prompt-tip }
-
-> **면접에서 이렇게 말한다** — 예상 질문: "std::find()와 std::binary_search()의 차이점은 무엇인가요?" → 정렬 전제, O(n) vs O(log n), iterator vs bool 반환, 동치 판단(strict weak ordering), lower_bound
-{: .prompt-info }
-
