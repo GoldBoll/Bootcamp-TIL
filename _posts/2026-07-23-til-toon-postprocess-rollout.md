@@ -2,6 +2,7 @@
 title: "[TIL] 2026-07-23 — 툰 룩 적용기: 만든 셰이더를 레벨 전체에 입히며 생긴 문제들"
 date: 2026-07-23 10:30:00 +0900
 categories: ["언리얼", "팀프로젝트"]
+pin: true
 tags: ["til", "ue5", "postprocess", "material", "art-direction", "debugging"]
 render_with_liquid: false
 description: 직접 만든 포스트 프로세스 툰쉐이딩을 팀 게임 레벨 전체에 적용하며 생긴 아티팩트 2건 — 가구 모서리 초록 얼룩(나눗셈 노이즈 증폭)과 스펙큘러 광택 줄무늬 — 을 잡고, 툰스카이 노을·밤 연출과 레벨별 PP 볼륨 튜닝을 거쳐 발표 슬라이드로 정착시키기까지의 적용 기록.

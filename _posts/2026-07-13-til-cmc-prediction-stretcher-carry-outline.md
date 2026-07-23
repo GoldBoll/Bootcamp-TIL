@@ -2,6 +2,7 @@
 title: "[TIL] 2026-07-13 — 러버밴딩 원인 분석과 들것 운반 모델: CMC 예측·협동 운반 재설계·아웃라인 v17"
 date: 2026-07-13 21:30:00 +0900
 categories: ["언리얼", "팀프로젝트"]
+pin: true
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "netrole", "character-movement", "material", "debugging"]
 render_with_liquid: false
 description: "운반 중 러버밴딩의 원인을 CMC 예측·서버 개입으로 규명하고 협동 운반을 들것 모델로 재설계. 잡기 스캔 기하 함정 3건과 아웃라인 심화까지."

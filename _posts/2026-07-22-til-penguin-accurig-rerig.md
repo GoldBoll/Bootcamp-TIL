@@ -2,6 +2,7 @@
 title: "[TIL] 2026-07-22 — Tripo 펭귄 리깅 재작업(AccuRIG)과 UE IK 리타게팅 연결 구조"
 date: 2026-07-22 21:00:00 +0900
 categories: ["언리얼", "팀프로젝트"]
+pin: true
 tags: ["til", "ue5", "tripo", "accurig", "skeletal-mesh", "retargeting", "animation", "blendspace", "asset-import"]
 render_with_liquid: false
 description: 6/24 cross-rig 리타게팅 실패의 후속 — 팀 프로젝트 플레이어 캐릭터인 Tripo 펭귄에 AccuRIG로 표준 휴머노이드 리그를 다시 입히고, UE 안에서 IK 리타게터·1D 블렌드스페이스·C++ AnimInstance 기반 ABP로 애니메이션이 연결되는 구조를 에디터 조회로 확인한 기록.

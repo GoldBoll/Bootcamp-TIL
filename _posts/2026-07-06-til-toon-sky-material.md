@@ -2,6 +2,7 @@
 title: "[TIL] 2026-07-06 — 절차식 툰 스카이: 스카이돔 머티리얼 교체부터 git 히스토리 재작성까지"
 date: 2026-07-06 12:30:00 +0900
 categories: ["언리얼", "팀프로젝트"]
+pin: true
 tags: ["til", "ue5", "material", "texture", "git"]
 render_with_liquid: false
 description: "하늘은 포스트 프로세스로 못 잡는다는 진단에서 출발해 8단계 그래프의 절차식 툰 스카이 머티리얼을 만들고, git 히스토리 재작성 소동까지 정리했다."

@@ -2,6 +2,7 @@
 title: "[TIL] 2026-06-16 — 가구 운반 시스템 추가분: 수식 정식화·튜닝 노브·수용 기준 + LeetCode 416 DP"
 date: 2026-06-16 21:30:00 +0900
 categories: ["언리얼", "팀프로젝트"]
+pin: true
 tags: ["til", "game-design", "gamedev", "multiplayer", "ue5", "dp", "algorithm"]
 render_with_liquid: false
 description: "가구 운반 시스템 보강 — Player Fantasy 명문화, 운반 수식 정식화와 튜닝 노브 표, 수용 기준 작성. LeetCode 416 DP 풀이 포함."

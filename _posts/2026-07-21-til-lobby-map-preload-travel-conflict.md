@@ -1,7 +1,6 @@
 ---
 title: "[TIL] 2026-07-21 — 로비에서 다음 맵을 미리 로드했더니 게임 입장이 막혔다"
 date: 2026-07-21 19:30:00 +0900
-pin: true
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "network", "multiplayer", "debugging"]
 render_with_liquid: false
