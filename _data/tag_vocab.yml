@@ -46,6 +46,7 @@ canonical:
   root-motion: ["루트모션", "루트 모션", "root-bone", "bone-retargeting"]
   blendspace: ["블렌드스페이스", "blend-space", "abp", "anim-blueprint", "애님 블루프린트"]
   material:   ["머티리얼", "material-instance", "shininess", "phong", "퐁"]
+  postprocess: ["포스트 프로세스", "포스트프로세스", "post-process", "pp볼륨", "포스트 프로세싱", "포스트프로세싱"]
   texture:    ["텍스처", "텍스쳐", "max-texture-size", "vram", "비디오 메모리"]
   optimization: ["최적화", "임포스터", "imposter", "lod", "draw-call", "드로우콜"]
   packaging:  ["패키징", "cooking", "쿠킹", "cook", "uat", "buildcookrun", "build-cook-run"]

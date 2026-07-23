@@ -104,9 +104,17 @@ _트러블슈팅 장 — 러버밴딩(고무줄 튕김)을 "보이지 않는 목
 ![브로셔 소개 이미지](/assets/img/til/2026-07-23/brochure-cover.png)
 _노션 브로셔의 프로젝트 소개 이미지 — CouPeng 로고와 이삿짐을 트럭에 옮기는 펭귄들_
 
-## UE 애니메이션 적용 (예정)
+## UE 애니메이션 적용 확인
 
-[UE 적용 캡처·내용 추가 예정]
+리깅 파이프라인의 최종 목적지 확인. IK 리타게터(cc_base_* → IK_Penguin)·ABP_Penguin 구조 상세는 [7/22 TIL](/posts/til-penguin-accurig-rerig/)에 정리했으므로, 여기서는 **적용이 실제로 돌아가는지**만 에디터에서 확인했다.
+
+![Walking 애니메이션 재생](/assets/img/til/2026-07-23/ue-penguin-anim-playing.png)
+_Walking AnimSequence 에디터 — 펭귄 프리뷰에서 재생 중(플레이헤드 진행, 트랙 78개). Triangles 4,898 / Vertices 3,210_
+
+![BS_BaseCharacter 프리뷰](/assets/img/til/2026-07-23/ue-penguin-blendspace.png)
+_BS_BaseCharacter 블렌드 스페이스 에디터 — 펭귄 프리뷰 + 블렌드 샘플 3개(Idle/Walk/Slow_Run)_
+
+Walking 시퀀스가 펭귄 스켈레톤에서 정상 재생되고, BS_BaseCharacter 블렌드 스페이스도 펭귄 프리뷰로 동작한다. 그리고 **메인 플레이어 `BP_PlayerCharacter`가 mesh=SK_Penguin, anim_class=ABP_Penguin_C로 사용 중** — 이 파이프라인의 결과물이 실제 플레이어 캐릭터에 물려 있다.
 
 > **오늘 배운 것**
 > - 에러 없이 실패하는 시스템은 **상태덤프 스크립트**로 잡는다 — 애드온이 보는 값(`online_access`)을 직접 찍는 쪽이 로그 추적보다 빨랐고, 같은 스크립트가 해결 후 검증 도구가 됐다
