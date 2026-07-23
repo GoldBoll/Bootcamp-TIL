@@ -4,11 +4,11 @@ date: 2026-07-22 21:00:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "tripo", "accurig", "skeletal-mesh", "retargeting", "animation", "blendspace", "asset-import"]
 render_with_liquid: false
-description: 6/24 cross-rig 리타게팅 실패의 후속 — Tripo로 생성한 펭귄에 AccuRIG로 표준 휴머노이드 리그를 다시 입히고, UE 안에서 IK 리타게터·1D 블렌드스페이스·C++ AnimInstance 기반 ABP로 애니메이션이 연결되는 구조를 에디터 조회로 확인한 기록.
+description: 6/24 cross-rig 리타게팅 실패의 후속 — 팀 프로젝트 플레이어 캐릭터인 Tripo 펭귄에 AccuRIG로 표준 휴머노이드 리그를 다시 입히고, UE 안에서 IK 리타게터·1D 블렌드스페이스·C++ AnimInstance 기반 ABP로 애니메이션이 연결되는 구조를 에디터 조회로 확인한 기록.
 image: /assets/img/til/2026-07-22/accurig-rig-body.png
 ---
 
-펭귄 캐릭터의 리그를 다시 만든 날이다. [6/24 전편](/posts/til-vibeue-penguin-character/)에서 Tripo(AI 3D 생성)로 뽑은 펭귄을 UE에 임포트했을 때, 서로 다른 리그 사이의 **cross-rig 리타게팅이 무너져** 동일 스켈레톤 애님 임포트 + in-place 처리로 우회했었다. 이번에는 우회가 아니라 정면 돌파 — Tripo 원본에서 다시 출발해 **AccuRIG로 표준 휴머노이드 리그를 입히는 재작업**을 진행했고, 이 리그가 UE 안에서 IK 리타게터·블렌드스페이스·애님 블루프린트로 어떻게 애니메이션과 연결돼 있는지 에디터 원격 조회로 구조를 확인했다.
+부트캠프 8조 팀 프로젝트(UE5 협동 게임, 저장소 TeamCarry)에서 펭귄은 마스코트가 아니라 **플레이어 캐릭터 에셋**이다. 플레이어가 기성 애니메이션을 제대로 받아 움직이려면 리그부터 표준이어야 해서, 이 펭귄의 리그를 다시 만든 날이다. [6/24 전편](/posts/til-vibeue-penguin-character/)에서 Tripo(AI 3D 생성)로 뽑은 펭귄을 UE에 임포트했을 때, 서로 다른 리그 사이의 **cross-rig 리타게팅이 무너져** 동일 스켈레톤 애님 임포트 + in-place 처리로 우회했었다. 이번에는 우회가 아니라 정면 돌파 — Tripo 원본에서 다시 출발해 **AccuRIG로 표준 휴머노이드 리그를 입히는 재작업**을 진행했고, 이 리그가 UE 안에서 IK 리타게터·블렌드스페이스·애님 블루프린트로 어떻게 애니메이션과 연결돼 있는지 에디터 원격 조회로 구조를 확인했다.
 
 ## 왜 리깅 재작업인가 — 전편의 cross-rig 실패
 
@@ -18,12 +18,9 @@ image: /assets/img/til/2026-07-22/accurig-rig-body.png
 
 ## AccuRIG Rig Body — 조인트 마커 배치
 
-AccuRIG 2.1.0에 펭귄 메시를 넣고 **Rig Body 단계 — 조인트 마커 배치**를 진행했다.
+AccuRIG 2.1.0에 펭귄 메시(4,898 tris, 캐릭터 키 99.47cm)를 넣고 **Rig Body 단계 — 조인트 마커 배치**를 진행했다. 맨 위 썸네일이 이 단계의 작업 화면이다.
 
-![AccuRIG Rig Body 단계 — 조인트 마커 배치](/assets/img/til/2026-07-22/accurig-rig-body.png)
-_AccuRIG 2.1.0 Rig Body — 조인트 마커 배치 중. Total tris 4,898 / Character height 99.47cm_
-
-이후 단계는 Rig Hand → Calibrate → Add Motions 순서다 (이 스크린샷 시점에는 미진행).
+이후 단계는 Rig Hand → Calibrate → Add Motions 순서다 (마커 배치 캡처 시점에는 미진행).
 
 ## 산출물로 본 파이프라인 — Tripo glTF에서 UE 익스포트까지
 
