@@ -339,14 +339,21 @@ article div.mt-3.mb-3:has(> a.preview-img) {
    Chirpy 번들에 Bootstrap d-flex 유틸이 없어 여기서 직접 flex 선언.
    하단 고정은 위의 .post-meta { margin-top: auto } 가 담당. */
 #post-list .card .card-body .post-meta {
-  display: flex;
+  display: flex !important;
+  flex-wrap: nowrap;
   align-items: center;
+  width: 100%;
+  margin-top: auto; /* 카드 하단 고정 (중복 선언 — 캐시·순서 무관 보장) */
 }
 #post-list .card .card-body .post-meta > div:first-child {
-  margin-right: auto; /* 날짜·카테고리는 왼쪽, 핀은 오른쪽 끝으로 */
+  margin-right: auto !important; /* 날짜·카테고리 좌측, 핀 우측 끝 */
+  min-width: 0;
 }
-#post-list .card .post-meta .pin {
+#post-list .card .card-body .post-meta .pin {
+  position: static !important; /* 과거 절대배치 규칙 캐시 잔재 무력화 */
+  margin: 0 0 0 0.5rem;
   color: var(--gb-accent);
+  flex-shrink: 0;
 }
 
 /* 카테고리 행 아래 잔여 공백 축소 */
