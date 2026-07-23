@@ -40,6 +40,8 @@ canonical:
   asset-import: ["임포트", "import", "fbx", "glb", "import-scale", "uniform-scale", "asset-import-task"]
   skeletal-mesh: ["스켈레탈 메시", "skeletalmesh", "skeleton", "스켈레톤", "rig", "리그"]
   retargeting: ["리타게팅", "리타깃", "ik-retargeter", "ik-rig", "mixamo", "믹사모"]
+  blender:    ["블렌더"]
+  accurig:    ["아큐리그", "액큐리그", "actorcore", "액터코어"]
   root-motion: ["루트모션", "루트 모션", "root-bone", "bone-retargeting"]
   blendspace: ["블렌드스페이스", "blend-space", "abp", "anim-blueprint", "애님 블루프린트"]
   material:   ["머티리얼", "material-instance", "shininess", "phong", "퐁"]
