@@ -15,7 +15,7 @@ image: /assets/img/thumbs/unreal.svg
 1. **방코드 스팀 멀티 2-PC 실기기 전 구간 검증** — 7라운드 트러블슈팅 (PR #51, PR #54 develop 머지)
 2. 구형 `SocketSubsystemSteamIP` P2P 폐기 → **SteamSockets(SDR) 플러그인 전환**
 3. **"리슨 시작은 hard travel, 이후 seamless"** 설계 확립 + seamless 도착자 로비 슬롯 재배정
-4. `UIHostComponent` 리팩터 마무리 — develop 9커밋 머지 + `TCPlayerController` 충돌 통합 (브랜치 `7db9ebe`, PR 대기)
+4. `UIHostComponent` 리팩터 마무리 — develop 9커밋 머지 + `TCPlayerController` 충돌 통합
 5. 가구 들고 회전 안 되는 문제 진단 — 라이브 계측으로 실제 원인(호스트 전용 Yaw 미갱신) 규명
 6. `L_LevelProto` 가구 22개 자동 배치 (층 히스토그램 필터) + 트럭 머티리얼 수제 PBR 교체
 7. 워크플로 정비 — 공용 테스트 브랜치 `fix/net-steam-multi-test` 체제로 전환
@@ -73,7 +73,7 @@ Adding P2P connection information with user ...
 ```
 
 - **원인**: P2P **세션 요청은 수락되는데 데이터가 넷드라이버에 도달하지 않는다.** 구형 `SocketSubsystemSteamIP` P2P 스택 자체가 죽어 있다고 결론.
-- **수정**: **SteamSockets(SDR) 플러그인으로 전환.** 위치는 `Engine/Plugins/Runtime/Steam/SteamSockets` — Online 폴더가 아니라 **Runtime/Steam**이다. 프리빌트 DLL이 있어 플러그인 활성화 + ini 설정만으로 끝, 엔진 빌드 불필요. (커밋 `c6fb8a9`)
+- **수정**: **SteamSockets(SDR) 플러그인으로 전환.** 위치는 `Engine/Plugins/Runtime/Steam/SteamSockets` — Online 폴더가 아니라 **Runtime/Steam**이다. 프리빌트 DLL이 있어 플러그인 활성화 + ini 설정만으로 끝, 엔진 빌드 불필요.
 
 ### R6. SteamSockets 후 방생성하면 로비 대신 기본맵으로
 
@@ -96,7 +96,7 @@ vport 재바인딩을 피하려 Seamless Travel을 켰더니 부작용이 둘 �
 
 최종 설계는 **"리슨 시작은 hard travel(`?listen`), 이후 맵 전환은 seamless"**:
 
-- 세션 생성 후 **첫 트래블만** 현재 GameMode의 `bUseSeamlessTravel`을 꺼서 hard travel 강제 (커밋 `3fa2ada`, seamless 적용은 `603ec9d`)
+- 세션 생성 후 **첫 트래블만** 현재 GameMode의 `bUseSeamlessTravel`을 꺼서 hard travel 강제
 - `TCLobbyGameMode::HandleSeamlessTravelPlayer`에서 미배정 슬롯 재배정
 
 → **전 구간 통과**: 방코드 생성 → 검색/매칭 → SDR P2P 접속 → 로비 합류(슬롯 표시) → Ready → 시작 → `L_LevelProto` seamless 동반 진입. PR #54로 정리, develop 머지 완료.
@@ -107,7 +107,7 @@ vport 재바인딩을 피하려 Seamless Travel을 켰더니 부작용이 둘 �
 
 develop이 9커밋 전진해 있어 머지했는데, **에디터가 에셋 파일을 잠가 merge가 반복 실패**했다. GC 강제 → 레벨 전환 → 에디터 종료 순으로 잠금을 풀어 해결. 실패한 머지가 남긴 미추적 잔재 파일들은 develop 해시와 대조해 안전 삭제.
 
-`TCPlayerController` 충돌은 한쪽을 버리지 않고 **둘 다 살리는 방향**으로 통합 — 내 리팩터의 컴포넌트 구조 + 조민기님의 맵이름 라우팅 BeginPlay. 컴포넌트에 `bAutoShowInitialState`를 추가해 이중 화면전환을 방지했다. (브랜치 `7db9ebe`, PR 미생성 대기)
+`TCPlayerController` 충돌은 한쪽을 버리지 않고 **둘 다 살리는 방향**으로 통합 — 내 리팩터의 컴포넌트 구조 + 조민기님의 맵이름 라우팅 BeginPlay. 컴포넌트에 `bAutoShowInitialState`를 추가해 이중 화면전환을 방지했다.
 
 ## 서브 2. 가구 들고 회전 안 됨 — 추측 대신 라이브 계측
 

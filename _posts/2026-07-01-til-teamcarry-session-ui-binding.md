@@ -17,7 +17,7 @@ image: /assets/img/thumbs/unreal.svg
 3. develop 머지 후 조민기님 UI 작업과 충돌(`O_JoinRoom`/`S_SlotSelect`) 해결 + 스코프 축소
 4. 빌드 오류 **C4458** 원인 규명 및 수정 (`Slot` → `SlotIdx`) — **PR #29 머지**
 5. Kenney 킷 회색 머티리얼 근본해결 — colormap을 메시 애셋 109개에 baking — **PR #31**
-6. UI 호스트 로직을 `UUIHostComponent`로 분리하는 리팩터 (브랜치 `refactor/net-ui-host-interface`, 커밋 `d18ee46`)
+6. UI 호스트 로직을 `UUIHostComponent`로 분리하는 리팩터 (브랜치 `refactor/net-ui-host-interface`)
 
 > 코드 바인딩/에디터 작업의 상세 설계는 별도 문서로 분리했다:
 > [`net-session-ui-flow.md`](../scrum/Ch4-TeamProject/net-session-ui-flow.md) ·
@@ -118,7 +118,7 @@ Kenney 킷 메시들을 레벨에 배치하면 회색으로 나왔다. 원인은
 
 > 상속으로 물려받던 "부작용"을 **컴포넌트 조립**으로 바꾸면, 원하는 액터만 골라 UI 기능을 붙일 수 있다. "is-a"가 강요하는 걸 "has-a"로 끊는 흔한 패턴.
 
-MCP(에디터 자동화)로 UIHost 컴포넌트 설정을 Python으로 읽기/쓰기/저장/영속까지 가능함을 검증했다. 다만 "어느 BP를 정본으로 할지 + 로비 GameMode 배선"은 소유권(김민성/조민기/이경환)이 걸려 있어 코드로 결정할 수 없다. 이건 [`net-uihost-component-editor-tasks.md`](../scrum/Ch4-TeamProject/net-uihost-component-editor-tasks.md)에 협의 사항으로 정리했다. 브랜치 `refactor/net-ui-host-interface`(커밋 `d18ee46`)로 두고 PR은 아직 안 올렸다.
+MCP(에디터 자동화)로 UIHost 컴포넌트 설정을 Python으로 읽기/쓰기/저장/영속까지 가능함을 검증했다. 다만 "어느 BP를 정본으로 할지 + 로비 GameMode 배선"은 소유권(김민성/조민기/이경환)이 걸려 있어 코드로 결정할 수 없다. 이건 [`net-uihost-component-editor-tasks.md`](../scrum/Ch4-TeamProject/net-uihost-component-editor-tasks.md)에 협의 사항으로 정리했다. 브랜치 `refactor/net-ui-host-interface`로 두고 PR은 아직 안 올렸다.
 
 ---
 
