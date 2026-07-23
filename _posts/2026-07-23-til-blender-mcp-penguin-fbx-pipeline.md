@@ -10,6 +10,9 @@ image: /assets/img/til/2026-07-23/blender-penguin-render.png
 
 부트캠프 8조 팀 프로젝트(UE5 협동 게임, 저장소 TeamCarry)의 플레이어 캐릭터인 펭귄 — 그 DCC 파이프라인의 Blender 구간을 만든 날이다. 이 펭귄은 외부 툴과 UE를 오가는 팀 공용 에셋이라, 어느 툴에서 열어도 상태를 확인·정리할 수 있는 경로가 프로젝트에 필요했다. 펭귄 모델 자체는 전날(7/22) Tripo로 생성해 AccuRIG로 리깅한 것이고(과정은 [7/22 TIL](/posts/til-penguin-accurig-rerig/)에 정리), 이날은 UE에서 뽑은 `SK_Penguin_Packed.fbx`를 Blender에서 확인·정리하는 흐름의 기반으로 **공식 Blender MCP**(blender.org/lab, 커뮤니티 ahujasid판 아님)를 작업 머신에 구축했다. 설치 과정에서 **에러 메시지 한 줄 없이 조용히 실패하는 함정을 2건** 만나 각각 원인을 규명했고, 구축이 끝난 뒤에는 에이전트가 MCP 도구만으로 펭귄 임포트→텍스처 확인→렌더 검증까지 원격으로 수행했다.
 
+![MCP로 뽑은 펭귄 확인 렌더](/assets/img/til/2026-07-23/blender-penguin-render.png)
+_구축한 MCP 파이프라인으로 뽑은 펭귄 확인 렌더(`render_thumbnail_to_path`) — 네이비 머리·흰 배·주황 부리·멜빵바지 텍스처가 살아 있다_
+
 ## 공식 Blender MCP 구축 — 에러 없이 실패하는 함정 2건
 
 구조부터. 공식 Blender MCP는 세 조각이 연결된 형태다.
@@ -53,7 +56,7 @@ MCP 클라이언트(Claude) ⇐ stdio ⇒ blender-mcp 서버(uv) ⇐ TCP 9876 �
 ![Blender 작업 화면 — MCP로 임포트한 SK_Penguin](/assets/img/til/2026-07-23/blender-penguin-workspace.png)
 _MCP로 임포트한 펭귄 — 아웃라이너에 root(ARMATURE) 하위 SK_Penguin 메시, Material Preview로 텍스처 확인_
 
-텍스처는 손댈 게 없었다. 머티리얼 `MIC_Unlit_Penguin`에 FBX에 패킹돼 있던 `T_Penguin_D_1k.png`(1024²)가 **이미 Principled BSDF의 Base Color에 연결**된 채로 들어왔다. 수동 연결 없이 Material Preview 전환 + 스크린샷으로 텍스처가 그대로 나오는지 확인했고, 확인 렌더(`render_thumbnail_to_path`)까지 뽑았다 — 맨 위 썸네일이 그 렌더다. 네이비 머리·흰 배·주황 부리·멜빵바지 텍스처가 살아 있다.
+텍스처는 손댈 게 없었다. 머티리얼 `MIC_Unlit_Penguin`에 FBX에 패킹돼 있던 `T_Penguin_D_1k.png`(1024²)가 **이미 Principled BSDF의 Base Color에 연결**된 채로 들어왔다. 수동 연결 없이 Material Preview 전환 + 스크린샷으로 텍스처가 그대로 나오는지 확인했고, 확인 렌더(`render_thumbnail_to_path`)까지 뽑았다 — 글 첫머리의 펭귄 렌더가 그 결과다.
 
 한 가지 결정: 8K 원본 `T_Penguin_D.PNG`(105MB)도 있었지만, 뷰포트 확인·리깅 파이프라인 용도로는 과해서 1k를 썼다. 작업 상태는 `SK_Penguin_setup.blend`로 저장.
 

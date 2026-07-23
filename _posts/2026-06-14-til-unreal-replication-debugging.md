@@ -21,6 +21,9 @@ image: /assets/img/posts/2026-06-14/01-playername-hex-bug.png
 
 채팅 로그와 판정 로그에 "Player 1" 대신 `LNB-E35AAB2F41BBDBE4` 같은 엔진 생성 고유 ID(hex)가 찍히고 있었다. OnlineSubsystem 플러그인(Steam/EOS)을 쓰지 않는데도 이 hex가 나온 게 첫 단서였다 — 이건 온라인 서비스 닉네임이 아니라, 엔진이 로그인 흐름에서 임시로 부여하는 기본 식별자다.
 
+![플레이어 이름이 hex ID로 표시되는 버그](/assets/img/posts/2026-06-14/01-playername-hex-bug.png)
+_채팅 로그에 `LNB-E35AAB2F41BBDBE4`로 찍히는 버그 화면_
+
 진단은 로그부터 깔았다. `ANBGameMode::PostLogin`에서 `NewPlayer->PlayerState->SetPlayerName(...)`을 호출하는 코드가 분명히 있었고, UE_LOG로 확인하니 PostLogin 자체는 정상 실행됐다. 즉 **이름을 한 번 잘 설정하는데도 결과는 hex** 라는 모순. 여기서 의심이 "설정이 안 된다"에서 "설정 후 누군가 되돌린다"로 옮겨갔다.
 
 ```cpp

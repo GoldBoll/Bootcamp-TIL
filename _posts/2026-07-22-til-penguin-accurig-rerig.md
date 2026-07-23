@@ -18,7 +18,10 @@ image: /assets/img/til/2026-07-22/accurig-rig-body.png
 
 ## AccuRIG Rig Body — 조인트 마커 배치
 
-AccuRIG 2.1.0에 펭귄 메시(4,898 tris, 캐릭터 키 99.47cm)를 넣고 **Rig Body 단계 — 조인트 마커 배치**를 진행했다. 맨 위 썸네일이 이 단계의 작업 화면이다.
+AccuRIG 2.1.0에 펭귄 메시(4,898 tris, 캐릭터 키 99.47cm)를 넣고 **Rig Body 단계 — 조인트 마커 배치**를 진행했다.
+
+![AccuRIG Rig Body 단계 — 조인트 마커 배치](/assets/img/til/2026-07-22/accurig-rig-body.png)
+_AccuRIG 2.1.0 Rig Body — 조인트 마커 배치 중_
 
 이후 단계는 Rig Hand → Calibrate → Add Motions 순서다 (마커 배치 캡처 시점에는 미진행).
 

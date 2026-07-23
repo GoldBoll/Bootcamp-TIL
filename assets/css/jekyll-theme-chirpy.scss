@@ -322,3 +322,14 @@ a[href='/categories/cs/'] {
 a[href='/categories/%ED%9A%8C%EA%B3%A0/'] {
   color: var(--text-muted-color) !important;
 }
+
+/* ---------- 글 상단 히어로 이미지 숨김 ----------
+   front-matter image는 홈 카드 썸네일(div.preview-img)·SEO용으로 유지하고,
+   포스트 페이지 상단의 대형 히어로(a.preview-img)만 렌더링하지 않는다.
+   (본문 흐름 속 이미지가 곧 첫 비주얼 — 썸네일과 이중 노출 방지) */
+article a.preview-img {
+  display: none;
+}
+article div.mt-3.mb-3:has(> a.preview-img) {
+  margin: 0 !important;
+}
