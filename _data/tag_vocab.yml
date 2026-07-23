@@ -42,6 +42,7 @@ canonical:
   retargeting: ["리타게팅", "리타깃", "ik-retargeter", "ik-rig", "mixamo", "믹사모"]
   blender:    ["블렌더"]
   accurig:    ["아큐리그", "액큐리그", "actorcore", "액터코어"]
+  tripo:      ["트리포", "tripo-ai"]
   root-motion: ["루트모션", "루트 모션", "root-bone", "bone-retargeting"]
   blendspace: ["블렌드스페이스", "blend-space", "abp", "anim-blueprint", "애님 블루프린트"]
   material:   ["머티리얼", "material-instance", "shininess", "phong", "퐁"]
