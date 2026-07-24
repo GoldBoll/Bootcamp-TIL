@@ -2,7 +2,7 @@
 title: "[TIL] 2026-07-24 — 방코드 위에 얹은 세 겹: 스팀 초대·방찾기·로비 슬롯 재사용"
 date: 2026-07-24 00:20:00 +0900
 categories: ["언리얼", "팀프로젝트"]
-tags: ["til", "ue5", "cpp", "network", "multiplayer", "steam", "subsystem", "umg", "mcp", "debugging"]
+tags: ["til", "ue5", "cpp", "network", "multiplayer", "steam", "subsystem", "umg", "debugging"]
 render_with_liquid: false
 description: 방코드밖에 없던 세션 계층에 스팀 오버레이 초대, 방찾기 세션 브라우저, 로비 슬롯 재사용 수정을 하루에 얹은 기록. presence 세션이면 초대가 공짜라는 발견, 검색을 클라 측으로 넘긴 판단, 그리고 슬롯 번호가 새어 나가 유령 인원이 생기던 버그를 스캔 재사용으로 잡은 이야기.
 image: /assets/img/til/2026-07-23/coupeng-wbp-widget.png
