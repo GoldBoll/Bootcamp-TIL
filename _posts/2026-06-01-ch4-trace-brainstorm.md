@@ -12,7 +12,7 @@ image: /assets/img/thumbs/unreal.svg
 > 튜터님이 제안한 *Chained Together*(협동) + 어몽어스식 배신 아이디어가,
 > 여러 차례의 방향 전환을 거쳐 **포렌식 소셜 추리 게임 "TRACE"** 로 수렴했다.
 >
-> 최종 컨셉 문서: `Claude-Code-Game-Studios/design/gdd/ch4-game-concept.md`
+> 최종 컨셉 문서: `design/gdd/ch4-game-concept.md`
 >
 > **2026-06-02 개정**: 보상을 *현상금 경제 → 이진 승패*로 단순화하고, 네트워킹을 *리슨 서버 → 데디케이트 서버*(부트캠프 커리큘럼으로 학습·구축)로 정정했다. 아래 본문은 개정 설계 기준이다.
 

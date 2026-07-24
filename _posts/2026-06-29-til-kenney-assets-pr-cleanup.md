@@ -8,7 +8,7 @@ description: "git filter-branch로 커밋 메시지 일괄 수정, PR 삭제 불
 image: /assets/img/thumbs/unreal.svg
 ---
 
-> 오늘은 **커밋 메시지 일괄 수정**부터 시작해 GitHub PR 삭제 한계 확인, UE 레벨의 끊어진 에셋 참조를 Python MCP(에디터의 Python API를 외부에서 호출해 조작하는 연결)로 복구하는 것까지 — git 히스토리 정리와 언리얼 에셋 파이프라인을 동시에 다룬 날이었다.
+> 오늘은 **커밋 메시지 일괄 수정**부터 시작해 GitHub PR 삭제 한계 확인, UE 레벨의 끊어진 에셋 참조를 에디터 Python 자동화(에디터의 Python API를 외부에서 호출해 조작)로 복구하는 것까지 — git 히스토리 정리와 언리얼 에셋 파이프라인을 동시에 다룬 날이었다.
 
 ## 오늘 한 일 요약
 
@@ -24,14 +24,14 @@ image: /assets/img/thumbs/unreal.svg
 
 ### 상황
 
-`chore/level-import-environment-models` 브랜치의 커밋 5개에 `Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>` 라인이 들어가 있었다. PR 머지 전에 제거가 필요했다.
+`chore/level-import-environment-models` 브랜치의 커밋 5개에 잘못 들어간 `Co-Authored-By`(공동작성자) 라인이 있었다. PR 머지 전에 제거가 필요했다.
 
 ### 해결
 
 ```bash
 git stash
 FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f --msg-filter \
-  'sed "/Co-Authored-By: Claude/d" | sed "/^[[:space:]]*$/d"' c91d963..HEAD
+  'sed "/Co-Authored-By:/d" | sed "/^[[:space:]]*$/d"' c91d963..HEAD
 git stash pop
 git push --force-with-lease
 ```
@@ -96,7 +96,7 @@ git restore Content/Prototype/L_FurnitureProto.umap
 
 UE의 redirector는 **이전 경로 → 새 경로**를 연결하는 포인터 역할을 한다. redirector를 삭제하면 그 redirector를 참조하던 레벨·블루프린트도 함께 업데이트해야 한다. 에디터의 "Fix Up Redirectors" 기능을 쓰거나, 삭제 전에 모든 참조를 새 경로로 리다이렉트해야 한다.
 
-### 해결: UE Python MCP로 액터 삭제 후 재배치
+### 해결: UE Python으로 액터 삭제 후 재배치
 
 ```python
 import unreal

@@ -8,8 +8,6 @@ description: 방코드밖에 없던 세션 계층에 스팀 오버레이 초대,
 image: /assets/img/til/2026-07-23/coupeng-wbp-widget.png
 ---
 
-> 🤖 Opus 4.8
-
 ## 목차
 
 - [들어가며 — 세션 계층에 세 겹을 얹은 날](#들어가며--세션-계층에-세-겹을-얹은-날)

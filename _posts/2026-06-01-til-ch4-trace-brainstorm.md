@@ -23,7 +23,7 @@ image: /assets/img/thumbs/unreal.svg
 
 ## 작업 환경
 
-- 기획 도구: Claude Code Game Studios 템플릿의 `/brainstorm` 스킬 (리뷰 모드 `lean`)
+- 기획 도구: `/brainstorm` 브레인스토밍 워크플로우 (리뷰 모드 `lean`)
 - 참고 노트: `scrum/Ch4-TeamProject/팀플_기획_Chained-Together_협동마피아.md`
 - 산출물: `design/gdd/ch4-game-concept.md` (Game-Studios 레포)
 - 엔진 결정: Unreal Engine 5.5+ / 플랫폼 PC(Steam·Epic)
