@@ -35,7 +35,6 @@ canonical:
   gamemode:   ["game-mode", "게임모드", "게임 모드", "postlogin", "changename"]
   timer:      ["ftimerhandle", "ftimer", "타이머", "timer-handle"]
   animation:  ["애니메이션", "anim-instance", "animinstance", "anim-montage", "aimoffset", "aim-offset"]
-  mcp:        ["model-context-protocol", "vibeue", "unreal-mcp", "엠씨피"]
   python:     ["파이썬", "py", "editor-scripting", "에디터 스크립팅", "에디터 자동화"]
   asset-import: ["임포트", "import", "fbx", "glb", "import-scale", "uniform-scale", "asset-import-task"]
   skeletal-mesh: ["스켈레탈 메시", "skeletalmesh", "skeleton", "스켈레톤", "rig", "리그"]

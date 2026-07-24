@@ -1,18 +1,18 @@
 ---
-title: "[TIL] 2026-06-24 — VibeUE(언리얼 MCP)로 펭귄 캐릭터 임포트 · 스케일·크래시·리타게팅 트러블슈팅"
+title: "[TIL] 2026-06-24 — 펭귄 캐릭터 임포트 트러블슈팅: 스케일·크래시·리타게팅"
 date: 2026-06-24 22:00:00 +0900
 categories: ["언리얼", "팀프로젝트"]
-tags: ["til", "ue5", "mcp", "python", "asset-import", "skeletal-mesh", "retargeting", "root-motion", "blendspace", "material", "texture", "debugging", "git"]
+tags: ["til", "ue5", "python", "asset-import", "skeletal-mesh", "retargeting", "root-motion", "blendspace", "material", "texture", "debugging", "git"]
 render_with_liquid: false
-description: "VibeUE(언리얼 MCP)로 펭귄 캐릭터 임포트 — 스케일·머티리얼·PIE 크래시·VRAM 고갈·애니메이션 리타게팅까지 연쇄 트러블슈팅 기록."
+description: "펭귄 캐릭터를 에디터에 임포트하며 겪은 스케일·머티리얼·PIE 크래시·VRAM 고갈·애니메이션 리타게팅 연쇄 트러블슈팅 기록."
 image: /assets/img/thumbs/unreal.svg
 ---
 
-> 이날의 큰 줄기는 **VibeUE(언리얼 MCP) 에이전트를 설치하고, 그걸로 펭귄 캐릭터를 임포트→셋업→애니메이션까지 붙이는** 과정이었다. 자연어로 에디터를 조작하는 신세계였지만, 그만큼 파이썬 자동화의 함정(CDO 직접 수정 크래시, 레벨 빠른전환 크래시), FBX/GLB **임포트 스케일 미스매치**, 8K 텍스처로 인한 VRAM 고갈, 그리고 **cross-rig 리타게팅의 한계**까지 — 함정을 하나씩 밟으며 원인과 해법을 정리했다. 곁들여 협동 운반 멀티플레이의 `ATCCarriableFurniture` C++ 베이스도 작성했다.
+> 이날의 큰 줄기는 **에디터 파이썬 자동화로 펭귄 캐릭터를 임포트→셋업→애니메이션까지 붙이는** 과정이었다. 그만큼 파이썬 자동화의 함정(CDO 직접 수정 크래시, 레벨 빠른전환 크래시), FBX/GLB **임포트 스케일 미스매치**, 8K 텍스처로 인한 VRAM 고갈, 그리고 **cross-rig 리타게팅의 한계**까지 — 함정을 하나씩 밟으며 원인과 해법을 정리했다. 곁들여 협동 운반 멀티플레이의 `ATCCarriableFurniture` C++ 베이스도 작성했다.
 
 ## 오늘 한 일 요약
 
-1. **VibeUE(언리얼 MCP)** 플러그인 설치 + 2단계 MCP 도구 구조 파악 + 팀에 안 새는 **로컬 전용 git 설정**
+1. **에디터 파이썬 자동화 도구** 설치 + 도구 구조 파악 + 팀에 안 새는 **로컬 전용 git 설정**
 2. 네트워크 C++ 토대 빌드 검증(리슨서버 PIE) + 협동 운반 베이스 `ATCCarriableFurniture` 작성
 3. Tripo GLB 6종 임포트 + 팀 컨벤션(도메인 폴더·접두사) 적용
 4. 새 레벨이 어두운 원인 = **DirectionalLight pitch 부호** → Rotator 인자순서(roll,pitch,yaw) 함정 규명
@@ -22,34 +22,27 @@ image: /assets/img/thumbs/unreal.svg
 8. **8K 텍스처 VRAM 고갈** → `max_texture_size=1024` 캡
 9. 애니메이션 리타게팅 — cross-rig 붕괴 → 동일 스켈레톤 애님 임포트 + **root 본 Skeleton 리타게팅**으로 in-place 처리
 
-## 1. VibeUE(언리얼 MCP) 에이전트 설치 + 로컬 전용 git 설정
+## 1. 에디터 파이썬 자동화 설정 + 로컬 전용 git 설정
 
-### VibeUE란
-`kevinpbuckley/VibeUE`를 프로젝트 `Plugins/`에 git clone 했다. UE 5.8의 **네이티브 MCP(Model Context Protocol, AI 에이전트가 외부 프로그램의 기능을 호출하게 해 주는 프로토콜) 서버를 확장**하는 플러그인으로, 블루프린트·머티리얼·애니메이션·지형·위젯·성능 프로파일링 등 30+ 서비스를 제공한다. 핵심은 **자연어로 시키면 Claude가 파이썬/툴 호출로 에디터를 조작**한다는 것.
+### 에디터 파이썬 자동화 도구
+UE 에디터를 **외부에서 파이썬으로 조작**하는 자동화 플러그인을 프로젝트 `Plugins/`에 git clone 했다. UE 5.8용으로, 블루프린트·머티리얼·애니메이션·지형·위젯·성능 프로파일링 등 30+ 서비스를 제공한다. 핵심은 에디터 프로세스 안에서 파이썬/툴 호출로 에디터를 조작한다는 것 — `execute_python_code`로 **에디터 프로세스 안에서 직접 파이썬을 실행**할 수 있다.
 
-MCP 도구 구조가 **2단계**라는 점이 인상적이었다.
-
-- 메타도구 3개: `list_toolsets` → `describe_toolset` → `call_tool` (필요한 툴셋을 탐색하고 그 안의 툴을 호출)
-- 또는 `execute_python_code`로 **에디터 프로세스 안에서 직접 파이썬 실행**
-
-도구 수십 개를 LLM 컨텍스트에 다 올리지 않고, "툴셋 목록 → 선택 → 호출"로 점진 로드하는 설계라 토큰 효율이 좋다.
-
-설치는 `.uproject`에 VibeUE 플러그인 추가 + 에디터에서 C++ 모듈 컴파일이 필요하다.
+설치는 `.uproject`에 플러그인 추가 + 에디터에서 C++ 모듈 컴파일이 필요하다.
 
 ### 팀에 안 새는 로컬 전용 git 설정
-VibeUE는 개인 도구라 팀 저장소에 커밋되면 안 된다. 추적 여부에 따라 두 방법을 나눠 썼다.
+이 자동화 플러그인은 개인 도구라 팀 저장소에 커밋되면 안 된다. 추적 여부에 따라 두 방법을 나눠 썼다.
 
 | 대상 | 상태 | 방법 |
 |---|---|---|
 | `TeamCarry.uproject` (플러그인 추가됨) | **이미 추적 중** | `git update-index --skip-worktree` 로 내 수정만 커밋 제외 |
-| `.mcp.json`, `Plugins/VibeUE/` | **미추적** | `.gitignore`(공유됨) 대신 **`.git/info/exclude`**(로컬 전용)에 추가 |
+| 도구 설정 파일·`Plugins/` 하위 도구 폴더 | **미추적** | `.gitignore`(공유됨) 대신 **`.git/info/exclude`**(로컬 전용)에 추가 |
 
 ```bash
 # 추적 파일의 내 로컬 수정만 무시 (다른 사람 .uproject 변경은 정상 추적)
 git update-index --skip-worktree TeamCarry.uproject
 
 # 미추적 항목은 로컬 전용 exclude로 (팀에 공유되는 .gitignore 대신)
-printf "/.mcp.json\n/Plugins/VibeUE/\n" >> .git/info/exclude
+printf "/<도구 설정>.json\n/Plugins/<도구>/\n" >> .git/info/exclude
 ```
 
 **skip-worktree 주의점**: 팀원이 같은 파일(`.uproject`)을 수정해서 pull 충돌이 나면, `git update-index --no-skip-worktree`로 잠깐 풀고 병합한 뒤 다시 `--skip-worktree`로 잠가야 한다. skip-worktree는 "내 로컬 변경을 git이 못 본 척"하는 거라, 원격 변경과 합쳐질 때 일시 해제가 필요하다.
@@ -141,12 +134,12 @@ opts.skeletal_mesh_import_data.import_uniform_scale = 100.0   # ~100cm로 보정
 ### 머티리얼 톤 (퐁 광택)
 FBX가 `FBXLegacyPhongSurfaceMaterial`(퐁) 기반이라 **Shininess=100**으로 들어와 메탈릭처럼 번들거렸다(SkyLight 반사로 반짝임). Shininess를 **2.0**으로 낮춰 매트하게 보정했다.
 
-## 6. VibeUE 파이썬의 두 가지 크래시 함정
+## 6. 에디터 파이썬 자동화의 두 가지 크래시 함정
 
 에디터 안에서 파이썬을 돌리는 만큼, 잘못하면 **에디터 자체가 죽는다**. 두 패턴을 확실히 학습했다.
 
 ### (1) CDO 직접 수정 금지
-`unreal.get_default_object(bp.generated_class())`로 얻은 **CDO(클래스 기본 객체)나 그 컴포넌트**에 `set_editor_property`를 하면 에디터가 크래시한다. VibeUE가 명시적으로 막는 위험 패턴인데, **여러 줄로 쪼개 쓰면 안전장치를 우회**해서 그대로 터진다.
+`unreal.get_default_object(bp.generated_class())`로 얻은 **CDO(클래스 기본 객체)나 그 컴포넌트**에 `set_editor_property`를 하면 에디터가 크래시한다. 자동화 도구가 명시적으로 막는 위험 패턴인데, **여러 줄로 쪼개 쓰면 안전장치를 우회**해서 그대로 터진다.
 
 ```python
 # ❌ 위험: CDO/컴포넌트 직접 수정 → 크래시
@@ -248,7 +241,7 @@ SkeletonService.set_bone_retargeting_mode(skel, "root", "Skeleton")
 
 ## 10. 오늘 배운 것 정리
 
-1. **VibeUE = 2단계 MCP + 에디터 파이썬.** `list_toolsets → describe_toolset → call_tool` 또는 `execute_python_code`. 개인 도구는 `skip-worktree`(추적 파일) + `.git/info/exclude`(미추적)로 팀에 안 새게 격리한다.
+1. **에디터 파이썬 자동화.** `execute_python_code`로 에디터 프로세스 안에서 직접 파이썬을 실행한다. 개인 도구는 `skip-worktree`(추적 파일) + `.git/info/exclude`(미추적)로 팀에 안 새게 격리한다.
 2. **에디터 파이썬 자동화의 두 크래시.** CDO/컴포넌트 직접 `set_editor_property`는 크래시(여러 줄로 쪼개도 위험) → **`SubobjectDataSubsystem`**. 레벨 load/new/delete 연속도 크래시 → **호출 분리**.
 3. **임포트 스케일은 메시·애님을 반드시 일치.** FBX가 1cm로 들어오면 `import_uniform_scale=100`. 그런데 **애님도 같은 스케일**로 안 넣으면 메시가 1/100로 압착된다.
 4. **Rotator 인자 순서는 (roll, pitch, yaw).** 라이팅 어둠(태양 pitch 부호)도, 펭귄 누움(yaw 자리에 pitch)도 전부 이 순서를 헷갈려서 났다.
