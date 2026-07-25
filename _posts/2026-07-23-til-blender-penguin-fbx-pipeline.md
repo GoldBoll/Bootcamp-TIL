@@ -30,15 +30,12 @@ _임포트한 펭귄 — 아웃라이너에 root(ARMATURE) 하위 SK_Penguin 메
 
 이 펭귄은 외부 툴과 UE를 오가는 에셋이라, FBX 하나만 들고 다녀도 어느 툴에서든 생김새가 보이도록 **텍스처를 파일 안에 내장**해 재익스포트했다.
 
-```python
-bpy.ops.export_scene.fbx(
-    filepath=out_path,
-    use_selection=True,
-    embed_textures=True,   # 텍스처를 FBX 안에 패킹
-    path_mode='COPY',      # embed_textures는 COPY 모드에서만 동작
-    add_leaf_bones=False,  # UE 리임포트 시 잉여 리프본(_end) 방지
-)
-```
+Blender의 FBX 익스포트 대화상자에서 다음 옵션으로 내보냈다.
+
+- **선택 오브젝트만(Selected Objects)** — 펭귄 계층만 대상으로 한정
+- **텍스처 내장(Embed Textures)** — 텍스처를 FBX 파일 안에 패킹
+- **경로 모드 Copy(Path Mode: Copy)** — Embed Textures가 실제로 동작하는 유일한 조건
+- **리프본 제외(Add Leaf Bones 해제)** — UE 리임포트 시 잉여 리프본(`_end`) 방지
 
 결과물 `SK_Penguin_Textured.fbx`(2,220,988B)에 텍스처가 **정말** 들어갔는지를 3중으로 검증했다. "옵션을 켰으니 됐겠지"는 이 파이프라인에서 제일 위험한 가정이다 — `embed_textures`는 `path_mode='COPY'`가 아니면 조용히 무시되기 때문에, 무음 실패가 가능하다.
 

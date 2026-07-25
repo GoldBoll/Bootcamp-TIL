@@ -19,6 +19,9 @@ description: "답변 흐름 — RAII → unique_ptr / shared_ptr / weak_ptr → 
 
 `unique_ptr`은 **단독 소유권**을 가지며 복사 불가·move만 허용해 런타임 오버헤드가 0에 가깝습니다. `shared_ptr`은 **참조 카운팅 기반 공유 소유권**으로, 제어 블록(control block)에 strong count를 두고 카운트가 0이 되면 자동으로 `delete`합니다. `weak_ptr`은 **소유권 없는 약한 참조**로, `shared_ptr` 사이의 순환 참조(circular reference) 문제를 해결하는 데 쓰입니다.
 
+![shared_ptr 제어 블록의 참조 카운팅과 순환 참조를 weak_ptr로 해결하는 구조](/assets/img/til/2026-04-12/smart-pointer-refcount-diagram.svg)
+_shared_ptr들은 제어 블록의 strong count를 공유하고, 0이 되면 객체를 해제한다. 서로 shared_ptr로 참조하면 카운트가 0이 되지 않아 누수가 나므로, 한쪽을 weak_ptr(카운트 미증가)로 바꿔 소유 사슬을 끊는다._
+
 생성 시에는 `new` 직접 호출보다 `make_unique`/`make_shared` 팩토리를 권장합니다. 예외 안전성이 보장되고, `make_shared`는 객체와 제어 블록을 **단일 힙 할당**으로 묶어 캐시 지역성과 성능이 좋아지기 때문입니다. 마지막으로 `unique_ptr<Base>` 나 `shared_ptr<Base>`로 파생 객체를 담을 때는 **기반 클래스에 virtual 소멸자**가 반드시 선언되어 있어야 파생 소멸자까지 올바른 체인 호출이 보장됩니다.
 
 "왜 make_shared인가"라는 꼬리질문에 대비해 준비한 한 단락: "new로 만든 raw pointer를 shared_ptr에 넘기면 세 가지 문제가 있습니다. 첫째, 함수 인자 평가 순서에 따라 예외 발생 시 누수가 가능합니다. 둘째, 객체와 제어 블록이 별도로 힙 할당돼 캐시 지역성이 나쁩니다. 셋째, 같은 raw pointer를 두 shared_ptr에 넘기면 제어 블록이 따로 생겨 이중 해제 UB(undefined behavior, 미정의 동작)가 납니다. 그래서 기본은 make_shared를 쓰고, 커스텀 deleter나 큰 객체 + weak_ptr 장기 보관 같은 특수 케이스에서만 new를 씁니다."

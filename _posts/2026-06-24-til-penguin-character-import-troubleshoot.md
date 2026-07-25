@@ -6,6 +6,7 @@ tags: ["til", "ue5", "python", "asset-import", "skeletal-mesh", "retargeting", "
 render_with_liquid: false
 description: "펭귄 캐릭터를 에디터에 임포트하며 겪은 스케일·머티리얼·PIE 크래시·VRAM 고갈·애니메이션 리타게팅 연쇄 트러블슈팅 기록."
 image: /assets/img/thumbs/unreal.svg
+published: false
 ---
 
 > 이날의 큰 줄기는 **에디터 파이썬 자동화로 펭귄 캐릭터를 임포트→셋업→애니메이션까지 붙이는** 과정이었다. 그만큼 파이썬 자동화의 함정(CDO 직접 수정 크래시, 레벨 빠른전환 크래시), FBX/GLB **임포트 스케일 미스매치**, 8K 텍스처로 인한 VRAM 고갈, 그리고 **cross-rig 리타게팅의 한계**까지 — 함정을 하나씩 밟으며 원인과 해법을 정리했다. 곁들여 협동 운반 멀티플레이의 `ATCCarriableFurniture` C++ 베이스도 작성했다.

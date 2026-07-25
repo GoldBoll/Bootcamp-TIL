@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 440" width="760" height="440" font-family="'Segoe UI', system-ui, sans-serif" role="img" aria-label="단일 스레드와 멀티 스레드 프로세스의 메모리 구조. 코드·데이터·힙은 공유하고 스택과 레지스터는 스레드마다 독립">
+  <rect x="0" y="0" width="760" height="440" rx="14" fill="#1c2330" stroke="#39414f"/>
+  <text x="380" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#e6edf3">프로세스 안 스레드 — 코드·데이터·힙은 공유, 스택은 독립</text>
+
+  <!-- LEFT: single thread process -->
+  <rect x="34" y="60" width="322" height="352" rx="10" fill="none" stroke="#4a5568" stroke-dasharray="5 4"/>
+  <text x="195" y="82" text-anchor="middle" font-size="14" font-weight="600" fill="#9aa4b2">프로세스 (스레드 1개)</text>
+
+  <rect x="60" y="98" width="270" height="42" rx="6" fill="#22331f" stroke="#56d364"/>
+  <text x="195" y="124" text-anchor="middle" font-size="14" fill="#7ee787">Stack ▾ (스레드 전용)</text>
+  <text x="195" y="168" text-anchor="middle" font-size="12" fill="#586170">↕ 빈 주소 공간</text>
+
+  <rect x="60" y="196" width="270" height="40" rx="6" fill="#33291c" stroke="#e3b341"/>
+  <text x="195" y="221" text-anchor="middle" font-size="14" fill="#e3b341">Heap ▴ (공유)</text>
+  <rect x="60" y="240" width="270" height="40" rx="6" fill="#1d2b3a" stroke="#58a6ff"/>
+  <text x="195" y="265" text-anchor="middle" font-size="14" fill="#79c0ff">Data / BSS (공유)</text>
+  <rect x="60" y="284" width="270" height="40" rx="6" fill="#241d33" stroke="#bc8cff"/>
+  <text x="195" y="309" text-anchor="middle" font-size="14" fill="#bc8cff">Code (read-only, 공유)</text>
+
+  <!-- RIGHT: multithread process -->
+  <rect x="404" y="60" width="322" height="352" rx="10" fill="none" stroke="#4a5568" stroke-dasharray="5 4"/>
+  <text x="565" y="82" text-anchor="middle" font-size="14" font-weight="600" fill="#9aa4b2">프로세스 (스레드 3개)</text>
+
+  <!-- three thread stacks -->
+  <g font-family="Consolas,monospace">
+    <rect x="422" y="98" width="90" height="70" rx="6" fill="#22331f" stroke="#56d364"/>
+    <text x="467" y="120" text-anchor="middle" font-size="12.5" font-family="'Segoe UI',sans-serif" fill="#7ee787">Stack 1</text>
+    <text x="467" y="140" text-anchor="middle" font-size="11" fill="#9aa4b2">PC · SP</text>
+    <text x="467" y="156" text-anchor="middle" font-size="11" fill="#9aa4b2">레지스터</text>
+
+    <rect x="520" y="98" width="90" height="70" rx="6" fill="#22331f" stroke="#56d364"/>
+    <text x="565" y="120" text-anchor="middle" font-size="12.5" font-family="'Segoe UI',sans-serif" fill="#7ee787">Stack 2</text>
+    <text x="565" y="140" text-anchor="middle" font-size="11" fill="#9aa4b2">PC · SP</text>
+    <text x="565" y="156" text-anchor="middle" font-size="11" fill="#9aa4b2">레지스터</text>
+
+    <rect x="618" y="98" width="90" height="70" rx="6" fill="#22331f" stroke="#56d364"/>
+    <text x="663" y="120" text-anchor="middle" font-size="12.5" font-family="'Segoe UI',sans-serif" fill="#7ee787">Stack 3</text>
+    <text x="663" y="140" text-anchor="middle" font-size="11" fill="#9aa4b2">PC · SP</text>
+    <text x="663" y="156" text-anchor="middle" font-size="11" fill="#9aa4b2">레지스터</text>
+  </g>
+  <text x="565" y="187" text-anchor="middle" font-size="11.5" fill="#586170">각 스레드가 자기 스택·레지스터 보유</text>
+
+  <rect x="422" y="196" width="286" height="40" rx="6" fill="#33291c" stroke="#e3b341"/>
+  <text x="565" y="221" text-anchor="middle" font-size="14" fill="#e3b341">Heap ★ 공유 → 동기화 필요</text>
+  <rect x="422" y="240" width="286" height="40" rx="6" fill="#1d2b3a" stroke="#58a6ff"/>
+  <text x="565" y="265" text-anchor="middle" font-size="14" fill="#79c0ff">Data / BSS ★ 공유</text>
+  <rect x="422" y="284" width="286" height="40" rx="6" fill="#241d33" stroke="#bc8cff"/>
+  <text x="565" y="309" text-anchor="middle" font-size="14" fill="#bc8cff">Code ★ 공유</text>
+
+  <text x="380" y="356" text-anchor="middle" font-size="12.5" fill="#c9d1d9">스레드 전환은 같은 주소 공간이라 TLB·페이지테이블 유지 → 레지스터만 교체 (빠름)</text>
+  <text x="380" y="380" text-anchor="middle" font-size="12.5" fill="#9aa4b2">공유 Heap/Data를 동시에 쓰면 <tspan fill="#ff7b72" font-weight="700">race condition</tspan> → mutex·atomic 필요</text>
+</svg>

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="760" height="420" font-family="'Segoe UI', system-ui, sans-serif" role="img" aria-label="shared_ptr는 제어 블록의 참조 카운트로 객체 수명을 관리하고, 순환 참조는 한쪽을 weak_ptr로 바꿔 해결한다">
+  <rect x="0" y="0" width="760" height="420" rx="14" fill="#1c2330" stroke="#39414f"/>
+  <text x="380" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#e6edf3">shared_ptr 참조 카운팅과 순환 참조</text>
+  <line x1="380" y1="52" x2="380" y2="400" stroke="#39414f" stroke-dasharray="4 5"/>
+  <defs>
+    <marker id="as" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#58a6ff"/></marker>
+    <marker id="asa" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#e3b341"/></marker>
+    <marker id="asr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#ff7b72"/></marker>
+    <marker id="asg" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#56d364"/></marker>
+  </defs>
+
+  <!-- LEFT: control block -->
+  <text x="200" y="74" text-anchor="middle" font-size="14" font-weight="600" fill="#9aa4b2">공유 소유 + 제어 블록</text>
+  <g font-family="Consolas,monospace" font-size="13">
+    <rect x="30" y="92" width="90" height="34" rx="5" fill="#1d2b3a" stroke="#58a6ff"/><text x="75" y="114" text-anchor="middle" fill="#79c0ff">sp1</text>
+    <rect x="30" y="150" width="90" height="34" rx="5" fill="#1d2b3a" stroke="#58a6ff"/><text x="75" y="172" text-anchor="middle" fill="#79c0ff">sp2</text>
+  </g>
+  <!-- control block -->
+  <rect x="180" y="92" width="150" height="110" rx="7" fill="#263041" stroke="#3d4859"/>
+  <text x="255" y="112" text-anchor="middle" font-size="12.5" font-weight="600" fill="#e6edf3">제어 블록</text>
+  <g font-family="Consolas,monospace" font-size="13">
+    <text x="255" y="140" text-anchor="middle" fill="#56d364" font-weight="700">strong = 2</text>
+    <text x="255" y="164" text-anchor="middle" fill="#e3b341">weak = 0</text>
+    <text x="255" y="188" text-anchor="middle" fill="#9aa4b2">deleter</text>
+  </g>
+  <!-- object -->
+  <rect x="180" y="240" width="150" height="46" rx="7" fill="#22331f" stroke="#56d364"/>
+  <text x="255" y="268" text-anchor="middle" font-size="13" fill="#7ee787" font-family="Consolas,monospace">관리 객체 T</text>
+
+  <path d="M120,109 C145,109 155,105 178,105" fill="none" stroke="#58a6ff" stroke-width="2" marker-end="url(#as)"/>
+  <path d="M120,167 C150,167 155,150 178,140" fill="none" stroke="#58a6ff" stroke-width="2" marker-end="url(#as)"/>
+  <path d="M255,202 L255,238" fill="none" stroke="#56d364" stroke-width="2" marker-end="url(#asg)"/>
+
+  <text x="30" y="316" font-size="12" fill="#c9d1d9">복사 → strong++ (atomic), 소멸 → strong--</text>
+  <text x="30" y="340" font-size="12" fill="#c9d1d9"><tspan fill="#56d364" font-weight="700">strong == 0</tspan> → 객체 delete</text>
+  <text x="30" y="364" font-size="12" fill="#c9d1d9"><tspan fill="#e3b341" font-weight="700">strong + weak == 0</tspan> → 제어 블록 해제</text>
+
+  <!-- RIGHT: circular reference -->
+  <text x="565" y="74" text-anchor="middle" font-size="14" font-weight="600" fill="#9aa4b2">순환 참조 → 누수 → weak_ptr로 해결</text>
+  <g font-family="Consolas,monospace" font-size="14" font-weight="700" text-anchor="middle">
+    <rect x="420" y="96" width="110" height="52" rx="8" fill="#263041" stroke="#3d4859"/><text x="475" y="120" fill="#e6edf3">Node A</text><text x="475" y="138" fill="#9aa4b2" font-size="10.5">strong=1</text>
+    <rect x="600" y="96" width="110" height="52" rx="8" fill="#263041" stroke="#3d4859"/><text x="655" y="120" fill="#e6edf3">Node B</text><text x="655" y="138" fill="#9aa4b2" font-size="10.5">strong=1</text>
+  </g>
+  <!-- A -> B shared -->
+  <path d="M530,112 L598,112" fill="none" stroke="#e3b341" stroke-width="2.2" marker-end="url(#asa)"/>
+  <text x="564" y="104" text-anchor="middle" font-size="10.5" fill="#e3b341">shared</text>
+  <!-- B -> A shared -->
+  <path d="M598,134 L532,134" fill="none" stroke="#ff7b72" stroke-width="2.2" marker-end="url(#asr)"/>
+  <text x="564" y="150" text-anchor="middle" font-size="10.5" fill="#ff7b72">shared</text>
+  <text x="565" y="182" text-anchor="middle" font-size="12" fill="#ff7b72">서로 참조 → 카운트가 0이 안 됨 → <tspan font-weight="700">영구 누수</tspan></text>
+
+  <!-- fix -->
+  <text x="565" y="224" text-anchor="middle" font-size="13" font-weight="600" fill="#7ee787">해결: 한쪽을 weak_ptr로</text>
+  <g font-family="Consolas,monospace" font-size="14" font-weight="700" text-anchor="middle">
+    <rect x="420" y="242" width="110" height="52" rx="8" fill="#263041" stroke="#3d4859"/><text x="475" y="266" fill="#e6edf3">Node A</text><text x="475" y="284" fill="#9aa4b2" font-size="10.5">strong=1</text>
+    <rect x="600" y="242" width="110" height="52" rx="8" fill="#263041" stroke="#3d4859"/><text x="655" y="266" fill="#e6edf3">Node B</text><text x="655" y="284" fill="#9aa4b2" font-size="10.5">strong=1</text>
+  </g>
+  <path d="M530,258 L598,258" fill="none" stroke="#e3b341" stroke-width="2.2" marker-end="url(#asa)"/>
+  <text x="564" y="250" text-anchor="middle" font-size="10.5" fill="#e3b341">shared</text>
+  <path d="M598,280 L532,280" fill="none" stroke="#56d364" stroke-width="2.2" stroke-dasharray="5 3" marker-end="url(#asg)"/>
+  <text x="564" y="296" text-anchor="middle" font-size="10.5" fill="#56d364">weak</text>
+  <text x="565" y="330" text-anchor="middle" font-size="12" fill="#c9d1d9">weak_ptr은 strong count를 <tspan fill="#56d364" font-weight="700">증가시키지 않음</tspan></text>
+  <text x="565" y="352" text-anchor="middle" font-size="12" fill="#c9d1d9">→ 소유 사슬이 끊겨 A·B 모두 해제 가능</text>
+  <text x="565" y="380" text-anchor="middle" font-size="11.5" fill="#9aa4b2">양방향 연결에서 한쪽만 소유(shared), 반대쪽은 관찰(weak)</text>
+</svg>

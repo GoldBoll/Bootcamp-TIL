@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" width="760" height="430" font-family="'Segoe UI', system-ui, sans-serif" role="img" aria-label="객체의 vptr가 클래스 vtable을 가리키고, 가상 함수 호출은 vptr에서 vtable을 거쳐 실제 함수 포인터로 이어지는 동적 디스패치">
+  <rect x="0" y="0" width="760" height="430" rx="14" fill="#1c2330" stroke="#39414f"/>
+  <text x="380" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#e6edf3">동적 디스패치 — vptr → vtable → 함수 포인터</text>
+  <text x="380" y="56" text-anchor="middle" font-size="13" fill="#79c0ff" font-family="Consolas,monospace">Animal* p = new Dog();  p-&gt;Speak();</text>
+  <defs>
+    <marker id="at" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#58a6ff"/></marker>
+  </defs>
+
+  <!-- Dog object -->
+  <text x="120" y="94" text-anchor="middle" font-size="13" font-weight="600" fill="#9aa4b2">Dog 객체 (메모리)</text>
+  <g font-family="Consolas,monospace" font-size="13">
+    <rect x="45" y="104" width="150" height="40" fill="#1d2b3a" stroke="#58a6ff" stroke-width="2"/><text x="120" y="129" text-anchor="middle" fill="#79c0ff" font-weight="700">vptr</text>
+    <rect x="45" y="144" width="150" height="34" fill="#263041" stroke="#3d4859"/><text x="120" y="166" text-anchor="middle" fill="#c9d1d9">int age</text>
+    <rect x="45" y="178" width="150" height="34" fill="#263041" stroke="#3d4859"/><text x="120" y="200" text-anchor="middle" fill="#c9d1d9">float weight</text>
+  </g>
+  <text x="120" y="234" text-anchor="middle" font-size="11" fill="#586170">vptr가 객체 크기를 늘림</text>
+
+  <!-- Dog vtable -->
+  <text x="375" y="94" text-anchor="middle" font-size="13" font-weight="600" fill="#9aa4b2">Dog vtable (클래스당 1개)</text>
+  <g font-family="Consolas,monospace" font-size="12.5">
+    <rect x="300" y="104" width="150" height="36" fill="#263041" stroke="#3d4859"/><text x="375" y="127" text-anchor="middle" fill="#e6edf3">[0] Speak</text>
+    <rect x="300" y="140" width="150" height="36" fill="#263041" stroke="#3d4859"/><text x="375" y="163" text-anchor="middle" fill="#e6edf3">[1] Move</text>
+    <rect x="300" y="176" width="150" height="36" fill="#263041" stroke="#3d4859"/><text x="375" y="199" text-anchor="middle" fill="#e6edf3">[2] ~Dog</text>
+  </g>
+
+  <!-- function bodies -->
+  <g font-family="Consolas,monospace" font-size="12.5">
+    <rect x="560" y="104" width="170" height="36" rx="5" fill="#22331f" stroke="#56d364"/><text x="645" y="127" text-anchor="middle" fill="#7ee787" font-weight="700">Dog::Speak()</text>
+    <rect x="560" y="140" width="170" height="36" rx="5" fill="#33291c" stroke="#e3b341"/><text x="645" y="163" text-anchor="middle" fill="#e3b341">Animal::Move()</text>
+    <rect x="560" y="176" width="170" height="36" rx="5" fill="#241d33" stroke="#bc8cff"/><text x="645" y="199" text-anchor="middle" fill="#bc8cff">Dog::~Dog()</text>
+  </g>
+
+  <!-- arrows -->
+  <path d="M195,124 C240,124 260,122 298,122" fill="none" stroke="#58a6ff" stroke-width="2.5" marker-end="url(#at)"/>
+  <path d="M450,122 C500,122 515,122 558,122" fill="none" stroke="#56d364" stroke-width="2" marker-end="url(#at)"/>
+  <path d="M450,158 L558,158" fill="none" stroke="#e3b341" stroke-width="1.6" marker-end="url(#at)"/>
+  <path d="M450,194 L558,194" fill="none" stroke="#bc8cff" stroke-width="1.6" marker-end="url(#at)"/>
+  <text x="248" y="114" font-size="10.5" fill="#58a6ff">가리킴</text>
+
+  <!-- comparison strip -->
+  <line x1="45" y1="262" x2="715" y2="262" stroke="#39414f" stroke-dasharray="4 5"/>
+  <text x="45" y="290" font-size="13" font-weight="600" fill="#9aa4b2">override로 교체된 슬롯만 다름:</text>
+  <g font-family="Consolas,monospace" font-size="12.5">
+    <text x="45" y="322" fill="#c9d1d9">Animal vtable: [ <tspan fill="#e3b341">Animal::Speak</tspan> | Animal::Move | Animal::~Animal ]</text>
+    <text x="45" y="350" fill="#c9d1d9">Dog    vtable: [ <tspan fill="#7ee787" font-weight="700">Dog::Speak</tspan> | <tspan fill="#9aa4b2">Animal::Move</tspan> | Dog::~Dog ]</text>
+  </g>
+  <text x="45" y="384" font-size="12" fill="#7ee787">↑ slot 0은 재정의 → Dog::Speak로 교체</text>
+  <text x="360" y="384" font-size="12" fill="#9aa4b2">slot 1은 재정의 안 함 → Animal::Move 상속 유지</text>
+  <text x="380" y="412" text-anchor="middle" font-size="12.5" fill="#c9d1d9">부모 타입 포인터로 호출해도 런타임에 vptr을 따라 <tspan fill="#7ee787" font-weight="700">실제 타입의 함수</tspan>가 호출됨</text>
+</svg>

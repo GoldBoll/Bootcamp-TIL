@@ -86,7 +86,7 @@ P2PCleanupTimeout=120
 팀원이 PR 없이 `develop`에 직접 커밋 2개를 머지한 것을 발견했다. 팀 협업 규칙 위반이라 롤백이 필요했다.
 
 ```bash
-git reset --hard 0d04428          # develop을 정상 커밋으로 되돌림
+git reset --hard <정상커밋>          # develop을 정상 커밋으로 되돌림
 git push --force origin develop   # 원격에도 강제 반영
 ```
 

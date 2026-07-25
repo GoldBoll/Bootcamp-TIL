@@ -178,6 +178,9 @@ std::vector vs std::list
 
 > `vector`는 **연속 메모리에 원소를 한 줄로** 배치하고, `list`는 **각 노드를 힙 여기저기 따로** 할당해 포인터로 연결합니다. 이 한 가지 차이가 모든 성능 특성을 결정합니다.
 
+![vector는 연속 메모리에 원소를 배치하고 list는 힙에 분산된 노드를 prev·next 포인터로 연결한다](/assets/img/til/2026-04-14/vector-vs-list-memory-diagram.svg)
+_vector는 한 덩어리 연속 버퍼라 한 캐시 라인에 여러 원소가 함께 실리고, list는 노드가 주소상 흩어져 순회마다 캐시 미스가 난다. 이 레이아웃 차이가 실측 성능을 가른다._
+
 ### 2-1. vector — 연속 메모리
 
 ```cpp

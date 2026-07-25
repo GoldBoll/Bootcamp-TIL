@@ -108,9 +108,9 @@ amend하려고 보니 PR이 이미 develop에 머지된 뒤였다. **커밋은 �
 
 ```bash
 # 원본 머지의 트리를 그대로 쓰고, 부모만 (머지 직전, 수정된 커밋)으로 바꾼 머지 커밋 생성
-git commit-tree "fd7f23e^{tree}" -p a3f490b -p 6698bf1 -F merge-msg.txt
+git commit-tree "<원본 머지>^{tree}" -p <수정된 커밋> -p <머지 직전 브랜치> -F merge-msg.txt
 git branch -f develop <새 SHA>
-git push --force-with-lease=refs/heads/develop:fd7f23e origin develop:develop
+git push --force-with-lease=refs/heads/develop:<옛 develop> origin develop:develop
 
 # 체크아웃 없이 HEAD만 develop으로 이동 (워킹 트리 무접촉)
 git symbolic-ref HEAD refs/heads/develop && git reset

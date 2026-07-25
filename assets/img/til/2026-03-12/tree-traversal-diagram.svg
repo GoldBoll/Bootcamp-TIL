@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" width="760" height="470" font-family="'Segoe UI', system-ui, sans-serif" role="img" aria-label="이진 탐색 트리의 전위·중위·후위 순회 순서. 중위 순회는 정렬된 순서를 만든다">
+  <rect x="0" y="0" width="760" height="470" rx="14" fill="#1c2330" stroke="#39414f"/>
+  <text x="380" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#e6edf3">트리 순회 — 전위 · 중위 · 후위</text>
+
+  <!-- edges -->
+  <g stroke="#4a5568" stroke-width="2">
+    <line x1="380" y1="78" x2="245" y2="150"/>
+    <line x1="380" y1="78" x2="515" y2="150"/>
+    <line x1="240" y1="158" x2="175" y2="228"/>
+    <line x1="240" y1="158" x2="308" y2="228"/>
+    <line x1="310" y1="236" x2="262" y2="300"/>
+    <line x1="310" y1="236" x2="358" y2="300"/>
+    <line x1="520" y1="158" x2="588" y2="228"/>
+    <line x1="590" y1="236" x2="542" y2="300"/>
+  </g>
+  <!-- nodes -->
+  <g font-family="Consolas,monospace" font-weight="700" font-size="17" text-anchor="middle">
+    <g><circle cx="380" cy="72" r="23" fill="#1f6feb" stroke="#79c0ff" stroke-width="2"/><text x="380" y="78" fill="#fff">8</text></g>
+    <circle cx="240" cy="150" r="22" fill="#263041" stroke="#3d4859" stroke-width="2"/><text x="240" y="156" fill="#e6edf3">3</text>
+    <circle cx="520" cy="150" r="22" fill="#263041" stroke="#3d4859" stroke-width="2"/><text x="520" y="156" fill="#e6edf3">10</text>
+    <circle cx="170" cy="230" r="22" fill="#263041" stroke="#3d4859" stroke-width="2"/><text x="170" y="236" fill="#e6edf3">1</text>
+    <circle cx="310" cy="230" r="22" fill="#263041" stroke="#3d4859" stroke-width="2"/><text x="310" y="236" fill="#e6edf3">6</text>
+    <circle cx="590" cy="230" r="22" fill="#263041" stroke="#3d4859" stroke-width="2"/><text x="590" y="236" fill="#e6edf3">14</text>
+    <circle cx="260" cy="308" r="22" fill="#263041" stroke="#3d4859" stroke-width="2"/><text x="260" y="314" fill="#e6edf3">4</text>
+    <circle cx="360" cy="308" r="22" fill="#263041" stroke="#3d4859" stroke-width="2"/><text x="360" y="314" fill="#e6edf3">7</text>
+    <circle cx="540" cy="308" r="22" fill="#263041" stroke="#3d4859" stroke-width="2"/><text x="540" y="314" fill="#e6edf3">13</text>
+  </g>
+  <text x="415" y="60" font-size="12" fill="#79c0ff">root</text>
+
+  <!-- orderings -->
+  <g font-family="Consolas,monospace" font-size="15">
+    <text x="40" y="368" font-size="13.5" font-family="'Segoe UI',sans-serif" font-weight="600" fill="#58a6ff">전위 (루트→왼→오)</text>
+    <text x="250" y="368" fill="#c9d1d9">8  3  1  6  4  7  10  14  13</text>
+
+    <text x="40" y="404" font-size="13.5" font-family="'Segoe UI',sans-serif" font-weight="600" fill="#56d364">중위 (왼→루트→오)</text>
+    <text x="250" y="404" fill="#56d364" font-weight="700">1  3  4  6  7  8  10  13  14</text>
+
+    <text x="40" y="440" font-size="13.5" font-family="'Segoe UI',sans-serif" font-weight="600" fill="#e3b341">후위 (왼→오→루트)</text>
+    <text x="250" y="440" fill="#c9d1d9">1  4  7  6  3  13  14  10  8</text>
+  </g>
+  <text x="720" y="404" text-anchor="end" font-size="12" fill="#56d364" font-family="'Segoe UI',sans-serif">↑ BST 정렬 순서</text>
+</svg>

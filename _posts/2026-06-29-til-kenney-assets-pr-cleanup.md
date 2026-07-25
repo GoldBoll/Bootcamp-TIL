@@ -2,13 +2,13 @@
 title: "[TIL] 2026-06-29 — git filter-branch 커밋 수정·PR 삭제 불가·UE 레벨 참조 복구"
 date: 2026-06-29 22:00:00 +0900
 categories: ["언리얼", "팀프로젝트"]
-tags: ["til", "git", "ue5", "multiplayer", "asset-import", "python"]
+tags: ["til", "git", "ue5", "multiplayer", "asset-import"]
 render_with_liquid: false
 description: "git filter-branch로 커밋 메시지 일괄 수정, PR 삭제 불가 확인, UE 에디터가 .umap을 자동 수정하는 현상과 레벨 에셋 참조 복구까지."
 image: /assets/img/thumbs/unreal.svg
 ---
 
-> 오늘은 **커밋 메시지 일괄 수정**부터 시작해 GitHub PR 삭제 한계 확인, UE 레벨의 끊어진 에셋 참조를 에디터 Python 자동화(에디터의 Python API를 외부에서 호출해 조작)로 복구하는 것까지 — git 히스토리 정리와 언리얼 에셋 파이프라인을 동시에 다룬 날이었다.
+> 오늘은 **커밋 메시지 일괄 수정**부터 시작해 GitHub PR 삭제 한계 확인, UE 레벨의 끊어진 에셋 참조를 에디터에서 액터 정리·재배치로 복구하는 것까지 — git 히스토리 정리와 언리얼 에셋 파이프라인을 동시에 다룬 날이었다.
 
 ## 오늘 한 일 요약
 
@@ -16,7 +16,7 @@ image: /assets/img/thumbs/unreal.svg
 2. GitHub GraphQL API로 닫힌 PR 삭제 시도 → API 자체가 존재하지 않음 확인
 3. PR 템플릿 섹션을 준수한 PR #21 생성 (`--base develop` 명시)
 4. UE 에디터 열린 상태에서 `.umap` 자동 수정 현상 파악 및 `git restore`로 되돌리기
-5. Kenney 에셋 폴더 이동 + redirector 삭제 이후 L_KenneyPreview 참조 전체 끊김 → UE Python으로 액터 삭제 후 재배치
+5. Kenney 에셋 폴더 이동 + redirector 삭제 이후 L_KenneyPreview 참조 전체 끊김 → 에디터에서 끊어진 액터 삭제 후 재배치
 
 ---
 
@@ -31,13 +31,13 @@ image: /assets/img/thumbs/unreal.svg
 ```bash
 git stash
 FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f --msg-filter \
-  'sed "/Co-Authored-By:/d" | sed "/^[[:space:]]*$/d"' c91d963..HEAD
+  'sed "/Co-Authored-By:/d" | sed "/^[[:space:]]*$/d"' <시작커밋>..HEAD
 git stash pop
 git push --force-with-lease
 ```
 
 - `--msg-filter`는 각 커밋 메시지를 셸 명령으로 가공한다. `sed`로 해당 라인을 삭제한 뒤 이어진 빈 줄도 제거.
-- 범위 `c91d963..HEAD`로 변경이 필요한 커밋만 재작성해 불필요한 히스토리 재작성을 최소화.
+- 범위 `<시작커밋>..HEAD`로 변경이 필요한 커밋만 재작성해 불필요한 히스토리 재작성을 최소화.
 - `-i` 없이 **비대화형(non-interactive)**으로 메시지 일괄 수정 가능.
 - `--force-with-lease`는 원격에 내가 모르는 새 커밋이 없을 때만 force push를 허용해 실수로 다른 사람 커밋을 덮어쓰는 사고를 방지한다.
 
@@ -96,23 +96,12 @@ git restore Content/Prototype/L_FurnitureProto.umap
 
 UE의 redirector는 **이전 경로 → 새 경로**를 연결하는 포인터 역할을 한다. redirector를 삭제하면 그 redirector를 참조하던 레벨·블루프린트도 함께 업데이트해야 한다. 에디터의 "Fix Up Redirectors" 기능을 쓰거나, 삭제 전에 모든 참조를 새 경로로 리다이렉트해야 한다.
 
-### 해결: UE Python으로 액터 삭제 후 재배치
+### 해결: 에디터에서 액터 삭제 후 재배치
 
-```python
-import unreal
+복구는 에디터에서 두 단계로 진행했다.
 
-EA = unreal.EditorActorSubsystem()
-
-# 1. 끊어진 SM 액터 전체 삭제
-all_actors = EA.get_all_level_actors()
-to_del = [a for a in all_actors if isinstance(a, unreal.StaticMeshActor)]
-EA.destroy_actors(to_del)
-
-# 2. /Game/Assets 기준으로 SM 수집 후 그리드 재배치
-asset_lib = unreal.EditorAssetLibrary()
-sm_assets = asset_lib.list_assets("/Game/Assets", recursive=True)
-# ... 킷별 폴더에서 SM 수집 후 그리드 레이아웃으로 스폰
-```
+1. **끊어진 액터 정리** — 레벨의 StaticMeshActor를 전부 선택해 삭제했다. redirector가 사라지면서 참조가 끊긴 상태라 그대로 두면 빈 액터만 남는다.
+2. **새 경로 기준 재배치** — `/Game/Assets` 폴더의 StaticMesh를 킷별로 모아, 그리드 레이아웃으로 레벨에 다시 배치했다.
 
 기존 404개 액터를 삭제하고 `/Game/Assets` 경로 기준으로 403개 SM을 재배치해 레벨 참조를 복구했다.
 
@@ -126,6 +115,6 @@ sm_assets = asset_lib.list_assets("/Game/Assets", recursive=True)
 4. **UE 에디터가 열려 있으면 .umap이 자동으로 수정된다.** 커밋 전 `git diff`로 의도하지 않은 `.umap` 변경이 섞이지 않았는지 확인하자.
 5. **`gh pr create`의 기본 base는 저장소 기본 브랜치다.** develop 운영 시 `--base develop` 명시는 필수.
 
-> **오늘 배운 것** — UE의 redirector는 이전 경로에서 새 경로로 이어 주는 포인터라, 참조를 정리하지 않고 삭제하면 그걸 바라보던 레벨 참조가 통째로 끊긴다. 끊어진 StaticMesh 액터 404개를 UE Python으로 일괄 삭제하고 새 경로 기준으로 재배치해 복구했다.
+> **오늘 배운 것** — UE의 redirector는 이전 경로에서 새 경로로 이어 주는 포인터라, 참조를 정리하지 않고 삭제하면 그걸 바라보던 레벨 참조가 통째로 끊긴다. 끊어진 StaticMesh 액터 404개를 에디터에서 일괄 삭제하고 새 경로 기준으로 재배치해 복구했다.
 {: .prompt-tip }
 

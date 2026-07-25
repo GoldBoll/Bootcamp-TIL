@@ -17,6 +17,9 @@ image: /assets/img/thumbs/til.svg
 1. **LeetCode 643 Maximum Average Subarray I (Easy)** — 길이 k 고정 윈도우. "평균 최대 = 합 최대"로 환원하고, `sum += nums[i] - nums[i-k]`로 한 칸씩 밀어 O(n). ([문제별 풀이](/posts/algo-2026-06-30-1/))
 2. **LeetCode 3 Longest Substring Without Repeating Characters (Medium)** — 가변 윈도우. `last[c]`로 문자의 마지막 등장 위치를 추적, 중복 발견 시 `left`를 한 칸씩 줄이지 않고 중복 직후로 **점프**해 O(n). ([문제별 풀이](/posts/algo-2026-06-30-2/))
 
+![고정 크기 윈도우는 들어온 값을 더하고 빠진 값을 빼며 이동하고, 가변 크기 윈도우는 중복이 생기면 left를 중복 직후로 점프시킨다](/assets/img/til/2026-06-30/sliding-window-diagram.svg)
+_고정 크기(위)는 `sum += nums[i] - nums[i-k]`로 한 칸씩 밀고, 가변 크기(아래)는 중복 문자를 만나면 `left`를 `last[c]+1`로 점프시킨다. 두 경우 모두 포인터가 단조 증가해 전체 O(n)이다._
+
 ---
 
 ## 1. Maximum Average Subarray I (LeetCode 643) — 고정 크기 윈도우

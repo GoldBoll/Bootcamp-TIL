@@ -71,6 +71,9 @@ develop ──●──●──●──●──●─────────
            │ feat/* feat/* ...       develop에서 분기 → develop으로 PR
 ```
 
+![feat 브랜치는 develop에서 분기해 develop으로 병합되고, develop은 안정된 시점에만 main으로 병합되어 완충 역할을 한다](/assets/img/til/2026-06-17/gitflow-develop-buffer-diagram.svg)
+_feat/\*는 develop에서 분기해 PR로 develop에 병합되고, main은 발표·제출 같은 안정 시점에만 develop을 받는다. develop이 main의 깨짐 위험을 흡수하는 완충 지대다._
+
 ### 왜 완충이 필요한가
 
 GitHub Flow는 `feat`가 곧장 `main`으로 들어간다. 단순하지만, **누군가의 머지가 main을 깨면 그 순간 전원이 깨진 main을 받게 된다.** `develop`을 사이에 두면:
