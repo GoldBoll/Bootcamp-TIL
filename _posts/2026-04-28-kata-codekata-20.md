@@ -40,7 +40,7 @@ vector<int> solution(int n, int m) {
 }
 ```
 
-> **오늘 배운 것** — 유클리드 호제법 while 루프 몇 줄이면 gcd가 나오고, lcm은 `gcd × lcm = n × m` 관계식으로 바로 얻는다. 두 값을 따로 계산할 필요가 없다.
+> **핵심 요약** — 유클리드 호제법 while 루프 몇 줄이면 gcd가 나오고, lcm은 `gcd × lcm = n × m` 관계식으로 바로 얻는다. 두 값을 따로 계산할 필요가 없다.
 {: .prompt-tip }
 
 

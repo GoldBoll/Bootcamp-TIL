@@ -8,7 +8,7 @@ image: /assets/img/thumbs/cs.svg
 description: "답변 흐름 — 정렬 전제 → 시간복잡도 → 반환 타입 차이 → lower_bound·equal_range → set/map 멤버 함수 vs 알고리즘 꼬리질문 연결 다리"
 ---
 
-# 05/05 — std::find vs std::binary_search (선형 탐색 vs 이분 탐색)
+# std::find vs std::binary_search (선형 탐색 vs 이분 탐색)
 
 > 모의면접 주제: "std::find()와 std::binary_search()의 차이점에 대해서 설명해 주세요"
 > 정렬 전제 → 시간복잡도 → 반환 타입 차이 → lower_bound·equal_range → set/map 멤버 함수 vs 알고리즘 꼬리질문 연결 다리
@@ -866,5 +866,5 @@ unordered_map → 멤버 함수 find() (O(1) 평균)
        TArray::Find (멤버, int32)
 ```
 
-> **오늘 배운 것** — `std::find`는 정렬 없이 `==`로 비교해 iterator를 돌려주는 O(n) 선형 탐색이고, `std::binary_search`는 정렬을 전제로 `<` 두 번의 동치 판단으로 존재 여부(bool)만 알려주는 O(log n) 이분 탐색이다. 위치까지 필요하면 처음부터 `std::lower_bound`를 부르는 게 정석이라는 것.
+> **핵심 요약** — `std::find`는 정렬 없이 `==`로 비교해 iterator를 돌려주는 O(n) 선형 탐색이고, `std::binary_search`는 정렬을 전제로 `<` 두 번의 동치 판단으로 존재 여부(bool)만 알려주는 O(log n) 이분 탐색이다. 위치까지 필요하면 처음부터 `std::lower_bound`를 부르는 게 정석이라는 것.
 {: .prompt-tip }

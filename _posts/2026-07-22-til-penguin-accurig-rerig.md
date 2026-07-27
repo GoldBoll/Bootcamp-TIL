@@ -1,17 +1,18 @@
 ---
-title: "[TIL] 2026-07-22 — Tripo 펭귄 리깅 재작업(AccuRIG)과 UE IK 리타게팅 연결 구조"
+title: "Tripo 펭귄 AccuRIG 리깅과 UE IK 리타게팅"
+subtitle: "cross-rig 실패를 우회 대신 리그 재작업으로"
 date: 2026-07-22 21:00:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 pin: true
-tags: ["til", "ue5", "tripo", "accurig", "skeletal-mesh", "retargeting", "animation", "blendspace", "asset-import"]
+tags: ["til", "ue5", "tripo", "accurig", "skeletal-mesh", "retargeting", "animation", "blendspace", "asset-import", "트러블슈팅"]
 render_with_liquid: false
-description: 6/24 cross-rig 리타게팅 실패의 후속 — 팀 프로젝트 플레이어 캐릭터인 Tripo 펭귄에 AccuRIG로 표준 휴머노이드 리그를 다시 입히고, UE 안에서 IK 리타게터·1D 블렌드스페이스·C++ AnimInstance 기반 ABP로 애니메이션이 연결되는 구조를 에디터 조회로 확인한 기록.
+description: "서로 다른 리그 사이의 리타게팅이 무너져 한 번 우회했던 문제를, 리그 자체를 다시 만들어 정면으로 풀었다. 표준 휴머노이드 리그를 입히고 IK 리타게터·블렌드스페이스·ABP로 이어지는 구조까지."
 image: /assets/img/til/2026-07-22/accurig-rig-body.png
 ---
 
-부트캠프 8조 팀 프로젝트(UE5 협동 게임, 저장소 TeamCarry)에서 펭귄은 마스코트가 아니라 **플레이어 캐릭터 에셋**이다. 플레이어가 기성 애니메이션을 제대로 받아 움직이려면 리그부터 표준이어야 해서, 이 펭귄의 리그를 다시 만든 날이다. 6/24 작업에서 Tripo로 뽑은 펭귄을 UE에 임포트했을 때, 서로 다른 리그 사이의 **cross-rig 리타게팅이 무너져** 동일 스켈레톤 애님 임포트 + in-place 처리로 우회했었다. 이번에는 우회가 아니라 정면 돌파 — Tripo 원본에서 다시 출발해 **AccuRIG로 표준 휴머노이드 리그를 입히는 재작업**을 진행했고, 이 리그가 UE 안에서 IK 리타게터·블렌드스페이스·애님 블루프린트로 어떻게 애니메이션과 연결돼 있는지 에디터 조회로 구조를 확인했다.
+부트캠프 8조 팀 프로젝트(UE5 협동 게임, 저장소 TeamCarry)에서 펭귄은 마스코트가 아니라 **플레이어 캐릭터 에셋**이다. 플레이어가 기성 애니메이션을 제대로 받아 움직이려면 리그부터 표준이어야 해서, 이 펭귄의 리그를 다시 만든 날이다. 처음 이 펭귄을 UE에 임포트했을 때는 서로 다른 리그 사이의 **cross-rig 리타게팅이 무너져** 동일 스켈레톤 애님 임포트 + in-place 처리로 우회했었다. 이번에는 우회가 아니라 정면 돌파 — Tripo 원본에서 다시 출발해 **AccuRIG로 표준 휴머노이드 리그를 입히는 재작업**을 진행했고, 이 리그가 UE 안에서 IK 리타게터·블렌드스페이스·애님 블루프린트로 어떻게 애니메이션과 연결돼 있는지 에디터 조회로 구조를 확인했다.
 
-## 왜 리깅 재작업인가 — 전편의 cross-rig 실패
+## 왜 리깅 재작업인가 — 앞선 cross-rig 실패
 
 6/24 작업의 결말이 이번 작업의 출발점이다. 당시 펭귄 FBX(78본 CC 리그)에 다른 리그의 애니메이션을 리타게팅하자 포즈가 무너졌고, 결국 **동일 스켈레톤 애님만 임포트 + root 본 Skeleton 리타게팅으로 in-place 처리**하는 우회로 마무리했었다. 리그가 서로 다르면 리타게팅 품질을 보장할 수 없다는 걸 몸으로 배운 날이었다.
 
@@ -73,7 +74,7 @@ _ABP_Penguin AnimGraph — 상태머신 없이 BS_BaseCharacter 블렌드스페�
 - Tripo 생성 세부(프롬프트·모델 선택)는 기록이 없어 생략
 - AccuRIG **Add Motions 단계를 실제로 썼는지는 미확인** — UE 쪽 근거로는 애니메이션이 개별 Mixamo 계열 FBX로 임포트돼 있어, 최종 애니메이션 출처는 AccuRIG 내장 모션이 아닐 가능성이 높다
 
-> **오늘 배운 것**
+> **핵심 요약**
 > - 리타게팅이 무너지면 우회가 아니라 **리그 재작업**이 답일 수 있다 — 소스 리그를 표준 계열(AccuRIG)로 다시 만들면 리타게터 체인 매핑이 성립한다
 > - Tripo로 생성한 메시도 리깅 표준화를 거치면 기성 애니메이션 생태계(IK 리타게터 → Mixamo 계열 시퀀스)에 올라탄다
 > - 로코모션에 상태머신이 필수는 아니다 — C++ AnimInstance(Speed/bIsFalling) + 1D 블렌드스페이스 하나로 충분한 구조를 확인했다

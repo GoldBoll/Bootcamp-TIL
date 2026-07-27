@@ -1,28 +1,15 @@
 ---
-title: "[TIL] 2026-06-09 — 언리얼 멀티플레이 Replication·RPC·동기화 (강의 챕터 5~7)"
+title: "복제 조절 5속성과 RPC 3종 실습"
+subtitle: "RPC만으로는 안 되는 지점을 지뢰로 확인하기"
 date: 2026-06-09 19:00:00 +0900
 categories: ["언리얼"]
-tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "netmode", "netrole", "component", "animation", "umg", "gameplay-framework"]
+tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "netmode", "netrole", "component", "animation", "umg", "gameplay-framework", "트러블슈팅"]
 render_with_liquid: false
-description: "언리얼 멀티플레이 챕터 5~7 — RepNotify·NetUpdateFrequency·Relevancy·NetDormancy, RPC 3종과 지뢰 재폭발 디버깅, 애니메이션·공격 동기화까지."
+description: "복제가 되는 것과 감당 가능한 복제는 다르다. 복제 빈도·연관성·우선순위·휴면·RepNotify로 무엇을 언제 누구에게 보낼지 조절하고, 애니메이션·공격·컴포넌트 동기화까지 붙였다."
 image: /assets/img/thumbs/unreal.svg
 ---
 
-> 챕터 2~4에서 **RPC**(코스메틱 전파)와 **Property Replication**(중대 상태 복제)의 기본 3종 세트, 그리고 게임 프로젝트 구조를 잡았다. 이번 챕터 5~7은 그 위에 "복제를 어떻게 **효율적으로·정확하게** 할 것인가"를 얹는다. 챕터 5는 Property Replication을 조절하는 **5가지 속성**(NetUpdateFrequency·Relevancy·NetPriority·NetDormancy + Replication Notify), 챕터 6은 Server/Client/NetMulticast **RPC를 직접 실습**하며 "RPC만으로는 안 되고 결국 Property Replication이 필요한" 지점을 체득, 챕터 7은 지금까지 배운 걸 총동원한 **실전 동기화**(애니메이션·공격·액터 컴포넌트)다. 관통 주제는 그대로다 — **권위(Authority)는 서버가, 결과는 RPC·Replication으로 클라에. 단 무엇을·언제·누구에게 보낼지를 조절해 부하를 줄이고 누락을 막는다.**
-
-## 오늘 한 일 요약
-
-1. **챕터 5-1** — Property Replication 심화. `NetLoadOnClient`(레벨 배치 액터는 클라가 스스로 스폰), 매 틱 복제값을 읽는 비효율을 `ReplicatedUsing`(OnRep) **Replication Notify**로 개선. C++ `OnRep_` vs 블루프린트 `RepNotify` 차이.
-2. **챕터 5-2** — `NetUpdateFrequency`. 초당 복제 시도 횟수의 **최대치**(보장 아님). 빈도를 낮추고 클라에서 **속도 예측·보간(Lerp)** 으로 메우는 패턴.
-3. **챕터 5-3** — Relevancy(연관성). 모든 액터를 모두에게 보내면 `N×N` 부하 → 서버가 커넥션별로 연관 액터만 복제. Owner·Instigator·AlwaysRelevant·NetCullDistance 등 기준과 `IsNetRelevantFor()`.
-4. **챕터 5-4** — `NetPriority`. 한정된 대역폭에서 우선순위 높은 액터 먼저 전송. `GetNetPriority()`의 거리·시야 가중치, 포화(saturation) 상태 처리.
-5. **챕터 5-5** — `NetDormancy`(휴면). 자주 안 바뀌는 액터를 재워 오버헤드 제거(DORM_Initial 등). `FlushNetDormancy()`로 깨우기. `DOREPLIFETIME_CONDITION`(Conditional Replication).
-6. **챕터 6-1~6-2** — 지뢰(LandMine) 매설로 Server RPC 실습. 로컬 입력은 서버에서 안 돌기에 스폰이 남에게 안 보임 → `Server RPC`로 서버에서 스폰 + 액터 `bReplicates`. `SetOwner`를 컨트롤러가 아닌 캐릭터로 줘야 OwningClient 판별 가능.
-7. **챕터 6-3** — Client RPC(UI는 OwningClient에만)·NetMulticast RPC(폭발 이펙트는 전 클라). `OnActorBeginOverlap` → 서버 판정 → `MulticastRPCSpawnEffect`.
-8. **챕터 6-4** — 재폭발 방지를 RPC만으로 풀려다 실패하는 과정. 늦게 접속/연관성 밖 클라는 Multicast를 못 받음 → 결국 `bIsExploded`를 **Property Replication(ReplicatedUsing)** 으로. "RPC는 순간, Replication은 상태"를 디버깅으로 체득.
-9. **챕터 7-1** — 애니메이션 동기화. `Replicate Movement`가 켜져 있으면 Velocity/IsFalling이 자동 동기화. AimOffset(고개 Pitch)은 `Server RPC(Unreliable)` + `Replicated` 프로퍼티로 동기화.
-10. **챕터 7-2** — 근접 공격 동기화. AnimNotify로 히트 판정, 데미지는 서버에서만, 몽타주 재생은 `ServerRPC → NetMulticast`. 개선판은 Multicast 대신 **OtherClient에게만 Client RPC**를 보내 중복 호출 제거.
-11. **챕터 7-3** — 액터 컴포넌트(`DXStatusComponent`) 동기화. 컴포넌트=Subobject는 오너의 NetRole을 따름. `SetIsReplicatedByDefault(true)` + 컴포넌트 자체의 `GetLifetimeReplicatedProps`. CurrentHP는 전원, MaxHP는 `COND_OwnerOnly`로 조건부 복제.
+[RPC와 Property Replication으로 상태를 보내는 것](/posts/til-unreal-multiplayer-ch2-4/)까지는 됐다. 문제는 그다음이다 — 액터가 늘어나면 **무엇을, 얼마나 자주, 누구에게** 보낼지를 조절하지 않으면 대역폭이 그대로 무너진다. 이 글에서는 복제를 조절하는 다섯 가지 속성(복제 빈도·연관성·우선순위·휴면·RepNotify)을 살펴보고, Server/Client/NetMulticast RPC를 지뢰 매설 실습으로 직접 짜 본 뒤, 애니메이션·공격·컴포넌트 동기화까지 붙인 과정을 이야기하려 한다. 트러블슈팅은 **RPC만으로 처리했더니 지뢰가 다시 터지던 문제**다.
 
 ## 1. Property Replication 심화와 Replication Notify (5-1)
 
@@ -302,7 +289,7 @@ void ADXLandMine::MulticastRPCSpawnEffect_Implementation()
 
 **왜 서버 기준인가** — `BeginOverlap`은 서버·클라1·클라2 누가 먼저 부를지 모른다. 데미지 계산이 함께 가야 하므로 권위자인 서버에서 판정하고, 이펙트만 Multicast로 전 클라에 뿌린다.
 
-## 9. RPC vs Property Replication — 지뢰 재폭발 디버깅 (6-4)
+## 트러블슈팅 — RPC만 썼더니 지뢰가 다시 터진다 (6-4)
 
 이 단원의 목적은 **"Property Replication이 필요한 상황을 RPC만으로 우기면 무슨 일이 나는가"**를 직접 겪는 것이다.
 
@@ -497,7 +484,7 @@ UPROPERTY(ReplicatedUsing = OnRep_MaxHP)     float MaxHP;
 - **"RPC vs Replication"의 체화.** "RPC는 코스메틱, Replication은 상태"를 명제로 외웠다면, 6-4의 지뢰 재폭발 디버깅으로 **왜** 그런지(늦게 합류한 클라·연관성 밖 클라는 RPC를 못 받음)를 몸으로 겪었다.
 - **OnRep_ 서버 미호출 함정**이 5-1에서 처음 나와 5-5·7-2에서 반복됐다 — "서버에서도 같은 로직이 필요하면 OnRep을 명시 호출."
 
-## 오늘 배운 것 정리
+## 정리 — 챕터 5~7에서 남은 것
 
 1. **복제는 "되게 하기"에서 "조절하기"로.** NetUpdateFrequency(빈도·최대치일 뿐)·Relevancy(N×N 컬링)·NetPriority(대역폭 순서·포화)·NetDormancy(휴면)·Conditional(COND_*)은 모두 한정된 대역폭을 아끼는 다이얼이다. 보장이 아니라 "최대치/우선순위"라는 점이 핵심.
 2. **Replication Notify(OnRep_)는 클라에서만 불린다.** 매 틱 읽기 대신 변경 시 콜백으로 효율을 얻되, 서버에서도 같은 로직이 필요하면 직접 호출해야 한다 — 5-1·5-5·7-2에서 반복된 함정.
@@ -506,6 +493,6 @@ UPROPERTY(ReplicatedUsing = OnRep_MaxHP)     float MaxHP;
 5. **동기화의 분업: 판정은 서버, 표현은 전파.** 공격 데미지·히트 스윕은 `HasAuthority()` 안에서만, 몽타주·이펙트는 Multicast/Client RPC로. 그리고 OwningClient가 이미 처리한 표현은 **OtherClient에게만** 보내 중복을 없앤다(7-2).
 6. **컴포넌트(Subobject)도 스스로 복제한다.** `SetIsReplicatedByDefault(true)` + 컴포넌트 자체의 `GetLifetimeReplicatedProps`. Subobject는 오너의 NetRole을 따르고, `COND_OwnerOnly`처럼 속성마다 복제 범위를 달리해 부하를 줄인다(7-3).
 
-> **오늘 배운 것** — Property Replication을 조절하는 다이얼(NetUpdateFrequency·Relevancy·NetPriority·NetDormancy)을 배웠고, 지뢰 재폭발 디버깅으로 "RPC는 순간 이벤트, Replication은 지속 상태"라는 구분을 직접 겪으며 익혔다.
+> **핵심 요약** — Property Replication을 조절하는 다이얼(NetUpdateFrequency·Relevancy·NetPriority·NetDormancy)을 배웠고, 지뢰 재폭발 디버깅으로 "RPC는 순간 이벤트, Replication은 지속 상태"라는 구분을 직접 겪으며 익혔다.
 {: .prompt-tip }
 

@@ -208,5 +208,5 @@ delete p;
 - 정의 없으면 링커 에러 (`undefined reference to ~AbstractBase`)
 - 실무에서는 순수 가상 소멸자보다 인터페이스 함수를 `= 0`으로 선언하는 경우가 더 일반적
 
-> **오늘 배운 것** — 기반 클래스 포인터로 delete할 때 소멸자가 non-virtual이면 기반 소멸자만 호출돼 파생 클래스의 자원이 그대로 새고, C++ 표준상 UB다. 가상 함수가 하나라도 있는 클래스에는 virtual 소멸자를 선언한다(Effective C++ Item 7).
+> **핵심 요약** — 기반 클래스 포인터로 delete할 때 소멸자가 non-virtual이면 기반 소멸자만 호출돼 파생 클래스의 자원이 그대로 새고, C++ 표준상 UB다. 가상 함수가 하나라도 있는 클래스에는 virtual 소멸자를 선언한다(Effective C++ Item 7).
 {: .prompt-tip }

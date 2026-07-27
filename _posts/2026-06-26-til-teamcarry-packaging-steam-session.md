@@ -1,28 +1,17 @@
 ---
-title: "[TIL] 2026-06-26 — UAT 패키징 오류 수정·Steam 세션 디버깅·Git 롤백·패키징 성공"
+title: "UAT 패키징 실패와 Steam 세션 디버깅"
+subtitle: "에디터에서 되던 프로젝트가 쿡 단계에서 멈춘 이유"
 date: 2026-06-26 22:00:00 +0900
 categories: ["언리얼", "팀프로젝트"]
-tags: ["til", "ue5", "multiplayer", "dedicated-server", "git", "debugging"]
+tags: ["til", "ue5", "multiplayer", "dedicated-server", "git", "debugging", "트러블슈팅"]
 render_with_liquid: false
-description: "UAT 패키징 빌드 오류 수정과 Steam 멀티플레이어 세션 디버깅, git 브랜치 롤백(force push)을 거쳐 UE5 패키징 빌드 성공까지."
+description: "패키징 단계에서 처음으로 빌드가 멈췄고, 고쳐서 실행 파일을 뽑아도 Steam 세션이 붙지 않았다. 에디터에서 실행 파일까지 가는 길을 뚫고, 그 사이 어긋난 팀 브랜치를 되돌린 기록."
 image: /assets/img/thumbs/unreal.svg
 ---
 
-> 오늘은 **UAT 쿡 단계 빌드 실패**를 잡는 것부터 시작해 Steam 멀티플레이어 세션 흐름을 실제로 검증하고, 팀 develop 브랜치를 force push로 롤백하는 것까지 — 온갖 파이프라인 잡일을 한 번에 처리한 날이었다. 그리고 최종적으로 `TeamCarry.exe` 패키징 빌드까지 성공시켰다.
+에디터에서 잘 돌아가던 프로젝트가 패키징 단계에서 처음으로 멈춰 섰다. 쿡 단계에서 빌드가 실패하고, 고쳐서 실행 파일을 뽑아도 이번엔 Steam 세션이 붙지 않았다. 이 글에서는 **에디터에서 실행 파일까지 가는 길을 뚫은 과정**을 이야기하려 한다 — 패키징 오류 원인과 수정, Steam 멀티플레이어 세션 흐름 검증, 그리고 그 사이에 어긋난 팀 브랜치를 되돌린 롤백까지다.
 
-## 오늘 한 일 요약
-
-1. `S_MainMenu.cpp` 로그 레벨 4군데 `Error` → `Log` 변경으로 UAT exit code 25 해결
-2. `DefaultGame.ini` 쿠킹 대상을 NetTest → Prototype으로 교체 (BP 부모 참조 누락 해소)
-3. Steam OSS 세션 흐름(`Steam_Host` → `Steam_Find` → `Steam_Join`) 순서 검증, 실제 멀티 접속 성공
-4. `DefaultEngine.ini` `[SocketSubsystemSteamIP]` P2PCleanupTimeout 추가 (경고 제거)
-5. develop 브랜치 무단 직접 머지 2커밋을 `git reset --hard` + `--force` 롤백
-6. `gh pr edit 13 --base develop`으로 잘못 걸린 PR base를 main → develop 수정
-7. UAT BuildCookRun Development 패키징 완료 → `TeamCarry.exe` 생성
-
----
-
-## 1. UAT 패키징 빌드 오류 수정
+## 트러블슈팅 1 — 쿡 단계에서 빌드가 실패한다
 
 ### 문제: exit code 25
 
@@ -50,7 +39,7 @@ MapsToCook=(FilePath="/Game/Maps/Prototype")
 
 ---
 
-## 2. Steam 멀티플레이어 세션 디버깅
+## 트러블슈팅 2 — Steam 세션이 붙지 않는다
 
 ### `Steam_Find`가 0개 반환하는 문제
 
@@ -81,7 +70,7 @@ P2PCleanupTimeout=120
 
 ---
 
-## 3. Git 브랜치 롤백 (force push)
+## 트러블슈팅 3 — 팀 브랜치를 되돌리기
 
 팀원이 PR 없이 `develop`에 직접 커밋 2개를 머지한 것을 발견했다. 팀 협업 규칙 위반이라 롤백이 필요했다.
 
@@ -118,19 +107,19 @@ gh pr edit 13 --base develop
 
 ---
 
-## 5. UE5 패키징 빌드 성공
+## 결과 — 패키징 빌드 성공
 
 UAT BuildCookRun으로 Development 구성 패키징 완료.
 
 ```
-출력: D:\Unreal\8th-Team8-CH4-Project\Packaged\Windows\TeamCarry.exe
+출력: Packaged/Windows/TeamCarry.exe
 ```
 
 로그 레벨 수정 + 쿠킹 대상 교체 두 가지로 exit code 25가 사라졌다.
 
 ---
 
-## 오늘 배운 것 정리
+## 정리 — 패키징에서 남은 것
 
 1. **UAT는 `UE_LOG Error`를 빌드 실패로 판정한다.** 쿠킹 로그에 Error 레벨이 보이면 exit code 25로 종료. 런타임 에러가 아닌 일반 출력은 `Log` / `Warning`을 쓰자.
 2. **Steam 세션은 순서가 전부다.** `CreateSession` OnSuccess 콜백 이후에 `FindSessions`를 해야 한다. 완료를 기다리지 않으면 항상 0개.
@@ -138,6 +127,6 @@ UAT BuildCookRun으로 Development 구성 패키징 완료.
 4. **`gh pr create`의 default base는 저장소 기본 브랜치.** `develop` 운영 시 `--base develop` 명시가 필수. PR 생성 후 `gh pr edit <num> --base <branch>`로 수정 가능.
 5. **쿠킹 대상 맵의 BP 의존성도 빌드 결과에 영향.** 맵을 바꿀 때 그 맵의 BP 부모 클래스가 모두 빌드에 포함돼 있는지 확인해야 한다.
 
-> **오늘 배운 것** — UAT는 쿠킹 로그에 Error 레벨 로그가 하나라도 있으면 exit code 25로 빌드를 실패시키므로, 실제 예외가 아닌 출력에 `UE_LOG Error`를 쓰면 안 된다. Steam 세션은 CreateSession 완료 콜백을 받은 뒤에 FindSessions를 해야 검색이 된다는 비동기 순서도 직접 확인했다.
+> **핵심 요약** — UAT는 쿠킹 로그에 Error 레벨 로그가 하나라도 있으면 exit code 25로 빌드를 실패시키므로, 실제 예외가 아닌 출력에 `UE_LOG Error`를 쓰면 안 된다. Steam 세션은 CreateSession 완료 콜백을 받은 뒤에 FindSessions를 해야 검색이 된다는 비동기 순서도 직접 확인했다.
 {: .prompt-tip }
 

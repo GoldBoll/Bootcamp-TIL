@@ -709,5 +709,5 @@ vector 는 `size > capacity` 가 되는 순간 새 배열을 할당하고 전체
 
 해시 충돌이 발생할 때 처리하는 방법은 두 가지입니다. STL `std::unordered_map` 은 같은 버킷에 매핑된 원소들을 연결 리스트로 묶는 **체이닝(Separate Chaining)** 을, Unreal `TMap` 은 같은 배열 안에서 다음 빈 슬롯으로 probing 하는 **오픈 어드레싱(Open Addressing)** 을 사용합니다. 게임 엔진은 매 프레임 16.6ms 안에서 lookup 비용을 줄이기 위해 캐시 친화적인 오픈 어드레싱을 택했고, 이는 vector → TArray, list 회피 와 같은 일관된 철학입니다.
 
-> **오늘 배운 것** — emplace_back 은 가변 템플릿 + perfect forwarding 으로 슬롯 위에서 객체를 직접 생성해 임시 객체를 없애지만, explicit 생성자를 우회할 수 있어 확실한 이득이 없으면 push_back 이 안전하다. 그리고 vector 재할당과 unordered_map rehash 는 "용량 초과 시 새로 할당해 통째로 옮기는" 같은 패턴이라, 둘 다 iterator 가 전부 무효화되고 reserve 로 회피한다.
+> **핵심 요약** — emplace_back 은 가변 템플릿 + perfect forwarding 으로 슬롯 위에서 객체를 직접 생성해 임시 객체를 없애지만, explicit 생성자를 우회할 수 있어 확실한 이득이 없으면 push_back 이 안전하다. 그리고 vector 재할당과 unordered_map rehash 는 "용량 초과 시 새로 할당해 통째로 옮기는" 같은 패턴이라, 둘 다 iterator 가 전부 무효화되고 reserve 로 회피한다.
 {: .prompt-tip }

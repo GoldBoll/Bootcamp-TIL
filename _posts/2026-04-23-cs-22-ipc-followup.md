@@ -332,5 +332,5 @@ recvfrom(sfd, buf, sizeof(buf), 0, (struct sockaddr*)&from, &fromlen);
 - [프로세스 vs 스레드](/posts/cs-19-process-vs-thread/) — 주소 공간 격리가 IPC가 필요한 이유의 토대.
 - [포인터·레퍼런스](/posts/cs-07-pointer-reference/) — fd는 결국 커널 자료구조에 대한 핸들(추상 포인터)이라는 점에서 같은 추상화 패턴.
 
-> **오늘 배운 것** — 소켓은 OS가 파일 디스크립터로 노출하는 양방향 통신 채널의 추상화라서 파일과 같은 `read`/`write` API로 다룰 수 있고, 같은 머신 IPC만 필요하면 UNIX domain socket이 TCP loopback보다 30~50% 빠르며 파일 권한으로 접근을 제어할 수 있다.
+> **핵심 요약** — 소켓은 OS가 파일 디스크립터로 노출하는 양방향 통신 채널의 추상화라서 파일과 같은 `read`/`write` API로 다룰 수 있고, 같은 머신 IPC만 필요하면 UNIX domain socket이 TCP loopback보다 30~50% 빠르며 파일 권한으로 접근을 제어할 수 있다.
 {: .prompt-tip }

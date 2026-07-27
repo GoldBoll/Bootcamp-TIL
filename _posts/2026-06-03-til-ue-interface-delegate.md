@@ -1,75 +1,17 @@
 ---
-title: "[TIL] 2026-06-03 — 언리얼 인터페이스 & 델리게이트: HealthComponent·UI 구독·퀘스트 Subsystem"
+title: "UE Dynamic Multicast Delegate와 Subsystem 설계"
+subtitle: "체력이 바뀔 때 UI에게 알려 주는 구조"
 date: 2026-06-03 22:00:00 +0900
 categories: ["언리얼"]
-tags: ["til", "ue5", "cpp", "delegate", "component", "subsystem", "umg", "enhanced-input", "design-pattern", "debugging", "git"]
+tags: ["til", "ue5", "cpp", "delegate", "component", "subsystem", "umg", "enhanced-input", "design-pattern", "debugging", "git", "트러블슈팅"]
 render_with_liquid: false
-description: "언리얼 인터페이스와 델리게이트 — HealthComponent·UI 구독·퀘스트 Subsystem 실습, 데미지 타입 null 포인터 크래시 디버깅까지."
+description: "UI가 매 프레임 체력을 묻는 대신 체력이 바뀔 때 알리는 쪽으로 뒤집었다. 파티가 공유하는 퀘스트 진행도는 GameInstanceSubsystem에 단일 진실 공급원으로 두고, 데미지 타입 널 크래시까지 잡았다."
 image: /assets/img/thumbs/unreal.svg
 ---
 
-> 마스터반 4·5주차 언리얼 과제를 NBC_Master(UE 5.5)에서 진행. 오늘의 메인은 **Dynamic Multicast Delegate**로 체력/사망 이벤트를 발신하고 UI가 구독하는 구조, 그리고 파티 공유 퀘스트를 **GameInstanceSubsystem**에 단일 진실 공급원(SSOT)으로 두는 설계. 곁들여 우클릭 ADS 카메라 보간과 데미지 타입 null 포인터 크래시를 잡았다.
+체력이 줄었을 때 UI가 갱신되게 하는 방법은 두 가지다. UI가 매 프레임 체력을 물어보거나, 체력이 바뀔 때 UI에게 알려 주거나. 이 글에서는 후자를 **Dynamic Multicast Delegate**로 구현한 과정과, 파티가 공유하는 퀘스트 진행도를 **GameInstanceSubsystem**에 단일 진실 공급원으로 두는 설계를 이야기하려 한다. 트러블슈팅은 그 과정에서 만난 **데미지 타입 널 포인터 크래시**다.
 
-## 오늘 한 일 요약
-
-1. **4주차 디자인 패턴 확인** — 무기 시스템이 이미 샌드박스 패턴(`ASandboxWeaponBase`)으로 구성됨을 분석. 샌드박스 vs 템플릿 패턴 차이 정리.
-2. **4주차 도전 — 우클릭 ADS 조준** — `AimAction`(EnhancedInput)으로 `bIsAiming` 토글, Tick에서 `FInterpTo`로 카메라 FOV·SpringArm 길이 보간.
-3. **5주차 필수1 — 체력 UI 연동** — `UMYHealthComponent`가 `OnHealthDamaged` 멀티캐스트 발신, `WBP_PlayerHUD`가 구독해 ProgressBar 갱신.
-4. **5주차 필수2 — 사망 처리** — `OnHealthDead` 구독 → `HandleDeath()`(입력 차단·콜리전 off·래그돌) + `OnPlayerDead` BP 훅 위임.
-5. **5주차 도전 — 파티 공유 퀘스트** — 공유 카운터를 `UQuestSubsystem`(GameInstanceSubsystem)에 두고 멀티캐스트로 전 파티원 UI 푸시.
-6. **디버깅** — `TakeDamage`에서 `DamageTypeClass`가 null일 때 액세스 위반 크래시 → null 가드 + 안전 캐스팅으로 수정.
-7. **Git** — NBC_Master에 레포 초기화, UE5 `.gitignore` 적용, GitHub private 레포 푸시.
-
-## 1. 4주차 — 디자인 패턴 확인 + 우클릭 ADS 조준
-
-### 무기 시스템이 이미 샌드박스 패턴이었다
-
-`ASandboxWeaponBase`를 뜯어 보니 부모가 발사에 필요한 **도구(헬퍼 4종)**만 제공하고, 실제 호출 순서는 자식(BP)이 `SandboxFire` 훅에서 결정하는 구조였다.
-
-- `CheckAmmo()` — 탄약 잔량 확인
-- `LinetraceOneShot()` — 라인트레이스 한 발
-- `PlaySound()` — 발사음 재생
-- `UpdateAmmo()` — 탄약 차감
-- `SandboxFire` — BlueprintImplementableEvent 훅. 위 도구들을 **어떤 순서로** 부를지는 BP가 자유롭게 조립.
-
-### 샌드박스 vs 템플릿 패턴
-
-| | 템플릿 메서드 패턴 | 샌드박스 패턴 |
-|---|---|---|
-| 호출 순서 | **부모가 고정** (알고리즘 골격) | **자식이 결정** |
-| 자식의 역할 | 비어 있는 훅(primitive)을 채움 | 제공된 도구를 골라 조립 |
-| 유연성 | 낮음(순서 강제) | 높음(순서 자유) |
-| 적합한 상황 | 절차가 항상 동일 | 변형(샷건·연사·차지샷)이 많음 |
-
-무기처럼 발사 변형이 많은 경우 순서까지 자식에게 넘기는 샌드박스가 맞다.
-
-### 도전 — 우클릭 ADS(Aim Down Sight) 조준
-
-`ANBC_MasterCharacter`에 조준 토글을 붙였다.
-
-- **입력** — EnhancedInput `AimAction`. `Started`에서 `bIsAiming=true`, `Completed`에서 `false`. (홀드 방식)
-- **보간** — `Tick`에서 목표값으로 부드럽게 수렴.
-
-```cpp
-void ANBC_MasterCharacter::Tick(float DeltaSeconds)
-{
-    Super::Tick(DeltaSeconds);
-
-    const float TargetFOV    = bIsAiming ? 55.f  : 90.f;
-    const float TargetArmLen = bIsAiming ? 200.f : 400.f;
-
-    // 현재값 → 목표값 부드러운 수렴 (InterpSpeed가 클수록 빠름)
-    FollowCamera->FieldOfView =
-        FMath::FInterpTo(FollowCamera->FieldOfView, TargetFOV, DeltaSeconds, 10.f);
-    CameraBoom->TargetArmLength =
-        FMath::FInterpTo(CameraBoom->TargetArmLength, TargetArmLen, DeltaSeconds, 10.f);
-}
-```
-
-- **함정** — Tick에서 보간하므로 `PrimaryActorTick.bCanEverTick = true`가 생성자에 켜져 있어야 한다. 안 켜면 Tick이 안 돌아 FOV가 그대로다.
-- `FInterpTo`는 매 프레임 남은 거리의 일정 비율만큼 다가가므로 끝에서 감속하는 자연스러운 ease-out 곡선이 나온다. 즉시 대입(`= TargetFOV`)과 달리 화면이 부드럽게 줌인된다.
-
-## 2. 5주차 — 인터페이스 & 델리게이트 (오늘의 메인)
+## 기술 구현 — 인터페이스와 델리게이트
 
 ### Dynamic Multicast Delegate 이해
 
@@ -193,7 +135,7 @@ private:
 
 - 핵심 통찰: **공유돼야 하는 상태는 한 곳에만 둔다.** 카운터가 한 곳(서브시스템)에 있으니 막타 주체와 무관하게 항상 일관된 진행도가 나오고, 멀티캐스트 한 번으로 모든 구독자가 동기화된다.
 
-## 3. 디버깅 — 데미지 타입 null 포인터 크래시
+## 트러블슈팅 — 데미지 타입 널 포인터 크래시
 
 ### 증상
 
@@ -239,14 +181,7 @@ UGameplayStatics::ApplyDamage(액터, 양, ...)
 
 - `ApplyDamage`는 진입점, `OnTakeAnyDamage`는 컴포넌트가 구독하는 통지, `TakeDamage`는 액터가 오버라이드해 데미지 타입별 로직을 쓰는 곳.
 
-## 4. Git / 협업 — UE5 레포 초기화
-
-- `D:\Unreal\NBC_Master`에 git이 없어 레포를 새로 만들었다.
-- **UE5 `.gitignore`가 중요** — `Binaries/`, `Intermediate/`, `Saved/`, `DerivedDataCache/`, `.vs/`는 빌드/캐시 생성물이라 제외. 반면 `Content/`의 `.uasset`은 **포함**(에셋은 소스). 안 하면 수 GB 생성물이 커밋된다.
-- GitHub `NBC_Unreal_Master`(private) 생성·푸시. 과제별 README 정리.
-- **대용량 파일 경고** — StarterContent의 HDRI 한 파일이 69MB로 50MB 초과 경고가 떴지만, 이건 **거부가 아니라 경고**다(GitHub 단일 파일 하드 리밋은 100MB). 그대로 푸시됨.
-
-## 오늘 배운 것 정리
+## 정리 — 이 구조에서 남은 것
 
 1. **Dynamic Multicast Delegate = 결합도를 낮추는 도구** — `BlueprintAssignable`을 붙이면 발신부(HealthComponent)는 결과만 알리고, 수신부(UI·캐릭터)는 발신부를 모른 채 구독한다. 발신/수신 분리가 핵심.
 2. **공유 상태는 한 곳에(SSOT)** — 파티 공유 퀘스트는 각자 카운터를 들면 깨진다. `GameInstanceSubsystem`에 단일 카운터를 두고 멀티캐스트로 모두에게 푸시하면 막타 주체와 무관하게 일관된다.
@@ -255,6 +190,6 @@ UGameplayStatics::ApplyDamage(액터, 양, ...)
 5. **`FInterpTo`로 카메라를 부드럽게** — ADS는 즉시 대입 대신 목표값으로 보간하면 ease-out 줌이 나온다. 단 `bCanEverTick=true` 필수.
 6. **샌드박스 vs 템플릿 패턴** — 발사 변형이 많은 무기는 호출 순서를 자식에게 넘기는 샌드박스가, 절차가 고정된 경우는 부모가 골격을 쥐는 템플릿이 맞다.
 
-> **오늘 배운 것** — Dynamic Multicast Delegate로 발신부(HealthComponent)와 수신부(UI·캐릭터)를 분리하면 서로를 몰라도 이벤트가 전달돼 결합도가 낮아진다. 파티 공유 퀘스트처럼 공유돼야 하는 상태는 GameInstanceSubsystem 한 곳(SSOT)에 두면 누가 막타를 치든 진행도가 일관된다.
+> **핵심 요약** — Dynamic Multicast Delegate로 발신부(HealthComponent)와 수신부(UI·캐릭터)를 분리하면 서로를 몰라도 이벤트가 전달돼 결합도가 낮아진다. 파티 공유 퀘스트처럼 공유돼야 하는 상태는 GameInstanceSubsystem 한 곳(SSOT)에 두면 누가 막타를 치든 진행도가 일관된다.
 {: .prompt-tip }
 

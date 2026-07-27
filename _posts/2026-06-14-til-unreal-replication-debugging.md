@@ -1,23 +1,17 @@
 ---
-title: "[TIL] 2026-06-14 — 언리얼 멀티플레이 Replication 디버깅: 이름 권위·PlayerState 복제 타이밍·게임 리셋"
+title: "PlayerState 복제 타이밍과 이름 권위 디버깅"
+subtitle: "클라 위젯만 기본값에 멈춰 있던 이유"
 date: 2026-06-14 19:30:00 +0900
 categories: ["언리얼"]
-tags: ["til", "ue5", "cpp", "multiplayer", "replication", "playerstate", "gamemode", "umg", "timer", "debugging"]
+tags: ["til", "ue5", "cpp", "multiplayer", "replication", "playerstate", "gamemode", "umg", "timer", "debugging", "트러블슈팅"]
 render_with_liquid: false
-description: "언리얼 멀티 디버깅 — 이름이 hex ID로 표시되는 ChangeName 권위 문제, PlayerState 복제 타이밍의 클라 위젯 미갱신, 게임 리셋 죽은 코드까지."
+description: "PIE 두 창으로 띄우자 이론으로만 보던 복제 문제가 한꺼번에 나왔다. 이름이 엔진 hex ID로 뜨고, 클라 위젯만 갱신되지 않고, 접속 순번이 흔들렸다 — 셋 다 권위와 도착 타이밍 문제였다."
 image: /assets/img/posts/2026-06-14/01-playername-hex-bug.png
 ---
 
-> 오늘은 9번 과제 **멀티플레이 숫자야구 게임**(`D:\Unreal\NumberBaseball`)에서 실제 멀티플레이 버그를 잡는 하루였다. 어제까지 정리한 CS 38 Replication 이론이 PIE 두 창(서버/클라) 앞에서 그대로 검증됐다. 잡은 문제는 셋 — (1) 플레이어 이름이 사람이 읽을 수 없는 엔진 hex ID로 표시되던 **이름 권위 문제**, (2) 서버 창은 멀쩡한데 클라 창 위젯만 디자인 기본값에 멈춰 있던 **PlayerState 복제 타이밍 문제**, (3) 접속 순번이 흔들리던 문제. 여기에 평가기준과 1:1 대조하다 **게임 리셋이 호출 경로가 없어 죽은 코드**였던 누락 필수 기능 하나를 추가로 완성했다. 관통 주제는 "복제는 언제 도착하는가, 그리고 누가 권위를 갖는가"다.
+멀티플레이 숫자야구를 PIE 두 창(서버·클라)으로 띄우자, 이론으로만 보던 복제 문제가 한꺼번에 나왔다. 플레이어 이름이 사람이 읽을 수 없는 엔진 hex ID로 뜨고, 서버 창은 멀쩡한데 클라 창 위젯만 디자인 기본값에 멈춰 있고, 접속 순번이 매번 흔들렸다. 이 글에서는 그 세 건을 잡은 과정을 이야기하려 한다 — 관통하는 질문은 **"복제는 언제 도착하는가, 그리고 누가 권위를 갖는가"**다. 마지막에 평가 기준과 대조하다 발견한, 호출 경로가 없어 죽어 있던 게임 리셋을 되살린 구현이 하나 붙는다.
 
-## 오늘 한 일 요약
-
-1. **이름이 hex ID로 표시되던 문제 해결** — `PostLogin`에서 `SetPlayerName("Player N")`을 호출해도 hex가 나왔다. UE_LOG로 추적하니 PostLogin은 정상 실행 → 그 "이후" 엔진/클라가 `ChangeName` 경로로 이름을 되돌리고 있었다. `ANBGameMode::ChangeName`을 오버라이드하고 `Super`를 호출하지 않아 이름을 잠갔다.
-2. **접속 순번 안정화** — `GameState->PlayerArray.Num()` 기반 순번은 재접속/관전자에 흔들린다. 서버 전용 `int32 JoinCounter` 멤버를 두고 `++JoinCounter`로 "Player N"을 부여하도록 바꿨다.
-3. **클라 위젯 갱신 실패 해결** — 클라 창 위젯이 디자인 기본값("Text Block")에 멈춰 있었다. `HUD::BeginPlay` 시점에 클라에서는 PlayerState가 아직 복제 전이라 `GetOwningPlayerState()`가 null → 델리게이트 구독 실패였다. `BindDelegates`를 `TryBindAll`로 교체해 복제 완료까지 0.1초 타이머로 재시도하는 패턴으로 해결.
-4. **게임 리셋 미동작(누락 필수 기능) 완성** — `ResetGame()`이 정의만 되고 `CheckGameEnd`에서 호출되지 않아 승부 후 Finished 상태로 멈춰 있었다. `ScheduleRestart()`를 추가해 승리·무승부 양쪽 분기에서 호출하고, `RestartDelay`(기본 5초) 뒤 `FTimerHandle`로 `ResetGame()`을 자동 호출하도록 했다.
-
-## 1. 플레이어 이름이 hex ID로 표시되던 문제 — ChangeName 권위
+## 트러블슈팅 1 — 플레이어 이름이 hex ID로 표시된다
 
 채팅 로그와 판정 로그에 "Player 1" 대신 `LNB-E35AAB2F41BBDBE4` 같은 엔진 생성 고유 ID(hex)가 찍히고 있었다. OnlineSubsystem 플러그인(Steam/EOS)을 쓰지 않는데도 이 hex가 나온 게 첫 단서였다 — 이건 온라인 서비스 닉네임이 아니라, 엔진이 로그인 흐름에서 임시로 부여하는 기본 식별자다.
 
@@ -56,7 +50,7 @@ void ANBGameMode::ChangeName(AController* Controller, const FString& NewName, bo
 ![ChangeName 잠금 후 Player 1로 정상 표시](/assets/img/posts/2026-06-14/02-changename-fix.png)
 _수정 후 "Player 1"로 정상 표시되고, Output Log에 `[NBGameMode] PostLogin -> Player 1`이 찍힌다_
 
-## 2. 접속 순번 안정화 — GameMode JoinCounter
+## 트러블슈팅 2 — 접속 순번이 매번 흔들린다
 
 이름을 부여할 때 "몇 번째 플레이어인가"를 어떻게 셀지가 다음 문제였다. 기존 코드는 `GameState->PlayerArray.Num()`으로 순번을 계산했는데, 이 배열은 **현재 접속 중인 플레이어 수**라 상황에 따라 흔들린다.
 
@@ -76,7 +70,7 @@ const FString Assigned = FString::Printf(TEXT("Player %d"), ++JoinCounter);
 
 `JoinCounter`는 서버에서만 의미가 있고 결과(이름)는 `PlayerName` 복제로 이미 클라에 전달되므로 카운터 자체를 복제할 필요가 없다. PostLogin은 서버에서만 실행되니 카운터 증가에 경쟁 조건도 없다.
 
-## 3. 클라 위젯이 갱신되지 않던 문제 — PlayerState 복제 타이밍
+## 트러블슈팅 3 — 클라 위젯만 기본값에 멈춰 있다
 
 가장 까다로웠던 버그. 서버 창은 시도 횟수 `[3/3]`과 판정 결과가 정상으로 갱신되는데, **클라 창의 위젯만 디자인 타임 기본값("Text Block")에서 멈춰** 있었다. 채팅 로그는 양쪽 다 정상 복제됐다. "어떤 건 복제되고 어떤 건 안 된다"가 핵심 단서였다.
 
@@ -146,7 +140,7 @@ void UNBGameWidget::TryBindAll()
 ![재시도 바인딩 후 클라 위젯 정상 갱신](/assets/img/posts/2026-06-14/04-client-widget-fixed.png)
 _수정 후 클라 창도 자기 플레이어 기준으로 `[3/3]`·판정 결과가 정상 표시된다_
 
-## 4. 게임 리셋 미동작 — 호출 경로 없는 죽은 코드
+## 기술 구현 — 호출 경로가 없던 게임 리셋 되살리기
 
 마지막은 디버깅이라기보다 **누락 발견**이었다. 노션 평가기준 항목을 게임 기능과 하나씩 대조하다, "한 판이 끝나면 자동으로 다음 판이 시작된다"는 필수 항목이 동작하지 않는 걸 발견했다. 승리/무승부가 나면 게임이 `Finished` 상태에서 그대로 멈췄다.
 
@@ -191,7 +185,7 @@ void ANBGameMode::ResetGame()
 ![자동 재시작으로 게임 리셋 동작](/assets/img/posts/2026-06-14/05-game-reset.png)
 _승부 종료 5초 뒤 양쪽 창 모두 `[0/3]`로 리셋되고 "새 게임 시작" 로그가 찍힌다_
 
-## 오늘 배운 것 정리
+## 정리 — 복제 디버깅에서 남은 것
 
 1. **APlayerState의 이름은 PostLogin에서 설정해도 권위가 아니다.** 엔진 로그인 흐름(`InitNewPlayer`)이나 클라의 `ChangeName`이 나중에 되돌릴 수 있다. GameMode가 이름 권위를 가지려면 `ChangeName`을 오버라이드해 `Super`를 호출하지 않아야 한다. hex ID가 보이면 "설정 실패"가 아니라 "설정 후 되돌림"을 의심하라.
 2. **접속 순번은 현재 인원(PlayerArray.Num())이 아니라 단조 증가 카운터로.** 재접속·관전자에 흔들리지 않게 서버 전용 `JoinCounter`를 쓴다. 서버 전용 결과가 이미 복제 프로퍼티(PlayerName)로 전달되면 카운터 자체는 복제할 필요가 없다.
@@ -199,6 +193,6 @@ _승부 종료 5초 뒤 양쪽 창 모두 `[0/3]`로 리셋되고 "새 게임 �
 4. **함수를 구현해도 호출 경로가 없으면 죽은 코드다.** `ResetGame()`이 정의만 되고 `CheckGameEnd`에서 안 불려 게임이 멈춰 있었다. 제출 전 평가기준과 실제 기능을 1:1로 대조하는 습관이 누락 필수 기능을 잡는다.
 5. **이벤트(델리게이트)는 순간, 상태(Property Replication)는 지속.** 늦게 합류한 구독자/클라는 과거 이벤트를 못 받으므로 직접 현재 값을 끌어와야 한다 — 위젯 즉시 갱신도, 게임 리셋의 멀티캐스트도 같은 원리의 변주다.
 
-> **오늘 배운 것** — 복제 액터는 도착 순서가 보장되지 않는다. PlayerState가 HUD 생성보다 늦게 오면 바인딩이 조용히 실패하므로, 재시도 바인딩 + 구독 직후 현재 값 1회 갱신으로 보정해야 한다. 이름 같은 상태는 어느 한 곳(GameMode)만 권위를 가져야 일관된다.
+> **핵심 요약** — 복제 액터는 도착 순서가 보장되지 않는다. PlayerState가 HUD 생성보다 늦게 오면 바인딩이 조용히 실패하므로, 재시도 바인딩 + 구독 직후 현재 값 1회 갱신으로 보정해야 한다. 이름 같은 상태는 어느 한 곳(GameMode)만 권위를 가져야 일관된다.
 {: .prompt-tip }
 

@@ -1,26 +1,17 @@
 ---
-title: "[TIL] 2026-07-07 — 인터랙션 하이라이트 링 완성과 PostLogin 로비 킥 버그"
+title: "포스트 프로세스 한 패스로 아웃라인과 포커스 링"
+subtitle: "패스를 늘리지 않고 하이라이트를 얹는 법"
 date: 2026-07-07 21:30:00 +0900
 categories: ["언리얼", "팀프로젝트"]
-tags: ["til", "ue5", "cpp", "material", "gamemode", "multiplayer", "debugging"]
+tags: ["til", "ue5", "cpp", "material", "gamemode", "multiplayer", "debugging", "트러블슈팅"]
 render_with_liquid: false
-description: "패스 하나로 아웃라인+링을 그리는 인터랙션 하이라이트 완성, 화면 경계 점선 아티팩트(클램프 원인) 해결, PostLogin 로비 킥 버그 분석."
+description: "'지금 뭘 잡을 수 있는지 안 보인다'는 피드백. 패스를 하나 더 얹는 대신 이미 있는 아웃라인 머티리얼 안에서 세피아 외곽선과 노란 링을 같이 그렸고, 화면 가장자리 점선 아티팩트도 잡았다."
 image: /assets/img/posts/2026-07-07/highlight-ring.jpg
 ---
 
-> 이날은 튜터 피드백 항목이었던 **인터랙션 하이라이트 링**을 끝냈다. 새 포스트 프로세스 패스를 추가하는 대신, 전날까지 만든 뎁스 아웃라인 머티리얼(`M_PP_OutlineHLSL`)에 CustomStencil 기반 링을 얹어 **패스 하나로** 세피아 아웃라인과 노란 포커스 링을 동시에 그렸다. C++ 훅 체인을 따라가다 "레벨 가구 22개가 전부 다른 클래스였다"는 반전을 만났고, 화면 경계 점선 아티팩트와 Live Coding 크래시까지 잔가지 디버깅을 거쳤다. 오후에는 **PostLogin 로비 킥 버그**를 잡았는데, 정작 수정은 `if (Playing)` 한 줄이었다. 심리스 트래블과 하드 트래블이 로그인 훅을 다르게 타는 구조를 이해하는 게 전부였다.
+"지금 뭘 잡을 수 있는지 안 보인다"는 피드백을 받고 인터랙션 하이라이트를 만들었다. 쉬운 길은 포스트 프로세스 패스를 하나 더 얹는 것이지만, 패스는 그대로 프레임 비용이다. 그래서 **이미 있는 아웃라인 머티리얼 한 패스 안에서** 세피아 아웃라인과 노란 포커스 링을 같이 그리는 쪽으로 갔다. 이 글에서는 그 구현과, 따라온 트러블슈팅 두 건 — 화면 가장자리에 점선이 끼던 아티팩트와 Live Coding 크래시 — 을 이야기하려 한다.
 
-## 오늘 한 일 요약
-
-1. **인터랙션 하이라이트 링 완성** — `M_PP_OutlineHLSL`의 Custom HLSL 노드에 CustomStencil(id 25) 링을 통합, 추가 패스 없음. C++ 훅 체인(`ScanBestTarget → OnFocus/OnUnfocus → SetRenderCustomDepth`) 구현. PR #67 develop 머지
-2. **가구 클래스 반전** — 레벨 가구 22개가 `FurnitureActor`가 아니라 전부 `TCCarriableFurniture` 기반임을 발견. BP 이름만 보고 부모 클래스를 단정한 게 함정, 빈 스텁 구현이 핵심이었다
-3. **화면 경계 점선 아티팩트 수정** — 뷰포트 UV 기반 1픽셀 경계 가드로 프레임 밖으로 링을 깔끔히 빼냄
-4. **Live Coding 크래시 → 콜드 빌드** — 패치 2개가 쌓인 상태의 레벨 전환 크래시, 재시작 콜드 리빌드로 훅이 정식 DLL에 정상 반영
-5. **PostLogin 로비 킥 버그 수정** — 스테이지 맵 직접 PIE 시 로비로 튕기는 버그, `CurrentPhase == Playing` 게이트 한 줄로 해결. PR #69
-
----
-
-## 1. 인터랙션 하이라이트 링 — 패스 하나로 아웃라인과 링을 같이
+## 기술 구현 — 패스 하나로 아웃라인과 링을 같이
 
 튜터 피드백 중 "상호작용 가능한 가구에 포커스하면 하이라이트를 줘라"가 있었다. 가장 쉬운 길은 하이라이트 전용 포스트 프로세스 패스를 하나 더 붙이는 것이지만, 이미 화면엔 셀 셰이딩 밴딩 + 뎁스 아웃라인 PP가 돌고 있다. 패스를 늘리는 대신 **기존 아웃라인 머티리얼 하나에 링을 통합**하기로 했다.
 
@@ -81,7 +72,7 @@ GrabComponent::ScanBestTarget   // 박스 트레이스 + 스코어링 (기존 �
 
 ![인터랙션 하이라이트 링 — 포커스된 박스에 노란 링](/assets/img/posts/2026-07-07/highlight-ring.jpg)
 
-## 2. 화면 경계 점선 아티팩트 — 클램프가 이웃을 자기 픽셀로 접는다
+## 트러블슈팅 1 — 화면 가장자리에 점선이 낀다
 
 링을 켜니 새 증상이 나왔다. 스텐실 실루엣이 **화면 경계에 걸치면** 그 경계를 따라 노란 점선이 생겼다.
 
@@ -99,7 +90,7 @@ ring *= step(HighlightWidth + 1.0, min(edgePix.x, edgePix.y));      // 경계 �
 
 **검증**: 에디터 카메라 요(yaw)를 틀어 박스를 화면 왼쪽 경계에 반쯤 걸쳐놓고 뷰포트에서 확인 — 점선 없이 링이 프레임 밖으로 깔끔히 빠졌다.
 
-## 3. Live Coding 크래시 → 콜드 빌드 전화위복
+## 트러블슈팅 2 — Live Coding 크래시
 
 C++ 훅을 반복 컴파일하며 Live Coding 패치가 두 개(patch_0, patch_1) 쌓였다. 이 상태에서 레벨을 전환하니 에디터가 `Exception 0x80000003`으로 크래시했다.
 
@@ -113,60 +104,9 @@ Live coding: NoChanges   // 소스 = DLL 최신, 더 패치할 게 없음 → �
 
 패치 상태가 정리되고 나니 이후로는 안정적이었다. 교훈: **Live Coding 패치가 쌓인 상태에서 레벨 전환은 위험**하다. 여러 번 컴파일했다면 한 번 콜드 빌드로 정리하는 게 최종 안정 상태다. 크래시가 오히려 강제 콜드 빌드를 유도해 전화위복이 된 셈.
 
-## 4. PostLogin 로비 킥 버그 — 하드 트래블과 심리스 트래블의 갈림
+같은 날 잡은 PostLogin 로비 킥 버그는 이 글의 주제와 달라 덜어냈다. 로비와 게임 맵 사이의 트래블 문제는 [로비에서 다음 맵을 미리 로드했더니](/posts/til-lobby-map-preload-travel-conflict/)에서 이어서 다룬다.
 
-오후 버그. **증상**: 에디터에서 스테이지 맵(`L_LevelProto`)을 직접 PIE로 띄우면 곧바로 `L_Lobby`로 튕긴다. 반면 standalone 정상 플로우(로비에서 시작 → 스테이지로 이동)는 멀쩡하다.
-
-### 원인: 난입 차단이 게임 페이즈와 무관하게 발동
-
-`TeamCarryGameMode::PostLogin`에 "게임 진행 중 난입 차단" 로직이 있었다. 로직 요지는 이렇다.
-
-```cpp
-// (수정 전) PostLogin — 페이즈 조건이 없다
-if (로비가 아닌 맵에 하드 로그인 && !DisconnectedPlayerIds.Contains(PlayerId))
-{
-    // 재접속 명단에 없는 신규 접속자 = 난입으로 간주
-    PlayerController->ClientTravel(L_Lobby, TRAVEL_Absolute);
-}
-```
-
-스테이지 맵을 직접 PIE로 열면 **첫 입장 호스트조차** "로비가 아닌 맵에 하드 로그인 + 재접속 명단에 없음"이라 무조건 로비로 쫓겨났다. 게임이 시작조차 안 했는데 난입으로 오판한 것이다.
-
-### 왜 정상 플로우는 안 걸리나 — 심리스 트래블의 우회
-
-정상 플로우가 멀쩡한 이유가 이 버그의 핵심 구조다. 로비의 `ATCLobbyGameMode`는 `bUseSeamlessTravel = true`다. 그래서 **로비 → 스테이지 이동은 심리스 트래블**이고, 도착한 플레이어는 `PostLogin`이 아니라 `HandleSeamlessTravelPlayer`를 탄다. 즉 정상 플로우의 플레이어는 애초에 `PostLogin`을 **아예 안 거친다.** `PostLogin`에 걸리는 건 스테이지 맵을 하드 로그인으로 직접 여는 경우(에디터 직접 PIE, 첫 입장 호스트)뿐이었다.
-
-| 경로 | 로그인 훅 | 이 버그에 걸림? |
-|---|---|---|
-| 로비 → 스테이지 (심리스 트래블) | `HandleSeamlessTravelPlayer` | 아니오 (PostLogin 안 탐) |
-| 스테이지 맵 직접 PIE (하드 로그인) | `PostLogin` | **예** |
-| 게임 중 신규 접속 (하드 로그인) | `PostLogin` | 예 (이게 원래 막으려던 케이스) |
-
-### 수정: 페이즈 게이트 한 줄
-
-난입 차단은 **게임이 실제로 진행 중일 때만** 의미가 있다. `CurrentPhase == EGamePhase::Playing`일 때만 차단하도록 게이트를 하나 걸었다.
-
-```cpp
-// (수정 후) Playing 페이즈에서만 난입 차단
-if (CurrentPhase == EGamePhase::Playing
-    && 로비가 아닌 맵에 하드 로그인
-    && !DisconnectedPlayerIds.Contains(PlayerId))
-{
-    PlayerController->ClientTravel(L_Lobby, TRAVEL_Absolute);
-}
-```
-
-이 조건은 `Logout`과 **대칭**을 이룬다. `Logout`은 `Playing` 중에만 이탈자를 `DisconnectedPlayerIds`에 기록한다. 그렇다면 그 명단을 근거로 하는 난입 차단도 `Playing`에서만 발동해야 논리가 맞는다. 재접속 허용 기능은 그대로 보존된다 — Playing 중 이탈했다 돌아온 플레이어는 여전히 명단에 있어 통과한다.
-
-교훈: **하드 트래블은 `PostLogin`을 재호출하고, 심리스 트래블은 `HandleSeamlessTravelPlayer`를 탄다.** 로그인 훅에 조건을 걸 때는 이 두 경로가 다르게 흐른다는 걸 반드시 고려해야 한다. "왜 특정 경로만 걸리나"의 답이 여기 있었다.
-
-## 기타
-
-- **PR #67**(로비 톤 통일 + Lumen 정리 + 인터랙션 하이라이트) develop 머지 완료.
-- **PR #69**(PostLogin 로비 킥 수정) 생성.
-- **비공개 리포 이미지 패턴 재확인**: 전날 배운 대로, 비공개 리포는 PR 본문 이미지가 camo 프록시에 막힌다. 데모 이미지를 레포 `Docs/images/`에 커밋하고 `Docs/interact-highlight.md` 문서로 링크하는 패턴을 그대로 썼다.
-
-## 오늘 배운 것 정리
+## 정리 — 이 구현에서 남은 것
 
 1. **하이라이트는 패스를 늘리지 말고 스텐실로 기존 아웃라인에 얹는다.** `(1-isT) * step(0.5, nbor)`가 실루엣 바깥 1링의 정의다 — 내 픽셀은 대상 아님 + 이웃은 대상. 상호작용 액터의 스텐실 값을 1로 통일하는 게 절반의 일.
 2. **BP 이름만 보고 부모 클래스를 단정하지 마라.** 레벨 가구 22개의 진짜 클래스는 `TCCarriableFurniture`였고, 채워야 할 곳은 그 빈 `OnFocus`/`OnUnfocus` 스텁이었다. 하이라이트가 안 뜨면 셰이더보다 액터의 실제 클래스 계층부터 확인하자.
@@ -174,6 +114,6 @@ if (CurrentPhase == EGamePhase::Playing
 4. **Live Coding 패치가 쌓인 상태에서 레벨 전환은 위험하다.** 여러 번 컴파일했다면 콜드 빌드로 정리하는 게 최종 안정 상태 — `.voltbl` 로그는 알려진 노이즈라 직접 원인으로 오독하지 말 것.
 5. **하드 트래블은 `PostLogin`, 심리스 트래블은 `HandleSeamlessTravelPlayer`.** 로그인 훅 조건은 두 경로 차이를 고려해야 하고, 난입 차단 같은 게이트는 `Playing` 페이즈로 한정해야 한다(Logout의 기록 조건과 대칭).
 
-> **오늘 배운 것** — 새 포스트 프로세스 패스를 추가하는 대신 CustomStencil을 읽어 기존 아웃라인 머티리얼 하나에 하이라이트 링을 얹었고, 하이라이트가 안 뜨는 원인은 셰이더가 아니라 실제 가구 클래스(`TCCarriableFurniture`)의 빈 `OnFocus` 스텁이었다. 오후의 로비 킥 버그는 하드 트래블만 `PostLogin`을 탄다는 구조를 이해하고 나니 `Playing` 페이즈 게이트 한 줄로 끝났다.
+> **핵심 요약** — 새 포스트 프로세스 패스를 추가하는 대신 CustomStencil을 읽어 기존 아웃라인 머티리얼 하나에 하이라이트 링을 얹었고, 하이라이트가 안 뜨는 원인은 셰이더가 아니라 실제 가구 클래스(`TCCarriableFurniture`)의 빈 `OnFocus` 스텁이었다. 오후의 로비 킥 버그는 하드 트래블만 `PostLogin`을 탄다는 구조를 이해하고 나니 `Playing` 페이즈 게이트 한 줄로 끝났다.
 {: .prompt-tip }
 

@@ -8,7 +8,7 @@ image: /assets/img/thumbs/cs.svg
 description: "답변 흐름 — 모의면접 다음 주제: 'C++ 표준 라이브러리(STL) 기준 컨테이너에 대해서 설명해 주세요'"
 ---
 
-# 05/04 — C++ STL 컨테이너 전반 (시퀀스 · 연관 · 비순서 · 어댑터)
+# C++ STL 컨테이너 전반 (시퀀스 · 연관 · 비순서 · 어댑터)
 
 > 모의면접 다음 주제: "C++ 표준 라이브러리(STL) 기준 컨테이너에 대해서 설명해 주세요"
 > 컨테이너 4분류 → 내부 구조와 시간 복잡도 → 선택 기준 → vector vs list / map vs unordered_map / iterator 무효화 꼬리질문 연결 다리
@@ -800,5 +800,5 @@ STL 컨테이너는 시퀀스, 연관, 비순서 연관, 컨테이너 어댑터 
 - [스마트 포인터](/posts/cs-11-smart-pointer/) — 컨테이너에 unique_ptr 담을 때 emplace 필수
 - [복사 방지(Rule of Five)](/posts/cs-12-prevent-copy/) — move-only 타입과 컨테이너
 
-> **오늘 배운 것** — 개별로 파던 vector·list·map·unordered_map을 시퀀스/연관/비순서 연관/어댑터 4분류 지도 위에 재배치했다. 선택 기준은 "의심스러우면 vector, 정렬·최악 보장이 필요하면 map, 처리량이 필요하면 unordered_map" 한 줄로 압축된다.
+> **핵심 요약** — 개별로 파던 vector·list·map·unordered_map을 시퀀스/연관/비순서 연관/어댑터 4분류 지도 위에 재배치했다. 선택 기준은 "의심스러우면 vector, 정렬·최악 보장이 필요하면 map, 처리량이 필요하면 unordered_map" 한 줄로 압축된다.
 {: .prompt-tip }

@@ -1,15 +1,16 @@
 ---
-title: "[TIL] 2026-07-23 — 툰 룩 머티리얼 해부: 마스터-인스턴스 설계와 노드 그래프"
+title: "툰 룩 머티리얼 노드 그래프 해부"
+subtitle: "휘도 밴딩 체인과 마스터-인스턴스 설계"
 date: 2026-07-23 11:00:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "postprocess", "material", "art-direction"]
 render_with_liquid: false
-description: 팀 게임에 걸린 툰 룩의 머티리얼 내부 구조 편 — 셀 셰이딩 포스트 프로세스(M_PP_ToonTest)의 휘도 양자화 노드 체인과 툰스카이(M_ToonSky)의 절차식 하늘 그래프를 에디터에서 직접 열어 뜯어보고, 마스터-인스턴스 패턴이 튜닝 반복을 어떻게 흡수하는지 정리했다.
+description: "레벨에 걸려 있는 셀 셰이딩 포스트 프로세스와 툰스카이 머티리얼을 에디터에서 열어, 노드 체인과 인스턴스 파라미터를 그대로 옮겨 적었다. 접었던 PP 림라이트·아웃라인 실패 기록까지."
 pin: true
 image: /assets/img/til/2026-07-23/mat-pp-toon-graph.png
 ---
 
-부트캠프 8조 팀 프로젝트(UE5 협동 게임, 저장소 TeamCarry)의 툰 룩 셰이더 작업을 맡아 왔다. [적용기 글](/posts/til-toon-postprocess-rollout/)이 "레벨에 입히며 생긴 문제들"을 다뤘다면, 이 글은 그 안에 걸려 있는 **머티리얼 자체를 해부**하는 편이다. 셀 셰이딩 포스트 프로세스 `M_PP_ToonTest`와 툰스카이 `M_ToonSky`를 에디터에서 열어, 노드 그래프의 실제 체인과 인스턴스 파라미터 값을 그대로 옮겨 적었다. 제작 배경은 [7/6 툰스카이 제작기](/posts/til-toon-sky-material/)와 [7/8 셀 셰이딩·아웃라인 다듬기](/posts/til-toon-sky-feedback-system/)에 있다.
+부트캠프 8조 팀 프로젝트(UE5 협동 게임, 저장소 TeamCarry)의 툰 룩 셰이더 작업을 맡아 왔다. [적용기 글](/posts/til-toon-postprocess-rollout/)이 "레벨에 입히며 생긴 문제들"을 다뤘다면, 이 글은 그 안에 걸려 있는 **머티리얼 자체를 해부**하는 편이다. 셀 셰이딩 포스트 프로세스 `M_PP_ToonTest`와 툰스카이 `M_ToonSky`를 에디터에서 열어, 노드 그래프의 실제 체인과 인스턴스 파라미터 값을 그대로 옮겨 적었다. 제작 배경은 [툰스카이 제작기](/posts/til-toon-sky-material/)와 [주야 전환·피드백 시스템](/posts/til-toon-sky-feedback-system/)에 있다.
 
 ## 왜 마스터-인스턴스 패턴인가
 
@@ -37,7 +38,7 @@ M_ToonSky (Unlit·IsSky 스카이 마스터) ← MPC_ToonSky(SunDir)
 
 ## M_PP_ToonTest — 씬 밝기를 계단으로 깎는 노드 체인
 
-`Content/Developers/goldb/Shading/M_PP_ToonTest`. Material Domain **Post Process**, Blendable Location **Scene Color Before Bloom**, 출력은 EmissiveColor 하나다. 표현식 41개, 연결 50개 — 화면에 걸리는 필터치고는 단출한 그래프다.
+`M_PP_ToonTest`. Material Domain **Post Process**, Blendable Location **Scene Color Before Bloom**, 출력은 EmissiveColor 하나다. 표현식 41개, 연결 50개 — 화면에 걸리는 필터치고는 단출한 그래프다.
 
 핵심 아이디어는 **조명 항만 분리해서 계단화**하는 것. 씬 컬러를 통째로 양자화하면 알베도(재질 고유색)까지 뭉개지므로, 먼저 조명을 알베도에서 떼어낸다.
 
@@ -72,7 +73,7 @@ _핵심 체인 — Divide(라이팅 복원) → Dot(휘도) → Multiply → Flo
 
 ## M_ToonSky — 텍스처 0장, 수식 130노드로 그린 하늘
 
-`Content/Developers/goldb/Shading/M_ToonSky`. Surface 도메인이지만 Shading Model **Unlit**, **Is Sky** 체크, Two Sided — 조명을 받지 않고 스스로 색을 내는 하늘 돔 전용 설정이다. 표현식 130개, 연결 145개로 PP 머티리얼의 3배 규모이고, 역시 출력은 EmissiveColor 하나.
+`M_ToonSky`. Surface 도메인이지만 Shading Model **Unlit**, **Is Sky** 체크, Two Sided — 조명을 받지 않고 스스로 색을 내는 하늘 돔 전용 설정이다. 표현식 130개, 연결 145개로 PP 머티리얼의 3배 규모이고, 역시 출력은 EmissiveColor 하나.
 
 ![M_ToonSky 그래프 전경](/assets/img/til/2026-07-23/mat-toonsky-graph.png)
 _그래프 전경 — 상단 하늘 그라데이션 블록, 중앙 구름 블록, 하단 태양·주야·별밭 블록. 텍스처 샘플 노드는 하나도 없다_
@@ -97,7 +98,7 @@ _핵심 체인 — 뷰 방향(WorldPos−CamPos→Normalize→Mask B), Band1/Ban
 
 위에서 본 `Outline_*` 잔존 오버라이드가 그 흔적이다. 포스트 프로세스 단계에서 림라이트·아웃라인까지 얹는 시도를 했지만 **TSR 환경에서 화면 가장자리 스테일 메모리 아티팩트로 불가 판정**을 내렸고(7/03), 아웃라인은 오브젝트별 inverted-hull 방식으로 방향을 틀었다. 시도의 상세와 판정 근거는 [적용기 글](/posts/til-toon-postprocess-rollout/#해-보고-접은-것--포스트-프로세스-림라이트아웃라인)에 정리돼 있다.
 
-> **오늘 배운 것**
+> **핵심 요약**
 > - 마스터-인스턴스 패턴의 실익은 **튜닝 이력이 마스터를 오염시키지 않는 것** — 계단 수 6→5, 블렌드 0.35→0.85의 왕복이 전부 인스턴스 값 변경이었고 셰이더 재컴파일은 없었다
 > - PP 셀 셰이딩의 요체는 **조명 항 분리** — 씬 컬러를 통째로 양자화하지 않고 `씬 컬러 ÷ 알베도`로 라이팅만 복원해 계단화해야 재질 고유색이 산다
 > - 여러 머티리얼이 공유하는 전역 값(태양 방향)은 파라미터 복붙이 아니라 **MPC**로 — 하늘과 백드롭의 광원이 자동으로 일치한다

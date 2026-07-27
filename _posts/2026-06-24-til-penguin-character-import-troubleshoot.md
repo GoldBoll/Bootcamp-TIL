@@ -250,6 +250,6 @@ SkeletonService.set_bone_retargeting_mode(skel, "root", "Skeleton")
 6. **PIE 캐릭터 테스트는 DefaultPawnClass로.** 배치형 auto-possess는 빙의 타이밍이 어긋나 BeginPlay에서 PC null → Access Violation.
 7. **cross-rig 리타게팅의 한계 vs in-place.** 본 구조가 다르면 IK Retargeter는 붕괴. 본 이름이 같으면 동일 스켈레톤으로 임포트하고, 전진은 **root 본만 Skeleton 리타게팅**으로 제자리 처리한다.
 
-> **오늘 배운 것** — 외부 FBX/GLB 파이프라인의 함정은 대부분 "스케일·좌표 규약 불일치"였다. 메시와 애니메이션의 임포트 스케일을 반드시 같게 맞춰야 하고, Rotator 인자 순서(roll, pitch, yaw)를 헷갈리면 라이팅 어둠부터 캐릭터 눕는 현상까지 전부 여기서 난다. 에디터 파이썬 자동화에서는 CDO 직접 수정과 레벨 연속 전환이 에디터 크래시를 부른다는 것도 몸으로 확인했다.
+> **핵심 요약** — 외부 FBX/GLB 파이프라인의 함정은 대부분 "스케일·좌표 규약 불일치"였다. 메시와 애니메이션의 임포트 스케일을 반드시 같게 맞춰야 하고, Rotator 인자 순서(roll, pitch, yaw)를 헷갈리면 라이팅 어둠부터 캐릭터 눕는 현상까지 전부 여기서 난다. 에디터 파이썬 자동화에서는 CDO 직접 수정과 레벨 연속 전환이 에디터 크래시를 부른다는 것도 몸으로 확인했다.
 {: .prompt-tip }
 

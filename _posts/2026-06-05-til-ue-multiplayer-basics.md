@@ -1,22 +1,15 @@
 ---
-title: "[TIL] 2026-06-05 — 언리얼 멀티플레이 기초: 서버 구조·NetMode·NetRole (강의 챕터 1)"
+title: "언리얼 멀티플레이 NetMode와 NetRole"
+subtitle: "이 로직이 서버에서 도는지 판별하는 두 축"
 date: 2026-06-05 19:00:00 +0900
 categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "netmode", "netrole", "replication", "rpc", "gameplay-framework", "umg", "delegate"]
 render_with_liquid: false
-description: "언리얼 멀티플레이 기초(챕터 1) — 데디케이티드 서버, NetMode·NetConnection·NetDriver, Authority와 Proxy NetRole 개념 정리."
+description: "멀티플레이 코드에서 가장 먼저 잡아야 할 건 문법이 아니라 '지금 이 줄이 어디서 도는가'다. 데디케이티드 서버 실행 흐름과, 월드 단위·액터 단위 두 축으로 권한을 읽는 기준."
 image: /assets/img/thumbs/unreal.svg
 ---
 
-> 언리얼 멀티플레이어 게임 개발 강의 **챕터 1: 멀티플레이 기초 개념**(1-1~1-5)을 정리했다. 채팅 프로젝트로 게임 프레임워크를 깔고(1-1), 서버의 세 종류와 데디케이티드 서버의 실행 흐름을 보고(1-2), 실습 환경을 맞춘 뒤(1-3), **"이 로직이 서버에서 도는가 클라에서 도는가"** 를 판별하는 두 축 — 월드 단위의 `NetMode`(1-4)와 액터 단위의 `NetRole`(1-5)을 익혔다. 관통 주제: **게임에 중대한 로직은 권한(Authority)을 가진 서버에서만 처리한다.**
-
-## 오늘 한 일 요약
-
-1. **챕터 1-1** — 채팅(ChatX) 프로젝트 생성. 빈 레벨 + `GameModeBase`/`PlayerController` C++ 클래스 + 블루프린트 에셋, `UserWidget` 채팅 입력창, `OnTextCommitted` 델리게이트로 입력 처리.
-2. **챕터 1-2** — 서버의 세 종류(P2P / Listen / Dedicated)와 데디케이티드 서버의 접속·복제 흐름. 클라이언트끼리는 통신 불가, 오직 서버↔클라만 통신.
-3. **챕터 1-3** — 실습 환경 설정. `IsLocalController()`로 Owning Client 판별, Run Under One Process를 꺼서 진짜 멀티 프로세스 환경 구성.
-4. **챕터 1-4** — `NetMode`(월드의 네트워크 역할), `NetConnection`/`NetDriver`, Ownership(소유 관계).
-5. **챕터 1-5** — `NetRole`(액터의 권한: Authority/Autonomous Proxy/Simulated Proxy), LocalRole/RemoteRole, `HasAuthority()`·`IsLocalController()`.
+멀티플레이 코드를 처음 볼 때 가장 헷갈리는 건 문법이 아니라 **"지금 이 줄이 서버에서 도는가, 클라이언트에서 도는가"**다. 이 글에서는 그 판별 기준을 세우는 과정을 이야기하려 한다 — 채팅 프로젝트로 게임 프레임워크를 깔고, 서버 세 종류와 데디케이티드 서버의 실행 흐름을 확인한 뒤, 월드 단위의 `NetMode`와 액터 단위의 `NetRole` 두 축으로 권한을 읽는 방법까지다. 관통하는 원칙은 하나 — **게임에 중대한 로직은 권한을 가진 서버에서만 처리한다.**
 
 ## 1. 채팅 프로젝트 생성 (1-1)
 
@@ -179,7 +172,7 @@ FORCEINLINE_DEBUGGABLE bool AActor::HasAuthority() const
 - CS 35의 **서버/클라 존재 범위 표** → 1-4 "NetMode에 따른 액터 위치" 표와 정확히 일치.
 - 개념(CS)과 코드(강의)가 같은 그림을 가리킨다는 걸 확인 — 면접 답변의 근거가 단단해졌다.
 
-## 오늘 배운 것 정리
+## 정리 — 챕터 1에서 남은 것
 
 1. **멀티플레이의 대전제: 중대한 로직은 서버(Authority)에서만** — 클라 처리는 패킷 조작 해킹에 노출된다. 이 한 문장이 NetMode·NetRole·RPC·Replication 전체를 관통한다.
 2. **GameMode = 서버** — GameMode 액터는 전체에서 서버 한 곳에만 존재. 클라에서 `GetGameMode()`는 `nullptr`.
@@ -188,6 +181,6 @@ FORCEINLINE_DEBUGGABLE bool AActor::HasAuthority() const
 5. **LocalRole + RemoteRole 2축** — 한 축(Authority)만으로 구분 안 되는 케이스를 두 축으로 분류해 RPC 대상이 정해진다.
 6. **Ownership 사슬이 통신의 뼈대** — `Connection→Controller→Pawn→액터` 소유 관계가 있어야 `GetNetConnection()`이 동작하고 RPC/Replication이 성립한다.
 
-> **오늘 배운 것** — "중대한 로직은 권한(Authority)을 가진 서버에서만"이라는 대전제 아래, 월드 단위 NetMode와 액터 단위 NetRole(LocalRole/RemoteRole 2축)로 "이 코드가 어느 PC에서 도는가"를 판별하는 법을 익혔다.
+> **핵심 요약** — "중대한 로직은 권한(Authority)을 가진 서버에서만"이라는 대전제 아래, 월드 단위 NetMode와 액터 단위 NetRole(LocalRole/RemoteRole 2축)로 "이 코드가 어느 PC에서 도는가"를 판별하는 법을 익혔다.
 {: .prompt-tip }
 

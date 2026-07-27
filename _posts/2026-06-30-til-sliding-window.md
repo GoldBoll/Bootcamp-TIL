@@ -1,26 +1,15 @@
 ---
-title: "[TIL] 2026-06-30 — 슬라이딩 윈도우: 고정 크기 vs 가변 크기 (LeetCode 643·3)"
+title: "슬라이딩 윈도우 고정 크기 vs 가변 크기"
+subtitle: "직전 계산을 재활용해 O(n·k)를 O(n)으로"
 date: 2026-06-30 21:00:00 +0900
 categories: ["알고리즘"]
 tags: ["til", "algorithm", "sliding-window", "two-pointer", "string"]
 render_with_liquid: false
-description: "슬라이딩 윈도우 두 패턴 — LeetCode 643 고정 크기 윈도우와 LeetCode 3 가변 크기 윈도우를 풀고 차이를 비교 정리했다."
+description: "슬라이딩 윈도우의 본질은 구간을 옮기는 게 아니라 직전 계산을 버리지 않는 것이다. 빠지는 값과 들어오는 값만 반영해 O(1)로 갱신하는 원리를 두 가지 변형으로 확인했다."
 image: /assets/img/thumbs/til.svg
 ---
 
-> 오늘은 슬라이딩 윈도우 한 패턴을 두 변형으로 익혔다. **고정 크기(643 Maximum Average Subarray I)** 와 **가변 크기(3 Longest Substring Without Repeating Characters)**. 공통 본질은 "직전 윈도우 계산 결과를 재활용해 매 스텝 O(1)로 갱신 → 전체 O(n)". 브루트포스의 O(n·k)·O(n²)를 선형으로 끌어내리는 것이 슬라이딩 윈도우의 핵심이라는 감을 굳혔다.
-
-## 오늘 한 일 요약
-
-슬라이딩 윈도우 2문제를 고정·가변 두 패턴으로 풀며 차이를 정리했다.
-
-1. **LeetCode 643 Maximum Average Subarray I (Easy)** — 길이 k 고정 윈도우. "평균 최대 = 합 최대"로 환원하고, `sum += nums[i] - nums[i-k]`로 한 칸씩 밀어 O(n). ([문제별 풀이](/posts/algo-2026-06-30-1/))
-2. **LeetCode 3 Longest Substring Without Repeating Characters (Medium)** — 가변 윈도우. `last[c]`로 문자의 마지막 등장 위치를 추적, 중복 발견 시 `left`를 한 칸씩 줄이지 않고 중복 직후로 **점프**해 O(n). ([문제별 풀이](/posts/algo-2026-06-30-2/))
-
-![고정 크기 윈도우는 들어온 값을 더하고 빠진 값을 빼며 이동하고, 가변 크기 윈도우는 중복이 생기면 left를 중복 직후로 점프시킨다](/assets/img/til/2026-06-30/sliding-window-diagram.svg)
-_고정 크기(위)는 `sum += nums[i] - nums[i-k]`로 한 칸씩 밀고, 가변 크기(아래)는 중복 문자를 만나면 `left`를 `last[c]+1`로 점프시킨다. 두 경우 모두 포인터가 단조 증가해 전체 O(n)이다._
-
----
+슬라이딩 윈도우는 "구간을 옮긴다"가 아니라 **"직전 계산을 버리지 않는다"**에 가깝다. 매번 구간을 처음부터 다시 더하면 O(n·k)지만, 빠지는 값 하나와 들어오는 값 하나만 반영하면 O(1)로 갱신돼 전체가 O(n)이 된다. 이 글에서는 이 패턴을 **고정 크기**와 **가변 크기** 두 변형으로 나눠, 각각 무엇이 윈도우의 크기를 결정하는지 문제로 확인한 과정을 이야기하려 한다.
 
 ## 1. Maximum Average Subarray I (LeetCode 643) — 고정 크기 윈도우
 
@@ -124,7 +113,7 @@ int lengthOfLongestSubstring(string s)
 
 ---
 
-## 오늘 배운 것 정리
+## 정리 — 두 변형을 가르는 것
 
 1. **고정 크기는 합 보정**: 길이가 고정이면 평균 최대 = 합 최대. 매번 다시 더하지 말고 `+새값 -뺀값`으로 O(1) 갱신해 O(n).
 2. **가변 크기는 left 점프**: 중복이 윈도우 안에 있을 때 left를 한 칸씩 당기지 말고 중복 직후로 한 번에 점프 → left·right 모두 단조 증가 → O(n).
@@ -132,6 +121,6 @@ int lengthOfLongestSubstring(string s)
 4. **부동소수는 마지막에 한 번만**: 정수 합을 유지하다 끝에서만 실수 나눗셈해 오차와 연산을 줄인다.
 5. **substring vs subsequence**: 연속이어야 윈도우가 성립한다. 비연속이면 다른 접근(예: DP)이 필요하다.
 
-> **오늘 배운 것** — 슬라이딩 윈도우는 직전 윈도우 계산을 재활용해 매 스텝 O(1) 갱신으로 전체 O(n)을 만드는 패턴이다. 고정 크기는 `+새값 -뺀값` 합 보정, 가변 크기는 `last[c] >= left`일 때 left를 중복 직후로 점프시키는 게 각각의 핵심이다.
+> **핵심 요약** — 슬라이딩 윈도우는 직전 윈도우 계산을 재활용해 매 스텝 O(1) 갱신으로 전체 O(n)을 만드는 패턴이다. 고정 크기는 `+새값 -뺀값` 합 보정, 가변 크기는 `last[c] >= left`일 때 left를 중복 직후로 점프시키는 게 각각의 핵심이다.
 {: .prompt-tip }
 

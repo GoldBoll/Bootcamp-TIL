@@ -8,7 +8,7 @@ image: /assets/img/thumbs/cs.svg
 description: "답변 흐름 — 정의·발생 시점 → PCB/TCB 저장·복원 → 모드 스위치 ≠ 컨텍스트 스위치 → 비용 요소(캐시 flush·TLB flush·파이프라인 정지) → 프로세스 vs 스레드 비용 차까지"
 ---
 
-# 05/12 — Context Switching에 대해서 설명해 주세요
+# Context Switching에 대해서 설명해 주세요
 
 > 모의면접 주제: "Context Switching에 대해서 설명해 주세요"
 > 정의·발생 시점 → PCB/TCB 저장·복원 → 모드 스위치 ≠ 컨텍스트 스위치 → 비용 요소(캐시 flush·TLB flush·파이프라인 정지) → 프로세스 vs 스레드 비용 차 → 스케줄링 알고리즘과의 연관 → Windows 깊이(Win32 스레드 API·동기화 객체·ConcRT/PPL·Fiber·UMS·C++ 표준 매핑·TLS·CRT 옵션) → 언리얼(`FRunnableThread`·TaskGraph·GameThread/RenderThread/RHIThread)까지
@@ -1764,5 +1764,5 @@ CRT 옵션:
 | **19_process_vs_thread** | 컨텍스트 스위칭 비용이 19번의 핵심 비교 항목 — 21번에서 메커니즘 깊이 확장. PCB/TCB·TLB·CR3 개념 직접 회귀 |
 | **20_stack_overflow** | 스레드별 독립 스택 + SP가 컨텍스트의 핵심 구성요소 — 20번에서 다룬 스택 한계와 컨텍스트 보존이 같은 메모리를 다룸 |
 
-> **오늘 배운 것** — 모드 스위치(권한 전환)와 컨텍스트 스위치(실행 주체 교체)는 다른 것이고, 컨텍스트 스위칭 비용의 대부분은 레지스터 저장 같은 직접 비용이 아니라 캐시 콜드·TLB flush라는 간접 비용에서 온다. 스레드 전환이 프로세스 전환보다 5~10배 빠른 이유가 바로 이 간접 비용의 차이다.
+> **핵심 요약** — 모드 스위치(권한 전환)와 컨텍스트 스위치(실행 주체 교체)는 다른 것이고, 컨텍스트 스위칭 비용의 대부분은 레지스터 저장 같은 직접 비용이 아니라 캐시 콜드·TLB flush라는 간접 비용에서 온다. 스레드 전환이 프로세스 전환보다 5~10배 빠른 이유가 바로 이 간접 비용의 차이다.
 {: .prompt-tip }

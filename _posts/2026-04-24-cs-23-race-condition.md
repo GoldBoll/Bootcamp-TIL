@@ -8,7 +8,7 @@ image: /assets/img/thumbs/cs.svg
 description: "답변 흐름 — 정의(공유 자원 + 동시 접근 + 비결정성) → Critical Section → 동기화 객체 카탈로그(Mutex·Semaphore·Critical Section·SRWLock·Event·"
 ---
 
-# 05/13 — Race Condition에 대해서 이야기 해주세요
+# Race Condition에 대해서 이야기 해주세요
 
 > 모의면접 주제: "Race Condition에 대해서 이야기 해주세요"
 > 정의(공유 자원 + 동시 접근 + 비결정성) → Critical Section → 동기화 객체 카탈로그(Mutex·Semaphore·Critical Section·SRWLock·Event·Condition Variable) → Lock-free / atomic / CAS → Memory Ordering·Memory Barrier(acquire/release) → ABA 문제 → Deadlock·Livelock·Starvation → Priority Inversion → Windows/POSIX API 비교 → 비용 스펙트럼 → 언리얼(GameThread/RenderThread 분리·TaskGraph)까지
@@ -2050,5 +2050,5 @@ POSIX API:
 | **21_context_switching** | race의 시간적 원인 — 컨텍스트 스위칭이 명령 단위로 임의 시점에 끼어들기 때문에 `count++`의 3단계 사이에서 스위치가 일어남. 동기화 객체 비용도 컨텍스트 스위칭(21)의 비용 스펙트럼과 직결 |
 | **22_ipc** | 프로세스 간 race — 공유 메모리에서 OS가 동기화 안 해주므로 **Named Mutex/Semaphore/Event**(커널 객체)와 짝지어 사용. 22번 §13.5의 "공유 메모리 + Named 동기화" 패턴이 IPC 차원의 race 회피 |
 
-> **오늘 배운 것** — Race는 공유 자원·동시 접근·쓰기·순서 무보장 네 조건이 모두 겹칠 때 생기고, 이 중 하나만 깨도 사라진다. 같은 보호라도 atomic CAS(수 ns)부터 커널 Mutex(1~3 μs)까지 비용이 1000배 벌어지므로, 락을 고르는 것 이상으로 언리얼처럼 스레드 분리·명령 큐로 공유 자체를 없애는 구조가 좋은 답이 된다.
+> **핵심 요약** — Race는 공유 자원·동시 접근·쓰기·순서 무보장 네 조건이 모두 겹칠 때 생기고, 이 중 하나만 깨도 사라진다. 같은 보호라도 atomic CAS(수 ns)부터 커널 Mutex(1~3 μs)까지 비용이 1000배 벌어지므로, 락을 고르는 것 이상으로 언리얼처럼 스레드 분리·명령 큐로 공유 자체를 없애는 구조가 좋은 답이 된다.
 {: .prompt-tip }

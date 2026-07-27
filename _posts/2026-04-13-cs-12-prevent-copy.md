@@ -8,7 +8,7 @@ image: /assets/img/thumbs/cs.svg
 description: "답변 흐름 — 단독 소유 자원 → `= delete` / `private` / `noncopyable` → Rule of Three/Five/Zero → move-only(`unique_ptr`) → 슬라이싱 → virtual 소멸자 꼬리질문 연결"
 ---
 
-# 04/27 — 객체 복사 금지 모의면접 준비
+# 객체 복사 금지 모의면접 준비
 
 > 내일 모의면접 주제: "객체 복사를 막는 방법은 어떤 방법이 있을까요? 왜 객체 복사를 막아야 할까요?"
 > 단독 소유 자원 → `= delete` / `private` / `noncopyable` → Rule of Three/Five/Zero → move-only(`unique_ptr`) → 슬라이싱 → virtual 소멸자 꼬리질문 연결 다리
@@ -1188,5 +1188,5 @@ struct FBigData
 - [virtual 소멸자](/posts/cs-06-virtual-destructor/) — 다형 기반 클래스 + 슬라이싱 차단 + virtual 소멸자 통합 패턴
 - [vtable deep dive](/posts/cs-08-vtable-deepdive/) — 슬라이싱 시 vptr이 Base로 고정되는 이유
 
-> **오늘 배운 것** — 복사 가능 여부는 편의가 아니라 타입 의미론의 일부다. 파일 핸들·뮤텍스·소켓·`unique_ptr`처럼 책임자가 하나여야 하는 자원은 복사를 `= delete`하고 move만 살리는 게 표준 라이브러리 공통 패턴이고, 멤버에 `unique_ptr`을 두면 암묵적 삭제로 클래스가 자동 move-only가 된다(Rule of Zero).
+> **핵심 요약** — 복사 가능 여부는 편의가 아니라 타입 의미론의 일부다. 파일 핸들·뮤텍스·소켓·`unique_ptr`처럼 책임자가 하나여야 하는 자원은 복사를 `= delete`하고 move만 살리는 게 표준 라이브러리 공통 패턴이고, 멤버에 `unique_ptr`을 두면 암묵적 삭제로 클래스가 자동 move-only가 된다(Rule of Zero).
 {: .prompt-tip }

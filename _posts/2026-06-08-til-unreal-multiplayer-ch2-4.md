@@ -1,23 +1,15 @@
 ---
-title: "[TIL] 2026-06-08 — 언리얼 멀티플레이 RPC·Property Replication·게임 프로젝트 구조 (강의 챕터 2~4)"
+title: "언리얼 RPC와 Property Replication 구분"
+subtitle: "한 번 터지는 것과 유지되는 것의 경계"
 date: 2026-06-08 19:00:00 +0900
 categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "gameplay-framework", "netmode", "netrole", "enhanced-input", "umg"]
 render_with_liquid: false
-description: "언리얼 멀티플레이 챕터 2~4 — RPC 기초와 채팅 구현, Property Replication, 숫자 야구 판정·승패, 게임플레이 프레임워크 구조 정리."
+description: "서버의 판단을 클라이언트에 보내는 수단은 둘로 갈린다. 한 번 터지고 사라지는 효과는 RPC, 계속 유지되는 상태는 Replication — 채팅과 숫자 야구로 각각 구현해 경계를 확인했다."
 image: /assets/img/thumbs/unreal.svg
 ---
 
-> 언리얼 멀티플레이어 게임 개발 강의 **챕터 2~4**를 정리했다. 챕터 1에서 본 "이 로직이 서버에서 도는가 클라에서 도는가"(NetMode·NetRole)를 실제 **통신 수단**으로 옮긴다. 챕터 2는 일시적 효과를 보내는 **RPC**(Server/Client/NetMulticast)와 멀티플레이 채팅, 챕터 3은 액터 속성을 복제하는 **Property Replication**과 숫자 야구 게임, 챕터 4는 이 모든 걸 얹을 **게임 프로젝트 구조**(게임플레이 프레임워크 5클래스·디버그 로깅·시작 이벤트 흐름)다. 관통 주제는 챕터 1과 동일: **중대한 로직은 권한(Authority)을 가진 서버에서만 처리하고, 그 결과를 RPC·Replication으로 클라에 전파한다.**
-
-## 오늘 한 일 요약
-
-1. **챕터 2-1** — RPC(Remote Procedure Call) 기초. Call vs Invoke, Actor Ownership(Client-Owned/Server-Owned), `UFUNCTION` 키워드(Server/Client/NetMulticast)와 실행 위치 판정, `WithValidation`, Reliable vs Unreliable.
-2. **챕터 2-2** — 멀티플레이 채팅 구현. 내 메시지 → Server RPC로 서버 전송 → 서버가 Client RPC로 모든 클라에 재전송. 접속 알림은 `GameState`의 NetMulticast.
-3. **챕터 3-1** — Property Replication. 액터 속성만 골라 복제하는 3단계 설정(`bReplicates`·`UPROPERTY(Replicated)`·`DOREPLIFETIME`).
-4. **챕터 3-2~3-4** — 숫자 야구 게임. 판정 로직(GameMode), 시도 횟수 관리(PlayerState), 승리·무승부·리셋과 공지 위젯(`FText` 바인딩).
-5. **챕터 4-1~4-2** — 게임 프로젝트(DedicatedX) 생성. 게임플레이 프레임워크 5클래스 + 캐릭터(SpringArm·Camera·Enhanced Input), 데디 서버 실행 환경 설정.
-6. **챕터 4-3** — 멀티플레이 디버그 로깅(넷모드별 로그 매크로), 접속 차단(PreLogin), `NetConnection`/`Channel`/`Packet`/`Bunch`, **StartPlay→BeginPlay 흐름**과 **Possess 과정**.
+[서버와 클라이언트의 권한을 읽는 기준](/posts/til-ue-multiplayer-basics/)까지 잡았다면, 다음 질문은 **"그래서 그걸 어떻게 상대에게 보내는가"**다. 언리얼은 이걸 두 갈래로 나눈다 — 한 번 터지고 사라지는 효과는 **RPC**로, 계속 유지되는 상태는 **Property Replication**으로. 이 글에서는 그 두 수단을 채팅과 숫자 야구 게임으로 각각 구현하며 확인한 과정과, 그 위에 얹을 게임플레이 프레임워크 구조를 이야기하려 한다.
 
 ## 1. RPC 기초 (2-1)
 
@@ -350,7 +342,7 @@ Owner 설정이 "해당 액터가 어느 클라의 넷커넥션에 속하는가"
 - **CS 36(FString/FName/FText)** — 챕터 3-4의 `NotificationText`가 `FText`(UI 표시·`BlueprintReadOnly`), 채팅·판정 메시지는 `FString`. "표시 = FText / 조작·전송 = FString"이 코드로 갈렸다.
 - **챕터 1(NetMode·NetRole·NetConnection/NetDriver)** 에서 이어진다. "어느 PC에서 도는가"(NetMode·NetRole)를 판별하는 능력 위에, 이제 "그 결과를 어떻게 다른 PC로 보내는가"(RPC·Replication)를 얹었다.
 
-## 오늘 배운 것 정리
+## 정리 — 챕터 2~4에서 남은 것
 
 1. **RPC는 코스메틱, Replication은 게임 상태** — 일시적 효과(사운드·파티클)는 RPC로, 중대한 상태(HP·점수·이름)는 Property Replication으로. RPC 기본이 Unreliable이라 보장이 안 되기 때문.
 2. **"어느 액터에서 정의하느냐"가 도달 범위를 정한다** — PlayerController는 서버+소유클라에만 존재하므로 전원 알림은 GameState의 NetMulticast로. Multicast를 어디에 두느냐가 핵심.
@@ -359,6 +351,6 @@ Owner 설정이 "해당 액터가 어느 클라의 넷커넥션에 속하는가"
 5. **클라는 GameMode 없이 GameState로 시작한다** — StartPlay는 GameMode가 GameState에 지시하고, GameState의 `bReplicatedHasBegunPlay` 복제가 클라 BeginPlay 사슬을 깨운다. "복제되는 액터를 시작 신호의 통로로 쓴다."
 6. **Owner = 넷커넥션 귀속** — `PossessedBy`의 `SetOwner`가 이 액터가 어느 클라에 속하는지 결정한다. 클라에서는 Possess 대신 `OnRep_Owner`로 초기화 — 멀티플레이 통신의 출발점.
 
-> **오늘 배운 것** — 일시적 효과는 RPC, 중대한 상태는 Property Replication 3종 세트(`bReplicates`·`Replicated`·`DOREPLIFETIME`)로 나눠 다루며, Multicast를 어느 액터에 정의하느냐(PlayerController가 아니라 GameState)가 도달 범위를 정한다.
+> **핵심 요약** — 일시적 효과는 RPC, 중대한 상태는 Property Replication 3종 세트(`bReplicates`·`Replicated`·`DOREPLIFETIME`)로 나눠 다루며, Multicast를 어느 액터에 정의하느냐(PlayerController가 아니라 GameState)가 도달 범위를 정한다.
 {: .prompt-tip }
 

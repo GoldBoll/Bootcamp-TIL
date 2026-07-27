@@ -685,5 +685,5 @@ if (WeakActor.IsValid()) { WeakActor->Foo(); }
 - [vtable deep dive](/posts/cs-08-vtable-deepdive/) — vtable 구조 심화
 - [포인터 deep dive](/posts/cs-10-pointer-deepdive/) — 댕글링 포인터와 스마트 포인터 방어 전략
 
-> **오늘 배운 것** — 스마트 포인터 3종은 소유권 모델(단독·공유·관찰)로 구분하면 정리가 된다. shared_ptr의 순환 참조는 한쪽을 weak_ptr로 바꿔 끊고, 생성은 예외 안전성과 단일 힙 할당 때문에 make_unique/make_shared가 기본값이다.
+> **핵심 요약** — 스마트 포인터 3종은 소유권 모델(단독·공유·관찰)로 구분하면 정리가 된다. shared_ptr의 순환 참조는 한쪽을 weak_ptr로 바꿔 끊고, 생성은 예외 안전성과 단일 힙 할당 때문에 make_unique/make_shared가 기본값이다.
 {: .prompt-tip }

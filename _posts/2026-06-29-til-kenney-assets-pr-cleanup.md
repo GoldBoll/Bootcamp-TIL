@@ -1,24 +1,15 @@
 ---
-title: "[TIL] 2026-06-29 — git filter-branch 커밋 수정·PR 삭제 불가·UE 레벨 참조 복구"
+title: "git filter-branch 히스토리 재작성과 레벨 참조 복구"
+subtitle: "에디터를 열어 두면 .umap이 자동 수정된다"
 date: 2026-06-29 22:00:00 +0900
 categories: ["언리얼", "팀프로젝트"]
-tags: ["til", "git", "ue5", "multiplayer", "asset-import"]
+tags: ["til", "git", "ue5", "multiplayer", "asset-import", "트러블슈팅"]
 render_with_liquid: false
-description: "git filter-branch로 커밋 메시지 일괄 수정, PR 삭제 불가 확인, UE 에디터가 .umap을 자동 수정하는 현상과 레벨 에셋 참조 복구까지."
+description: "이미 올라간 커밋 메시지를 규칙에 맞게 고치려다 히스토리 재작성과 언리얼 에셋 참조가 한꺼번에 얽혔다. 커밋을 일괄로 다시 쓰는 대가와, 끊어진 레벨 에셋 참조를 되살린 과정."
 image: /assets/img/thumbs/unreal.svg
 ---
 
-> 오늘은 **커밋 메시지 일괄 수정**부터 시작해 GitHub PR 삭제 한계 확인, UE 레벨의 끊어진 에셋 참조를 에디터에서 액터 정리·재배치로 복구하는 것까지 — git 히스토리 정리와 언리얼 에셋 파이프라인을 동시에 다룬 날이었다.
-
-## 오늘 한 일 요약
-
-1. `git filter-branch --msg-filter`로 브랜치 커밋 5개에서 Co-Authored-By 라인 일괄 제거
-2. GitHub GraphQL API로 닫힌 PR 삭제 시도 → API 자체가 존재하지 않음 확인
-3. PR 템플릿 섹션을 준수한 PR #21 생성 (`--base develop` 명시)
-4. UE 에디터 열린 상태에서 `.umap` 자동 수정 현상 파악 및 `git restore`로 되돌리기
-5. Kenney 에셋 폴더 이동 + redirector 삭제 이후 L_KenneyPreview 참조 전체 끊김 → 에디터에서 끊어진 액터 삭제 후 재배치
-
----
+이미 올라간 커밋 메시지를 규칙에 맞게 고치려다, git 히스토리를 다시 쓰는 작업과 언리얼 에셋 참조가 한꺼번에 얽혔다. 이 글에서는 그 정리 과정을 이야기하려 한다 — 커밋 메시지를 일괄로 다시 쓰는 방법과 그 대가, GitHub PR은 왜 삭제할 수 없는지, 그리고 **에디터를 열어 둔 채로 레벨 파일이 자동 수정되면서** 끊어진 에셋 참조를 복구한 트러블슈팅이다.
 
 ## 1. git filter-branch로 커밋 메시지 일괄 수정
 
@@ -76,19 +67,19 @@ gh pr create \
 
 ---
 
-## 4. UE 에디터 열린 상태에서 .umap 자동 수정 현상
+## 트러블슈팅 1 — 에디터를 열어 두면 레벨 파일이 자동 수정된다
 
 UE 에디터가 열려 있는 동안 `git status`를 확인하면 `.umap` 파일이 unstaged changes 상태로 표시된다. 에디터가 레벨을 메모리에 올리면서 타임스탬프나 내부 데이터를 갱신하기 때문이다.
 
 ```bash
-git restore Content/Prototype/L_FurnitureProto.umap
+git restore <레벨 .umap 경로>
 ```
 
 의도하지 않은 `.umap` 변경이 커밋에 섞이지 않도록, **스테이징 전에 반드시 `git diff`로 변경 파일을 확인**하는 습관이 필요하다.
 
 ---
 
-## 5. L_KenneyPreview 에셋 참조 복구
+## 트러블슈팅 2 — 끊어진 레벨 에셋 참조 복구
 
 ### 문제
 
@@ -107,7 +98,7 @@ UE의 redirector는 **이전 경로 → 새 경로**를 연결하는 포인터 �
 
 ---
 
-## 오늘 배운 것 정리
+## 정리 — 히스토리 정리에서 남은 것
 
 1. **`git filter-branch --msg-filter`는 비대화형 커밋 메시지 일괄 수정에 유용하다.** `-i` 없이 셸 명령(sed 등)으로 범위 내 커밋을 한 번에 가공할 수 있다.
 2. **GitHub는 PR 삭제 API를 제공하지 않는다.** `deletePullRequest` mutation은 존재하지 않으며, PR은 CLOSED 상태로만 남길 수 있다.
@@ -115,6 +106,6 @@ UE의 redirector는 **이전 경로 → 새 경로**를 연결하는 포인터 �
 4. **UE 에디터가 열려 있으면 .umap이 자동으로 수정된다.** 커밋 전 `git diff`로 의도하지 않은 `.umap` 변경이 섞이지 않았는지 확인하자.
 5. **`gh pr create`의 기본 base는 저장소 기본 브랜치다.** develop 운영 시 `--base develop` 명시는 필수.
 
-> **오늘 배운 것** — UE의 redirector는 이전 경로에서 새 경로로 이어 주는 포인터라, 참조를 정리하지 않고 삭제하면 그걸 바라보던 레벨 참조가 통째로 끊긴다. 끊어진 StaticMesh 액터 404개를 에디터에서 일괄 삭제하고 새 경로 기준으로 재배치해 복구했다.
+> **핵심 요약** — UE의 redirector는 이전 경로에서 새 경로로 이어 주는 포인터라, 참조를 정리하지 않고 삭제하면 그걸 바라보던 레벨 참조가 통째로 끊긴다. 끊어진 StaticMesh 액터 404개를 에디터에서 일괄 삭제하고 새 경로 기준으로 재배치해 복구했다.
 {: .prompt-tip }
 

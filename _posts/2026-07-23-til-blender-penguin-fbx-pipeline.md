@@ -1,15 +1,16 @@
 ---
-title: "[TIL] 2026-07-23 — Tripo로 뽑은 펭귄, 텍스처 내장 FBX 추출과 3중 검증"
+title: "Tripo 펭귄 텍스처 내장 FBX 추출"
+subtitle: "Blender 확인과 3중 검증으로 파일 하나만 들고 다니기"
 date: 2026-07-23 09:30:00 +0900
 categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "blender", "asset-import", "skeletal-mesh", "texture"]
 render_with_liquid: false
-description: Tripo로 생성해 리깅한 펭귄 캐릭터를 FBX로 추출·정리한 파이프라인 기록. Blender에서 스켈레톤·텍스처를 확인하고, 텍스처 내장 FBX로 재익스포트한 뒤 "정말 들어갔는가"를 3중으로 검증했다.
+description: "Tripo로 생성해 리깅한 펭귄을 FBX로 뽑아 Blender에서 스켈레톤과 텍스처를 확인하고, 텍스처를 파일에 내장해 재익스포트했다. '정말 들어갔는가'를 세 가지 방법으로 검증한 기록."
 pin: true
 image: /assets/img/til/2026-07-23/blender-penguin-render.png
 ---
 
-부트캠프 8조 팀 프로젝트(UE5 협동 게임, 저장소 TeamCarry)의 플레이어 캐릭터인 펭귄의 FBX 파이프라인을 정리한 날이다. 펭귄 모델은 전날(7/22) **Tripo로 생성해 AccuRIG로 리깅**한 것이고(과정은 [7/22 TIL](/posts/til-penguin-accurig-rerig/)에 정리), 이날은 UE에서 뽑은 `SK_Penguin_Packed.fbx`를 Blender에서 확인·정리하고 **텍스처 내장 FBX로 재추출**하는 흐름을 만들었다. 이 펭귄은 외부 툴과 UE를 오가는 팀 공용 에셋이라, FBX 하나만 들고 다녀도 어느 툴에서든 생김새가 보이는 상태가 목표였다.
+부트캠프 8조 팀 프로젝트(UE5 협동 게임, 저장소 TeamCarry)의 플레이어 캐릭터인 펭귄의 FBX 파이프라인을 정리한 날이다. 펭귄 모델은 [Tripo로 생성해 AccuRIG로 리깅](/posts/til-penguin-accurig-rerig/)한 것이고, 여기서는 UE에서 뽑은 `SK_Penguin_Packed.fbx`를 Blender에서 확인·정리하고 **텍스처 내장 FBX로 재추출**하는 흐름을 만들었다. 이 펭귄은 외부 툴과 UE를 오가는 팀 공용 에셋이라, FBX 하나만 들고 다녀도 어느 툴에서든 생김새가 보이는 상태가 목표였다.
 
 ![펭귄 확인 렌더](/assets/img/til/2026-07-23/blender-penguin-render.png)
 _Blender에서 뽑은 펭귄 확인 렌더 — 네이비 머리·흰 배·주황 부리·멜빵바지 텍스처가 살아 있다_
@@ -47,7 +48,7 @@ Blender의 FBX 익스포트 대화상자에서 다음 옵션으로 내보냈다.
 
 ## UE 애니메이션 적용 확인
 
-리깅 파이프라인의 최종 목적지 확인. IK 리타게터(cc_base_* → IK_Penguin)·ABP_Penguin 구조 상세는 [7/22 TIL](/posts/til-penguin-accurig-rerig/)에 정리했으므로, 여기서는 **적용이 실제로 돌아가는지**만 에디터에서 확인했다.
+리깅 파이프라인의 최종 목적지 확인. IK 리타게터(cc_base_* → IK_Penguin)·ABP_Penguin 구조 상세는 [Tripo 펭귄 AccuRIG 리깅과 UE IK 리타게팅](/posts/til-penguin-accurig-rerig/)에 정리했으므로, 여기서는 **적용이 실제로 돌아가는지**만 에디터에서 확인했다.
 
 ![Walking 애니메이션 재생](/assets/img/til/2026-07-23/ue-penguin-anim-playing.png)
 _Walking AnimSequence 에디터 — 펭귄 프리뷰에서 재생 중(플레이헤드 진행, 트랙 78개). Triangles 4,898 / Vertices 3,210_
@@ -57,7 +58,7 @@ _BS_BaseCharacter 블렌드 스페이스 에디터 — 펭귄 프리뷰 + 블렌
 
 Walking 시퀀스가 펭귄 스켈레톤에서 정상 재생되고, BS_BaseCharacter 블렌드 스페이스도 펭귄 프리뷰로 동작한다. 그리고 **메인 플레이어 `BP_PlayerCharacter`가 mesh=SK_Penguin, anim_class=ABP_Penguin_C로 사용 중** — 이 파이프라인의 결과물이 실제 플레이어 캐릭터에 물려 있다.
 
-> **오늘 배운 것**
+> **핵심 요약**
 > - 산출물 검증은 옵션이 아니라 **결과물**로 — `embed_textures`는 크기 델타·PNG 시그니처·로그 3중으로 확인했다. 옵션을 켰다고 결과가 보장되지 않는다
 > - `embed_textures`는 `path_mode='COPY'`에서만 동작한다 — 조건이 안 맞으면 에러 없이 무시되는 무음 실패 유형
 > - `add_leaf_bones=False`는 UE 왕복의 보험 — 기본값으로 두면 리임포트 때 `_end` 잉여 본이 생긴다

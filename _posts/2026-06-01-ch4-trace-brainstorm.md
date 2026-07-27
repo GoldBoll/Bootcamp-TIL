@@ -75,7 +75,7 @@ image: /assets/img/thumbs/unreal.svg
 | **플랫폼 / 엔진** | PC (Steam·Epic) / Unreal Engine 5.5+ |
 | **인원** | 4~6인 (1명 = 숨은 배신자) |
 | **한 판 길이** | 30~60분 |
-| **스코프** | Medium (~8주, 팀 — 06/01 → 07/25 제출) |
+| **스코프** | Medium (약 8주, 팀 프로젝트) |
 | **레퍼런스** | Among Us, Project Winter, Lethal Company, Keep Talking and Nobody Explodes |
 
 ### 핵심 메커닉 (우리가 실제로 만들 5가지)

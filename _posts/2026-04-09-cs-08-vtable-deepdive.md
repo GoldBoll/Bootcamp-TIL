@@ -415,5 +415,5 @@ vtable + RTTI:
 - [MSVC _purecall 문서](https://learn.microsoft.com/ko-kr/cpp/c-runtime-library/reference/purecall?view=msvc-170)
 - 내일 주제: [RTTI & RAII](/posts/cs-09-rtti-raii/)
 
-> **오늘 배운 것** — vtable은 클래스당 1개(.rodata), vptr은 객체당 1개(생성자에서 초기화)라는 구분이 모든 꼬리질문의 출발점이었다. override 안 한 슬롯엔 부모 함수 포인터가 그대로 복사되고, 순수 가상 함수 슬롯엔 `_purecall`이 들어가며, 생성자 안에서는 vptr이 아직 부모 vtable을 가리켜서 자식 override가 호출되지 않는다.
+> **핵심 요약** — vtable은 클래스당 1개(.rodata), vptr은 객체당 1개(생성자에서 초기화)라는 구분이 모든 꼬리질문의 출발점이었다. override 안 한 슬롯엔 부모 함수 포인터가 그대로 복사되고, 순수 가상 함수 슬롯엔 `_purecall`이 들어가며, 생성자 안에서는 vptr이 아직 부모 vtable을 가리켜서 자식 override가 호출되지 않는다.
 {: .prompt-tip }

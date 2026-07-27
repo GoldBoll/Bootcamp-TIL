@@ -235,5 +235,5 @@ int32 BucketCount = Map.GetMaxIndex();   // 내부 슬롯 수
 | **16_stl_containers** | STL 통합 정리 — `unordered_*` 컨테이너 4종(map/multimap/set/multiset) 공통 특성 |
 | **23_race_condition** | rehash 중 다른 스레드가 lookup하면 UB. STL 컨테이너는 thread-safe가 아니라서 동시 접근 보호 필요 (FCriticalSection 등) |
 
-> **오늘 배운 것** — 해시 테이블은 `load_factor(= size / bucket_count)` 가 `max_load_factor` 를 넘는 순간 rehash 로 모든 원소를 O(N)에 재배치한다. 게임 루프에서는 이 한 번의 비용이 프레임 드롭으로 나타나므로, 시작 시 `reserve(N)` 으로 rehash 자체를 회피하는 게 표준 패턴이다.
+> **핵심 요약** — 해시 테이블은 `load_factor(= size / bucket_count)` 가 `max_load_factor` 를 넘는 순간 rehash 로 모든 원소를 O(N)에 재배치한다. 게임 루프에서는 이 한 번의 비용이 프레임 드롭으로 나타나므로, 시작 시 `reserve(N)` 으로 rehash 자체를 회피하는 게 표준 패턴이다.
 {: .prompt-tip }
