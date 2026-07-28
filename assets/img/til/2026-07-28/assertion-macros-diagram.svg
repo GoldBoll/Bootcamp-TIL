@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" width="760" height="470" font-family="'Segoe UI', system-ui, sans-serif" role="img" aria-label="check는 컴파일에서 빠질 때 식까지 사라지고 verify와 ensure는 식이 평가되며, 기본 설정에서 어서션이 활성인 빌드는 Debug와 Development뿐임을 보여주는 다이어그램">
+  <rect x="0" y="0" width="760" height="470" rx="14" fill="#1c2330" stroke="#39414f"/>
+  <text x="380" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#e6edf3">check · verify · ensure — 빠질 때 무엇이 남는가</text>
+  <text x="380" y="56" text-anchor="middle" font-size="12.5" fill="#79c0ff" font-family="Consolas,monospace">Misc/AssertionMacros.h · Misc/Build.h (UE 5.8)</text>
+
+  <text x="115" y="88" text-anchor="middle" font-size="12.5" font-weight="600" fill="#9aa4b2">매크로</text>
+  <text x="310" y="88" text-anchor="middle" font-size="12.5" font-weight="600" fill="#9aa4b2">실패 시 반응</text>
+  <text x="580" y="88" text-anchor="middle" font-size="12.5" font-weight="600" fill="#9aa4b2">컴파일에서 빠질 때의 정의</text>
+
+  <!-- check -->
+  <rect x="40" y="100" width="150" height="44" rx="5" fill="#3a1d1d" stroke="#f85149" stroke-width="2"/>
+  <text x="115" y="128" text-anchor="middle" font-size="14" font-weight="700" fill="#ff7b72" font-family="Consolas,monospace">check</text>
+  <text x="310" y="127" text-anchor="middle" font-size="12.5" fill="#c9d1d9">즉시 중단</text>
+  <rect x="430" y="100" width="300" height="44" rx="5" fill="#263041" stroke="#f85149"/>
+  <text x="580" y="120" text-anchor="middle" font-size="12" fill="#e6edf3" font-family="Consolas,monospace">{ CA_ASSUME(expr); }</text>
+  <text x="580" y="137" text-anchor="middle" font-size="10.5" fill="#ff7b72">sizeof 안 — 식이 실행되지 않는다</text>
+
+  <!-- verify -->
+  <rect x="40" y="156" width="150" height="44" rx="5" fill="#33291c" stroke="#e3b341" stroke-width="2"/>
+  <text x="115" y="184" text-anchor="middle" font-size="14" font-weight="700" fill="#e3b341" font-family="Consolas,monospace">verify</text>
+  <text x="310" y="183" text-anchor="middle" font-size="12.5" fill="#c9d1d9">즉시 중단</text>
+  <rect x="430" y="156" width="300" height="44" rx="5" fill="#263041" stroke="#e3b341"/>
+  <text x="580" y="176" text-anchor="middle" font-size="12" fill="#e6edf3" font-family="Consolas,monospace">{ if(UNLIKELY(!(expr))){...} }</text>
+  <text x="580" y="193" text-anchor="middle" font-size="10.5" fill="#e3b341">식은 평가 — 중단만 사라진다</text>
+
+  <!-- ensure -->
+  <rect x="40" y="212" width="150" height="44" rx="5" fill="#22331f" stroke="#56d364" stroke-width="2"/>
+  <text x="115" y="234" text-anchor="middle" font-size="14" font-weight="700" fill="#7ee787" font-family="Consolas,monospace">ensure</text>
+  <text x="115" y="249" text-anchor="middle" font-size="10" fill="#7ee787">bool 반환</text>
+  <text x="310" y="233" text-anchor="middle" font-size="12.5" fill="#c9d1d9">로그·콜스택 남기고 계속</text>
+  <text x="310" y="249" text-anchor="middle" font-size="10.5" fill="#586170">호출 지점당 1회 (파일+줄 플래그)</text>
+  <rect x="430" y="212" width="300" height="44" rx="5" fill="#263041" stroke="#56d364"/>
+  <text x="580" y="232" text-anchor="middle" font-size="12" fill="#e6edf3" font-family="Consolas,monospace">(LIKELY(!!(expr)))</text>
+  <text x="580" y="249" text-anchor="middle" font-size="10.5" fill="#7ee787">식·반환값 유지 — 흐름이 같다</text>
+
+  <line x1="40" y1="278" x2="730" y2="278" stroke="#39414f" stroke-dasharray="4 5"/>
+
+  <text x="40" y="304" font-size="13" font-weight="600" fill="#9aa4b2">빌드 구성별 활성 여부 <tspan fill="#586170" font-weight="400">(기본값 — DO_CHECK / DO_ENSURE)</tspan></text>
+
+  <rect x="40" y="316" width="160" height="48" rx="6" fill="#22331f" stroke="#56d364" stroke-width="2"/>
+  <text x="120" y="338" text-anchor="middle" font-size="13" font-weight="700" fill="#7ee787">Debug</text>
+  <text x="120" y="355" text-anchor="middle" font-size="11" fill="#7ee787">활성 (checkSlow 포함)</text>
+
+  <rect x="215" y="316" width="160" height="48" rx="6" fill="#22331f" stroke="#56d364" stroke-width="2"/>
+  <text x="295" y="338" text-anchor="middle" font-size="13" font-weight="700" fill="#7ee787">Development</text>
+  <text x="295" y="355" text-anchor="middle" font-size="11" fill="#7ee787">활성</text>
+
+  <rect x="390" y="316" width="160" height="48" rx="6" fill="#2b2226" stroke="#f85149" stroke-width="2"/>
+  <text x="470" y="338" text-anchor="middle" font-size="13" font-weight="700" fill="#ff7b72">Test</text>
+  <text x="470" y="355" text-anchor="middle" font-size="11" fill="#ff7b72">비활성 ← 흔한 오해</text>
+
+  <rect x="565" y="316" width="160" height="48" rx="6" fill="#2b2226" stroke="#f85149" stroke-width="2"/>
+  <text x="645" y="338" text-anchor="middle" font-size="13" font-weight="700" fill="#ff7b72">Shipping</text>
+  <text x="645" y="355" text-anchor="middle" font-size="11" fill="#ff7b72">비활성</text>
+
+  <text x="40" y="392" font-size="12" fill="#c9d1d9" font-family="Consolas,monospace">USE_CHECKS_IN_SHIPPING 0 <tspan font-family="'Segoe UI', system-ui, sans-serif" fill="#9aa4b2">·</tspan> USE_ENSURES_IN_SHIPPING = USE_CHECKS_IN_SHIPPING</text>
+  <text x="40" y="414" font-size="12" fill="#9aa4b2">Test·Shipping에서 켜려면 <tspan fill="#79c0ff" font-family="Consolas,monospace">TargetRules.bUseChecksInShipping</tspan> — ensure도 같이 켜진다</text>
+  <text x="380" y="446" text-anchor="middle" font-size="12.5" fill="#c9d1d9">어서션 기반 판정(“Ensure 0건”)은 <tspan fill="#7ee787" font-weight="700">활성인 빌드에서 센 숫자일 때만</tspan> 의미가 있다</text>
+</svg>
