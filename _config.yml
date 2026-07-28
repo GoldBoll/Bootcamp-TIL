@@ -134,7 +134,17 @@ assets:
 pwa:
   enabled: true # The option for PWA feature (installable)
   cache:
-    enabled: true # The option for PWA offline cache
+    # 오프라인 캐시 비활성 — 배포 후 방문자에게 구버전이 보이던 원인.
+    # Chirpy 서비스워커는 cache-first라 재방문 시 캐시본이 먼저 나가고,
+    # 새 버전은 화면 하단 토스트의 [Update] 를 눌러야 적용된다(자동 아님).
+    # 매일 갱신되는 블로그에는 오프라인 열람보다 최신성이 중요해 캐시를 끈다.
+    # enabled: false 이면 테마가 기존 서비스워커를 자동 unregister 하므로
+    # 이미 캐시를 물고 있는 재방문자도 다음 방문에서 정상화된다.
+    # (pwa.enabled 자체를 false 로 두면 해제 스크립트가 로드되지 않아
+    #  기존 방문자에게 낡은 서비스워커가 계속 남는다 — 그래서 enabled 는 true 유지)
+    # 값은 반드시 '비움' — `false` 로 적으면 테마가 register=false 라는 문자열을
+    # 스크립트 URL에 넣고 JS가 이를 참으로 읽어 서비스워커를 계속 등록한다.
+    enabled: # The option for PWA offline cache (비우면 캐시 끔)
     # Paths defined here will be excluded from the PWA cache.
     # Usually its value is the `baseurl` of another website that
     # shares the same domain name as the current website.
