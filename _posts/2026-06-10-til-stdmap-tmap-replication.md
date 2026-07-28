@@ -6,7 +6,7 @@ categories: ["CS", "자료구조"]
 tags: ["til", "mock-interview", "cs", "map", "hash", "stl", "ue5", "cpp", "replication", "rpc", "network", "reflection", "gc", "netrole", "algorithm", "simulation"]
 render_with_liquid: false
 description: "TMap을 std::map에 대응시켜 이해하고 있었는데 답변으로 정리하다 그 대응이 틀렸다는 게 드러났다. 자료구조·복잡도·순회 순서·메모리 레이아웃·균형 규칙 다섯 축으로 갈라 비교했다."
-image: /assets/img/thumbs/til.svg
+image: /assets/img/thumbs/cards/2026-06-10-til-stdmap-tmap-replication.svg
 ---
 
 언리얼의 `TMap`을 C++의 `std::map`에 대응시켜 이해하고 있었는데, 면접 답변으로 정리하다 보니 그 대응이 틀렸다는 게 드러났다. 이 글에서는 두 컨테이너를 다섯 축 — 자료구조, 복잡도, 순회 순서, 메모리 레이아웃, 균형 규칙 — 으로 갈라 비교하며, **`TMap`이 실제로는 `std::unordered_map` 쪽에 가깝다는 결론**에 이른 과정을 이야기하려 한다.

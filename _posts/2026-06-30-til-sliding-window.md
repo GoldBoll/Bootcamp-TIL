@@ -6,7 +6,7 @@ categories: ["알고리즘"]
 tags: ["til", "algorithm", "sliding-window", "two-pointer", "string"]
 render_with_liquid: false
 description: "슬라이딩 윈도우의 본질은 구간을 옮기는 게 아니라 직전 계산을 버리지 않는 것이다. 빠지는 값과 들어오는 값만 반영해 O(1)로 갱신하는 원리를 두 가지 변형으로 확인했다."
-image: /assets/img/thumbs/til.svg
+image: /assets/img/thumbs/cards/2026-06-30-til-sliding-window.svg
 ---
 
 슬라이딩 윈도우는 "구간을 옮긴다"가 아니라 **"직전 계산을 버리지 않는다"**에 가깝다. 매번 구간을 처음부터 다시 더하면 O(n·k)지만, 빠지는 값 하나와 들어오는 값 하나만 반영하면 O(1)로 갱신돼 전체가 O(n)이 된다. 이 글에서는 이 패턴을 **고정 크기**와 **가변 크기** 두 변형으로 나눠, 각각 무엇이 윈도우의 크기를 결정하는지 문제로 확인한 과정을 이야기하려 한다.

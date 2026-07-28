@@ -4,7 +4,7 @@ date: 2026-04-21 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false
-image: /assets/img/thumbs/programmers.svg
+image: /assets/img/thumbs/cards/2026-04-21-kata-codekata-18.svg
 description: "프로그래머스 모의고사 — 수포자 3인의 찍기 패턴을 나머지 연산으로 순회하며 점수를 비교하는 완전탐색 풀이"
 ---
 

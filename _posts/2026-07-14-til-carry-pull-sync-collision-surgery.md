@@ -6,7 +6,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "character-movement", "trace", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "어떤 가구는 트레이스에 안 잡히고, 바닥에 1uu 박힌 가구는 조작을 얼렸다. 무엇보다 '서버는 원격 폰 속도에 손대지 않는다'는 원칙이 정작 견인을 무효로 만들고 있었다."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-07-14-til-carry-pull-sync-collision-surgery.svg
 ---
 
 [들것 모델로 공동 운반을 다시 설계한](/posts/til-cmc-prediction-stretcher-carry-outline/) 다음 날은 하루를 통째로 트러블슈팅에 썼다. 어떤 가구는 트레이스에 아예 안 잡히고, 바닥에 1uu 박힌 가구는 모든 조작을 무력화하고, 전날 세운 **"서버는 원격 폰 속도에 손대지 않는다"는 원칙이 정작 견인을 무효로 만들고 있었다.** 이 글에서는 그 문제들을 순서대로 이야기하려 한다 — 원인이 콜리전 데이터인 것, 스윕 관통인 것, 그리고 전날의 판단을 하루 만에 정정해야 했던 것까지다.

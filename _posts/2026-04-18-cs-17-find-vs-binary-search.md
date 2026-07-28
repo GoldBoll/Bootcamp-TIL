@@ -4,7 +4,7 @@ date: 2026-04-18 10:00:00 +0900
 categories: ["CS", "자료구조"]
 tags: ["find", "binary-search"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-18-cs-17-find-vs-binary-search.svg
 description: "답변 흐름 — 정렬 전제 → 시간복잡도 → 반환 타입 차이 → lower_bound·equal_range → set/map 멤버 함수 vs 알고리즘 꼬리질문 연결 다리"
 ---
 

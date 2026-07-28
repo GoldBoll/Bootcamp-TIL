@@ -4,7 +4,7 @@ date: 2026-04-22 12:00:00 +0900
 categories: ["CS", "OS"]
 tags: ["context-switching"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-22-cs-21-context-switching.svg
 description: "답변 흐름 — 정의·발생 시점 → PCB/TCB 저장·복원 → 모드 스위치 ≠ 컨텍스트 스위치 → 비용 요소(캐시 flush·TLB flush·파이프라인 정지) → 프로세스 vs 스레드 비용 차까지"
 ---
 

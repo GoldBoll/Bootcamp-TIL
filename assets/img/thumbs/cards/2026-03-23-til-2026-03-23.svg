@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="개인 프로젝트 Void 장르 확정과 기능 우선순위">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#E5B454"/>
+  <g opacity="0.13" stroke="#E5B454" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="720" y="160" width="400" height="340" rx="8" fill="none"/>
+    <line x1="780" y1="250" x2="1060" y2="250"/>
+    <line x1="780" y1="320" x2="1060" y2="320"/>
+    <line x1="780" y1="390" x2="980" y2="390"/>
+  </g>
+  <text x="84" y="118" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="30" font-weight="600" fill="#E5B454">회고</text>
+  <text x="84" y="232" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="74" font-weight="700" fill="#f5f6f8">개인 프로젝트 Void 장르</text>
+  <text x="84" y="328" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="74" font-weight="700" fill="#f5f6f8">확정과 기능 우선순위</text>
+  <rect x="88" y="362" width="120" height="8" rx="4" fill="#E5B454"/>
+  <text x="84" y="428" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="32" fill="#9aa3ad">레퍼런스에서 가져올 것과 바꿀 것 가르기</text>
+  <text x="84" y="552" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="26" fill="#6b7280">#daily</text>
+  <text x="84" y="594" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="24" fill="#6b7280">goldboll.github.io</text>
+</svg>

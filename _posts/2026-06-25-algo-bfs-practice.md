@@ -4,7 +4,7 @@ date: 2026-06-25 10:00:00 +0900
 categories: ["알고리즘", "백준"]
 tags: ["algorithm", "bfs", "graph"]
 render_with_liquid: false
-image: /assets/img/thumbs/baekjoon.svg
+image: /assets/img/thumbs/cards/2026-06-25-algo-bfs-practice.svg
 description: "핵심 접근 — 같은 BFS 골격에서 누적값·큐 사용만 바꾸는 심화 4문제"
 ---
 

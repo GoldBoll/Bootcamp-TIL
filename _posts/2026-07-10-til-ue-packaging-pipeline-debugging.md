@@ -6,7 +6,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "packaging", "multiplayer", "network", "debugging", "git", "트러블슈팅"]
 render_with_liquid: false
 description: "에디터에서 되는 것과 패키징된 빌드에서 되는 것은 다른 문제다. 같은 프로젝트를 세 번 패키징하며 실패 원인을 하나씩 걷어내고, 에러 억제 플래그 없이 클린 패키징에 도달한 기록."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-07-10-til-ue-packaging-pipeline-debugging.svg
 ---
 
 에디터에서 되는 것과 패키징된 빌드에서 되는 것은 다른 문제다. 같은 프로젝트를 세 번 패키징하며 실패 원인을 하나씩 걷어냈고, 마지막에는 **에러 억제 플래그 없이** 클린 패키징에 도달했다. 이 글에서는 그 세 번의 회전에서 잡은 것들을 이야기하려 한다 — 호스트에만 UI가 안 뜨던 리슨 서버 버그, 에디터에는 있는데 패키지에서 사라진 에셋(쿠킹 레퍼런스 그래프), 머지 충돌로 손상된 채 커밋된 `.uasset`, 생성자에서 물리 세터를 부르면 안 되는 이유, 그리고 로딩 화면이 끝내 안 보이던 구조적 원인이다.

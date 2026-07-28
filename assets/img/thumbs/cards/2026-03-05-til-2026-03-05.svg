@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="프로그래머스 연속된 수의 합 풀이">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#4A90E2"/>
+  <g opacity="0.13" stroke="#4A90E2" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="720" y="170" width="84" height="74" rx="8" fill="#4A90E2"/>
+    <rect x="820" y="170" width="84" height="74" rx="8" fill="none"/>
+    <rect x="920" y="170" width="84" height="74" rx="8" fill="none"/>
+    <rect x="1020" y="170" width="84" height="74" rx="8" fill="#4A90E2"/>
+    <rect x="720" y="260" width="84" height="74" rx="8" fill="none"/>
+    <rect x="820" y="260" width="84" height="74" rx="8" fill="none"/>
+    <rect x="920" y="260" width="84" height="74" rx="8" fill="#4A90E2"/>
+    <rect x="1020" y="260" width="84" height="74" rx="8" fill="none"/>
+    <rect x="720" y="350" width="84" height="74" rx="8" fill="none"/>
+    <rect x="820" y="350" width="84" height="74" rx="8" fill="#4A90E2"/>
+    <rect x="920" y="350" width="84" height="74" rx="8" fill="none"/>
+    <rect x="1020" y="350" width="84" height="74" rx="8" fill="none"/>
+    <rect x="720" y="440" width="84" height="74" rx="8" fill="#4A90E2"/>
+    <rect x="820" y="440" width="84" height="74" rx="8" fill="none"/>
+    <rect x="920" y="440" width="84" height="74" rx="8" fill="none"/>
+    <rect x="1020" y="440" width="84" height="74" rx="8" fill="#4A90E2"/>
+  </g>
+  <text x="84" y="118" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="30" font-weight="600" fill="#4A90E2">알고리즘</text>
+  <text x="84" y="232" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="74" font-weight="700" fill="#f5f6f8">프로그래머스</text>
+  <text x="84" y="328" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="74" font-weight="700" fill="#f5f6f8">연속된 수의 합 풀이</text>
+  <rect x="88" y="362" width="120" height="8" rx="4" fill="#4A90E2"/>
+  <text x="84" y="428" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="32" fill="#9aa3ad">케이스 분기를 등차수열 식 한 줄로 접기</text>
+  <text x="84" y="552" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="26" fill="#6b7280">#daily</text>
+  <text x="84" y="594" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="24" fill="#6b7280">goldboll.github.io</text>
+</svg>

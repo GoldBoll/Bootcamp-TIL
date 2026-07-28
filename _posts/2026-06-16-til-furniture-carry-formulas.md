@@ -6,7 +6,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "game-design", "gamedev", "multiplayer", "ue5", "dp", "algorithm"]
 render_with_liquid: false
 description: "'아슬아슬하게 함께 든다'는 말로 적힌 채로는 구현자마다 다른 게임이 된다. 어느 각도에서 놓치는지, 속도가 얼마나 어긋나면 흔들리는지를 수식과 튜닝 표로 못 박고 수용 기준까지 정했다."
-image: /assets/img/thumbs/til.svg
+image: /assets/img/thumbs/cards/2026-06-16-til-furniture-carry-formulas.svg
 ---
 
 ["함께 든다"는 규칙을 시스템으로 옮긴](/posts/til-project-a-furniture-coop/) 다음 단계는 **그 규칙을 숫자로 만드는 일**이다. 어느 각도까지 기울면 놓치는지, 두 사람의 속도가 얼마나 어긋나면 가구가 흔들리는지 — 말로 적힌 감각을 수식과 튜닝 노브로 바꾸지 않으면 구현자마다 다른 게임이 나온다. 이 글에서는 그 정식화 과정을 이야기하려 한다 — 플레이어에게 주려는 감각을 먼저 문장으로 못 박고, 운반 수식과 조절 가능한 값들을 표로 정리한 뒤, "이 정도면 됐다"의 기준까지 적었다.

@@ -4,7 +4,7 @@ date: 2026-04-23 10:00:00 +0900
 categories: ["CS", "OS"]
 tags: ["ipc"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-23-cs-22-ipc-followup.svg
 description: "IPC 모의면접 직후 나온 후속 질문 — 소켓이란 무엇인가 — 를 결론 → 흐름 → 표 → 코드 → 면접 답변 순으로 정리한 노트."
 ---
 

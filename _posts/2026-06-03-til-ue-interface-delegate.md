@@ -6,7 +6,7 @@ categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "delegate", "component", "subsystem", "umg", "enhanced-input", "design-pattern", "debugging", "git", "트러블슈팅"]
 render_with_liquid: false
 description: "UI가 매 프레임 체력을 묻는 대신 체력이 바뀔 때 알리는 쪽으로 뒤집었다. 파티가 공유하는 퀘스트 진행도는 GameInstanceSubsystem에 단일 진실 공급원으로 두고, 데미지 타입 널 크래시까지 잡았다."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-06-03-til-ue-interface-delegate.svg
 ---
 
 체력이 줄었을 때 UI가 갱신되게 하는 방법은 두 가지다. UI가 매 프레임 체력을 물어보거나, 체력이 바뀔 때 UI에게 알려 주거나. 이 글에서는 후자를 **Dynamic Multicast Delegate**로 구현한 과정과, 파티가 공유하는 퀘스트 진행도를 **GameInstanceSubsystem**에 단일 진실 공급원으로 두는 설계를 이야기하려 한다. 트러블슈팅은 그 과정에서 만난 **데미지 타입 널 포인터 크래시**다.

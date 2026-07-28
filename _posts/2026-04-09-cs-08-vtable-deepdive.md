@@ -4,7 +4,7 @@ date: 2026-04-09 10:00:00 +0900
 categories: ["CS", "C++"]
 tags: ["vtable"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-09-cs-08-vtable-deepdive.svg
 description: "답변 흐름 — 오늘 모의면접에서 막힌 질문들을 정리한 심화 파일"
 ---
 

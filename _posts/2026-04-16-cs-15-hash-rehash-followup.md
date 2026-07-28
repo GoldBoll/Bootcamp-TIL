@@ -4,7 +4,7 @@ date: 2026-04-16 12:00:00 +0900
 categories: ["CS", "자료구조"]
 tags: ["vector", "hash"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-16-cs-15-hash-rehash-followup.svg
 description: "답변 흐름 — `15_1_vector_vs_hash_concepts.md` 의 후속편. 해시 테이블이 내부적으로 어떻게 크기를 관리하고, 언제 비싼 rehash가 일어나는지 정리"
 ---
 

@@ -4,7 +4,7 @@ date: 2026-04-12 10:00:00 +0900
 categories: ["CS", "C++"]
 tags: ["smart-pointer"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-12-cs-11-smart-pointer.svg
 description: "답변 흐름 — RAII → unique_ptr / shared_ptr / weak_ptr → 참조 카운팅 → 순환 참조 → virtual 소멸자 → vtable 꼬리질문 연결 다리"
 ---
 

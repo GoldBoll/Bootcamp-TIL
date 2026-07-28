@@ -4,7 +4,7 @@ date: 2026-04-16 10:00:00 +0900
 categories: ["CS", "자료구조"]
 tags: ["vector", "hash"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-16-cs-15-1-vector-vs-hash-concepts.svg
 description: "답변 흐름 — `15_pushback_vs_emplaceback.md` 를 읽으며 나온 질문들을 모아 정리한 보충 파일."
 ---
 

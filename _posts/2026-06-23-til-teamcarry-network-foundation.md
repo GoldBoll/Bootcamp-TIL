@@ -6,7 +6,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "network", "replication", "multiplayer", "interface", "git", "트러블슈팅"]
 render_with_liquid: false
 description: "여러 명이 가구 하나를 드는 게임에서 이동을 클라이언트가 계산하면 화면마다 가구 위치가 달라진다. 코드 전에 복제 표준부터 정한 이유와, 에디터를 막던 BuildId 불일치."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-06-23-til-teamcarry-network-foundation.svg
 ---
 
 여러 명이 가구 하나를 같이 드는 게임에서, 이동을 클라이언트가 계산하게 두면 각자의 화면에서 가구가 다른 곳에 있게 된다. 그래서 코드를 쓰기 전에 **복제 표준부터 정했다** — 무엇을 서버가 계산하고 무엇을 내려보낼 것인가. 이 글에서는 그 토대를 깐 과정을 이야기하려 한다. 구현은 다인 합산 이동을 서버 권위로 두는 설계, 물리 계산을 테스트 가능한 순수 함수로 떼어낸 구조, 가구가 구현할 계약만 남긴 인터페이스이고, 트러블슈팅은 에디터가 `Missing Modules: Fab`으로 막히던 **BuildId 불일치**다.

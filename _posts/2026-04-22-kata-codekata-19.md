@@ -4,7 +4,7 @@ date: 2026-04-22 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false
-image: /assets/img/thumbs/programmers.svg
+image: /assets/img/thumbs/cards/2026-04-22-kata-codekata-19.svg
 description: "부족한 금액 계산하기 — N번째 이용료가 price×N으로 늘어날 때 부족한 금액을 for문 누적과 등차수열 합 공식 두 가지로 푼 풀이"
 ---
 

@@ -6,7 +6,7 @@ categories: ["알고리즘"]
 tags: ["til", "algorithm", "cpp", "stl", "map", "set", "stack", "string", "find", "simulation", "greedy"]
 render_with_liquid: false
 description: "자료구조도 유형도 다른 일곱 문제에서 같은 한 줄이 계속 나왔다. 그 변환 하나가 map을 배열로 대체하고 문자열 문제를 카운팅 문제로 바꾸는 과정을 문제별로 따라갔다."
-image: /assets/img/thumbs/til.svg
+image: /assets/img/thumbs/cards/2026-06-04-til-algo-string-stack-map.svg
 ---
 
 일곱 문제를 이어서 풀었는데, 자료구조도 유형도 다른 문제들에서 **같은 한 줄**이 계속 나왔다. `c - '0'`, `c - 'a'`, `c - 'A'` — 문자를 배열 인덱스로 바꾸는 변환이다. 이 글에서는 그 변환 하나가 어떻게 map을 배열로 대체하고, 문자열 문제를 카운팅 문제로 바꾸는지를 문제별로 따라가며 이야기하려 한다.

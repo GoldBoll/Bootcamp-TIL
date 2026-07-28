@@ -6,7 +6,7 @@ categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "netmode", "netrole", "component", "animation", "umg", "gameplay-framework", "트러블슈팅"]
 render_with_liquid: false
 description: "복제가 되는 것과 감당 가능한 복제는 다르다. 복제 빈도·연관성·우선순위·휴면·RepNotify로 무엇을 언제 누구에게 보낼지 조절하고, 애니메이션·공격·컴포넌트 동기화까지 붙였다."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-06-09-til-unreal-multiplayer-ch5-7.svg
 ---
 
 [RPC와 Property Replication으로 상태를 보내는 것](/posts/til-unreal-multiplayer-ch2-4/)까지는 됐다. 문제는 그다음이다 — 액터가 늘어나면 **무엇을, 얼마나 자주, 누구에게** 보낼지를 조절하지 않으면 대역폭이 그대로 무너진다. 이 글에서는 복제를 조절하는 다섯 가지 속성(복제 빈도·연관성·우선순위·휴면·RepNotify)을 살펴보고, Server/Client/NetMulticast RPC를 지뢰 매설 실습으로 직접 짜 본 뒤, 애니메이션·공격·컴포넌트 동기화까지 붙인 과정을 이야기하려 한다. 트러블슈팅은 **RPC만으로 처리했더니 지뢰가 다시 터지던 문제**다.

@@ -4,7 +4,7 @@ date: 2026-04-14 10:00:00 +0900
 categories: ["CS", "자료구조"]
 tags: ["vector", "list"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-14-cs-13-vector-vs-list.svg
 description: "답변 흐름 — 메모리 레이아웃 → 시간 복잡도 함정 → **CPU 캐시(★ 핵심)** → iterator 무효화/예외 안전성 → 언제 list를 써야 하나 → 언리얼 TArray 매핑"
 ---
 

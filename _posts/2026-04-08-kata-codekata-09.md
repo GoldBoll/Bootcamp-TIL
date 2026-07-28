@@ -5,7 +5,7 @@ categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false
 description: "vector<string> seoul에서 'Kim'의 인덱스를 찾아 '김서방은 x에 있다'를 반환 — find + 이터레이터 거리 계산"
-image: /assets/img/thumbs/programmers.svg
+image: /assets/img/thumbs/cards/2026-04-08-kata-codekata-09.svg
 ---
 
 > 출처: <https://school.programmers.co.kr/learn/courses/30/lessons/12919>

@@ -5,7 +5,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "python", "asset-import", "skeletal-mesh", "retargeting", "root-motion", "blendspace", "material", "texture", "debugging", "git"]
 render_with_liquid: false
 description: "펭귄 캐릭터를 에디터에 임포트하며 겪은 스케일·머티리얼·PIE 크래시·VRAM 고갈·애니메이션 리타게팅 연쇄 트러블슈팅 기록."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-06-24-til-penguin-character-import-troubleshoot.svg
 published: false
 ---
 

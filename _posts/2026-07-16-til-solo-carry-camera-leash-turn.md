@@ -6,7 +6,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "character-movement", "material", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "클라이언트에서만 전진이 사선으로 휘거나 벽처럼 막혔고, 카메라를 급회전하면 가구가 몸을 뚫었다. 같은 반경을 서로 다른 자로 재고 있었던 것과, 성분 보간이 0점을 관통하는 문제."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-07-16-til-solo-carry-camera-leash-turn.svg
 ---
 
 [리쉬로 이동을 제한하는 방식](/posts/til-carry-leash-movement/)으로 바꾼 다음, 이번엔 1인 운반에서 새 증상이 나왔다. **클라이언트에서만 전진이 사선으로 휘거나 벽처럼 막혔고**, 카메라를 급하게 돌리면 가구가 캐릭터 몸을 뚫고 반대편으로 넘어갔다. 이 글에서는 두 문제의 원인을 이야기하려 한다 — 앞은 서버와 클라이언트가 **같은 반경을 서로 다른 자로 재고 있던 것**, 뒤는 좌표 성분을 그냥 보간하면 경로가 몸 중심을 관통한다는 것이다. 기준을 통일하자 앞서 넣었던 보정 하나까지 함께 걷어낼 수 있었다.

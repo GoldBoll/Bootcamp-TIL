@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="UE Dynamic Multicast Delegate와 Subsystem 설계">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#8B7CF6"/>
+  <g opacity="0.13" stroke="#8B7CF6" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="700" y="160" width="440" height="320" rx="8" fill="none"/>
+    <line x1="700" y1="230" x2="1140" y2="230"/>
+    <circle cx="740" cy="195" r="14" fill="#8B7CF6" stroke="none"/>
+    <circle cx="790" cy="195" r="14" fill="#8B7CF6" stroke="none"/>
+    <rect x="740" y="280" width="170" height="60" rx="8" fill="#8B7CF6"/>
+    <rect x="740" y="370" width="340" height="40" rx="8" fill="none"/>
+  </g>
+  <text x="84" y="118" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="30" font-weight="600" fill="#8B7CF6">언리얼</text>
+  <text x="84" y="232" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="62" font-weight="700" fill="#f5f6f8">UE Dynamic Multicast</text>
+  <text x="84" y="313" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="62" font-weight="700" fill="#f5f6f8">Delegate와 Subsystem 설계</text>
+  <rect x="88" y="347" width="120" height="8" rx="4" fill="#8B7CF6"/>
+  <text x="84" y="413" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="32" fill="#9aa3ad">체력이 바뀔 때 UI에게 알려 주는 구조</text>
+  <text x="84" y="552" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="26" fill="#6b7280">#ue5   #cpp   #delegate   #component</text>
+  <text x="84" y="594" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="24" fill="#6b7280">goldboll.github.io</text>
+</svg>

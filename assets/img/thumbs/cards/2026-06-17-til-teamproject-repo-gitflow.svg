@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="UE5 팀 레포 .gitignore와 Git Flow 세팅">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#8B7CF6"/>
+  <g opacity="0.13" stroke="#8B7CF6" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="760" y1="150" x2="760" y2="520"/>
+    <circle cx="760" cy="200" r="26" fill="#8B7CF6" stroke="none"/>
+    <circle cx="760" cy="480" r="26" fill="#8B7CF6" stroke="none"/>
+    <path d="M760 300 C 760 220, 1020 250, 1020 330"/>
+    <circle cx="1020" cy="360" r="26" fill="#8B7CF6" stroke="none"/>
+    <line x1="1020" y1="360" x2="1020" y2="430"/>
+    <path d="M1020 430 C 1020 500, 780 470, 760 430"/>
+  </g>
+  <text x="84" y="118" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="30" font-weight="600" fill="#8B7CF6">언리얼 · 팀프로젝트</text>
+  <text x="84" y="232" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="74" font-weight="700" fill="#f5f6f8">UE5 팀 레포 .gitignore와</text>
+  <text x="84" y="328" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="74" font-weight="700" fill="#f5f6f8">Git Flow 세팅</text>
+  <rect x="88" y="362" width="120" height="8" rx="4" fill="#8B7CF6"/>
+  <text x="84" y="428" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="32" fill="#9aa3ad">바이너리 에셋 충돌을 코드 소유권으로 막기</text>
+  <text x="84" y="552" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="26" fill="#6b7280">#git   #ue5   #gamedev</text>
+  <text x="84" y="594" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="24" fill="#6b7280">goldboll.github.io</text>
+</svg>

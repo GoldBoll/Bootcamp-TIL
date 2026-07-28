@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="세션 UI를 실제 Steam 세션에 바인딩">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#8B7CF6"/>
+  <g opacity="0.13" stroke="#8B7CF6" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="830" y="130" width="160" height="90" rx="8" fill="#8B7CF6"/>
+    <line x1="870" y1="220" x2="760" y2="380"/>
+    <line x1="910" y1="220" x2="910" y2="380"/>
+    <line x1="950" y1="220" x2="1060" y2="380"/>
+    <rect x="690" y="380" width="140" height="80" rx="8" fill="none"/>
+    <rect x="840" y="380" width="140" height="80" rx="8" fill="none"/>
+    <rect x="990" y="380" width="140" height="80" rx="8" fill="none"/>
+  </g>
+  <text x="84" y="118" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="30" font-weight="600" fill="#8B7CF6">언리얼 · 팀프로젝트</text>
+  <text x="84" y="232" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="74" font-weight="700" fill="#f5f6f8">세션 UI를 실제</text>
+  <text x="84" y="328" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="74" font-weight="700" fill="#f5f6f8">Steam 세션에 바인딩</text>
+  <rect x="88" y="362" width="120" height="8" rx="4" fill="#8B7CF6"/>
+  <text x="84" y="428" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="32" fill="#9aa3ad">방 이름 대신 방 코드로 매칭해야 하는 이유</text>
+  <text x="84" y="552" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="26" fill="#6b7280">#ue5   #cpp   #network   #multiplayer</text>
+  <text x="84" y="594" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="24" fill="#6b7280">goldboll.github.io</text>
+</svg>

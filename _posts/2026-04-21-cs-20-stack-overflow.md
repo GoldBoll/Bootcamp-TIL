@@ -4,7 +4,7 @@ date: 2026-04-21 10:00:00 +0900
 categories: ["CS", "OS"]
 tags: ["stack-overflow"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-21-cs-20-stack-overflow.svg
 description: "답변 흐름 — 발생 메커니즘 → 4가지 원인(무한 재귀·깊은 재귀·거대 지역 변수·상호 호출) → 플랫폼별 스택 크기 → 해결 5가지(종료 조건·반복문·메모이제이션·TCO·명시적 스택)"
 ---
 

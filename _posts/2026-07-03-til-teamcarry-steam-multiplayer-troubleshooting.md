@@ -6,7 +6,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "network", "multiplayer", "steam", "debugging", "git", "트러블슈팅"]
 render_with_liquid: false
 description: "에디터 두 창에서 되던 멀티플레이가 PC 두 대에서는 하나도 되지 않았다. 방코드 생성부터 P2P 접속·로비 합류·게임 진입까지, 문제→로그→가설→수정 사이클을 일곱 번 돌린 기록."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-07-03-til-teamcarry-steam-multiplayer-troubleshooting.svg
 ---
 
 PIE 두 창에서 되던 멀티플레이가 **PC 두 대에서는 하나도 되지 않았다.** 방코드 생성부터 검색·P2P 접속·로비 합류·게임 진입까지 전 구간을 실기기로 검증하며 문제→로그 판독→가설→수정→재테스트 사이클을 일곱 번 돌았다. 이 글에서는 그 일곱 라운드를 순서대로 이야기하려 한다 — 매 라운드 공식이 같았다. **팀원의 추측도 내 추측도 빗나갔고, 정답은 항상 로그 한 줄에 있었다.**

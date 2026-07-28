@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="[TIL] 2026-06-24 — 펭귄 캐릭터 임포트 트러블슈팅: 스케일·크래시·리타게팅">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#8B7CF6"/>
+  <g opacity="0.13" stroke="#8B7CF6" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="760" y1="180" x2="1080" y2="240"/>
+    <line x1="1080" y1="240" x2="1020" y2="480"/>
+    <line x1="1020" y1="480" x2="720" y2="400"/>
+    <line x1="720" y1="400" x2="760" y2="180"/>
+    <line x1="760" y1="180" x2="1020" y2="480"/>
+    <line x1="1080" y1="240" x2="720" y2="400"/>
+    <circle cx="760" cy="180" r="16" fill="#8B7CF6" stroke="none"/>
+    <circle cx="1080" cy="240" r="16" fill="#8B7CF6" stroke="none"/>
+    <circle cx="1020" cy="480" r="16" fill="#8B7CF6" stroke="none"/>
+    <circle cx="720" cy="400" r="16" fill="#8B7CF6" stroke="none"/>
+  </g>
+  <text x="84" y="118" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="30" font-weight="600" fill="#8B7CF6">언리얼 · 팀프로젝트</text>
+  <text x="84" y="248" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="62" font-weight="700" fill="#f5f6f8">[TIL] 2026-06-24 — 펭귄</text>
+  <text x="84" y="329" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="62" font-weight="700" fill="#f5f6f8">캐릭터 임포트 트러블슈팅:</text>
+  <text x="84" y="410" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="62" font-weight="700" fill="#f5f6f8">스케일·크래시·리타게팅</text>
+  <rect x="88" y="444" width="120" height="8" rx="4" fill="#8B7CF6"/>
+  <text x="84" y="552" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="26" fill="#6b7280">#ue5   #python   #asset-import   #skeletal-mesh</text>
+  <text x="84" y="594" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="24" fill="#6b7280">goldboll.github.io</text>
+</svg>

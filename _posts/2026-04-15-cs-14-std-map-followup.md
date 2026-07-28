@@ -4,7 +4,7 @@ date: 2026-04-15 10:00:00 +0900
 categories: ["CS", "자료구조"]
 tags: ["map", "stl"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-15-cs-14-std-map-followup.svg
 description: "답변 흐름 — std::map(cs-14) 모의면접 직후 나온 후속 질문 16개를 1:1로 정리한 노트."
 ---
 

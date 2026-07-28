@@ -4,7 +4,7 @@ date: 2026-04-16 14:00:00 +0900
 categories: ["CS", "자료구조"]
 tags: ["vector", "hash"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-16-cs-15-pushback-vs-emplaceback.svg
 description: "답변 흐름 — 모의면접 다음 주제: '`vector` 의 `push_back` 과 `emplace_back` 의 차이점에 대해 설명해 주세요'"
 ---
 

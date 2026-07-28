@@ -6,7 +6,7 @@ categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "netmode", "netrole", "replication", "rpc", "gameplay-framework", "umg", "delegate"]
 render_with_liquid: false
 description: "멀티플레이 코드에서 가장 먼저 잡아야 할 건 문법이 아니라 '지금 이 줄이 어디서 도는가'다. 데디케이티드 서버 실행 흐름과, 월드 단위·액터 단위 두 축으로 권한을 읽는 기준."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-06-05-til-ue-multiplayer-basics.svg
 ---
 
 멀티플레이 코드를 처음 볼 때 가장 헷갈리는 건 문법이 아니라 **"지금 이 줄이 서버에서 도는가, 클라이언트에서 도는가"**다. 이 글에서는 그 판별 기준을 세우는 과정을 이야기하려 한다 — 채팅 프로젝트로 게임 프레임워크를 깔고, 서버 세 종류와 데디케이티드 서버의 실행 흐름을 확인한 뒤, 월드 단위의 `NetMode`와 액터 단위의 `NetRole` 두 축으로 권한을 읽는 방법까지다. 관통하는 원칙은 하나 — **게임에 중대한 로직은 권한을 가진 서버에서만 처리한다.**

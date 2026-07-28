@@ -6,7 +6,7 @@ categories: ["언리얼"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "gameplay-framework", "netmode", "netrole", "enhanced-input", "umg"]
 render_with_liquid: false
 description: "서버의 판단을 클라이언트에 보내는 수단은 둘로 갈린다. 한 번 터지고 사라지는 효과는 RPC, 계속 유지되는 상태는 Replication — 채팅과 숫자 야구로 각각 구현해 경계를 확인했다."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-06-08-til-unreal-multiplayer-ch2-4.svg
 ---
 
 [서버와 클라이언트의 권한을 읽는 기준](/posts/til-ue-multiplayer-basics/)까지 잡았다면, 다음 질문은 **"그래서 그걸 어떻게 상대에게 보내는가"**다. 언리얼은 이걸 두 갈래로 나눈다 — 한 번 터지고 사라지는 효과는 **RPC**로, 계속 유지되는 상태는 **Property Replication**으로. 이 글에서는 그 두 수단을 채팅과 숫자 야구 게임으로 각각 구현하며 확인한 과정과, 그 위에 얹을 게임플레이 프레임워크 구조를 이야기하려 한다.

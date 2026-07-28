@@ -4,7 +4,7 @@ date: 2026-02-23 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false
-image: /assets/img/thumbs/programmers.svg
+image: /assets/img/thumbs/cards/2026-02-23-kata-codekata-01.svg
 description: "문제 요약 — 프로그래머스 입문 문제 — 기초 구현 풀이"
 ---
 

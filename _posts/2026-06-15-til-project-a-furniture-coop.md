@@ -6,7 +6,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "game-design", "gamedev", "multiplayer", "ue5"]
 render_with_liquid: false
 description: "무거운 가구를 둘이서 들고 계단을 내려가는 장면 하나로 게임이 성립할까. One Pager와 코어 루프로 범위를 닫고, 협동 운반을 어떤 규칙으로 만들지 인게임 시스템으로 푼 기획안."
-image: /assets/img/thumbs/til.svg
+image: /assets/img/thumbs/cards/2026-06-15-til-project-a-furniture-coop.svg
 ---
 
 무거운 가구를 둘이서 들고 계단을 내려가는 장면 하나가 게임의 전부가 될 수 있을까. 팀 기획안의 출발점은 그 질문이었다. 이 글에서는 2~4인 협동 캐주얼 **이삿짐 센터 시뮬레이션**의 기획을 정리하며, 그 장면을 실제 시스템으로 옮기는 과정을 이야기하려 한다 — One Pager와 코어 루프로 범위를 닫고, "함께 들기"를 어떤 규칙으로 성립시킬지 인게임 시스템으로 풀고, 마지막에 에셋 접두사 같은 팀 규칙까지 정한다.

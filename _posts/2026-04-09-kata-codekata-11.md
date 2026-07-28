@@ -5,7 +5,7 @@ categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false
 description: "정수 배열 absolutes와 부호 배열 signs가 주어질 때,"
-image: /assets/img/thumbs/programmers.svg
+image: /assets/img/thumbs/cards/2026-04-09-kata-codekata-11.svg
 ---
 
 > 출처: <https://school.programmers.co.kr/learn/courses/30/lessons/76501>

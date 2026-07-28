@@ -6,7 +6,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "network", "multiplayer", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "로비 대기 중에 다음 스테이지를 미리 로드하면 로딩이 짧아진다 — 그렇게 넣은 최적화가 게임 입장 자체를 막았다. 프리로드는 성공하고 있었고, 문제는 트래블의 맵 로드와 같은 패키지를 두고 부딪힌 것."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-07-21-til-lobby-map-preload-travel-conflict.svg
 ---
 
 로비에서 기다리는 동안 다음 스테이지 맵을 미리 로드해 두면 로딩이 짧아진다. 그렇게 넣은 최적화가 **게임 입장 자체를 막았다.** 이 글에서는 그 원인을 재구성한 과정을 이야기하려 한다 — 프리로드는 성공하고 있었고, 문제는 그 성공이 곧이어 실행되는 트래블의 맵 로드와 **같은 패키지를 두고 부딪힌다는 것**이었다. 왜 하필 맵에서만, 그리고 왜 호스트와 클라이언트에서 증상이 달랐는지까지 짚고, 제거 후 트래블 전 구간을 재검증한다.

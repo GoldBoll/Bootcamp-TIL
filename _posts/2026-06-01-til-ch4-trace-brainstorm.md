@@ -6,7 +6,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "gamedev", "ue5", "game-design", "social-deduction", "brainstorm"]
 render_with_liquid: false
 description: "협동 게임 제안에서 출발했는데 결론은 서로를 의심하는 포렌식 추리 게임이었다. 논의를 붙잡은 기획 프레임워크와, 보상 설계를 현상금 표에서 이진 승패로 단순화한 근거."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-06-01-til-ch4-trace-brainstorm.svg
 ---
 
 협동 게임을 만들자는 제안에서 출발했는데, 최종 컨셉은 서로를 의심하는 소셜 추리 게임이 됐다. 이 글에서는 그 **방향이 몇 번 꺾이는 동안 무엇이 기준이 됐는지**를 이야기하려 한다 — 어떤 기획 프레임워크로 논의를 붙잡았고, 어느 지점에서 컨셉을 틀었고, 마지막에 보상 설계를 현상금 표에서 이진 승패로 단순화한 근거가 무엇이었는지다. 컨셉 단계의 기록이라 코드는 없고, 결정과 그 근거만 있다.

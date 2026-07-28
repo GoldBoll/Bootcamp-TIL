@@ -4,7 +4,7 @@ date: 2026-03-03 13:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false
-image: /assets/img/thumbs/programmers.svg
+image: /assets/img/thumbs/cards/2026-03-03-kata-codekata-06.svg
 description: "문제 요약 — 다음에 올 숫자"
 ---
 

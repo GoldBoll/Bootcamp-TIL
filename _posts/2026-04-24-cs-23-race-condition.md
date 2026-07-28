@@ -4,7 +4,7 @@ date: 2026-04-24 10:00:00 +0900
 categories: ["CS", "OS"]
 tags: ["concurrency"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-24-cs-23-race-condition.svg
 description: "답변 흐름 — 정의(공유 자원 + 동시 접근 + 비결정성) → Critical Section → 동기화 객체 카탈로그(Mutex·Semaphore·Critical Section·SRWLock·Event·"
 ---
 

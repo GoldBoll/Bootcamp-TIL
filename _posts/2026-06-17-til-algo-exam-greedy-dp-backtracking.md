@@ -6,7 +6,7 @@ categories: ["알고리즘"]
 tags: ["til", "algorithm", "greedy", "dp", "backtracking"]
 render_with_liquid: false
 description: "패러다임이 다른 세 문제를 풀었는데 막힌 지점은 셋 다 알고리즘이 아니라 한 끗이었다. 회의실 배정·계단 오르기·MT 장보기에서 그 한 끗이 왜 답을 가르는지."
-image: /assets/img/thumbs/til.svg
+image: /assets/img/thumbs/cards/2026-06-17-til-algo-exam-greedy-dp-backtracking.svg
 ---
 
 패러다임이 다른 세 문제를 이어서 풀었는데, 셋 다 막힌 지점이 알고리즘 자체가 아니라 **딱 한 끗**이었다. 그리디는 정렬 기준을 무엇으로 잡느냐, DP는 초기값과 점화식을 어디서 세우느냐, 백트래킹은 분기를 어떤 순서로 검사하느냐. 이 글에서는 회의실 배정·계단 오르기·MT 장보기를 차례로 풀며 그 한 끗이 왜 답을 가르는지를 이야기하려 한다.

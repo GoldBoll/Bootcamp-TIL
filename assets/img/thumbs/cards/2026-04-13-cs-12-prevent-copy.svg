@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="CS — prevent copy">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#52B788"/>
+  <g opacity="0.13" stroke="#52B788" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="700" y="170" width="120" height="100" rx="8" fill="none"/>
+    <rect x="700" y="300" width="120" height="100" rx="8" fill="#52B788"/>
+    <rect x="700" y="430" width="120" height="100" rx="8" fill="none"/>
+    <line x1="820" y1="220" x2="960" y2="220"/>
+    <line x1="820" y1="350" x2="960" y2="350"/>
+    <line x1="820" y1="480" x2="960" y2="480"/>
+    <circle cx="1000" cy="220" r="22" fill="#52B788" stroke="none"/>
+    <circle cx="1000" cy="350" r="22" fill="#52B788" stroke="none"/>
+    <circle cx="1000" cy="480" r="22" fill="#52B788" stroke="none"/>
+  </g>
+  <text x="84" y="118" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="30" font-weight="600" fill="#52B788">CS · C++</text>
+  <text x="84" y="302" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="84" font-weight="700" fill="#f5f6f8">CS — prevent copy</text>
+  <rect x="88" y="336" width="120" height="8" rx="4" fill="#52B788"/>
+  <text x="84" y="552" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="26" fill="#6b7280">#copy</text>
+  <text x="84" y="594" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="24" fill="#6b7280">goldboll.github.io</text>
+</svg>

@@ -6,7 +6,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "git", "ue5", "gamedev"]
 render_with_liquid: false
 description: "언리얼은 바이너리 에셋이 많아 머지 충돌 하나가 파일을 통째로 못 쓰게 만든다. 첫 커밋 전에 .gitignore에서 무엇을 왜 빼는지 정하고, 도메인별 소유권과 develop 완충 브랜치까지 세웠다."
-image: /assets/img/thumbs/til.svg
+image: /assets/img/thumbs/cards/2026-06-17-til-teamproject-repo-gitflow.svg
 ---
 
 팀 프로젝트에서 첫 커밋보다 먼저 해야 하는 일이 있다. 언리얼 프로젝트는 바이너리 에셋이 많아서, 규칙 없이 시작하면 **머지 충돌 하나가 에셋 파일을 통째로 못 쓰게 만든다.** 이 글에서는 코드를 쓰기 전에 레포 표준부터 세운 과정을 이야기하려 한다 — UE5용 `.gitignore`에서 무엇을 빼고 왜 빼는지, 도메인별 코드 소유권으로 충돌을 구조적으로 막는 방법, 에셋 접두사 규칙, 그리고 `develop`을 완충으로 두는 브랜치 전략이다.

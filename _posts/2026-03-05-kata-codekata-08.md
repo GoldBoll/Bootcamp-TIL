@@ -5,7 +5,7 @@ categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false
 description: "연속된 세 개의 정수를 더해 12가 되는 경우는 3, 4, 5입니다. 두 정수 num과 total이 주어집니다. 연속된 수 num개를 더한 값이 total이 될 때, 정수 배열을 오름차순으로 담아 return하도록 solution함수를 완성해보세요."
-image: /assets/img/thumbs/programmers.svg
+image: /assets/img/thumbs/cards/2026-03-05-kata-codekata-08.svg
 ---
 
 연속된 num개 수의 합이 total이 되는 수열을 구하는 문제. 케이스를 나누는 대신 등차수열 합 공식에서 첫 항 `start = total/num - (num-1)/2`를 유도해, 분기 없이 start부터 num개를 채우는 방식으로 풀었다.

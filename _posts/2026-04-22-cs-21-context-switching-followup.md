@@ -4,7 +4,7 @@ date: 2026-04-22 10:00:00 +0900
 categories: ["CS", "OS"]
 tags: ["context-switching"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-22-cs-21-context-switching-followup.svg
 description: "Context Switching 모의면접 직후 나온 후속 질문 5개 — 인터럽트·PCB·레지스터·캐시 히트율·메모리 계층을 결론→근거→예시 순으로 정리한 노트"
 ---
 

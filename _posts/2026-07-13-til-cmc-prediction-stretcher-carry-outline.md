@@ -6,7 +6,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "netrole", "character-movement", "material", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "가구를 들고 걸으면 캐릭터가 순간이동하듯 튀었다. 값을 아무리 조정해도 안 잡힌 이유는 캐릭터 무브먼트가 끝낸 예측 위에 서버가 한 번 더 손을 대는 구조였기 때문. 회전 기준도 몸으로 옮겼다."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-07-13-til-cmc-prediction-stretcher-carry-outline.svg
 ---
 
 가구를 들고 걸으면 캐릭터가 순간이동하듯 튀는 현상이 가장 오래 남아 있었다. 값을 아무리 조정해도 안 잡혔는데, 원인은 튜닝이 아니라 **캐릭터 무브먼트가 이미 끝낸 예측 위에 서버가 한 번 더 손을 대는 구조**였다. 이 글에서는 그 원인을 특정한 과정과, 그 위에서 2인 공동 운반을 다시 설계한 이야기를 하려 한다 — 회전 기준을 카메라에서 몸으로 옮긴 **들것 모델**이 구현이고, 잡기 스캔이 엉뚱한 것을 집던 기하 오판 세 건이 트러블슈팅이다.

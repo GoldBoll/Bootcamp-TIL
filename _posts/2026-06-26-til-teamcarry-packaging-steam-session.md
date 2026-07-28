@@ -6,7 +6,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "multiplayer", "dedicated-server", "git", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "패키징 단계에서 처음으로 빌드가 멈췄고, 고쳐서 실행 파일을 뽑아도 Steam 세션이 붙지 않았다. 에디터에서 실행 파일까지 가는 길을 뚫고, 그 사이 어긋난 팀 브랜치를 되돌린 기록."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-06-26-til-teamcarry-packaging-steam-session.svg
 ---
 
 에디터에서 잘 돌아가던 프로젝트가 패키징 단계에서 처음으로 멈춰 섰다. 쿡 단계에서 빌드가 실패하고, 고쳐서 실행 파일을 뽑아도 이번엔 Steam 세션이 붙지 않았다. 이 글에서는 **에디터에서 실행 파일까지 가는 길을 뚫은 과정**을 이야기하려 한다 — 패키징 오류 원인과 수정, Steam 멀티플레이어 세션 흐름 검증, 그리고 그 사이에 어긋난 팀 브랜치를 되돌린 롤백까지다.

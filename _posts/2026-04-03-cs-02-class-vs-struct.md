@@ -4,7 +4,7 @@ date: 2026-04-03 10:00:00 +0900
 categories: ["CS", "C++"]
 tags: ["class", "struct"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-03-cs-02-class-vs-struct.svg
 description: "class와 struct의 두 가지 기능 차이와 꼬리물기 질문 대비 정리"
 ---
 

@@ -4,7 +4,7 @@ date: 2026-04-13 10:00:00 +0900
 categories: ["CS", "C++"]
 tags: ["copy"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-13-cs-12-prevent-copy.svg
 description: "답변 흐름 — 단독 소유 자원 → `= delete` / `private` / `noncopyable` → Rule of Three/Five/Zero → move-only(`unique_ptr`) → 슬라이싱 → virtual 소멸자 꼬리질문 연결"
 ---
 

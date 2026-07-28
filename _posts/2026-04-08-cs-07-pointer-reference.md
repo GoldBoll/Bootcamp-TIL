@@ -4,7 +4,7 @@ date: 2026-04-08 10:00:00 +0900
 categories: ["CS", "C++"]
 tags: ["pointer", "reference"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-08-cs-07-pointer-reference.svg
 description: "포인터는 주소를 담는 변수, 레퍼런스는 별칭 — 문법 차이부터 함수 인자 선택 기준, 언리얼 TObjectPtr까지 답변 흐름 정리"
 ---
 

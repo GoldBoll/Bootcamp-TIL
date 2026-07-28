@@ -6,7 +6,7 @@ categories: ["회고"]
 tags: ["til", "ue5", "cpp", "gamedev", "game-design", "social-deduction"]
 render_with_liquid: false
 description: "매일 쓰는 기록도 발행까지 손이 여러 번 가면 밀린다. 작성한 노트가 블로그 글로 올라가기까지의 경로를 파이프라인으로 묶어 손이 가는 지점을 줄인 기록."
-image: /assets/img/thumbs/til.svg
+image: /assets/img/thumbs/cards/2026-06-02-til-blog-pipeline.svg
 ---
 
 학습 기록을 매일 쓰는데 발행까지 손이 여러 번 가면, 결국 기록이 밀린다. 이 글에서는 그 손을 줄이려고 **작성에서 발행까지의 경로를 파이프라인으로 묶은 과정**을 이야기하려 한다.

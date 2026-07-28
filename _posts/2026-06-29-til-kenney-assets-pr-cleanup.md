@@ -6,7 +6,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "git", "ue5", "multiplayer", "asset-import", "트러블슈팅"]
 render_with_liquid: false
 description: "이미 올라간 커밋 메시지를 규칙에 맞게 고치려다 히스토리 재작성과 언리얼 에셋 참조가 한꺼번에 얽혔다. 커밋을 일괄로 다시 쓰는 대가와, 끊어진 레벨 에셋 참조를 되살린 과정."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-06-29-til-kenney-assets-pr-cleanup.svg
 ---
 
 이미 올라간 커밋 메시지를 규칙에 맞게 고치려다, git 히스토리를 다시 쓰는 작업과 언리얼 에셋 참조가 한꺼번에 얽혔다. 이 글에서는 그 정리 과정을 이야기하려 한다 — 커밋 메시지를 일괄로 다시 쓰는 방법과 그 대가, GitHub PR은 왜 삭제할 수 없는지, 그리고 **에디터를 열어 둔 채로 레벨 파일이 자동 수정되면서** 끊어진 에셋 참조를 복구한 트러블슈팅이다.

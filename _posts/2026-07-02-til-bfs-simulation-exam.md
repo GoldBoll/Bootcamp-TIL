@@ -6,7 +6,7 @@ categories: ["알고리즘"]
 tags: ["til", "algorithm", "bfs", "graph", "simulation", "cpp"]
 render_with_liquid: false
 description: "같은 격자 BFS인데 한쪽은 매번 visited를 리셋해야 하고 다른 쪽은 절대 하면 안 됐다. 기준은 '각 시작점이 독립된 답을 내는가'였고, 세 번째 문제는 상태 갱신 순서가 답을 갈랐다."
-image: /assets/img/thumbs/til.svg
+image: /assets/img/thumbs/cards/2026-07-02-til-bfs-simulation-exam.svg
 ---
 
 격자 BFS 문제 두 개를 나란히 풀었는데, **한쪽은 매번 visited를 리셋해야 하고 다른 쪽은 절대 리셋하면 안 됐다.** 같은 BFS인데 정반대다. 이 글에서는 그 기준이 무엇인지 — "각 시작점이 독립된 답을 내는가, 아니면 전체를 한 번에 훑는가" — 를 두 문제로 확인하고, 세 번째 문제로 시뮬레이션에서 상태를 갱신하는 **순서**가 답을 가르는 지점까지 이야기하려 한다.

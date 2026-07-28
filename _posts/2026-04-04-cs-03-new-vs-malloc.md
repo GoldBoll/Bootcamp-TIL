@@ -4,7 +4,7 @@ date: 2026-04-04 10:00:00 +0900
 categories: ["CS", "C++"]
 tags: ["new", "malloc", "memory"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-04-cs-03-new-vs-malloc.svg
 description: "new와 malloc의 차이를 30초 답변 + 꼬리질문 브랜치로 정리"
 ---
 

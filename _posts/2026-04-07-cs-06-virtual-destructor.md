@@ -4,7 +4,7 @@ date: 2026-04-07 10:00:00 +0900
 categories: ["CS", "C++"]
 tags: ["virtual", "destructor"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-07-cs-06-virtual-destructor.svg
 description: "기반 클래스 포인터로 delete할 때 파생 소멸자가 안 불리는 이유와 virtual 소멸자가 필요한 조건 정리"
 ---
 

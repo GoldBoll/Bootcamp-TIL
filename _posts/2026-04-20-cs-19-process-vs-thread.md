@@ -4,7 +4,7 @@ date: 2026-04-20 10:00:00 +0900
 categories: ["CS", "OS"]
 tags: ["process", "thread"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-20-cs-19-process-vs-thread.svg
 description: "답변 흐름 — 메모리 구조 → 컨텍스트 스위칭 비용 → IPC vs 공유 메모리 → 동기화 → 멀티프로세스/멀티스레드 선택 → 게임 스레드/렌더 스레드"
 ---
 

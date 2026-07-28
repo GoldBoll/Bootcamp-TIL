@@ -6,7 +6,7 @@ categories: ["알고리즘"]
 tags: ["til", "algorithm", "dfs", "bfs", "graph", "cpp"]
 render_with_liquid: false
 description: "DFS는 한 번 외우면 끝날 것 같지만 문제마다 반환값과 매개변수를 바꿔야 한다. 네 문제를 이어 풀며 세 변형으로 확장하고, 단방향·양방향을 가르는 지점과 visited 초기화 타이밍까지."
-image: /assets/img/thumbs/til.svg
+image: /assets/img/thumbs/cards/2026-06-11-til-dfs-graph.svg
 ---
 
 DFS는 한 번 외우면 끝일 것 같지만, 문제마다 **반환값과 매개변수를 바꿔야** 답이 나온다. 방문 여부만 필요하면 `void`로 충분하고, 컴포넌트 크기를 세려면 `int`를 반환해야 하고, 경로 깊이를 뽑으려면 `bool` 반환에 `int&` 참조를 더해야 한다. 이 글에서는 네 문제를 이어 풀며 그 세 변형을 순서대로 확장한 과정을 이야기하려 한다 — 기본 템플릿에서 시작해, 단방향과 양방향 그래프를 가르는 지점과 visited 초기화 타이밍까지다.

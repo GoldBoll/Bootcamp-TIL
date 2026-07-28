@@ -6,7 +6,7 @@ categories: ["언리얼", "팀프로젝트"]
 tags: ["til", "ue5", "cpp", "network", "multiplayer", "git", "python", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "가짜 데이터로 잘 돌던 세션 UI를 실제 Steam 세션에 붙이자, 화면이 아니라 매칭 방식을 다시 봐야 했다. 방 코드 도입과, 원인을 추측하다 시간을 버린 빌드 경고 C4458."
-image: /assets/img/thumbs/unreal.svg
+image: /assets/img/thumbs/cards/2026-07-01-til-teamcarry-session-ui-binding.svg
 ---
 
 가짜 데이터로 잘 돌던 세션 UI를 실제 Steam 세션에 붙이는 순간, 화면이 아니라 **매칭 방식 자체**를 다시 봐야 했다. 방 이름으로 찾으면 같은 이름의 방이 겹치기 때문이다. 이 글에서는 목데이터를 걷어내고 실제 세션에 바인딩한 구현과, 그 과정에서 도입한 방 코드 매칭을 이야기하려 한다. 트러블슈팅은 원인을 추측하다 시간을 버린 **빌드 경고 C4458**과, 오버라이드로 땜질하던 회색 머티리얼 문제다.

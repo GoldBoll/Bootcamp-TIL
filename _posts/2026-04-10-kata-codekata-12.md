@@ -5,7 +5,7 @@ categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm"]
 render_with_liquid: false
 description: "전화번호가 문자열 phone_number로 주어질 때,"
-image: /assets/img/thumbs/programmers.svg
+image: /assets/img/thumbs/cards/2026-04-10-kata-codekata-12.svg
 ---
 
 > 출처: <https://school.programmers.co.kr/learn/courses/30/lessons/12948>

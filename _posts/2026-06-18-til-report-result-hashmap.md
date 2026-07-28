@@ -6,7 +6,7 @@ categories: ["알고리즘"]
 tags: ["til", "algorithm", "hash", "map", "트러블슈팅"]
 render_with_liquid: false
 description: "'한 사람이 같은 사람을 여러 번 신고해도 1회'라는 지문 한 줄을 어디서 처리하느냐로 정답과 오답이 갈린다. 그 함정과, 해시맵을 둘로 나눠 카운팅한 구현."
-image: /assets/img/thumbs/til.svg
+image: /assets/img/thumbs/cards/2026-06-18-til-report-result-hashmap.svg
 ---
 
 지문에 한 줄로 스쳐 지나가는 조건이 답을 통째로 뒤집는 문제가 있다. **"한 사람이 같은 사람을 여러 번 신고해도 1회로 처리한다"** — 이 한 줄을 어디서 처리하느냐로 정답과 오답이 갈린다. 이 글에서는 그 함정을 먼저 짚고, 해시맵을 두 개로 나눠 카운팅하는 구현을 이야기하려 한다.

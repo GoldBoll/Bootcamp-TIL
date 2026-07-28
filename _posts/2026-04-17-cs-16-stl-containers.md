@@ -4,7 +4,7 @@ date: 2026-04-17 10:00:00 +0900
 categories: ["CS", "자료구조"]
 tags: ["stl"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-17-cs-16-stl-containers.svg
 description: "답변 흐름 — 모의면접 다음 주제: 'C++ 표준 라이브러리(STL) 기준 컨테이너에 대해서 설명해 주세요'"
 ---
 

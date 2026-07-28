@@ -4,7 +4,7 @@ date: 2026-04-11 10:00:00 +0900
 categories: ["CS", "C++"]
 tags: ["pointer"]
 render_with_liquid: false
-image: /assets/img/thumbs/cs.svg
+image: /assets/img/thumbs/cards/2026-04-11-cs-10-pointer-deepdive.svg
 description: "답변 흐름 — 포인터·레퍼런스(cs-07) 기반 심화 노트"
 ---
 
