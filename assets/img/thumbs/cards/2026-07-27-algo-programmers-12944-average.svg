@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="프로그래머스 12944 - 평균 구하기">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#FFA116"/>
+  <text x="66" y="110" font-family="'Consolas','Courier New',monospace" font-size="66" font-weight="700" fill="#FFA116">12944</text>
+  <text x="70" y="162" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="36" font-weight="600" fill="#b9bfc8">잘리는 나눗셈</text>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 분수 막대 -->
+    <rect x="150" y="368" width="470" height="14" rx="7" fill="#FFA116" stroke="none"/>
+
+    <!-- 분자: 원소 4칸이 합으로 모임 -->
+    <g stroke="#6f7681" stroke-width="11">
+      <rect x="158" y="252" width="74" height="74" rx="14"/>
+      <rect x="256" y="252" width="74" height="74" rx="14"/>
+      <rect x="354" y="252" width="74" height="74" rx="14"/>
+      <rect x="452" y="252" width="74" height="74" rx="14"/>
+    </g>
+    <path d="M556 289 L 604 289" stroke="#FFA116" stroke-width="11"/>
+
+    <!-- 분모: 개수 -->
+    <g stroke="#6f7681" stroke-width="11">
+      <rect x="330" y="424" width="110" height="74" rx="14"/>
+    </g>
+
+    <!-- 정수 나눗셈 = 잘림: 실선 값이 톱니로 끊김 -->
+    <g stroke="#6f7681" stroke-width="12">
+      <path d="M700 300 L 810 300"/>
+    </g>
+    <path d="M826 268 L 826 332 M 856 262 L 856 338" stroke="#6f7681" stroke-width="10" stroke-dasharray="14 18"/>
+    <g stroke="#FFA116" stroke-width="13">
+      <path d="M700 460 L 1040 460"/>
+    </g>
+
+    <!-- 위쪽 경로: 잘려 나가는 소수부 -->
+    <path d="M880 300 Q 950 300 1000 246" stroke="#6f7681" stroke-width="12" stroke-dasharray="20 22"/>
+    <g stroke="#6f7681" stroke-width="13">
+      <path d="M1042 210 L 1100 268"/>
+      <path d="M1100 210 L 1042 268"/>
+    </g>
+
+    <!-- 아래쪽 경로: double 캐스팅으로 살아남는 값 -->
+    <circle cx="1072" cy="460" r="34" fill="#f5f6f8" stroke="#FFA116" stroke-width="12"/>
+    <circle cx="1072" cy="460" r="8" fill="#1d1e22" stroke="none"/>
+  </g>
+
+  <!-- unsigned 승격: 작은 음수 막대가 거대한 양수 막대로 폭발 -->
+  <g stroke-linecap="round">
+    <rect x="150" y="556" width="86" height="18" rx="9" fill="#6f7681"/>
+    <rect x="266" y="556" width="774" height="18" rx="9" fill="#FFA116"/>
+  </g>
+</svg>

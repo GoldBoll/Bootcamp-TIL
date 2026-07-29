@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="프로그래머스 86491 - 최소직사각형 (Lv.1)">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#FFA116"/>
+  <text x="66" y="110" font-family="'Consolas','Courier New',monospace" font-size="66" font-weight="700" fill="#FFA116">86491</text>
+  <text x="70" y="162" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="36" font-weight="600" fill="#b9bfc8">회전 정규화 · 두 축 max</text>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- wallet = bounding box of all normalized cards -->
+    <rect x="200" y="300" width="728" height="290" rx="14" stroke="#FFA116" stroke-width="10" stroke-dasharray="22 20"/>
+
+    <!-- cards normalized to (long side, short side), anchored at the same corner -->
+    <rect x="228" y="396" width="300" height="170" rx="10" stroke="#6f7681" stroke-width="9"/>
+    <rect x="228" y="446" width="672" height="120" rx="10" stroke="#FFA116" stroke-width="10"/>
+    <rect x="228" y="324" width="430" height="242" rx="10" stroke="#FFA116" stroke-width="10"/>
+
+    <!-- rotation: every card turned long-side-first -->
+    <path d="M746 404 A 42 42 0 1 1 818 376" stroke="#8d949e" stroke-width="11"/>
+    <polygon points="838,388 792,376 810,344" fill="#8d949e"/>
+
+    <!-- long-side axis (widest card decides it) -->
+    <path d="M200 262 L 928 262" stroke="#FFA116" stroke-width="9"/>
+    <polygon points="200,262 232,246 232,278" fill="#FFA116"/>
+    <polygon points="928,262 896,246 896,278" fill="#FFA116"/>
+
+    <!-- short-side axis (a different card decides it) -->
+    <path d="M980 300 L 980 590" stroke="#FFA116" stroke-width="9"/>
+    <polygon points="980,300 964,332 996,332" fill="#FFA116"/>
+    <polygon points="980,590 964,558 996,558" fill="#FFA116"/>
+  </g>
+
+  <g font-family="'Consolas','Courier New',monospace" font-weight="700" text-anchor="middle">
+    <text x="564" y="226" font-size="46" fill="#FFA116">max 긴 변</text>
+    <text x="1064" y="428" font-size="46" fill="#FFA116">max</text>
+    <text x="1064" y="486" font-size="46" fill="#FFA116">짧은 변</text>
+  </g>
+</svg>
