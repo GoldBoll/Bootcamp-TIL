@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="프로그래머스 42839 소수 찾기 - 조각을 붙여 만든 수 중 소수만 걸러내기">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#FFA116"/>
+  <text x="66" y="110" font-family="'Consolas','Courier New',monospace" font-size="66" font-weight="700" fill="#FFA116">42839</text>
+  <text x="70" y="162" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="36" font-weight="600" fill="#b9bfc8">조각 붙여 소수</text>
+
+  <!-- scattered paper scraps -->
+  <g font-family="'Consolas','Courier New',monospace" font-weight="700" text-anchor="middle">
+    <g transform="rotate(-11 190 300)">
+      <rect x="118" y="238" width="144" height="132" rx="18" fill="#1d1e22" stroke="#8d949e" stroke-width="9" stroke-dasharray="20 16"/>
+      <text x="190" y="325" font-size="66" fill="#e6e9ee">1</text>
+    </g>
+    <g transform="rotate(9 226 470)">
+      <rect x="154" y="408" width="144" height="132" rx="18" fill="#1d1e22" stroke="#8d949e" stroke-width="9" stroke-dasharray="20 16"/>
+      <text x="226" y="495" font-size="66" fill="#e6e9ee">7</text>
+    </g>
+  </g>
+
+  <!-- fan out -->
+  <g fill="none" stroke="#6f7681" stroke-width="11" stroke-linecap="round">
+    <path d="M330 330 Q 420 300 486 288"/>
+    <path d="M330 360 Q 420 400 486 430"/>
+  </g>
+
+  <!-- candidates: dim non-prime, orange primes -->
+  <g font-family="'Consolas','Courier New',monospace" font-weight="700" text-anchor="middle">
+    <rect x="520" y="228" width="210" height="112" rx="30" fill="#1d1e22" stroke="#6f7681" stroke-width="10"/>
+    <text x="625" y="306" font-size="58" fill="#6f7681">1</text>
+
+    <rect x="770" y="228" width="210" height="112" rx="30" fill="#FFA116"/>
+    <text x="875" y="306" font-size="58" fill="#1d1e22">7</text>
+
+    <rect x="520" y="382" width="210" height="112" rx="30" fill="#FFA116"/>
+    <text x="625" y="460" font-size="58" fill="#1d1e22">17</text>
+
+    <rect x="770" y="382" width="210" height="112" rx="30" fill="#FFA116"/>
+    <text x="875" y="460" font-size="58" fill="#1d1e22">71</text>
+  </g>
+
+  <!-- 1 is not prime -->
+  <g fill="none" stroke="#6f7681" stroke-width="16" stroke-linecap="round">
+    <path d="M506 212 L 744 356"/>
+  </g>
+
+  <!-- prime filter mark -->
+  <g fill="none" stroke="#FFA116" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M1026 400 L 1062 440 L 1136 352"/>
+  </g>
+
+  <text x="520" y="580" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="38" font-weight="600" fill="#8d949e">후보 13,699개</text>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="프로그래머스 132265 - 롤케이크 자르기 (Lv.5)">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#FFA116"/>
+  <text x="66" y="110" font-family="'Consolas','Courier New',monospace" font-size="66" font-weight="700" fill="#FFA116">132265</text>
+  <text x="70" y="162" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="36" font-weight="600" fill="#b9bfc8">한 번 잘라 종류 수 맞추기</text>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- roll cake body -->
+    <rect x="140" y="300" width="920" height="130" rx="65" stroke="#6f7681" stroke-width="9"/>
+
+    <!-- toppings: left piece = 3 kinds, right piece = 3 kinds -->
+    <g stroke="none">
+      <circle cx="212" cy="365" r="26" fill="#FFA116"/>
+      <circle cx="300" cy="365" r="26" fill="#6f7681"/>
+      <circle cx="388" cy="365" r="26" fill="#FFA116"/>
+      <circle cx="476" cy="365" r="26" fill="#e6e9ee"/>
+
+      <circle cx="724" cy="365" r="26" fill="#e6e9ee"/>
+      <circle cx="812" cy="365" r="26" fill="#FFA116"/>
+      <circle cx="900" cy="365" r="26" fill="#6f7681"/>
+      <circle cx="988" cy="365" r="26" fill="#FFA116"/>
+    </g>
+
+    <!-- cut -->
+    <path d="M 600 244 L 600 486" stroke="#FFA116" stroke-width="15" stroke-dasharray="28 22"/>
+  </g>
+
+  <g font-family="'Consolas','Courier New',monospace" font-weight="700" text-anchor="middle">
+    <text x="372" y="578" font-size="66" fill="#e6e9ee">3</text>
+    <text x="600" y="578" font-size="66" fill="#FFA116">=</text>
+    <text x="828" y="578" font-size="66" fill="#e6e9ee">3</text>
+  </g>
+</svg>

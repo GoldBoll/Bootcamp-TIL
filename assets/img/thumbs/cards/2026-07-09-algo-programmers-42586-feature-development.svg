@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="프로그래머스 42586 기능개발 - 완성일로 묶는 배포">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#FFA116"/>
+  <text x="66" y="110" font-family="'Consolas','Courier New',monospace" font-size="66" font-weight="700" fill="#FFA116">42586</text>
+  <text x="70" y="162" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="36" font-weight="600" fill="#b9bfc8">완성일로 묶는 배포</text>
+
+  <!-- progress tracks -->
+  <g fill="none" stroke="#6f7681" stroke-width="8">
+    <rect x="80" y="248" width="620" height="68" rx="34"/>
+    <rect x="80" y="368" width="620" height="68" rx="34"/>
+    <rect x="80" y="488" width="620" height="68" rx="34"/>
+  </g>
+  <g fill="#FFA116">
+    <rect x="80" y="248" width="576" height="68" rx="34"/>
+    <rect x="80" y="368" width="186" height="68" rx="34"/>
+    <rect x="80" y="488" width="341" height="68" rx="34"/>
+  </g>
+
+  <!-- days until 100% -->
+  <g font-family="'Consolas','Courier New',monospace" font-size="46" font-weight="700" text-anchor="middle">
+    <rect x="750" y="248" width="120" height="68" rx="34" fill="#1d1e22" stroke="#FFA116" stroke-width="6"/>
+    <text x="810" y="297" fill="#FFA116">7</text>
+    <rect x="750" y="368" width="120" height="68" rx="34" fill="#1d1e22" stroke="#FFA116" stroke-width="6"/>
+    <text x="810" y="417" fill="#FFA116">3</text>
+    <rect x="750" y="488" width="120" height="68" rx="34" fill="#1d1e22" stroke="#6f7681" stroke-width="6"/>
+    <text x="810" y="537" fill="#b9bfc8">9</text>
+  </g>
+
+  <!-- grouping brackets: rows 1-2 ship together, row 3 alone -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 920 254 h 40 v 176 h -40" stroke="#FFA116" stroke-width="13"/>
+    <path d="M 920 494 h 40 v 56 h -40" stroke="#6f7681" stroke-width="13"/>
+  </g>
+  <g font-family="'Consolas','Courier New',monospace" font-size="58" font-weight="700" text-anchor="middle">
+    <circle cx="1060" cy="342" r="46" fill="#FFA116"/>
+    <text x="1060" y="362" fill="#1d1e22">2</text>
+    <circle cx="1060" cy="522" r="46" fill="none" stroke="#6f7681" stroke-width="10"/>
+    <text x="1060" y="542" fill="#b9bfc8">1</text>
+  </g>
+</svg>

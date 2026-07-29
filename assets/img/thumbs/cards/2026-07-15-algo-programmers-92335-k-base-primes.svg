@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="프로그래머스 92335 - k진수에서 소수 개수 구하기 (Lv.5)">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#FFA116"/>
+  <text x="66" y="110" font-family="'Consolas','Courier New',monospace" font-size="66" font-weight="700" fill="#FFA116">92335</text>
+  <text x="70" y="162" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="36" font-weight="600" fill="#b9bfc8">0으로 끊어 소수 세기</text>
+
+  <!-- k진수 자릿수 띠: 0은 구분자(회색 블록), 나머지는 토큰(주황 테두리) -->
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <g fill="none" stroke="#FFA116" stroke-width="8">
+      <rect x="300" y="250" width="62" height="92" rx="10"/>
+      <rect x="368" y="250" width="62" height="92" rx="10"/>
+      <rect x="436" y="250" width="62" height="92" rx="10"/>
+      <rect x="572" y="250" width="62" height="92" rx="10"/>
+      <rect x="708" y="250" width="62" height="92" rx="10"/>
+      <rect x="844" y="250" width="62" height="92" rx="10"/>
+      <rect x="980" y="250" width="62" height="92" rx="10"/>
+      <rect x="1048" y="250" width="62" height="92" rx="10"/>
+    </g>
+    <g fill="#6f7681" stroke="none">
+      <rect x="504" y="250" width="62" height="92" rx="10"/>
+      <rect x="640" y="250" width="62" height="92" rx="10"/>
+      <rect x="776" y="250" width="62" height="92" rx="10"/>
+      <rect x="912" y="250" width="62" height="92" rx="10"/>
+    </g>
+  </g>
+
+  <g font-family="'Consolas','Courier New',monospace" font-size="44" font-weight="700" text-anchor="middle">
+    <g fill="#f5f6f8">
+      <text x="331" y="315">2</text>
+      <text x="399" y="315">1</text>
+      <text x="467" y="315">1</text>
+      <text x="603" y="315">2</text>
+      <text x="739" y="315">1</text>
+      <text x="875" y="315">1</text>
+      <text x="1011" y="315">1</text>
+      <text x="1079" y="315">1</text>
+    </g>
+    <g fill="#1d1e22">
+      <text x="535" y="315">0</text>
+      <text x="671" y="315">0</text>
+      <text x="807" y="315">0</text>
+      <text x="943" y="315">0</text>
+    </g>
+  </g>
+
+  <!-- 0 사이에서 끊긴 토큰 묶음 -->
+  <g fill="none" stroke="#FFA116" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M300 372 V 400 H 498 V 372"/>
+    <path d="M572 372 V 400 H 634 V 372"/>
+    <path d="M980 372 V 400 H 1110 V 372"/>
+  </g>
+  <g fill="none" stroke="#6f7681" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M708 372 V 400 H 770 V 372"/>
+    <path d="M844 372 V 400 H 906 V 372"/>
+  </g>
+
+  <!-- 소수 판정 결과 -->
+  <g fill="none" stroke="#FFA116" stroke-width="15" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M373 470 L 393 496 L 427 444"/>
+    <path d="M577 470 L 597 496 L 631 444"/>
+    <path d="M1019 470 L 1039 496 L 1073 444"/>
+  </g>
+  <g fill="none" stroke="#6f7681" stroke-width="12" stroke-linecap="round">
+    <path d="M719 452 L 759 492"/>
+    <path d="M759 452 L 719 492"/>
+    <path d="M855 452 L 895 492"/>
+    <path d="M895 452 L 855 492"/>
+  </g>
+
+  <!-- 토큰은 int를 넘긴다 -->
+  <text x="300" y="580" font-family="'Consolas','Courier New',monospace" font-size="34" font-weight="700" fill="#6f7681">long long</text>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="프로그래머스 43165 타겟 넘버 - 부호 두 갈래 DFS">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#FFA116"/>
+  <text x="66" y="110" font-family="'Consolas','Courier New',monospace" font-size="66" font-weight="700" fill="#FFA116">43165</text>
+  <text x="70" y="162" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="36" font-weight="600" fill="#b9bfc8">부호 두 갈래로 내려간다</text>
+
+  <g fill="none" stroke-linecap="round">
+    <path d="M 566 252 L 400 330" stroke="#FFA116" stroke-width="15"/>
+    <path d="M 634 252 L 800 330" stroke="#6f7681" stroke-width="12"/>
+
+    <path d="M 344 402 L 244 470" stroke="#6f7681" stroke-width="12"/>
+    <path d="M 412 402 L 508 470" stroke="#FFA116" stroke-width="15"/>
+    <path d="M 788 402 L 692 470" stroke="#6f7681" stroke-width="12"/>
+    <path d="M 856 402 L 956 470" stroke="#6f7681" stroke-width="12"/>
+  </g>
+
+  <g>
+    <circle cx="600" cy="222" r="44" fill="#FFA116"/>
+    <circle cx="378" cy="366" r="40" fill="#1d1e22" stroke="#FFA116" stroke-width="13"/>
+    <circle cx="822" cy="366" r="40" fill="#1d1e22" stroke="#6f7681" stroke-width="11"/>
+    <circle cx="212" cy="502" r="38" fill="#1d1e22" stroke="#6f7681" stroke-width="11"/>
+    <circle cx="544" cy="502" r="44" fill="#FFA116"/>
+    <circle cx="656" cy="502" r="38" fill="#1d1e22" stroke="#6f7681" stroke-width="11"/>
+    <circle cx="988" cy="502" r="38" fill="#1d1e22" stroke="#6f7681" stroke-width="11"/>
+  </g>
+
+  <g font-family="'Consolas','Courier New',monospace" font-size="56" font-weight="700" text-anchor="middle">
+    <text x="450" y="266" fill="#FFA116">+</text>
+    <text x="750" y="266" fill="#8d949e">-</text>
+    <text x="284" y="410" fill="#8d949e">-</text>
+    <text x="474" y="410" fill="#FFA116">+</text>
+  </g>
+
+  <path d="M 544 546 L 544 558" fill="none" stroke="#FFA116" stroke-width="12" stroke-linecap="round"/>
+  <rect x="446" y="558" width="196" height="64" rx="32" fill="#1d1e22" stroke="#FFA116" stroke-width="8"/>
+  <text x="544" y="602" font-family="'Consolas','Courier New',monospace" font-size="44" font-weight="700" fill="#FFA116" text-anchor="middle">= t</text>
+</svg>

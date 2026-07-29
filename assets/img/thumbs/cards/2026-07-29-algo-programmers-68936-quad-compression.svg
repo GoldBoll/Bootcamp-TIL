@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="프로그래머스 68936 쿼드압축 후 개수 세기 - 균일한 영역은 하나로 접고 섞인 영역만 4분할">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#FFA116"/>
+  <text x="66" y="110" font-family="'Consolas','Courier New',monospace" font-size="66" font-weight="700" fill="#FFA116">68936</text>
+  <text x="70" y="162" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="36" font-weight="600" fill="#b9bfc8">균일하면 하나로</text>
+
+  <!-- quad tree board: 360x360 at (96,212) -->
+  <g>
+    <!-- top-left: compressed to a single 1 -->
+    <rect x="96" y="212" width="180" height="180" fill="#FFA116"/>
+
+    <!-- top-right: split into four -->
+    <rect x="276" y="212" width="90" height="90" fill="#FFA116"/>
+    <rect x="366" y="212" width="90" height="90" fill="#3a3d44"/>
+    <rect x="276" y="302" width="90" height="90" fill="#3a3d44"/>
+    <rect x="366" y="302" width="90" height="90" fill="#FFA116"/>
+
+    <!-- bottom-left: compressed to a single 0 -->
+    <rect x="96" y="392" width="180" height="180" fill="#3a3d44"/>
+
+    <!-- bottom-right: split, one child split again -->
+    <rect x="276" y="392" width="90" height="90" fill="#FFA116"/>
+    <rect x="366" y="392" width="90" height="90" fill="#3a3d44"/>
+    <rect x="276" y="482" width="90" height="90" fill="#3a3d44"/>
+    <rect x="366" y="482" width="45" height="45" fill="#FFA116"/>
+    <rect x="411" y="482" width="45" height="45" fill="#3a3d44"/>
+    <rect x="366" y="527" width="45" height="45" fill="#3a3d44"/>
+    <rect x="411" y="527" width="45" height="45" fill="#FFA116"/>
+
+    <!-- split lines: thick at the top level, thin deeper -->
+    <g fill="none" stroke="#1d1e22" stroke-width="10">
+      <path d="M366 212 V 572"/>
+      <path d="M276 302 H 456"/>
+      <path d="M276 482 H 456"/>
+    </g>
+    <g fill="none" stroke="#1d1e22" stroke-width="6">
+      <path d="M411 482 V 572"/>
+      <path d="M366 527 H 456"/>
+    </g>
+    <g fill="none" stroke="#6f7681" stroke-width="12">
+      <path d="M276 212 V 572"/>
+      <path d="M96 392 H 456"/>
+    </g>
+    <rect x="96" y="212" width="360" height="360" fill="none" stroke="#6f7681" stroke-width="12"/>
+  </g>
+
+  <!-- merge motif: four cells fold into one -->
+  <g>
+    <g fill="none" stroke="#FFA116" stroke-width="10">
+      <rect x="614" y="268" width="84" height="84" rx="8"/>
+      <rect x="706" y="268" width="84" height="84" rx="8"/>
+      <rect x="614" y="360" width="84" height="84" rx="8"/>
+      <rect x="706" y="360" width="84" height="84" rx="8"/>
+    </g>
+
+    <g fill="none" stroke="#FFA116" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M836 356 H 934"/>
+      <path d="M898 324 L 938 356 L 898 388"/>
+    </g>
+
+    <rect x="982" y="286" width="140" height="140" rx="12" fill="#FFA116"/>
+
+    <text x="885" y="300" font-family="'Consolas','Courier New',monospace" font-size="50" font-weight="700" fill="#FFA116" text-anchor="middle">-3</text>
+  </g>
+
+  <text x="614" y="530" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="38" font-weight="600" fill="#8d949e">재귀 깊이 11</text>
+</svg>

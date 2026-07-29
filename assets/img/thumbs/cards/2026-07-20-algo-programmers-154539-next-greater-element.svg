@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="프로그래머스 154539 - 뒤에 있는 큰 수 찾기 (Lv.5)">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#FFA116"/>
+  <text x="66" y="110" font-family="'Consolas','Courier New',monospace" font-size="66" font-weight="700" fill="#FFA116">154539</text>
+  <text x="70" y="162" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="36" font-weight="600" fill="#b9bfc8">기다리던 인덱스를 되짚어 확정</text>
+
+  <defs>
+    <marker id="bk" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M1 1 L11 6 L1 11 z" fill="#FFA116"/>
+    </marker>
+  </defs>
+
+  <path d="M300 578 H 1120" fill="none" stroke="#6f7681" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- 스택에 쌓여 답을 기다리는 구간 -->
+  <rect x="562" y="366" width="252" height="204" rx="16" fill="none" stroke="#6f7681" stroke-width="7" stroke-dasharray="20 18"/>
+
+  <!-- 값 막대: 9 1 5 3 6 2 -->
+  <g stroke="none">
+    <g fill="#6f7681">
+      <rect x="320" y="230" width="92" height="340" rx="12"/>
+      <rect x="450" y="532" width="92" height="38" rx="12"/>
+      <rect x="970" y="494" width="92" height="76" rx="12"/>
+    </g>
+    <rect x="840" y="342" width="92" height="228" rx="12" fill="#FFA116"/>
+  </g>
+  <!-- 이번에 답이 확정되는 두 막대 -->
+  <g fill="none" stroke="#FFA116" stroke-width="9">
+    <rect x="584" y="380" width="92" height="190" rx="12"/>
+    <rect x="714" y="456" width="92" height="114" rx="12"/>
+  </g>
+
+  <!-- 큰 수가 뒤돌아 앞의 작은 수들을 확정한다 -->
+  <g fill="none" stroke="#FFA116" stroke-width="12" stroke-linecap="round" marker-end="url(#bk)">
+    <path d="M846 318 Q 826 288 806 300 Q 776 316 768 430"/>
+    <path d="M866 310 Q 800 236 700 258 Q 634 274 632 354"/>
+  </g>
+</svg>

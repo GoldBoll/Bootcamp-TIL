@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="프로그래머스 154538 - 숫자 변환하기 (Lv.5)">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#FFA116"/>
+  <text x="66" y="110" font-family="'Consolas','Courier New',monospace" font-size="66" font-weight="700" fill="#FFA116">154538</text>
+  <text x="70" y="162" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="36" font-weight="600" fill="#b9bfc8">x → y 최소 연산 횟수</text>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- other branches -->
+    <g stroke="#6f7681" stroke-width="10">
+      <path d="M 214 366 L 476 214"/>
+      <path d="M 214 394 L 476 546"/>
+      <path d="M 564 214 L 986 366"/>
+      <path d="M 564 546 L 986 394"/>
+    </g>
+
+    <!-- shortest path -->
+    <g stroke="#FFA116" stroke-width="15">
+      <path d="M 214 380 L 476 380"/>
+      <path d="M 564 380 L 986 380"/>
+    </g>
+
+    <circle cx="520" cy="200" r="34" fill="#6f7681" stroke="none"/>
+    <circle cx="520" cy="560" r="34" fill="#6f7681" stroke="none"/>
+    <circle cx="520" cy="380" r="36" fill="#FFA116" stroke="none"/>
+
+    <circle cx="170" cy="380" r="46" fill="#f5f6f8" stroke="#FFA116" stroke-width="11"/>
+    <circle cx="1030" cy="380" r="46" fill="#f5f6f8" stroke="#FFA116" stroke-width="11"/>
+  </g>
+
+  <g font-family="'Consolas','Courier New',monospace" font-weight="700" text-anchor="middle">
+    <text x="170" y="398" font-size="46" fill="#1d1e22">x</text>
+    <text x="1030" y="398" font-size="46" fill="#1d1e22">y</text>
+
+    <rect x="293" y="262" width="112" height="58" rx="29" fill="#1d1e22" stroke="#6f7681" stroke-width="5"/>
+    <text x="349" y="303" font-size="36" fill="#b9bfc8">+n</text>
+
+    <rect x="293" y="351" width="112" height="58" rx="29" fill="#1d1e22" stroke="#FFA116" stroke-width="5"/>
+    <text x="349" y="392" font-size="36" fill="#FFA116">x2</text>
+
+    <rect x="293" y="440" width="112" height="58" rx="29" fill="#1d1e22" stroke="#6f7681" stroke-width="5"/>
+    <text x="349" y="481" font-size="36" fill="#b9bfc8">x3</text>
+  </g>
+</svg>

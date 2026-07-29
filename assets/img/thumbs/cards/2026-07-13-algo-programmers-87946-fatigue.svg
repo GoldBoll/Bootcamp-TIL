@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="프로그래머스 87946 피로도 - 순서를 전부 바꿔보는 백트래킹">
+  <rect width="1200" height="630" fill="#1d1e22"/>
+  <rect width="14" height="630" fill="#FFA116"/>
+  <text x="66" y="110" font-family="'Consolas','Courier New',monospace" font-size="66" font-weight="700" fill="#FFA116">87946</text>
+  <text x="70" y="162" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="36" font-weight="600" fill="#b9bfc8">순서를 전부 바꿔본다</text>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- winning order: all three cleared -->
+    <path d="M 214 330 Q 300 246 372 254" stroke="#FFA116" stroke-width="15"/>
+    <path d="M 500 268 Q 596 300 660 350" stroke="#FFA116" stroke-width="15"/>
+    <path d="M 782 356 Q 872 306 928 274" stroke="#FFA116" stroke-width="15"/>
+
+    <!-- pruned branch: next dungeon is out of reach -->
+    <path d="M 452 316 Q 520 440 600 500" stroke="#6f7681" stroke-width="13" stroke-dasharray="24 22"/>
+  </g>
+
+  <g font-family="'Consolas','Courier New',monospace" font-size="46" font-weight="700" text-anchor="middle">
+    <circle cx="160" cy="358" r="52" fill="#FFA116"/>
+    <text x="160" y="375" fill="#1d1e22">80</text>
+
+    <circle cx="436" cy="262" r="48" fill="#1d1e22" stroke="#FFA116" stroke-width="12"/>
+    <text x="436" y="279" fill="#FFA116">80</text>
+
+    <circle cx="722" cy="370" r="48" fill="#1d1e22" stroke="#FFA116" stroke-width="12"/>
+    <text x="722" y="387" fill="#FFA116">30</text>
+
+    <circle cx="990" cy="252" r="48" fill="#1d1e22" stroke="#FFA116" stroke-width="12"/>
+    <text x="990" y="269" fill="#FFA116">50</text>
+
+    <circle cx="648" cy="536" r="48" fill="#1d1e22" stroke="#6f7681" stroke-width="11"/>
+    <text x="648" y="553" fill="#6f7681">50</text>
+  </g>
+
+  <!-- pruning mark on the dead branch -->
+  <g stroke="#e6e9ee" stroke-width="15" stroke-linecap="round">
+    <path d="M 800 496 L 878 574"/>
+    <path d="M 878 496 L 800 574"/>
+  </g>
+
+  <!-- remaining fatigue draining along the winning order -->
+  <g font-family="'Consolas','Courier New',monospace" font-size="34" font-weight="700" fill="#8d949e" text-anchor="middle">
+    <text x="436" y="374" >60</text>
+    <text x="722" y="482">50</text>
+    <text x="990" y="364">10</text>
+  </g>
+</svg>
