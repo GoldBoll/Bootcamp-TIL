@@ -2,7 +2,7 @@
 title: "프로그래머스 132265 - 롤케이크 자르기 (Lv.5)"
 date: 2026-07-21 09:30:00 +0900
 categories: ["알고리즘", "프로그래머스"]
-tags: ["algorithm", "prefix-sum", "hash", "counting"]
+tags: ["algorithm", "prefix-sum", "hash"]
 render_with_liquid: false
 description: "핵심 접근 — 접미 종류 수를 미리 세두고 접두를 훑으며 비교"
 image: /assets/img/thumbs/cards/2026-07-21-algo-programmers-132265-rollcake-cut.svg

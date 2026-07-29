@@ -2,7 +2,7 @@
 title: "프로그래머스 92341 - 주차 요금 계산 (Lv.5)"
 date: 2026-07-16 09:30:00 +0900
 categories: ["알고리즘", "프로그래머스"]
-tags: ["algorithm", "simulation", "map", "string", "implementation", "cpp"]
+tags: ["algorithm", "simulation", "map", "string", "cpp"]
 render_with_liquid: false
 description: "핵심 접근 — 시각을 분으로 정규화하고 map 두 개로 미출차·누적을 분리"
 image: /assets/img/thumbs/cards/2026-07-16-algo-programmers-92341-parking-fee.svg

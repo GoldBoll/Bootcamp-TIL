@@ -2,7 +2,7 @@
 title: "프로그래머스 154539 - 뒤에 있는 큰 수 찾기 (Lv.5)"
 date: 2026-07-20 09:30:00 +0900
 categories: ["알고리즘", "프로그래머스"]
-tags: ["algorithm", "stack", "monotonic-stack", "amortized", "cpp"]
+tags: ["algorithm", "stack", "prefix-sum", "cpp"]
 render_with_liquid: false
 description: "핵심 접근 — 답을 기다리는 인덱스를 단조 감소 스택에 쌓아 O(n)"
 image: /assets/img/thumbs/cards/2026-07-20-algo-programmers-154539-next-greater-element.svg

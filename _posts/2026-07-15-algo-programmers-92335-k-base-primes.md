@@ -2,7 +2,7 @@
 title: "프로그래머스 92335 - k진수에서 소수 개수 구하기 (Lv.5)"
 date: 2026-07-15 21:30:00 +0900
 categories: ["알고리즘", "프로그래머스"]
-tags: ["algorithm", "number-theory", "prime", "string", "overflow", "cpp"]
+tags: ["algorithm", "math", "string", "cpp"]
 render_with_liquid: false
 description: "핵심 접근 — 0을 구분자로 토큰 분리 + 제곱근 소수 판정, 토큰은 long long"
 image: /assets/img/thumbs/cards/2026-07-15-algo-programmers-92335-k-base-primes.svg

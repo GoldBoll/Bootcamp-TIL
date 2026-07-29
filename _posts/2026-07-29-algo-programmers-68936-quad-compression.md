@@ -2,7 +2,7 @@
 title: "프로그래머스 68936 - 쿼드압축 후 개수 세기 (Lv.5)"
 date: 2026-07-29 19:00:00 +0900
 categories: ["알고리즘", "프로그래머스"]
-tags: ["algorithm", "divide-and-conquer", "recursion"]
+tags: ["algorithm", "divide-conquer", "backtracking"]
 render_with_liquid: false
 description: "핵심 접근 — 자식 반환값으로 병합 판정하는 상향식 분할 정복"
 image: /assets/img/thumbs/cards/2026-07-29-algo-programmers-68936-quad-compression.svg

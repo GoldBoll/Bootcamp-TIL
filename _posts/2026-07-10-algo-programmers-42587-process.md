@@ -2,7 +2,7 @@
 title: "프로그래머스 42587 - 프로세스 (Lv.4)"
 date: 2026-07-10 21:30:00 +0900
 categories: ["알고리즘", "프로그래머스"]
-tags: ["algorithm", "queue", "priority-queue", "cpp"]
+tags: ["algorithm", "queue", "cpp"]
 render_with_liquid: false
 description: "핵심 접근 — FIFO 큐로 순서를 지키고 우선순위 큐로 남은 최댓값만 조회"
 image: /assets/img/thumbs/cards/2026-07-10-algo-programmers-42587-process.svg

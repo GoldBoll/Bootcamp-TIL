@@ -2,7 +2,7 @@
 title: "프로그래머스 77885 - 2개 이하로 다른 비트 (Lv.5)"
 date: 2026-07-23 09:30:00 +0900
 categories: ["알고리즘", "프로그래머스"]
-tags: ["algorithm", "bit-manipulation", "greedy"]
+tags: ["algorithm", "bitmask", "greedy"]
 render_with_liquid: false
 description: "핵심 접근 — 짝수는 +1, 홀수는 최하위 0비트를 켜고 그 아래를 끈다"
 image: /assets/img/thumbs/cards/2026-07-23-algo-programmers-77885-two-diff-bits.svg
