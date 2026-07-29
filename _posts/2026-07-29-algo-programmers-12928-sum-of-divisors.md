@@ -1,6 +1,6 @@
 ---
 title: "프로그래머스 12928 - 약수의 합 (Lv.1)"
-date: 2026-07-29 21:30:00 +0900
+date: 2026-07-29 19:30:00 +0900
 categories: ["알고리즘", "프로그래머스"]
 tags: ["algorithm", "math", "brute-force"]
 render_with_liquid: false
