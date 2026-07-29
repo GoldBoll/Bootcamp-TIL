@@ -1,11 +1,11 @@
 ---
 title: "LeetCode 743 - Network Delay Time (Medium)"
-date: 2026-07-29 09:30:00 +0900
+date: 2026-07-22 21:30:00 +0900
 categories: ["알고리즘", "LeetCode"]
 tags: ["algorithm", "graph", "bfs", "cpp"]
 render_with_liquid: false
 description: "핵심 접근 — queue 를 최소 힙으로 바꾼 다익스트라, INF 는 -1"
-image: /assets/img/thumbs/cards/2026-07-29-algo-leetcode-743-network-delay-time.svg
+image: /assets/img/thumbs/cards/2026-07-22-algo-leetcode-743-network-delay-time.svg
 ---
 
 > 출처: <https://leetcode.com/problems/network-delay-time/>

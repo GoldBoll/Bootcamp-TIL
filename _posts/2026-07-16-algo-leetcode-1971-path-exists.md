@@ -1,11 +1,11 @@
 ---
 title: "LeetCode 1971 - Find if Path Exists in Graph (Easy)"
-date: 2026-06-19 21:30:00 +0900
+date: 2026-07-16 21:30:00 +0900
 categories: ["알고리즘", "LeetCode"]
 tags: ["algorithm", "graph", "bfs", "dfs", "stack-overflow", "cpp"]
 render_with_liquid: false
 description: "핵심 접근 — 인접 리스트 + BFS 큐, 재귀 DFS는 깊이 20만에서 죽는다"
-image: /assets/img/thumbs/cards/2026-06-19-algo-leetcode-1971-path-exists.svg
+image: /assets/img/thumbs/cards/2026-07-16-algo-leetcode-1971-path-exists.svg
 ---
 
 > 출처: <https://leetcode.com/problems/find-if-path-exists-in-graph/>

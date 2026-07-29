@@ -1,11 +1,11 @@
 ---
 title: "LeetCode 994 - Rotting Oranges (Medium)"
-date: 2026-07-27 21:30:00 +0900
+date: 2026-07-21 21:30:00 +0900
 categories: ["알고리즘", "LeetCode"]
 tags: ["algorithm", "bfs", "graph", "simulation", "cpp"]
 render_with_liquid: false
 description: "핵심 접근 — 멀티소스 BFS + visited 를 1부터 시작하는 +1 인코딩"
-image: /assets/img/thumbs/cards/2026-07-27-algo-leetcode-994-rotting-oranges.svg
+image: /assets/img/thumbs/cards/2026-07-21-algo-leetcode-994-rotting-oranges.svg
 ---
 
 > 출처: <https://leetcode.com/problems/rotting-oranges/>

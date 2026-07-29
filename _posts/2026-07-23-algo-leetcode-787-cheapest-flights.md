@@ -1,11 +1,11 @@
 ---
 title: "LeetCode 787 - Cheapest Flights Within K Stops (Medium)"
-date: 2026-07-29 11:00:00 +0900
+date: 2026-07-23 21:30:00 +0900
 categories: ["알고리즘", "LeetCode"]
 tags: ["algorithm", "graph", "dp", "cpp"]
 render_with_liquid: false
 description: "핵심 접근 — 라운드 k+1번 벨만-포드 + prev 스냅샷으로 연쇄 갱신 차단"
-image: /assets/img/thumbs/cards/2026-07-29-algo-leetcode-787-cheapest-flights.svg
+image: /assets/img/thumbs/cards/2026-07-23-algo-leetcode-787-cheapest-flights.svg
 ---
 
 > 출처: <https://leetcode.com/problems/cheapest-flights-within-k-stops/>
@@ -13,7 +13,7 @@ image: /assets/img/thumbs/cards/2026-07-29-algo-leetcode-787-cheapest-flights.sv
 ```cpp
 // LeetCode 787 - Cheapest Flights Within K Stops (Medium)
 // https://leetcode.com/problems/cheapest-flights-within-k-stops/
-// (직전 문제: LeetCode 743 다익스트라 / 같은 발상의 수업 문제: 백준 14497 주난의 난 — 라운드 BFS)
+// (관련 문제: LeetCode 743 다익스트라 / 같은 발상의 수업 문제: 백준 14497 주난의 난 — 라운드 BFS)
 
 // 문제 설명
 // n개 도시와 항공편 flights[i] = [from, to, price] 가 주어진다.
@@ -36,7 +36,7 @@ image: /assets/img/thumbs/cards/2026-07-29-algo-leetcode-787-cheapest-flights.sv
 // → 같은 그래프에서 k만 바꿔 답이 갈린다. 답은 그래프만의 함수가 아니라 (그래프, k)의 함수다.
 
 // 접근 — 라운드를 k+1번만 도는 벨만-포드
-// 1) 직전 문제(743)의 다익스트라를 그대로 얹으면 틀린다. 다익스트라는 "힙에서 꺼낸 순간 최단 확정"으로
+// 1) 743의 다익스트라를 그대로 얹으면 틀린다. 다익스트라는 "힙에서 꺼낸 순간 최단 확정"으로
 //    노드를 한 번만 닫는데, 예제 1이 정확히 그 확정을 무너뜨린다 — 도시 2에 가장 싸게 닿는 경로는
 //    0-1-2 = 200 이지만 그 경로는 이미 경유를 1번 썼고, 거기서 3으로 더 가면 경유 2회가 되어 실격.
 //    답은 더 비싼 0-1-3 = 700 이다. "싸게 도착한 경로"가 "더 갈 수 있는 경로"가 아니다.
