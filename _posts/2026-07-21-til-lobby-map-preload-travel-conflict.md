@@ -2,7 +2,7 @@
 title: "로비 맵 프리로드와 ServerTravel 충돌"
 subtitle: "미리 로드한 패키지가 게임 입장을 막았다"
 date: 2026-07-21 19:30:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["til", "ue5", "cpp", "network", "multiplayer", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "로비 대기 중에 다음 스테이지를 미리 로드하면 로딩이 짧아진다 — 그렇게 넣은 최적화가 게임 입장 자체를 막았다. 프리로드는 성공하고 있었고, 문제는 트래블의 맵 로드와 같은 패키지를 두고 부딪힌 것."

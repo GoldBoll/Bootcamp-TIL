@@ -2,7 +2,7 @@
 title: "Baam 좌석 배정 컴포넌트와 메인메뉴 레벨 분리"
 subtitle: "좌석은 InitNewPlayer에서 주고, 첫 턴은 좌석이 아니라 역할로 찾는다"
 date: 2026-08-03 22:40:00 +0900
-categories: ["언리얼"]
+categories: ["언리얼", "Baam"]
 tags: ["ue5", "cpp", "gamemode", "component", "multiplayer", "umg"]
 render_with_liquid: false
 description: "BG(뱅! 카드게임 프로토타입)에 좌석 소유를 전담하는 컴포넌트를 넣고 메인메뉴를 별도 레벨로 분리했다. 좌석 배정 훅을 InitNewPlayer로 잡은 이유, 좌석 번호를 연속으로 채우지 않기로 한 근거, 그리고 맵 이동을 메인메뉴 한 번으로만 허용한 분기까지 설계 결정을 정리한다."

@@ -2,7 +2,7 @@
 title: "MPC 툰 스카이 주야 전환과 피드백 시스템"
 subtitle: "Unlit 돔에 태양 위치를 알려 주는 다리 놓기"
 date: 2026-07-08 21:30:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["til", "ue5", "cpp", "material", "subsystem", "component", "interface", "reflection", "debugging"]
 render_with_liquid: false
 description: "수식으로 그린 툰 하늘은 Unlit 이미시브 돔이라 레벨의 태양을 모른다. 그 사이에 다리를 놓아 낮→황혼→밤을 잇고, 팀원 파일을 한 줄도 고치지 않은 채 사운드·이펙트를 얹은 관찰 기반 설계."

@@ -2,7 +2,7 @@
 title: "UE5 패키징 3회전으로 에러 억제 없는 클린 빌드 만들기"
 subtitle: "쿠킹 레퍼런스 누락·LFS 손상 에셋·CDO 물리 세터"
 date: 2026-07-10 21:30:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["til", "ue5", "cpp", "packaging", "multiplayer", "network", "debugging", "git", "트러블슈팅"]
 render_with_liquid: false
 description: "에디터에서 되는 것과 패키징된 빌드에서 되는 것은 다른 문제다. 같은 프로젝트를 세 번 패키징하며 실패 원인을 하나씩 걷어내고, 에러 억제 플래그 없이 클린 패키징에 도달한 기록."

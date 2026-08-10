@@ -2,7 +2,7 @@
 title: "스팀 초대·세션 브라우저·로비 슬롯 재사용"
 subtitle: "슬롯 번호가 새어 나가면 유령 인원이 생긴다"
 date: 2026-07-24 00:20:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["til", "ue5", "cpp", "network", "multiplayer", "steam", "subsystem", "umg", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "방코드 하나로만 돌던 세션 계층에 친구 초대와 방찾기를 얹었다. 방코드용으로 켜 둔 설정이 초대 조건을 이미 채우고 있었다는 발견과, 검색 필터를 클라이언트로 넘긴 판단."

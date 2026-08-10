@@ -2,7 +2,7 @@
 title: "포스트 프로세스 한 패스로 아웃라인과 포커스 링"
 subtitle: "패스를 늘리지 않고 하이라이트를 얹는 법"
 date: 2026-07-07 21:30:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["til", "ue5", "cpp", "material", "gamemode", "multiplayer", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "'지금 뭘 잡을 수 있는지 안 보인다'는 피드백. 패스를 하나 더 얹는 대신 이미 있는 아웃라인 머티리얼 안에서 세피아 외곽선과 노란 링을 같이 그렸고, 화면 가장자리 점선 아티팩트도 잡았다."

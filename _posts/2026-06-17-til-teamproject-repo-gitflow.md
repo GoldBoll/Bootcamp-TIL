@@ -2,7 +2,7 @@
 title: "UE5 팀 레포 .gitignore와 Git Flow 세팅"
 subtitle: "바이너리 에셋 충돌을 코드 소유권으로 막기"
 date: 2026-06-17 19:30:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["til", "git", "ue5", "gamedev"]
 render_with_liquid: false
 description: "언리얼은 바이너리 에셋이 많아 머지 충돌 하나가 파일을 통째로 못 쓰게 만든다. 첫 커밋 전에 .gitignore에서 무엇을 왜 빼는지 정하고, 도메인별 소유권과 develop 완충 브랜치까지 세웠다."

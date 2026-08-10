@@ -2,7 +2,7 @@
 title: "git filter-branch 히스토리 재작성과 레벨 참조 복구"
 subtitle: "에디터를 열어 두면 .umap이 자동 수정된다"
 date: 2026-06-29 22:00:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["til", "git", "ue5", "multiplayer", "asset-import", "트러블슈팅"]
 render_with_liquid: false
 description: "이미 올라간 커밋 메시지를 규칙에 맞게 고치려다 히스토리 재작성과 언리얼 에셋 참조가 한꺼번에 얽혔다. 커밋을 일괄로 다시 쓰는 대가와, 끊어진 레벨 에셋 참조를 되살린 과정."

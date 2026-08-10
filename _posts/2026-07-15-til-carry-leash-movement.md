@@ -3,7 +3,7 @@ title: "견인 주입을 리쉬 이동 제한으로 교체"
 subtitle: "예측 위에 보정을 얹지 않으면 교정 패킷이 사라진다"
 date: 2026-07-15 22:30:00 +0900
 pin: true
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "character-movement", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "공동 운반의 러버밴딩은 튜닝 문제가 아니라 이중 보정 구조 자체가 원인이었다. 되끌어오는 견인을 걷어내고 입력 단계에서 이탈 성분만 지우자 서버와 클라가 같은 결론에 도달했다."

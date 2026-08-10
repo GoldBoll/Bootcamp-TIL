@@ -2,7 +2,7 @@
 title: "공동 운반 견인 동기화와 콜리전 재구성"
 subtitle: "전날 세운 원칙을 하루 만에 정정하기"
 date: 2026-07-14 22:30:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "character-movement", "trace", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "어떤 가구는 트레이스에 안 잡히고, 바닥에 1uu 박힌 가구는 조작을 얼렸다. 무엇보다 '서버는 원격 폰 속도에 손대지 않는다'는 원칙이 정작 견인을 무효로 만들고 있었다."

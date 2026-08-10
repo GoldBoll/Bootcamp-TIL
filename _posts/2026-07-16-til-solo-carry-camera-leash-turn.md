@@ -2,7 +2,7 @@
 title: "1인 운반 측정 기준 통일과 극좌표 보간"
 subtitle: "서버는 실제 트랜스폼, 클라는 보간 위치로 쟀다"
 date: 2026-07-16 22:30:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "character-movement", "material", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "클라이언트에서만 전진이 사선으로 휘거나 벽처럼 막혔고, 카메라를 급회전하면 가구가 몸을 뚫었다. 같은 반경을 서로 다른 자로 재고 있었던 것과, 성분 보간이 0점을 관통하는 문제."

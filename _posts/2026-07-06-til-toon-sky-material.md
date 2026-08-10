@@ -2,7 +2,7 @@
 title: "텍스처 0장 절차식 툰 스카이 머티리얼"
 subtitle: "하늘은 왜 포스트 프로세스로 못 잡나"
 date: 2026-07-06 12:30:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 pin: true
 tags: ["til", "ue5", "material", "texture", "git", "트러블슈팅"]
 render_with_liquid: false

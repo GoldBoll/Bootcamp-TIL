@@ -2,7 +2,7 @@
 title: "Tripo 펭귄 AccuRIG 리깅과 UE IK 리타게팅"
 subtitle: "cross-rig 실패를 우회 대신 리그 재작업으로"
 date: 2026-07-22 21:00:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 pin: true
 tags: ["til", "ue5", "tripo", "accurig", "skeletal-mesh", "retargeting", "animation", "blendspace", "asset-import", "트러블슈팅"]
 render_with_liquid: false

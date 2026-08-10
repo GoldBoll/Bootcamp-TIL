@@ -2,7 +2,7 @@
 title: "CMC 예측과 서버 개입 충돌, 들것 운반 모델"
 subtitle: "튜닝으로는 안 잡히던 러버밴딩의 진짜 원인"
 date: 2026-07-13 21:30:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["til", "ue5", "cpp", "multiplayer", "network", "netrole", "character-movement", "material", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "가구를 들고 걸으면 캐릭터가 순간이동하듯 튀었다. 값을 아무리 조정해도 안 잡힌 이유는 캐릭터 무브먼트가 끝낸 예측 위에 서버가 한 번 더 손을 대는 구조였기 때문. 회전 기준도 몸으로 옮겼다."

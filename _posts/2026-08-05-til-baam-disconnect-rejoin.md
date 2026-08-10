@@ -2,7 +2,7 @@
 title: "재접속 구현문제"
 subtitle: "승패 판정이 읽는 값을 기준으로 이탈·복귀 경계를 다시 그었다"
 date: 2026-08-05 20:00:00 +0900
-categories: ["언리얼"]
+categories: ["언리얼", "Baam"]
 tags: ["ue5", "cpp", "multiplayer", "network", "playerstate", "gamemode", "gas"]
 render_with_liquid: false
 description: "7인용 턴제 카드 게임(리슨 서버)에서 접속이 끊기면 그 좌석이 통째로 사라져 승패가 즉시 뒤집혔다. 승패 판정이 실제로 읽는 값을 역추적해 PlayerState·폰·좌석 예약 중 무엇을 남길지 정하고, 폰을 떼어낼 훅과 복귀 시 재빙의 경로까지 설계 결정을 정리한다."

@@ -1,7 +1,7 @@
 ---
 title: "Ch4 팀플 기획 — 협동+마피아에서 포렌식 소셜 추리 'TRACE'까지"
 date: 2026-06-01 08:30:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["gamedev", "ue5", "game-design", "social-deduction", "brainstorm"]
 render_with_liquid: false
 description: "Ch4 팀플 기획 브레인스토밍 — 튜터님 제안 협동+마피아에서 출발해 포렌식 소셜 추리 'TRACE' 컨셉에 도달한 과정과 스코프·리스크 정리."

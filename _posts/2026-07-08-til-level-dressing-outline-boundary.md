@@ -2,7 +2,7 @@
 title: "맵 경계 바리케이드·원경 임포스터와 아웃라인 볼륨 제한"
 subtitle: "구역 밖은 막되 배경이 비어 보이지 않게"
 date: 2026-07-08 19:30:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["til", "ue5", "material", "optimization", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "플레이 구역 밖으로 못 나가게 막으면서 그 너머가 비어 보이지 않아야 했다. 바리케이드와 원경 임포스터로 가장자리를 채우고, 아웃라인을 볼륨 안쪽에만 그려 배경에 선이 번지지 않게 했다."

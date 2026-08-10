@@ -2,7 +2,7 @@
 title: "스팀 멀티플레이 실기기 검증에서 잡은 7라운드 트러블슈팅"
 subtitle: "SteamSockets 전환과 Seamless Travel"
 date: 2026-07-03 22:00:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["til", "ue5", "cpp", "network", "multiplayer", "steam", "debugging", "git", "트러블슈팅"]
 render_with_liquid: false
 description: "에디터 두 창에서 되던 멀티플레이가 PC 두 대에서는 하나도 되지 않았다. 방코드 생성부터 P2P 접속·로비 합류·게임 진입까지, 문제→로그→가설→수정 사이클을 일곱 번 돌린 기록."

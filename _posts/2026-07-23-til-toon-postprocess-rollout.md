@@ -2,7 +2,7 @@
 title: "포스트 프로세스 툰 셰이딩을 팀 레벨 전체에 적용하기"
 subtitle: "나눗셈 노이즈가 만든 초록 얼룩과 스펙큘러 줄무늬 잡기"
 date: 2026-07-23 10:30:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 pin: true
 tags: ["til", "ue5", "postprocess", "material", "art-direction", "debugging", "트러블슈팅"]
 render_with_liquid: false

@@ -2,7 +2,7 @@
 title: "흩어진 기획 문서 통합과 아트 방향 결정"
 subtitle: "합치자 드러난 문서 간 충돌 3건"
 date: 2026-06-21 19:00:00 +0900
-categories: ["언리얼", "팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["til", "game-design", "gamedev", "multiplayer", "ue5", "art-direction"]
 render_with_liquid: false
 description: "각 문서는 멀쩡한데 합쳐 놓으면 서로 다른 말을 한다. 흩어진 기획안을 하나로 통합하며 드러난 충돌을 덮지 않고 표면에 올려 결정받고, 시안용 이미지와 구현 룩을 분리한 판단."

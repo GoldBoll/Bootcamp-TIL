@@ -2,7 +2,7 @@
 title: "COUPENG 발표 템플릿과 노션 브로셔 제작"
 subtitle: "이사 게임을 택배 브랜드 아이덴티티로"
 date: 2026-07-23 11:30:00 +0900
-categories: ["팀프로젝트"]
+categories: ["언리얼", "쿠펭"]
 tags: ["til"]
 render_with_liquid: false
 description: "슬라이드를 기능 목록으로 채우면 게임의 톤이 사라진다. 발표 자료 전체에 택배 브랜드 아이덴티티를 씌워 성격을 표지에서부터 드러내고, 26슬라이드 흐름과 브로셔 구조를 잡았다."
