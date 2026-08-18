@@ -49,6 +49,11 @@ canonical:
   texture:    ["텍스처", "텍스쳐", "max-texture-size", "vram", "비디오 메모리"]
   optimization: ["최적화", "임포스터", "imposter", "lod", "draw-call", "드로우콜"]
   packaging:  ["패키징", "cooking", "쿠킹", "cook", "uat", "buildcookrun", "build-cook-run"]
+  physics:    ["물리", "피직스", "simulate-physics", "rigid-body"]
+  collision:  ["콜리전", "충돌", "sweep", "스윕", "overlap", "오버랩", "collision-channel"]
+  data-table: ["datatable", "데이터테이블", "데이터 테이블", "data-asset", "dataasset", "데이터에셋", "data-driven", "데이터 주도"]
+  gameplay-tags: ["gameplay-tag", "gameplaytag", "gameplaytags", "게임플레이태그", "게임플레이 태그"]
+  system-design: ["시스템 설계", "시스템설계", "architecture", "아키텍처", "구조 정리"]
 
   # --- Unity / 게임개발 ---
   unity:      ["유니티"]

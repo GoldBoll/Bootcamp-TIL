@@ -3,7 +3,7 @@ title: "가구 파손 사고 시스템 설계"
 subtitle: "원인은 여럿이고 결과는 하나, 종류는 대상이 정한다"
 date: 2026-08-15 11:00:00 +0900
 categories: ["언리얼", "쿠펭"]
-tags: ["ue5", "cpp", "data-asset", "data-table", "gameplay-tags", "system-design"]
+tags: ["ue5", "cpp", "data-table", "gameplay-tags", "system-design"]
 render_with_liquid: false
 description: "가구가 물·불·전기 사고로 망가지는 시스템을 붙였다. 파손을 일으키는 원인은 넷인데 결과를 내는 자리는 하나로 모으고, 사고 종류는 설정값이 아니라 대상이 무엇인가로 갈랐다."
 image: /assets/img/thumbs/cards/2026-08-15-til-coupeng-hazard-break-events.jpg
