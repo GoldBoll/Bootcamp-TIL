@@ -60,3 +60,5 @@ node_modules/
 package-lock.json
 _sass/vendors/
 assets/js/dist/
+_work/
+raw/
