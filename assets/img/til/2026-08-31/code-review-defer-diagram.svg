@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 452" width="760" height="452" font-family="'Segoe UI', system-ui, sans-serif" role="img" aria-label="코드리뷰 3건을 정리한 다이어그램. Timer를 Clear하지 않으면 파괴 이후 콜백이 삭제된 객체에 접근해 크래시가 나므로 EndPlay에서 ClearTimer로 당긴다. 게임 중 동기 로드는 스폰 순간 히치를 부르므로 소프트 참조와 비동기 로드로 로딩 구간으로 당긴다. null이면 그냥 return하면 버그가 나중에 드러나므로 ensure와 check로 지금 표시한다.">
+  <rect x="0" y="0" width="760" height="452" rx="14" fill="#1c2330" stroke="#39414f"/>
+  <text x="380" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#e6edf3">받은 코드리뷰 3건 — 터질 것을 예측 가능한 자리로</text>
+  <text x="380" y="57" text-anchor="middle" font-size="12.5" fill="#79c0ff">언제 터질지 모르는 것을 당겨서, 통제된 지점에서 처리한다</text>
+
+  <text x="140" y="90" text-anchor="middle" font-size="12.5" font-weight="600" fill="#9aa4b2">지적</text>
+  <text x="400" y="90" text-anchor="middle" font-size="12.5" font-weight="600" fill="#9aa4b2">미루면 (언제·왜 위험)</text>
+  <text x="650" y="90" text-anchor="middle" font-size="12.5" font-weight="600" fill="#9aa4b2">당기면 (해결)</text>
+
+  <!-- row 1: Timer -->
+  <rect x="30" y="102" width="220" height="86" rx="6" fill="#3a1d1d" stroke="#f85149" stroke-width="2"/>
+  <text x="140" y="135" text-anchor="middle" font-size="14" font-weight="700" fill="#ff7b72">Timer를 Clear 안 함</text>
+  <text x="140" y="160" text-anchor="middle" font-size="11" fill="#c9d1d9" font-family="Consolas,monospace">SetTimer(...)만 걸어 둠</text>
+  <rect x="270" y="102" width="260" height="86" rx="6" fill="#263041" stroke="#f85149"/>
+  <text x="400" y="132" text-anchor="middle" font-size="12" fill="#e6edf3">파괴 이후 콜백/람다가</text>
+  <text x="400" y="151" text-anchor="middle" font-size="12" fill="#e6edf3">삭제된 this에 접근</text>
+  <text x="400" y="172" text-anchor="middle" font-size="12.5" font-weight="700" fill="#ff7b72">→ 댕글링 크래시</text>
+  <rect x="548" y="102" width="182" height="86" rx="6" fill="#22331f" stroke="#56d364"/>
+  <text x="639" y="138" text-anchor="middle" font-size="11.5" fill="#e6edf3" font-family="Consolas,monospace">EndPlay에서</text>
+  <text x="639" y="158" text-anchor="middle" font-size="11.5" fill="#7ee787" font-family="Consolas,monospace">ClearTimer(H)</text>
+
+  <!-- row 2: sync load -->
+  <rect x="30" y="200" width="220" height="86" rx="6" fill="#33291c" stroke="#e3b341" stroke-width="2"/>
+  <text x="140" y="233" text-anchor="middle" font-size="14" font-weight="700" fill="#e3b341">게임 중 동기 로드</text>
+  <text x="140" y="258" text-anchor="middle" font-size="11" fill="#c9d1d9" font-family="Consolas,monospace">SpawnActor / NewObject</text>
+  <rect x="270" y="200" width="260" height="86" rx="6" fill="#263041" stroke="#e3b341"/>
+  <text x="400" y="230" text-anchor="middle" font-size="12" fill="#e6edf3">아직 로드 안 된 참조가</text>
+  <text x="400" y="249" text-anchor="middle" font-size="12" fill="#e6edf3">스폰 순간 통째로 로드</text>
+  <text x="400" y="270" text-anchor="middle" font-size="12.5" font-weight="700" fill="#e3b341">→ 프레임 히치(버벅)</text>
+  <rect x="548" y="200" width="182" height="86" rx="6" fill="#22331f" stroke="#56d364"/>
+  <text x="639" y="232" text-anchor="middle" font-size="11" fill="#e6edf3" font-family="Consolas,monospace">소프트 참조 +</text>
+  <text x="639" y="250" text-anchor="middle" font-size="11" fill="#7ee787" font-family="Consolas,monospace">RequestAsyncLoad</text>
+  <text x="639" y="270" text-anchor="middle" font-size="10.5" fill="#9aa4b2">즉시성 필요분은 프리로드</text>
+
+  <!-- row 3: assert -->
+  <rect x="30" y="298" width="220" height="86" rx="6" fill="#2a2440" stroke="#a371f7" stroke-width="2"/>
+  <text x="140" y="331" text-anchor="middle" font-size="14" font-weight="700" fill="#d2a8ff">null이면 그냥 return</text>
+  <text x="140" y="356" text-anchor="middle" font-size="11" fill="#c9d1d9" font-family="Consolas,monospace">if (!X) { return; }</text>
+  <rect x="270" y="298" width="260" height="86" rx="6" fill="#263041" stroke="#a371f7"/>
+  <text x="400" y="328" text-anchor="middle" font-size="12" fill="#e6edf3">지금 터질 비정상을</text>
+  <text x="400" y="347" text-anchor="middle" font-size="12" fill="#e6edf3">조용히 다음으로 미룸</text>
+  <text x="400" y="368" text-anchor="middle" font-size="12.5" font-weight="700" fill="#d2a8ff">→ 원인 파악이 늦어짐</text>
+  <rect x="548" y="298" width="182" height="86" rx="6" fill="#22331f" stroke="#56d364"/>
+  <text x="639" y="332" text-anchor="middle" font-size="11.5" fill="#e6edf3" font-family="Consolas,monospace">ensure / check</text>
+  <text x="639" y="352" text-anchor="middle" font-size="10.5" fill="#9aa4b2">Development에서 지금 표시</text>
+
+  <text x="380" y="418" text-anchor="middle" font-size="12" fill="#79c0ff">세 지적의 공통점 — 비용도 실패도, 언제 닥칠지 모르는 자리에서 통제된 자리로 옮긴다</text>
+  <text x="380" y="440" text-anchor="middle" font-size="11" fill="#6e7681">Unreal Engine 공식 문서 — Gameplay Timers · Asynchronous Asset Loading · Asserts</text>
+</svg>
