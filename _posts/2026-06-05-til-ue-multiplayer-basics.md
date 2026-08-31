@@ -3,7 +3,7 @@ title: "언리얼 멀티플레이 NetMode와 NetRole"
 subtitle: "이 로직이 서버에서 도는지 판별하는 두 축"
 date: 2026-06-05 19:00:00 +0900
 categories: ["언리얼"]
-tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "netmode", "netrole", "replication", "rpc", "gameplay-framework", "umg", "delegate"]
+tags: ["ue5", "cpp", "multiplayer", "network", "dedicated-server", "netmode", "netrole", "replication", "rpc", "gameplay-framework", "umg", "delegate"]
 render_with_liquid: false
 description: "멀티플레이 코드에서 가장 먼저 잡아야 할 건 문법이 아니라 '지금 이 줄이 어디서 도는가'다. 데디케이티드 서버 실행 흐름과, 월드 단위·액터 단위 두 축으로 권한을 읽는 기준."
 image: /assets/img/thumbs/cards/2026-06-05-til-ue-multiplayer-basics.svg

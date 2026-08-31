@@ -3,7 +3,7 @@ title: "격자 BFS 2문제와 이벤트 시뮬레이션"
 subtitle: "visited를 리셋해야 하는 BFS와 하면 안 되는 BFS"
 date: 2026-07-02 13:30:00 +0900
 categories: ["알고리즘"]
-tags: ["til", "algorithm", "bfs", "graph", "simulation", "cpp"]
+tags: ["algorithm", "bfs", "graph", "simulation", "cpp"]
 render_with_liquid: false
 description: "같은 격자 BFS인데 한쪽은 매번 visited를 리셋해야 하고 다른 쪽은 절대 하면 안 됐다. 기준은 '각 시작점이 독립된 답을 내는가'였고, 세 번째 문제는 상태 갱신 순서가 답을 갈랐다."
 image: /assets/img/thumbs/cards/2026-07-02-til-bfs-simulation-exam.svg

@@ -3,7 +3,7 @@ title: "UAT 패키징 실패와 Steam 세션 디버깅"
 subtitle: "에디터에서 되던 프로젝트가 쿡 단계에서 멈춘 이유"
 date: 2026-06-26 22:00:00 +0900
 categories: ["언리얼", "쿠펭"]
-tags: ["til", "ue5", "multiplayer", "dedicated-server", "git", "debugging", "트러블슈팅"]
+tags: ["ue5", "multiplayer", "dedicated-server", "git", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "패키징 단계에서 처음으로 빌드가 멈췄고, 고쳐서 실행 파일을 뽑아도 Steam 세션이 붙지 않았다. 에디터에서 실행 파일까지 가는 길을 뚫고, 그 사이 어긋난 팀 브랜치를 되돌린 기록."
 image: /assets/img/thumbs/cards/2026-06-26-til-teamcarry-packaging-steam-session.svg

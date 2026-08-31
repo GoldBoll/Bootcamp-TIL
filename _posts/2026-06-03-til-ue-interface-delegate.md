@@ -3,7 +3,7 @@ title: "UE Dynamic Multicast Delegate와 Subsystem 설계"
 subtitle: "체력이 바뀔 때 UI에게 알려 주는 구조"
 date: 2026-06-03 22:00:00 +0900
 categories: ["언리얼"]
-tags: ["til", "ue5", "cpp", "delegate", "component", "subsystem", "umg", "enhanced-input", "design-pattern", "debugging", "git", "트러블슈팅"]
+tags: ["ue5", "cpp", "delegate", "component", "subsystem", "umg", "enhanced-input", "design-pattern", "debugging", "git", "트러블슈팅"]
 render_with_liquid: false
 description: "UI가 매 프레임 체력을 묻는 대신 체력이 바뀔 때 알리는 쪽으로 뒤집었다. 파티가 공유하는 퀘스트 진행도는 GameInstanceSubsystem에 단일 진실 공급원으로 두고, 데미지 타입 널 크래시까지 잡았다."
 image: /assets/img/thumbs/cards/2026-06-03-til-ue-interface-delegate.svg

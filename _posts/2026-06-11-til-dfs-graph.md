@@ -3,7 +3,7 @@ title: "DFS 반환값 변형 3종으로 푸는 그래프 4문제"
 subtitle: "void·int·bool+int&로 뽑는 크기와 경로 깊이"
 date: 2026-06-11 21:00:00 +0900
 categories: ["알고리즘"]
-tags: ["til", "algorithm", "dfs", "bfs", "graph", "cpp"]
+tags: ["algorithm", "dfs", "bfs", "graph", "cpp"]
 render_with_liquid: false
 description: "DFS는 한 번 외우면 끝날 것 같지만 문제마다 반환값과 매개변수를 바꿔야 한다. 네 문제를 이어 풀며 세 변형으로 확장하고, 단방향·양방향을 가르는 지점과 visited 초기화 타이밍까지."
 image: /assets/img/thumbs/cards/2026-06-11-til-dfs-graph.svg

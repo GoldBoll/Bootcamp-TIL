@@ -3,7 +3,7 @@ title: "툰 룩 머티리얼 노드 그래프 해부"
 subtitle: "휘도 밴딩 체인과 마스터-인스턴스 설계"
 date: 2026-07-23 11:00:00 +0900
 categories: ["언리얼", "쿠펭"]
-tags: ["til", "ue5", "postprocess", "material", "art-direction"]
+tags: ["ue5", "postprocess", "material", "art-direction"]
 render_with_liquid: false
 description: "레벨에 걸려 있는 셀 셰이딩 포스트 프로세스와 툰스카이 머티리얼을 에디터에서 열어, 노드 체인과 인스턴스 파라미터를 그대로 옮겨 적었다. 접었던 PP 림라이트·아웃라인 실패 기록까지."
 pin: true

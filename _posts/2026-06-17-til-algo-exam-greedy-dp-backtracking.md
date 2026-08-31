@@ -3,7 +3,7 @@ title: "그리디·DP·백트래킹 3문제 풀이"
 subtitle: "정렬 기준·점화식·분기 순서가 답을 가른다"
 date: 2026-06-17 20:30:00 +0900
 categories: ["알고리즘"]
-tags: ["til", "algorithm", "greedy", "dp", "backtracking"]
+tags: ["algorithm", "greedy", "dp", "backtracking"]
 render_with_liquid: false
 description: "패러다임이 다른 세 문제를 풀었는데 막힌 지점은 셋 다 알고리즘이 아니라 한 끗이었다. 회의실 배정·계단 오르기·MT 장보기에서 그 한 끗이 왜 답을 가르는지."
 image: /assets/img/thumbs/cards/2026-06-17-til-algo-exam-greedy-dp-backtracking.svg

@@ -3,7 +3,7 @@ title: "협동 운반 수식 정식화와 튜닝 노브"
 subtitle: "감각으로 적힌 기획을 검증 가능한 식으로"
 date: 2026-06-16 21:30:00 +0900
 categories: ["언리얼", "쿠펭"]
-tags: ["til", "game-design", "gamedev", "multiplayer", "ue5", "dp", "algorithm"]
+tags: ["game-design", "gamedev", "multiplayer", "ue5", "dp", "algorithm"]
 render_with_liquid: false
 description: "'아슬아슬하게 함께 든다'는 말로 적힌 채로는 구현자마다 다른 게임이 된다. 어느 각도에서 놓치는지, 속도가 얼마나 어긋나면 흔들리는지를 수식과 튜닝 표로 못 박고 수용 기준까지 정했다."
 image: /assets/img/thumbs/cards/2026-06-16-til-furniture-carry-formulas.svg

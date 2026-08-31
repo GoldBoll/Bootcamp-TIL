@@ -3,7 +3,7 @@ title: "UE5 라이트맵 베이크 실패 원인 3건"
 subtitle: "UV 채널·해상도 4·단일 Cube 재사용"
 date: 2026-07-20 21:30:00 +0900
 categories: ["언리얼", "쿠펭"]
-tags: ["til", "ue5", "material", "debugging", "트러블슈팅"]
+tags: ["ue5", "material", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "레벨 조명을 굽자 벽이 탄 것처럼 얼룩덜룩해졌다. 원인은 하나가 아니라 셋이었고 전부 라이트맵이 참조하는 데이터 쪽에 있었다. 셋을 다 고친 뒤에도 남은 노이즈와, 굽지 않기로 한 결론."
 image: /assets/img/posts/2026-07-20/bake_burned.png

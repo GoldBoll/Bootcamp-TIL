@@ -4,7 +4,7 @@ subtitle: "나눗셈 노이즈가 만든 초록 얼룩과 스펙큘러 줄무늬
 date: 2026-07-23 10:30:00 +0900
 categories: ["언리얼", "쿠펭"]
 pin: true
-tags: ["til", "ue5", "postprocess", "material", "art-direction", "debugging", "트러블슈팅"]
+tags: ["ue5", "postprocess", "material", "art-direction", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "셰이더를 만드는 것과 팀 게임에 정착시키는 것은 다른 일이었다. 팀원 재질 수백 개를 하나도 고치지 않고 레벨 전체에 필터를 거는 대신, 나눗셈 노이즈 증폭과 미연결 머티리얼 입력이 터졌다."
 image: /assets/img/til/2026-07-23/toon_after.png

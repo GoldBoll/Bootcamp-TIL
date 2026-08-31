@@ -3,7 +3,7 @@ title: "슬라이딩 윈도우 고정 크기 vs 가변 크기"
 subtitle: "직전 계산을 재활용해 O(n·k)를 O(n)으로"
 date: 2026-06-30 21:00:00 +0900
 categories: ["알고리즘"]
-tags: ["til", "algorithm", "sliding-window", "two-pointer", "string"]
+tags: ["algorithm", "sliding-window", "two-pointer", "string"]
 render_with_liquid: false
 description: "슬라이딩 윈도우의 본질은 구간을 옮기는 게 아니라 직전 계산을 버리지 않는 것이다. 빠지는 값과 들어오는 값만 반영해 O(1)로 갱신하는 원리를 두 가지 변형으로 확인했다."
 image: /assets/img/thumbs/cards/2026-06-30-til-sliding-window.svg

@@ -3,7 +3,7 @@ title: "복제 조절 5속성과 RPC 3종 실습"
 subtitle: "RPC만으로는 안 되는 지점을 지뢰로 확인하기"
 date: 2026-06-09 19:00:00 +0900
 categories: ["언리얼"]
-tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "netmode", "netrole", "component", "animation", "umg", "gameplay-framework", "트러블슈팅"]
+tags: ["ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "netmode", "netrole", "component", "animation", "umg", "gameplay-framework", "트러블슈팅"]
 render_with_liquid: false
 description: "복제가 되는 것과 감당 가능한 복제는 다르다. 복제 빈도·연관성·우선순위·휴면·RepNotify로 무엇을 언제 누구에게 보낼지 조절하고, 애니메이션·공격·컴포넌트 동기화까지 붙였다."
 image: /assets/img/thumbs/cards/2026-06-09-til-unreal-multiplayer-ch5-7.svg

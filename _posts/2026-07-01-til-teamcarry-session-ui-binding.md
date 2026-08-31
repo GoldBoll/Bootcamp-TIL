@@ -3,7 +3,7 @@ title: "세션 UI를 실제 Steam 세션에 바인딩"
 subtitle: "방 이름 대신 방 코드로 매칭해야 하는 이유"
 date: 2026-07-01 22:00:00 +0900
 categories: ["언리얼", "쿠펭"]
-tags: ["til", "ue5", "cpp", "network", "multiplayer", "git", "python", "debugging", "트러블슈팅"]
+tags: ["ue5", "cpp", "network", "multiplayer", "git", "python", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "가짜 데이터로 잘 돌던 세션 UI를 실제 Steam 세션에 붙이자, 화면이 아니라 매칭 방식을 다시 봐야 했다. 방 코드 도입과, 원인을 추측하다 시간을 버린 빌드 경고 C4458."
 image: /assets/img/thumbs/cards/2026-07-01-til-teamcarry-session-ui-binding.svg

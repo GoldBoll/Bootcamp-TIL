@@ -4,7 +4,7 @@ subtitle: "cross-rig 실패를 우회 대신 리그 재작업으로"
 date: 2026-07-22 21:00:00 +0900
 categories: ["언리얼", "쿠펭"]
 pin: true
-tags: ["til", "ue5", "tripo", "accurig", "skeletal-mesh", "retargeting", "animation", "blendspace", "asset-import", "트러블슈팅"]
+tags: ["ue5", "tripo", "accurig", "skeletal-mesh", "retargeting", "animation", "blendspace", "asset-import", "트러블슈팅"]
 render_with_liquid: false
 description: "서로 다른 리그 사이의 리타게팅이 무너져 한 번 우회했던 문제를, 리그 자체를 다시 만들어 정면으로 풀었다. 표준 휴머노이드 리그를 입히고 IK 리타게터·블렌드스페이스·ABP로 이어지는 구조까지."
 image: /assets/img/til/2026-07-22/accurig-rig-body.png

@@ -3,7 +3,7 @@ title: "std::map vs TMap 자료구조 비교"
 subtitle: "TMap이 실제로는 unordered_map에 가까운 이유"
 date: 2026-06-10 19:30:00 +0900
 categories: ["CS", "자료구조"]
-tags: ["til", "mock-interview", "cs", "map", "hash", "stl", "ue5", "cpp", "replication", "rpc", "network", "reflection", "gc", "netrole", "algorithm", "simulation"]
+tags: ["mock-interview", "cs", "map", "hash", "stl", "ue5", "cpp", "replication", "rpc", "network", "reflection", "gc", "netrole", "algorithm", "simulation"]
 render_with_liquid: false
 description: "TMap을 std::map에 대응시켜 이해하고 있었는데 답변으로 정리하다 그 대응이 틀렸다는 게 드러났다. 자료구조·복잡도·순회 순서·메모리 레이아웃·균형 규칙 다섯 축으로 갈라 비교했다."
 image: /assets/img/thumbs/cards/2026-06-10-til-stdmap-tmap-replication.svg

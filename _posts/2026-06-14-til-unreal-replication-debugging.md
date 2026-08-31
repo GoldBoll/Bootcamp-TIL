@@ -3,7 +3,7 @@ title: "PlayerState 복제 타이밍과 이름 권위 디버깅"
 subtitle: "클라 위젯만 기본값에 멈춰 있던 이유"
 date: 2026-06-14 19:30:00 +0900
 categories: ["언리얼"]
-tags: ["til", "ue5", "cpp", "multiplayer", "replication", "playerstate", "gamemode", "umg", "timer", "debugging", "트러블슈팅"]
+tags: ["ue5", "cpp", "multiplayer", "replication", "playerstate", "gamemode", "umg", "timer", "debugging", "트러블슈팅"]
 render_with_liquid: false
 description: "PIE 두 창으로 띄우자 이론으로만 보던 복제 문제가 한꺼번에 나왔다. 이름이 엔진 hex ID로 뜨고, 클라 위젯만 갱신되지 않고, 접속 순번이 흔들렸다 — 셋 다 권위와 도착 타이밍 문제였다."
 image: /assets/img/posts/2026-06-14/01-playername-hex-bug.png

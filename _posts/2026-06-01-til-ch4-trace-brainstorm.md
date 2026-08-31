@@ -3,7 +3,7 @@ title: "팀 프로젝트 'TRACE' 컨셉 확정과 승부 판정 설계"
 subtitle: "협동 게임에서 소셜 추리로 방향이 꺾인 지점"
 date: 2026-06-01 21:30:00 +0900
 categories: ["언리얼", "쿠펭"]
-tags: ["til", "gamedev", "ue5", "game-design", "social-deduction", "brainstorm"]
+tags: ["gamedev", "ue5", "game-design", "social-deduction", "brainstorm"]
 render_with_liquid: false
 description: "협동 게임 제안에서 출발했는데 결론은 서로를 의심하는 포렌식 추리 게임이었다. 논의를 붙잡은 기획 프레임워크와, 보상 설계를 현상금 표에서 이진 승패로 단순화한 근거."
 image: /assets/img/thumbs/cards/2026-06-01-til-ch4-trace-brainstorm.svg

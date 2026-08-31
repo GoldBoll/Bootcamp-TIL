@@ -2,7 +2,7 @@
 title: "[TIL] 2026-06-24 — 펭귄 캐릭터 임포트 트러블슈팅: 스케일·크래시·리타게팅"
 date: 2026-06-24 22:00:00 +0900
 categories: ["언리얼", "쿠펭"]
-tags: ["til", "ue5", "python", "asset-import", "skeletal-mesh", "retargeting", "root-motion", "blendspace", "material", "texture", "debugging", "git"]
+tags: ["ue5", "python", "asset-import", "skeletal-mesh", "retargeting", "root-motion", "blendspace", "material", "texture", "debugging", "git"]
 render_with_liquid: false
 description: "펭귄 캐릭터를 에디터에 임포트하며 겪은 스케일·머티리얼·PIE 크래시·VRAM 고갈·애니메이션 리타게팅 연쇄 트러블슈팅 기록."
 image: /assets/img/thumbs/cards/2026-06-24-til-penguin-character-import-troubleshoot.svg

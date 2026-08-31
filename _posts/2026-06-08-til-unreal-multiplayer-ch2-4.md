@@ -3,7 +3,7 @@ title: "언리얼 RPC와 Property Replication 구분"
 subtitle: "한 번 터지는 것과 유지되는 것의 경계"
 date: 2026-06-08 19:00:00 +0900
 categories: ["언리얼"]
-tags: ["til", "ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "gameplay-framework", "netmode", "netrole", "enhanced-input", "umg"]
+tags: ["ue5", "cpp", "multiplayer", "network", "dedicated-server", "rpc", "replication", "gameplay-framework", "netmode", "netrole", "enhanced-input", "umg"]
 render_with_liquid: false
 description: "서버의 판단을 클라이언트에 보내는 수단은 둘로 갈린다. 한 번 터지고 사라지는 효과는 RPC, 계속 유지되는 상태는 Replication — 채팅과 숫자 야구로 각각 구현해 경계를 확인했다."
 image: /assets/img/thumbs/cards/2026-06-08-til-unreal-multiplayer-ch2-4.svg

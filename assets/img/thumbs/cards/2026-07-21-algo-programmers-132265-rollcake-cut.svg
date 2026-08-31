@@ -1,33 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="프로그래머스 132265 - 롤케이크 자르기 (Lv.5)">
   <rect width="1200" height="630" fill="#1d1e22"/>
-  <rect width="14" height="630" fill="#FFA116"/>
-  <text x="66" y="110" font-family="'Consolas','Courier New',monospace" font-size="66" font-weight="700" fill="#FFA116">132265</text>
-  <text x="70" y="162" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="36" font-weight="600" fill="#b9bfc8">한 번 잘라 종류 수 맞추기</text>
-
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <!-- roll cake body -->
-    <rect x="140" y="300" width="920" height="130" rx="65" stroke="#6f7681" stroke-width="9"/>
-
-    <!-- toppings: left piece = 3 kinds, right piece = 3 kinds -->
-    <g stroke="none">
-      <circle cx="212" cy="365" r="26" fill="#FFA116"/>
-      <circle cx="300" cy="365" r="26" fill="#6f7681"/>
-      <circle cx="388" cy="365" r="26" fill="#FFA116"/>
-      <circle cx="476" cy="365" r="26" fill="#e6e9ee"/>
-
-      <circle cx="724" cy="365" r="26" fill="#e6e9ee"/>
-      <circle cx="812" cy="365" r="26" fill="#FFA116"/>
-      <circle cx="900" cy="365" r="26" fill="#6f7681"/>
-      <circle cx="988" cy="365" r="26" fill="#FFA116"/>
-    </g>
-
-    <!-- cut -->
-    <path d="M 600 244 L 600 486" stroke="#FFA116" stroke-width="15" stroke-dasharray="28 22"/>
+  <rect width="14" height="630" fill="#4A90E2"/>
+  <g opacity="0.13" stroke="#4A90E2" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="700" y="170" width="120" height="100" rx="8" fill="none"/>
+    <rect x="700" y="300" width="120" height="100" rx="8" fill="#4A90E2"/>
+    <rect x="700" y="430" width="120" height="100" rx="8" fill="none"/>
+    <line x1="820" y1="220" x2="960" y2="220"/>
+    <line x1="820" y1="350" x2="960" y2="350"/>
+    <line x1="820" y1="480" x2="960" y2="480"/>
+    <circle cx="1000" cy="220" r="22" fill="#4A90E2" stroke="none"/>
+    <circle cx="1000" cy="350" r="22" fill="#4A90E2" stroke="none"/>
+    <circle cx="1000" cy="480" r="22" fill="#4A90E2" stroke="none"/>
   </g>
-
-  <g font-family="'Consolas','Courier New',monospace" font-weight="700" text-anchor="middle">
-    <text x="372" y="578" font-size="66" fill="#e6e9ee">3</text>
-    <text x="600" y="578" font-size="66" fill="#FFA116">=</text>
-    <text x="828" y="578" font-size="66" fill="#e6e9ee">3</text>
-  </g>
+  <text x="84" y="118" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="30" font-weight="600" fill="#4A90E2">알고리즘 · 프로그래머스</text>
+  <text x="84" y="266" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="74" font-weight="700" fill="#f5f6f8">프로그래머스 132265 -</text>
+  <text x="84" y="362" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="74" font-weight="700" fill="#f5f6f8">롤케이크 자르기 (Lv.5)</text>
+  <rect x="88" y="396" width="120" height="8" rx="4" fill="#4A90E2"/>
+  <text x="84" y="552" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="26" fill="#6b7280">#algorithm   #prefix-sum   #hash</text>
+  <text x="84" y="594" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="24" fill="#6b7280">goldboll.github.io</text>
 </svg>

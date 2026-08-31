@@ -3,7 +3,7 @@ title: "Tripo 펭귄 텍스처 내장 FBX 추출"
 subtitle: "Blender 확인과 3중 검증으로 파일 하나만 들고 다니기"
 date: 2026-07-23 09:30:00 +0900
 categories: ["언리얼", "쿠펭"]
-tags: ["til", "ue5", "blender", "asset-import", "skeletal-mesh", "texture"]
+tags: ["ue5", "blender", "asset-import", "skeletal-mesh", "texture"]
 render_with_liquid: false
 description: "Tripo로 생성해 리깅한 펭귄을 FBX로 뽑아 Blender에서 스켈레톤과 텍스처를 확인하고, 텍스처를 파일에 내장해 재익스포트했다. '정말 들어갔는가'를 세 가지 방법으로 검증한 기록."
 pin: true

@@ -3,7 +3,7 @@ title: "문자를 배열 인덱스로 바꾸는 변환 7문제"
 subtitle: "map·set·문자열·스택을 관통한 c - 기준문자"
 date: 2026-06-04 21:00:00 +0900
 categories: ["알고리즘"]
-tags: ["til", "algorithm", "cpp", "stl", "map", "set", "stack", "string", "find", "simulation", "greedy"]
+tags: ["algorithm", "cpp", "stl", "map", "set", "stack", "string", "find", "simulation", "greedy"]
 render_with_liquid: false
 description: "자료구조도 유형도 다른 일곱 문제에서 같은 한 줄이 계속 나왔다. 그 변환 하나가 map을 배열로 대체하고 문자열 문제를 카운팅 문제로 바꾸는 과정을 문제별로 따라갔다."
 image: /assets/img/thumbs/cards/2026-06-04-til-algo-string-stack-map.svg

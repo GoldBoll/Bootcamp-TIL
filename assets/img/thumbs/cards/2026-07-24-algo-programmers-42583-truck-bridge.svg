@@ -1,36 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="프로그래머스 42583 - 다리를 지나는 트럭 (Lv.5)">
   <rect width="1200" height="630" fill="#1d1e22"/>
-  <rect width="14" height="630" fill="#FFA116"/>
-  <text x="66" y="110" font-family="'Consolas','Courier New',monospace" font-size="66" font-weight="700" fill="#FFA116">42583</text>
-  <text x="70" y="162" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="36" font-weight="600" fill="#b9bfc8">다리 위 하중 제한</text>
-
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <!-- bridge deck + pylons -->
-    <path d="M 200 442 L 1044 442" stroke="#6f7681" stroke-width="13"/>
-    <path d="M 244 442 L 244 558" stroke="#6f7681" stroke-width="11"/>
-    <path d="M 1000 442 L 1000 558" stroke="#6f7681" stroke-width="11"/>
-
-    <!-- empty slot on the bridge -->
-    <rect x="332" y="318" width="212" height="106" rx="26" stroke="#6f7681" stroke-width="8" stroke-dasharray="18 20"/>
-
-    <!-- truck already on the bridge -->
-    <rect x="622" y="318" width="212" height="106" rx="26" stroke="#FFA116" stroke-width="13"/>
-
-    <!-- truck waiting to enter -->
-    <rect x="44" y="318" width="212" height="106" rx="26" stroke="#8d949e" stroke-width="10"/>
-
-    <!-- blocked at the entrance -->
-    <g stroke="#e6e9ee" stroke-width="16">
-      <path d="M 268 344 L 320 398"/>
-      <path d="M 320 344 L 268 398"/>
-    </g>
+  <rect width="14" height="630" fill="#4A90E2"/>
+  <g opacity="0.13" stroke="#4A90E2" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="720" y="170" width="84" height="74" rx="8" fill="#4A90E2"/>
+    <rect x="820" y="170" width="84" height="74" rx="8" fill="none"/>
+    <rect x="920" y="170" width="84" height="74" rx="8" fill="none"/>
+    <rect x="1020" y="170" width="84" height="74" rx="8" fill="#4A90E2"/>
+    <rect x="720" y="260" width="84" height="74" rx="8" fill="none"/>
+    <rect x="820" y="260" width="84" height="74" rx="8" fill="none"/>
+    <rect x="920" y="260" width="84" height="74" rx="8" fill="#4A90E2"/>
+    <rect x="1020" y="260" width="84" height="74" rx="8" fill="none"/>
+    <rect x="720" y="350" width="84" height="74" rx="8" fill="none"/>
+    <rect x="820" y="350" width="84" height="74" rx="8" fill="#4A90E2"/>
+    <rect x="920" y="350" width="84" height="74" rx="8" fill="none"/>
+    <rect x="1020" y="350" width="84" height="74" rx="8" fill="none"/>
+    <rect x="720" y="440" width="84" height="74" rx="8" fill="#4A90E2"/>
+    <rect x="820" y="440" width="84" height="74" rx="8" fill="none"/>
+    <rect x="920" y="440" width="84" height="74" rx="8" fill="none"/>
+    <rect x="1020" y="440" width="84" height="74" rx="8" fill="#4A90E2"/>
   </g>
-
-  <g font-family="'Consolas','Courier New',monospace" font-weight="700" text-anchor="middle">
-    <text x="728" y="394" font-size="64" fill="#FFA116">7</text>
-    <text x="150" y="394" font-size="64" fill="#b9bfc8">4</text>
-
-    <rect x="484" y="502" width="256" height="80" rx="40" fill="#1d1e22" stroke="#FFA116" stroke-width="6"/>
-    <text x="612" y="560" font-size="46" fill="#FFA116">&#8804; 10</text>
-  </g>
+  <text x="84" y="118" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="30" font-weight="600" fill="#4A90E2">알고리즘 · 프로그래머스</text>
+  <text x="84" y="266" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="62" font-weight="700" fill="#f5f6f8">프로그래머스 42583 -</text>
+  <text x="84" y="347" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="62" font-weight="700" fill="#f5f6f8">다리를 지나는 트럭 (Lv.5)</text>
+  <rect x="88" y="381" width="120" height="8" rx="4" fill="#4A90E2"/>
+  <text x="84" y="552" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="26" fill="#6b7280">#algorithm   #queue   #simulation</text>
+  <text x="84" y="594" font-family="'Segoe UI','Malgun Gothic',sans-serif" font-size="24" fill="#6b7280">goldboll.github.io</text>
 </svg>

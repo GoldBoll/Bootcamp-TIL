@@ -3,7 +3,7 @@ title: "2~4인 협동 이사 게임 기획과 운반 시스템"
 subtitle: "'함께 든다'를 게임 규칙으로 성립시키기"
 date: 2026-06-15 21:30:00 +0900
 categories: ["언리얼", "쿠펭"]
-tags: ["til", "game-design", "gamedev", "multiplayer", "ue5"]
+tags: ["game-design", "gamedev", "multiplayer", "ue5"]
 render_with_liquid: false
 description: "무거운 가구를 둘이서 들고 계단을 내려가는 장면 하나로 게임이 성립할까. One Pager와 코어 루프로 범위를 닫고, 협동 운반을 어떤 규칙으로 만들지 인게임 시스템으로 푼 기획안."
 image: /assets/img/thumbs/cards/2026-06-15-til-project-a-furniture-coop.svg

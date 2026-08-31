@@ -3,7 +3,7 @@ title: "다인 합산 이동 서버 권위 설계와 복제 표준"
 subtitle: "물리는 순수 함수로, 가구는 인터페이스 계약만"
 date: 2026-06-23 22:30:00 +0900
 categories: ["언리얼", "쿠펭"]
-tags: ["til", "ue5", "cpp", "network", "replication", "multiplayer", "interface", "git", "트러블슈팅"]
+tags: ["ue5", "cpp", "network", "replication", "multiplayer", "interface", "git", "트러블슈팅"]
 render_with_liquid: false
 description: "여러 명이 가구 하나를 드는 게임에서 이동을 클라이언트가 계산하면 화면마다 가구 위치가 달라진다. 코드 전에 복제 표준부터 정한 이유와, 에디터를 막던 BuildId 불일치."
 image: /assets/img/thumbs/cards/2026-06-23-til-teamcarry-network-foundation.svg
