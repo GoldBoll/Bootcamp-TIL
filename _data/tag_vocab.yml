@@ -112,6 +112,7 @@ canonical:
   # --- 패턴 / 협업 / 디버깅 ---
   design-pattern: ["디자인패턴", "디자인 패턴", "template-pattern", "sandbox-pattern", "템플릿패턴", "샌드박스패턴"]
   debugging:  ["디버깅", "null-check", "crash", "access-violation"]
+  code-review: ["코드리뷰", "코드 리뷰", "code review", "code_review", "pr-review", "리뷰"]
   트러블슈팅: ["troubleshooting", "trouble-shooting", "트러블 슈팅"]
   git:        ["깃", "gitignore", "버전관리", "version-control"]
 
