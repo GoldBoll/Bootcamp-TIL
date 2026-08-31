@@ -27,8 +27,13 @@ layout: page
           <p class="cat-post-desc">{{ post.excerpt | strip_html | truncate: 90 }}</p>
         {% endif %}
         {% if post.tags.size > 0 %}
+          {%- comment -%} 홈 카드와 같은 규칙: '트러블슈팅'은 앞자리 전용 칩으로 올린다 {%- endcomment -%}
+          {% assign rest_tags = post.tags | where_exp: 'tag', 'tag != "트러블슈팅"' %}
           <div class="cat-post-tags">
-            {% for tag in post.tags limit: 3 %}
+            {% if post.tags.size > rest_tags.size %}
+              <span class="cat-post-tag cat-post-tag-ts">트러블슈팅</span>
+            {% endif %}
+            {% for tag in rest_tags limit: 2 %}
               <span class="cat-post-tag">{{ tag }}</span>
             {% endfor %}
           </div>

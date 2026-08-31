@@ -22,6 +22,22 @@ html:not([data-mode='dark']) {
   --gb-accent-hover: #b8890f;
   --gb-surface: #f6f7f8;
 
+  /* 골드 텍스트/보더 — 밝은 배경에서 #d4a017은 2.34:1로 본문 대비 미달.
+     텍스트에 쓰는 골드는 gold-700, 보더는 gold-600으로 낮춘다 (4.98:1 / 3.4:1) */
+  --gb-accent-text: #8a6a0e;
+  --gb-accent-border: #b8890f;
+  --gb-code-color: #8a6a0e;
+
+  /* 카테고리 칩 (라이트: 틴트 12% + 진한 텍스트) */
+  --gb-chip-ue-bg: rgb(79 142 247 / 12%);
+  --gb-chip-ue-text: #1c58c4;
+  --gb-chip-cs-bg: rgb(76 195 138 / 12%);
+  --gb-chip-cs-text: #1a7a52;
+  --gb-chip-algo-bg: rgb(177 125 240 / 12%);
+  --gb-chip-algo-text: #6d34b8;
+  --gb-chip-ts-bg: rgb(247 111 111 / 12%);
+  --gb-chip-ts-text: #b3261e;
+
   /* Framework */
   --main-bg: #fdfdfd;
   --main-border-color: #e5e7eb;
@@ -30,8 +46,8 @@ html:not([data-mode='dark']) {
   --text-color: #1f2328;
   --heading-color: #1f2328;
   --text-muted-color: #6a737d;
-  --link-color: var(--gb-accent);
-  --link-underline-color: #e7d9b0;
+  --link-color: var(--gb-accent-text);
+  --link-underline-color: #b8890f; /* 대시 밑줄도 3:1 확보 (밝은 배경 2.12→3.12) */
   --btn-border-color: #e5e7eb;
   --blockquote-border-color: #e5e7eb;
   --blockquote-text-color: #6a737d;
@@ -92,6 +108,21 @@ html[data-mode='dark'] {
   --gb-accent: #e8b931;
   --gb-accent-hover: #f0c04a;
   --gb-surface: #242428;
+
+  /* 골드 텍스트/보더 (다크는 accent 그대로 9.34:1) */
+  --gb-accent-text: #e8b931;
+  --gb-accent-border: #8a6a0e;
+  --gb-code-color: #f0c04a;
+
+  /* 카테고리 칩 (다크: 틴트 15% + 밝은 텍스트) */
+  --gb-chip-ue-bg: rgb(79 142 247 / 15%);
+  --gb-chip-ue-text: #7fabfa;
+  --gb-chip-cs-bg: rgb(76 195 138 / 15%);
+  --gb-chip-cs-text: #6fd3a1;
+  --gb-chip-algo-bg: rgb(177 125 240 / 15%);
+  --gb-chip-algo-text: #c49df4;
+  --gb-chip-ts-bg: rgb(247 111 111 / 15%);
+  --gb-chip-ts-text: #f88b8b;
 
   /* Framework */
   --main-bg: #1b1b1e;
@@ -157,6 +188,93 @@ html[data-mode='dark'] {
   --code-header-muted-color: #33333a;
 }
 
+/* ---------- 타이포 토큰: 폰트 스택 ---------- */
+/* 한글 본문 기준 스택 (Chirpy 기본 Source Sans Pro/Microsoft Yahei → 시스템 한글 폰트) */
+:root {
+  --gb-font-base: -apple-system, 'Pretendard', 'Noto Sans KR', 'Malgun Gothic',
+    'Segoe UI', sans-serif;
+  --gb-font-code: 'JetBrains Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+.card-title,
+#sidebar .site-title,
+#sidebar .site-subtitle {
+  font-family: var(--gb-font-base);
+}
+
+code,
+pre,
+.highlight,
+kbd {
+  font-family: var(--gb-font-code);
+
+  /* Cascadia Code·JetBrains Mono의 합자(-> 를 → 로 합침) 해제 —
+     C++ 연산자를 원문 그대로 읽히게 (방문자 폰트 유무와 무관하게 동일 표기) */
+  font-variant-ligatures: none;
+}
+
+/* ---------- 골드 아이덴티티: 제목 위계 ---------- */
+/* 절대 px 대신 비율 적용 — 디자인 시스템은 본문 15px 기준, 블로그 본문은 17px.
+   h1 2.0x / h2 1.45x / h3 1.13x 비율만 가져온다 */
+h1.dynamic-title,
+.content h1 {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.content h2 {
+  font-weight: 700;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--main-border-color); /* 토큰: h2 하단 보더 */
+}
+
+.content h3 {
+  font-size: 1.22rem; /* 본문 1.08rem 대비 1.13x */
+  font-weight: 700;
+  color: var(--gb-accent-text); /* 토큰: h3 = 골드 (소주제 스캔용 앵커) */
+}
+
+/* ---------- 골드 아이덴티티: 링크 대시 밑줄 ---------- */
+.content a:not(.img-link):not(.popup) {
+  border-bottom-style: dashed; /* 토큰: 1px dashed gold-700 */
+}
+
+/* 호버 색: Chirpy 기본 #d2603a(주황) → 골드로. 원본이 !important라 html 접두로 우선순위 확보 */
+html #page-category a:hover,
+html #page-tag a:hover,
+html #access-lastmod a:hover,
+html .post-tail-wrapper .license-wrapper > a:hover,
+html #search-results a:hover,
+html footer a:hover,
+html #topbar #breadcrumb a:hover,
+html .post-meta a:not([class]):hover,
+html .content a:not(.img-link):hover {
+  color: var(--gb-accent-hover) !important;
+  border-bottom-color: var(--gb-accent-hover);
+}
+
+/* ---------- 골드 아이덴티티: 인라인 코드 ---------- */
+/* code.highlighter-rouge = 인라인 코드만 (코드블록은 div/figure.highlighter-rouge라 무영향) */
+code.highlighter-rouge {
+  background-color: var(--gb-surface);
+  border: 1px solid var(--main-border-color);
+  border-radius: 4px;
+  color: var(--gb-code-color);
+  padding: 2px 5px;
+}
+
+/* 링크·인용문 안의 인라인 코드는 문맥 색 유지 (Chirpy 규칙 존중) */
+a > code.highlighter-rouge,
+blockquote code.highlighter-rouge {
+  color: inherit;
+}
+
 /* ---------- 포스트 리스트 카드 (제목이 주인공, 공백 축소) ---------- */
 #post-list .card-wrapper:not(:last-child) {
   margin-bottom: 0.9rem; /* 공백 축소: 스크롤당 노출 글 수 증가 */
@@ -165,8 +283,28 @@ html[data-mode='dark'] {
 #post-list .card {
   background: var(--card-bg);
   border: 1px solid var(--main-border-color);
-  border-radius: 10px;
+  border-radius: 12px; /* 토큰: 카드 radius 12 */
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* 카드 내부 링크 래퍼도 같은 반경 (모서리 이중선 방지) */
+#post-list .card .post-preview,
+#post-list .card .post-preview::before {
+  border-radius: 12px;
+}
+
+/* 썸네일은 카드에 붙는 쪽만 라운드 — 테마 규칙(모바일: 위쪽 / md+: 오른쪽)을 반경만 12로 승계.
+   전면 12px을 주면 카드 모서리와 이미지 모서리가 어긋나 틈이 생긴다 */
+#post-list .card .preview-img,
+#post-list .card .preview-img img {
+  border-radius: 12px 12px 0 0;
+}
+
+@media (min-width: 768px) {
+  #post-list .card .preview-img,
+  #post-list .card .preview-img img {
+    border-radius: 0 12px 12px 0;
+  }
 }
 
 #post-list .card .card-body {
@@ -175,14 +313,29 @@ html[data-mode='dark'] {
   flex-direction: column; /* 메타를 하단 고정하기 위한 컬럼 플렉스 */
 }
 
-#post-list .card .post-meta {
-  margin-top: auto; /* 날짜·카테고리 메타를 카드 하단에 고정 */
-  padding-top: 0.5rem;
+#post-list .card:hover {
+  border-color: var(--gb-accent-border); /* 토큰: hover 골드 보더 */
+  box-shadow: 0 4px 14px rgb(0 0 0 / 25%);
 }
 
-#post-list .card:hover {
-  border-color: rgb(232 185 49 / 55%);
-  box-shadow: 0 4px 14px rgb(0 0 0 / 25%);
+/* 카드 전체가 링크 — 키보드 이동 시 어디에 있는지 보이도록 포커스 링 */
+#post-list .card .post-preview:focus-visible {
+  outline: 2px solid var(--gb-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- 대표글(pin) 카드: 골드 보더 + 상단 골드 그라데이션 ---------- */
+/* 배경은 .post-preview(내부 a)가 card-bg로 덮으므로 그라데이션도 거기에 얹는다 */
+#post-list .card.pinned {
+  border-color: var(--gb-accent-border);
+}
+
+#post-list .card.pinned .post-preview {
+  background-image: linear-gradient(
+    180deg,
+    rgb(212 160 23 / 6%) 0%,
+    rgb(212 160 23 / 0%) 100%
+  );
 }
 
 #post-list .card .card-title {
@@ -199,18 +352,125 @@ html[data-mode='dark'] {
   white-space: normal;
 }
 
-/* 카드 하단 메타: 날짜·카테고리 명확히 */
-#post-list .card .post-meta {
+/* ---------- 카드 메타 행 (home.html 셰도잉과 세트) ----------
+   구성: [대표 뱃지] [카테고리 칩] [태그 칩 ×3 (+N)] ......... [날짜]
+   위계: 카테고리(컬러·700) > 태그(중립·400·# 접두) > 날짜(뮤트·아이콘)
+   Chirpy 원본은 메타 전체를 1줄 ellipsis 처리해 태그가 중간에서 잘렸다 → 해제하고 칩 줄바꿈 허용 */
+#post-list .card .card-body .post-meta {
+  display: flex !important;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: auto; /* 제목·요약 길이와 무관하게 메타는 카드 하단 고정 */
+  padding-top: 0.6rem;
   font-size: 0.85rem;
 }
 
-#post-list .card .post-meta .categories {
+/* 원본의 ellipsis·아이콘 강제 여백 해제 (칩 UI와 충돌) */
+#post-list .card .card-body .post-meta > div:first-child {
+  display: flex;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+#post-list .card .card-body .post-meta i:not(:first-child) {
+  margin-left: 0;
+}
+
+#post-list .card .post-meta .meta-chips {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  min-width: 0; /* 칩이 넘칠 때 날짜를 밀어내지 않도록 */
+}
+
+#post-list .card .post-meta .meta-date {
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 0.78rem;
+  color: var(--text-muted-color);
+}
+
+#post-list .card .post-meta .meta-date i {
+  margin-right: 0.3rem;
+  opacity: 0.75;
+}
+
+/* 대표글 뱃지 — 과거의 우하단 떠 있는 핀 아이콘을 라벨 pill로 교체 */
+#post-list .card .post-meta .pin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.6;
+  border-radius: 999px;
+  padding: 0.05em 0.6em;
+  background: rgb(212 160 23 / 14%);
+  color: var(--gb-accent-text);
+}
+
+/* 태그 칩 — 카테고리와 같은 pill, 색·굵기로 한 단계 낮춘다 */
+#post-list .card .post-meta .tag-chip {
   display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 400;
+  line-height: 1.6;
+  border-radius: 999px;
+  padding: 0.05em 0.6em;
+  background: transparent;
+  border: 1px solid var(--main-border-color);
+  color: var(--text-muted-color);
+}
+
+#post-list .card .post-meta .tag-chip::before {
+  content: '#';
+  opacity: 0.6;
+}
+
+/* 표시 개수 초과분은 '…' 대신 잔여 개수로 (텍스트 잘림 제거) */
+#post-list .card .post-meta .tag-chip-more::before {
+  content: '';
+}
+
+/* 대표 카테고리 3종만 색 부여(언리얼·CS·알고리즘), 하위 카테고리는 중립 톤 */
+#post-list .card .post-meta .cat-chip {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.5;
+  border-radius: 999px;
+  padding: 0.05em 0.6em;
   background: var(--gb-surface);
   border: 1px solid var(--main-border-color);
-  border-radius: 999px;
-  padding: 0.05em 0.65em;
-  font-weight: 500;
+  color: var(--text-muted-color);
+}
+
+#post-list .card .post-meta .cat-chip[data-cat='언리얼'] {
+  background: var(--gb-chip-ue-bg);
+  border-color: transparent;
+  color: var(--gb-chip-ue-text);
+}
+
+#post-list .card .post-meta .cat-chip[data-cat='CS'] {
+  background: var(--gb-chip-cs-bg);
+  border-color: transparent;
+  color: var(--gb-chip-cs-text);
+}
+
+#post-list .card .post-meta .cat-chip[data-cat='알고리즘'] {
+  background: var(--gb-chip-algo-bg);
+  border-color: transparent;
+  color: var(--gb-chip-algo-text);
+}
+
+/* 트러블슈팅 — 카테고리는 아니지만 글 성격을 가르는 신호라 같은 급의 칩으로 (danger 계열) */
+#post-list .card .post-meta .cat-chip.ts-chip {
+  background: var(--gb-chip-ts-bg);
+  border-color: transparent;
+  color: var(--gb-chip-ts-text);
 }
 
 /* ---------- 홈 카드 썸네일: 텍스트 배너(thumbs)는 크롭 금지 ---------- */
@@ -302,6 +562,14 @@ html[data-mode='dark'] {
   margin-right: 0.3rem;
 }
 
+/* 트러블슈팅 — 홈 카드와 같은 danger 계열 칩 */
+#page-category .cat-post-tag-ts {
+  background: var(--gb-chip-ts-bg);
+  border-color: transparent;
+  color: var(--gb-chip-ts-text);
+  font-weight: 700;
+}
+
 /* ---------- 카테고리 색 (표준 4개: 알고리즘·언리얼·CS·회고) ---------- */
 /* 알고리즘 */
 a[href='/categories/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98/'] {
@@ -334,29 +602,7 @@ article div.mt-3.mb-3:has(> a.preview-img) {
   margin: 0 !important;
 }
 
-/* ---------- 카드 메타 행: 좌하단 날짜·카테고리 / 우하단 핀 ----------
-   _layouts/home.html 셰도잉으로 핀은 .post-meta 직속 자식.
-   Chirpy 번들에 Bootstrap d-flex 유틸이 없어 여기서 직접 flex 선언.
-   하단 고정은 위의 .post-meta { margin-top: auto } 가 담당. */
-#post-list .card .card-body .post-meta {
-  display: flex !important;
-  flex-wrap: nowrap;
-  align-items: center;
-  width: 100%;
-  margin-top: auto; /* 카드 하단 고정 (중복 선언 — 캐시·순서 무관 보장) */
-}
-#post-list .card .card-body .post-meta > div:first-child {
-  margin-right: auto !important; /* 날짜·카테고리 좌측, 핀 우측 끝 */
-  min-width: 0;
-}
-#post-list .card .card-body .post-meta .pin {
-  position: static !important; /* 과거 절대배치 규칙 캐시 잔재 무력화 */
-  margin: 0 0 0 0.5rem;
-  color: var(--gb-accent);
-  flex-shrink: 0;
-}
-
-/* 카테고리 행 아래 잔여 공백 축소 */
+/* 메타 행 아래 잔여 공백 축소 */
 #post-list .card .card-body {
-  padding-bottom: 0.55rem;
+  padding-bottom: 0.7rem;
 }
