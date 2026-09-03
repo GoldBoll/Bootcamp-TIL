@@ -9,7 +9,7 @@ description: "운반 게임의 도구 6종이 GAS 위에서 어떻게 도는지 
 image: /assets/img/thumbs/cards/2026-08-15-til-coupeng-gas-item-abilities.jpg
 ---
 
-방망이·드라이버·렌치·소화기·밀대·낚싯대. 도구가 여섯이고 각자 좌클릭·우클릭 동작이 다르다. 이걸 캐릭터의 `switch`로 짜면 도구가 늘 때마다 캐릭터가 커진다. 이 프로젝트는 그 자리를 GAS(Gameplay Ability System)로 채웠다.
+방망이·드라이버·렌치·소화기·밀대·낚싯대. 도구가 여섯이고 각자 좌클릭·우클릭 동작이 다르다. 이걸 캐릭터 코드 한 곳에서 조건 분기(`switch`)로 갈라 놓으면 도구가 늘 때마다 캐릭터가 커진다. 이 프로젝트는 그 자리를 GAS(Gameplay Ability System)로 채웠다.
 
 <video controls muted preload="metadata" src="https://github.com/GoldBoll/GoldBoll.github.io/releases/download/til-media/tool-socket-dt.mp4" style="max-width:100%"></video>
 *도구 6종 — 잡는 자세는 전부 표의 확정값이고, 능력은 아이템이 들고 온다*
@@ -17,6 +17,8 @@ image: /assets/img/thumbs/cards/2026-08-15-til-coupeng-gas-item-abilities.jpg
 GAS는 크기가 큰 프레임워크라 **어디까지 쓸지 정하는 것**이 도입의 절반이다. 이 글은 그 선을 어디에 그었고 왜 그었는지를 실측 기준으로 정리한 것이다.
 
 ## 무엇을 쓰고 무엇을 안 쓰는가
+
+GAS가 주는 기능 가운데 쓸 것과 안 쓸 것을 먼저 갈랐다.
 
 | GAS 요소 | 이 프로젝트 |
 |---|---|
@@ -44,7 +46,7 @@ ASC는 플레이어 스테이트가 아니라 **캐릭터**에 있다. 이 프�
 
 **상태의 정본은 복제 변수(`Holder`)다.** 능력이 아니라. 어태치도 그 변수의 복제 알림이 전담한다. 능력은 "지금 이 행위를 해도 되는가"를 판정하고 행위를 실행할 뿐이다.
 
-이 구분이 왜 중요한지는 늦게 접속한 클라이언트에서 드러난다. 능력 발동은 그 순간의 사건이라 나중에 들어온 사람에게 닿지 않지만, 복제 변수는 접속 시점 스냅샷에 실린다. 그래서 든 상태 태그도 복제되게 붙인다.
+이 구분이 왜 중요한지는 늦게 접속한 클라이언트에서 드러난다. 능력 발동은 그 순간의 사건이라 나중에 들어온 사람에게는 전달되지 않지만, 복제 변수는 접속 시점 스냅샷에 실린다. 그래서 든 상태 태그도 복제되게 붙인다.
 
 ```cpp
 // TagOnly 복제 — 늦참 초기 상태에도 실린다
@@ -88,7 +90,7 @@ TWeakObjectPtr<UAbilitySystemComponent> BoundASC;    // 어느 ASC에 심었나
 
 ## 슬롯 — 캐릭터는 어떤 능력인지 모른다
 
-능력을 켜는 쪽은 태그로만 말한다.
+캐릭터는 무엇이 걸릴지 모른 채 이름표(태그)만 넘긴다. 그 이름표에 맞는 능력이 켜진다.
 
 ```cpp
 void ATCPlayerCharacter::ActivateItemSlot(const TArray<FGameplayTag>& SlotTags)
@@ -183,7 +185,7 @@ Actor:BP_Item_FishingRod_C_1 Component:StaticMesh3
 
 ## 태그로 자격을 판정한다
 
-능력의 생성자가 곧 규칙이다.
+이 능력을 언제 쓸 수 있고 언제 못 쓰는지는 능력을 만드는 자리(생성자)에 그대로 적혀 있다.
 
 ```cpp
 UGA_TC_Disassemble::UGA_TC_Disassemble()
@@ -239,7 +241,7 @@ if (ITCHeldItem* Held = Cast<ITCHeldItem>(Item)) { Held->DropHeld(); }
 
 ## 네이티브 태그 44개
 
-태그는 전부 C++ 네이티브 선언이다. 오타가 컴파일 에러가 되고 참조를 추적할 수 있다.
+태그 이름은 전부 코드에 선언해 두고 쓴다(C++ 네이티브 태그). 오타가 컴파일 에러가 되고 참조를 추적할 수 있다.
 
 | 묶음 | 개수 | 예 |
 |---|---|---|
@@ -280,7 +282,7 @@ Spec.Data->SetDuration(Set->GetSwingCooldownSec(), true);
 
 ## 태그 이벤트 — 리스너가 붙을 자리
 
-완료·실패·파손은 태그 이벤트로도 나간다. 여기에 함정이 하나 있다.
+완료·실패·파손 같은 사건은 다른 쪽이 받아 갈 수 있게 이름표를 붙인 이벤트로도 내보낸다. 여기에 함정이 하나 있다.
 
 ```cpp
 // 대상 가구에는 ASC 가 없다 — 이벤트는 일으킨 플레이어의 ASC 로 보내고 대상을 실어 준다
@@ -338,6 +340,8 @@ void SmokeCheck(bool bCond, const TCHAR* What)
 한계도 분명하다. 한 프레임짜리 콘솔 명령이라 **틱이 도는 것·렌더 결과·실제 복제**는 못 본다. 위젯이 검게 나오는지, 진행도가 시간에 따라 어떻게 쌓이는지, 늦게 들어온 클라이언트가 무엇을 받는지는 전부 실기 확인 몫이다. 검사가 초록인데 화면이 틀린 경우가 실제로 여러 번 있었고, 그럴 때마다 **검사가 밟는 경로와 게임이 밟는 경로가 어디서 갈리는지**를 먼저 봤다.
 
 ## 정리
+
+어느 층이 무엇을 쥐고 있는지로 정리하면 이렇다.
 
 | 층 | 무엇을 쥐나 |
 |---|---|
