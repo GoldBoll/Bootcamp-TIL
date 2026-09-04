@@ -74,11 +74,11 @@ Kenney 킷 메시들을 레벨에 배치하면 회색으로 나왔다. 원인은
 
 메뉴 화면용 컨트롤러가 시작하자마자 마우스 커서를 켜고 입력 모드를 UI 겸용으로 **강제**했다(`AGameUIPlayerController::BeginPlay`의 `SetInputMode(GameAndUI)`). 문제는 이걸 상속한 게임플레이 컨트롤러(`ATCPlayerController`)까지 그 입력 모드를 물려받아 조작이 어긋났다는 것이다.
 
-해결: UI 호스팅 로직을 `UUIHostComponent`(`IUIHost` 구현)로 **컴포넌트로 분리**하고, `ATCPlayerController`는 `APlayerController`를 상속하도록 바꿔 컴포넌트를 부착하는 구조로 전환했다. 조민기님의 메뉴 PC(`AGameUIPlayerController`)는 미변경(비파괴).
+해결: UI 호스팅 로직을 `UUIHostComponent`(`IUIHost` 구현)로 **컴포넌트로 분리**하고, `ATCPlayerController`는 `APlayerController`를 상속하도록 바꿔 컴포넌트를 부착하는 구조로 전환했다. 다른 팀원이 소유한 메뉴 PC(`AGameUIPlayerController`)는 미변경(비파괴).
 
 > 상속으로 물려받던 "부작용"을 **컴포넌트 조립**으로 바꾸면, 원하는 액터만 골라 UI 기능을 붙일 수 있다. "is-a"가 강요하는 걸 "has-a"로 끊는 흔한 패턴.
 
-에디터 자동화(Python)로 UIHost 컴포넌트 설정을 읽기/쓰기/저장/영속까지 가능함을 검증했다. 다만 "어느 BP를 정본으로 할지 + 로비 GameMode 배선"은 소유권(김민성/조민기/이경환)이 걸려 있어 코드로 결정할 수 없다. 이건 [`net-uihost-component-editor-tasks.md`](../scrum/Ch4-TeamProject/net-uihost-component-editor-tasks.md)에 협의 사항으로 정리했다. 브랜치 `refactor/net-ui-host-interface`로 두고 PR은 아직 안 올렸다.
+에디터 자동화(Python)로 UIHost 컴포넌트 설정을 읽기/쓰기/저장/영속까지 가능함을 검증했다. 다만 "어느 BP를 정본으로 할지 + 로비 GameMode 배선"은 팀원 세 사람의 소유권이 걸려 있어 코드로 결정할 수 없다. 이건 팀 저장소의 `net-uihost-component-editor-tasks.md`에 협의 사항으로 정리했다. 브랜치 `refactor/net-ui-host-interface`로 두고 PR은 아직 안 올렸다.
 
 ---
 
