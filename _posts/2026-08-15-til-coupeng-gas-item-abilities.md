@@ -249,8 +249,8 @@ if (ITCHeldItem* Held = Cast<ITCHeldItem>(Item)) { Held->DropHeld(); }
 | `State.Item.*` | 9 | Held, Held.Bat, Held.Screwdriver, Rod.Deployed … |
 | `State.*` | 3 | Carry.Furniture, Stunned, **Minigame.Active** |
 | `GameplayCue.Item.*` | 6 | Pickup, Drop, Throw, Swing … |
-| `Event.*` | 11 | Hit.Stun, Minigame.Completed/Failed, Repairable.Broken, Hazard.Water/Fire/Electric |
-| 그 외 | 5 | Cooldown.Item.Swing, Cleanse.*, Ability.Stun |
+| `Event.*` | 12 | Hit.Stun, Minigame.Completed/Failed, Repairable.Broken, Hazard.Water/Fire/Electric |
+| 그 외 | 4 | Cooldown.Item.Swing, Cleanse.*, Ability.Stun |
 
 `State.Minigame.Active` 하나가 차단 목록 여러 곳에 동시에 들어가는 것이 태그 게이팅의 이점이다. 미니게임이 열리면 그 태그가 서고, 그 태그를 차단 목록에 넣어 둔 능력이 전부 함께 잠긴다.
 
